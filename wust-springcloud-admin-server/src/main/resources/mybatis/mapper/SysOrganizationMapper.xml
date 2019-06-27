@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wust.springcloud.admin.server.dao.SysOrganizationMapper" >
+  	<resultMap id="BaseResultMap" type="SysOrganization" >
+		<id column="id" property="id"/>
+		<result column="pid" property="pid"/>
+		<result column="type" property="type"/>
+	    <result column="relation_id" property="relationId"/>
+		<result property="createrId" column="creater_id"/>
+		<result property="createrName" column="creater_name"/>
+		<result property="createTime" column="create_time"/>
+		<result property="modifyId" column="modify_id"/>
+		<result property="modifyName" column="modify_name"/>
+		<result property="modifyTime" column="modify_time"/>
+  	</resultMap>
+  
+  	<resultMap id="ListResultMap" type="SysOrganizationList" extends="BaseResultMap">
+  	</resultMap>
+
+
+  	<select id="listPage" parameterType="SysOrganizationSearch" resultMap="ListResultMap">
+		SELECT
+			t.*
+		FROM
+			sys_organization t
+		<if test="type == ''">
+			LEFT JOIN sys_company t1 ON t.relation_id = t1.id
+		</if>
+		<if test="type == 'sys_company'">
+			LEFT JOIN sys_department t1 ON t.relation_id = t1.id
+		</if>
+		<if test="type == 'sys_department'">
+			LEFT JOIN sys_role t1 ON t.relation_id = t1.id
+		</if>
+		<if test="type == 'sys_role'">
+			LEFT JOIN sys_user t1 ON t.relation_id = t1.id
+		</if>
+		WHERE
+		1 = 1
+		<if test="id != null and id !=  ''">
+			AND t.id = #{id}
+		</if>
+		<if test="pid != null and pid !=  ''">
+			AND t.pid = #{pid}
+		</if>
+		<if test="relationId != null and relationId !=  ''">
+			AND t.relation_id = #{relationId}
+		</if>
+		<if test="name != null and name !=  ''">
+			<if test="type == ''">
+				AND t1.name LIKE  CONCAT('%',#{name},'%')
+			</if>
+			<if test="type == 'sys_company'">
+				AND t1.name LIKE  CONCAT('%',#{name},'%')
+			</if>
+			<if test="type == 'sys_department'">
+				AND t1.name LIKE  CONCAT('%',#{name},'%')
+			</if>
+			<if test="type == 'sys_role'">
+				AND t1.login_name LIKE  CONCAT('%',#{name},'%')
+			</if>
+		</if>
+		ORDER BY t.pid,t.id
+  	</select>
+  
+  	<select id="findByCondition" parameterType="SysOrganizationSearch" resultMap="ListResultMap">
+		SELECT t.* FROM sys_organization t WHERE 1=1
+		<if test="id != null and id !=  ''">
+			AND t.id = #{id}
+		</if>
+		<if test="pid != null and pid !=  ''">
+			AND t.pid = #{pid}
+		</if>
+		<if test="type != null and type !=  ''">
+			AND t.type = #{type}
+		</if>
+		<if test="relationId != null and relationId !=  ''">
+			AND t.relation_id = #{relationId}
+		</if>
+		ORDER BY t.pid,t.id
+  	</select>
+
+
+	<insert id="batchInsert" parameterType="java.util.List">
+		INSERT INTO sys_organization (
+			id,
+			pid,
+			type,
+			relation_id,
+			creater_id,
+			creater_name,
+			create_time
+		)
+		VALUES
+		<foreach collection="list" index="index" item="item" separator=",">
+		(
+			UUID(),
+			#{item.pid},
+			#{item.type},
+			#{item.relationId},
+			#{item.createrId},
+			#{item.createrName},
+			sysdate()
+		)
+		</foreach>
+	</insert>
+  
+	<delete id="batchDelete" parameterType="java.util.List">
+		<![CDATA[  
+	       delete from sys_organization where id in
+	    ]]>  
+	    <foreach collection="list" item = "id" open="(" separator="," close=")">
+	  		#{id }
+	    </foreach> 
+	</delete>
+</mapper>

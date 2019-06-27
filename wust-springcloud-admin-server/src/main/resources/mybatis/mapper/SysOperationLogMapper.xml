@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wust.springcloud.admin.server.dao.SysOperationLogMapper">
+    <resultMap id="BaseResultMap" type="SysOperationLog">
+        <result column="id" property="id"/>
+        <result column="module_name" property="moduleName"/>
+        <result column="business_name" property="businessName"/>
+        <result column="operation_role" property="operationRole"/>
+        <result column="operation_data" property="operationData"/>
+        <result column="operation_type" property="operationType"/>
+        <result column="operation_ip" property="operationIp"/>
+        <result column="source" property="source"/>
+        <result property="createrId" column="creater_id"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+    <resultMap id="ListResultMap" extends="BaseResultMap" type="SysOperationLogList">
+        <result column="user_real_name" property="userRealName"/>
+        <result column="role_name" property="roleName"/>
+    </resultMap>
+
+    <select id="listPage" parameterType="SysOperationLogSearch" resultMap="ListResultMap">
+        SELECT
+            t.*,
+            t1.real_name AS user_real_name
+        FROM
+            sys_operation_log t,
+            sys_user t1
+        WHERE
+        t.creater_id = t1.id
+        <if test="moduleName != null and moduleName !=  ''">
+            AND t.module_name = #{moduleName}
+        </if>
+        <if test="businessName != null and businessName !=  ''">
+            AND t.business_name = #{businessName}
+        </if>
+        <if test="operationRole != null and operationRole !=  ''">
+            AND t.operation_role = #{operationRole}
+        </if>
+        <if test="operationType != null and operationType !=  ''">
+            AND t.operation_type = #{operationType}
+        </if>
+        <if test="createTime != null and createTime !=  ''">
+            AND t.create_time = #{createTime}
+        </if>
+        ORDER BY create_time DESC
+    </select>
+
+    <insert id="batchInsert" parameterType="java.util.List">
+        INSERT INTO sys_operation_log (
+            id,
+            module_name,
+            business_name,
+            operation_role,
+            operation_data,
+            operation_type,
+            operation_ip,
+            source,
+            creater_id,
+            create_time
+        )
+        VALUES
+        <foreach collection="list" index="index" item="item" separator=",">
+        (
+            UUID(),
+            #{item.moduleName},
+            #{item.businessName},
+            #{item.operationRole},
+            #{item.operationData},
+            #{item.operationType},
+            #{item.operationIp},
+            #{item.source},
+            #{item.createrId},
+            sysdate()
+        )
+        </foreach>
+    </insert>
+
+</mapper>

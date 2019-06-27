@@ -1,0 +1,42 @@
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+server:
+  port: 8766
+spring:
+  application:
+    name: gateway-server
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password:
+    pool:
+      max-active: 100
+      max-idle: 10
+      max-wait: 100000
+    timeout: 0
+  cloud:
+    gateway:
+      routes:
+        - id: adminServer
+          uri: http://localhost:8764
+          order: 0
+          predicates:
+            - Path=/api-admin-server/**
+          filters:
+            - StripPrefix=1
+        - id: ssoServer
+          uri: http://localhost:8768
+          order: 0
+          predicates:
+            - Path=/api-sso-server/**
+          filters:
+            - StripPrefix=1
+        - id: autotaskServer
+          uri: http://localhost:8769
+          order: 0
+          predicates:
+            - Path=/api-autotask-server/**
+          filters:
+            - StripPrefix=1

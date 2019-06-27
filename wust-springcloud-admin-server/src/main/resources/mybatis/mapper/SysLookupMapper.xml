@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.wust.springcloud.admin.server.dao.SysLookupMapper">
+    <resultMap id="BaseMap" type="SysLookup">
+        <result property="id" column="id"/>
+        <result property="code" column="code"/>
+        <result property="value" column="value"/>
+        <result property="name" column="name"/>
+        <result property="parentCode" column="parent_code"/>
+        <result property="rootCode" column="root_code"/>
+        <result property="status" column="status"/>
+        <result property="lan" column="lan"/>
+        <result property="sort" column="sort"/>
+        <result property="visible" column="visible"/>
+        <result property="description" column="description"/>
+        <result property="createrId" column="creater_id"/>
+        <result property="createrName" column="creater_name"/>
+        <result property="createTime" column="create_time"/>
+        <result property="modifyId" column="modify_id"/>
+        <result property="modifyName" column="modify_name"/>
+        <result property="modifyTime" column="modify_time"/>
+    </resultMap>
+
+    <resultMap id="ListMap" type="SysLookupList" extends="BaseMap">
+
+    </resultMap>
+
+
+    <select id="listPage" parameterType="SysLookupSearch" resultMap="ListMap">
+        SELECT * FROM sys_lookup t WHERE 1 = 1
+        <if test="code != null and code !=  ''">
+            AND t.code = #{code}
+        </if>
+        <if test="parentCode != null and parentCode !=  ''">
+            AND t.parent_code  = #{parentCode}
+        </if>
+        <if test="rootCode != null and rootCode !=  ''">
+            AND t.root_code  = #{rootCode}
+        </if>
+        <if test="name != null and name != ''">
+            AND t.name  LIKE CONCAT('%',#{name},'%')
+        </if>
+        <if test="status != null and status != ''">
+            AND t.status = #{status}
+        </if>
+        <if test="visible != null and visible != ''">
+            AND t.visible = #{visible}
+        </if>
+    </select>
+
+    <select id="findByCondition" parameterType="SysLookupSearch" resultMap="ListMap">
+        SELECT * FROM sys_lookup t WHERE 1 = 1
+        <if test="id != null and id !=  ''">
+            AND t.id = #{id}
+        </if>
+        <if test="code != null and code !=  ''">
+            AND t.code = #{code}
+        </if>
+        <if test="parentCode != null and parentCode !=  ''">
+            AND t.parent_code  = #{parentCode}
+        </if>
+        <if test="rootCode != null and rootCode !=  ''">
+            AND t.root_code  = #{rootCode}
+        </if>
+        <if test="name != null and name != ''">
+            AND t.name  LIKE CONCAT('%',#{name},'%')
+        </if>
+        <if test="status != null and status != ''">
+            AND t.status = #{status}
+        </if>
+        <if test="visible != null and visible != ''">
+            AND t.visible = #{visible}
+        </if>
+    </select>
+
+
+
+    <insert id="batchInsert" parameterType="java.util.List">
+        INSERT INTO sys_lookup (
+            id,
+            code,
+            parent_code,
+            root_code,
+            value,
+            name,
+            lan,
+            description,
+            status,
+            visible,
+            sort,
+            creater_id,
+            creater_name,
+            create_time
+        )
+        VALUES
+        <foreach collection="list" index="index" item="item" separator=",">
+        (
+            UUID(),
+            #{item.code},
+            #{item.parentCode},
+            #{item.rootCode},
+            #{item.value},
+            #{item.name},
+            #{item.lan},
+            #{item.description},
+            #{item.status},
+            #{item.visible},
+            #{item.sort},
+            #{item.createrId},
+            #{item.createrName},
+            sysdate()
+        )
+        </foreach>
+    </insert>
+
+
+    <delete id="deleteAll">
+        delete from sys_lookup
+    </delete>
+</mapper>

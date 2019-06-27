@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wust.springcloud.admin.server.dao.SysDataSourceMapper" >
+  	<resultMap id="BaseResultMap" type="SysDataSource" >
+		<id column="id" property="id"/>
+		<result column="company_id" property="companyId"/>
+		<result column="jdbc_url" property="jdbcUrl"/>
+	    <result column="jdbc_username" property="jdbcUsername"/>
+		<result column="jdbc_password" property="jdbcPassword"/>
+	    <result column="jdbc_driver" property="jdbcDriver"/>
+		<result column="description" property="description"/>
+		<result property="createrId" column="creater_id"/>
+		<result property="createrName" column="creater_name"/>
+		<result property="createTime" column="create_time"/>
+		<result property="modifyId" column="modify_id"/>
+		<result property="modifyName" column="modify_name"/>
+		<result property="modifyTime" column="modify_time"/>
+  	</resultMap>
+  
+  	<resultMap id="ListResultMap" type="SysDataSourceList" extends="BaseResultMap">
+		<result column="company_name" property="companyName"/>
+		<result column="init_status" property="initStatus"/>
+  	</resultMap>
+  	
+
+
+  	<select id="listPage" parameterType="SysDataSourceSearch" resultMap="ListResultMap">
+		SELECT
+			t1.id AS company_id,
+			t1.`name` AS company_name,
+			t2.id,
+			t2.jdbc_url,
+			t2.jdbc_driver,
+			t2.jdbc_password,
+			t2.jdbc_username,
+			t2.description,
+			IFNULL(t2.company_id,'0') AS init_status,
+			t2.creater_id,
+			t2.creater_name,
+			t2.create_time
+		FROM
+			sys_company t1
+		LEFT JOIN sys_data_source t2 ON t1.id = t2.company_id
+		WHERE
+		1 = 1
+		<if test="companyName != null and companyName !=  ''">
+			AND t2.name = #{companyName}
+		</if>
+  	</select>
+  
+  	<select id="findByCondition" parameterType="SysDataSourceSearch" resultMap="ListResultMap">
+		SELECT
+			t1.`name` AS company_name,
+			t2.*
+		FROM
+			sys_company t1
+		LEFT JOIN sys_data_source t2 ON t1.id = t2.company_id
+		WHERE
+		1 = 1
+		<if test="id != null and id !=  ''">
+			AND t1.id = #{id}
+		</if>
+		<if test="companyId != null and companyId !=  ''">
+			AND t1.company_id = #{companyId}
+		</if>
+  	</select>
+
+
+	<insert id="batchInsert" parameterType="java.util.List">
+		INSERT INTO sys_data_source (
+			id,
+			company_id,
+			jdbc_url,
+			jdbc_username,
+			jdbc_password,
+			jdbc_driver,
+			description,
+			creater_id,
+			creater_name,
+			create_time
+		)
+		VALUES
+		<foreach collection="list" index="index" item="item" separator=",">
+		(
+			UUID(),
+			#{item.companyId},
+			#{item.jdbcUrl},
+			#{item.jdbcUsername},
+			#{item.jdbcPassword},
+			#{item.jdbcDriver},
+			#{item.description},
+			#{item.createrId},
+			#{item.createrName},
+			sysdate()
+		)
+		</foreach>
+	</insert>
+
+
+	<update id="batchUpdate" parameterType="java.util.List">
+		<foreach collection="list" separator=";" index="index" item="item">
+			UPDATE sys_data_source SET
+			jdbc_url = #{item.jdbcUrl},
+			jdbc_username = #{item.jdbcUsername},
+			jdbc_password = #{item.jdbcPassword},
+			jdbc_driver = #{item.jdbcDriver},
+			description = #{item.description},
+			modify_id = #{item.modifyId},
+			modify_time = sysdate()
+			where id = #{item.id}
+		</foreach>
+	</update>
+  
+	<delete id="batchDelete" parameterType="java.util.List">
+		<![CDATA[  
+	       delete from sys_data_source where id in
+	    ]]>  
+	    <foreach collection="list" item = "id" open="(" separator="," close=")">
+	  		#{id }
+	    </foreach> 
+	</delete>
+
+	<update id="createDataBase" parameterType="java.util.HashMap">
+		-- 创建数据库
+		CREATE SCHEMA IF NOT EXISTS `${database}` DEFAULT CHARACTER SET utf8mb4;
+	</update>
+
+	<update id="createDataBaseUser" parameterType="java.util.HashMap">
+		-- 切换到数据库
+		USE `${database}` ;
+
+		-- 创建用户
+		CREATE USER '${username}'@'%' IDENTIFIED BY '${password}';
+
+		-- 授权数据库给当前用户
+		GRANT ALL ON `${database}`.* TO '${username}';
+
+		-- 授权平台数据库给当前用户
+		GRANT ALL ON `${platformDatabase}`.* TO '${username}';
+
+		-- 立即生效
+		FLUSH PRIVILEGES;
+
+		USE `${platformDatabase}` ;
+	</update>
+
+
+	<update id="executeSQL" parameterType="java.util.HashMap">
+		-- 切换到数据库
+		USE `${database}`;
+
+		<![CDATA[
+			${sql}
+		]]>
+
+		USE `${platformDatabase}`;
+	</update>
+
+
+	<update id="rollbackDataBase" parameterType="java.util.HashMap">
+		DROP USER IF EXISTS `${username}`@'%';
+		DROP DATABASE IF EXISTS `${database}`;
+		USE `${platformDatabase}` ;
+	</update>
+</mapper>

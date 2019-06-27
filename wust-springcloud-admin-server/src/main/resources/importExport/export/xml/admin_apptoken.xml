@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<excel id="admin_apptoken">
+    <sheet label="外部应用访问账号列表">
+        <list>
+            <sql id="3c401271-8738-11e9-a68d-0050568e63cd">
+                <![CDATA[
+                   SELECT
+                        t.app_id,
+                        t.login_name,
+                        t.expire_time,
+                        t.status,
+                        t.creater_name,
+                        t.create_time
+                    FROM
+                        sys_app_token t
+                    WHERE 1=1
+                    <#if loginName??>
+                        AND t.login_name = '${loginName}'
+                    </#if>
+                    ORDER BY t.app_id,t.STATUS
+                ]]>
+            </sql>
+            <field column="app_id" label="应用标识"></field>
+            <field column="login_name" label="账号"></field>
+            <field column="expire_time" label="过期时间" type="Date" format="yyyy-MM-dd HH:mm:ss"></field>
+            <field column="status" label="状态" type="LookupItem"></field>
+            <field column="creater_name" label="创建人"></field>
+            <field column="create_time" label="创建时间" type="Date" format="yyyy-MM-dd HH:mm:ss"></field>
+        </list>
+    </sheet>
+</excel>

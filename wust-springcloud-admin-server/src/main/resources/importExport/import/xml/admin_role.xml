@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<excel id="admin_role">
+    <sheet index="0">
+        <list startRow="1" class="com.wust.springcloud.common.entity.sys.role.SysRoleImport">
+            <field index="0" property="name" required="true"></field>
+            <field index="1" property="description"></field>
+        </list>
+    </sheet>
+</excel>

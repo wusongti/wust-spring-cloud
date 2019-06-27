@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<excel id="admin_user">
+    <sheet label="用户列表">
+        <list>
+            <sql id="71dece3a-7ba3-11e9-a68d-0050568e63cd">
+                <![CDATA[
+                   SELECT
+                        u.login_name,
+                        u.real_name,
+                        u.email,
+                        u.sex,
+                        u.mobile,
+                        u.type
+                    FROM
+                        sys_user u
+                    WHERE 1=1
+                    <#if sex??>
+                        AND u.sex = '${sex}'
+                    </#if>
+                ORDER BY u.real_name
+                ]]>
+            </sql>
+            <field column="login_name" label="登录账号"></field>
+            <field column="real_name" label="真实姓名"></field>
+            <field column="email" label="邮箱"></field>
+            <field column="sex" label="性别" type="LookupItem"></field>
+            <field column="mobile" label="联系电话"></field>
+            <field column="type" label="用户类型" type="LookupItem"></field>
+        </list>
+    </sheet>
+</excel>

@@ -1,0 +1,72 @@
+<?xml version="1.0" standalone="yes"?>
+<RECORDS>
+    <!-- Demo S -->
+    <RECORD id="c1b71a29-8b19-11e8-af29-0050568e0e15" code="1001" parent_code="" name="一级数据" description="一级数据" sort="0"/>
+    <RECORD id="6f3fe3e0-6a32-11e9-a68d-0050568e63cd" code="100101" parent_code="1001" root_code="1001" name="二级数据1" description="二级数据1" sort="0"/>
+    <RECORD id="94fa90bc-6a32-11e9-a68d-0050568e63cd" code="100102" parent_code="1001" root_code="1001" name="二级数据2" description="二级数据2" sort="0"/>
+    <RECORD id="c337e515-6a32-11e9-a68d-0050568e63cd" code="10010101" parent_code="100101" root_code="1001" name="三级数据1" description="三级数据1" sort="0"/>
+    <RECORD id="c8a1bcb3-6a32-11e9-a68d-0050568e63cd" code="10010102" parent_code="100101" root_code="1001" name="三级数据2" description="三级数据2" sort="0"/>
+    <RECORD id="e69edc73-6a32-11e9-a68d-0050568e63cd" code="10010201" parent_code="100102" root_code="1001" name="三级数据3" description="三级数据3" sort="0"/>
+    <RECORD id="eb3563ca-6a32-11e9-a68d-0050568e63cd" code="10010202" parent_code="100102" root_code="1001" name="三级数据4" description="三级数据4" sort="0"/>
+    <!-- Demo E -->
+
+    <!-- 启用禁用状态 S -->
+    <RECORD id="05222ce5-76e2-11e9-a68d-0050568e63cd" code="1002" parent_code="" name="启用禁用状态" description="启用禁用状态" sort="0"/>
+    <RECORD id="34708615-50a3-11e7-bdf4-0050568e00c5" code="100201" parent_code="1002" root_code="1002" value="1" name="启用" description="启用" item_order="0"/>
+    <RECORD id="551c0974-50a3-11e7-bdf4-0050568e00c5" code="100202" parent_code="1002" root_code="1002" value="0" name="禁用" description="禁用" item_order="0"/>
+    <!-- 启用禁用状态 E -->
+
+    <!-- 性别 S -->
+    <RECORD id="a1c7aa7e-76e2-11e9-a68d-0050568e63cd" code="1003" parent_code="" name="性别" description="性别" sort="0"/>
+    <RECORD id="a6d8eded-76e2-11e9-a68d-0050568e63cd" code="100301" parent_code="1003" root_code="1003" value="M" name="男" description="男" item_order="0"/>
+    <RECORD id="abd21fe9-76e2-11e9-a68d-0050568e63cd" code="100302" parent_code="1003" root_code="1003" value="F" name="女" description="女" item_order="0"/>
+    <!-- 性别 E -->
+
+    <!-- 用户类型 S -->
+    <RECORD id="ef59432b-76e2-11e9-a68d-0050568e63cd" code="1004" parent_code="" name="用户类型" description="用户类型" sort="0"/>
+    <RECORD id="f3bed220-76e2-11e9-a68d-0050568e63cd" code="100401" parent_code="1004" root_code="1004" value="0" name="平台管理员" visible="N" description="平台管理员" item_order="0"/>
+    <RECORD id="09a68d3a-932d-11e9-a68d-0050568e63cd" code="100402" parent_code="1004" root_code="1004" value="1" name="公司管理员" visible="N" description="公司管理员" item_order="0"/>
+    <RECORD id="c9071d8e-873c-11e9-a68d-0050568e63cd" code="100404" parent_code="1004" root_code="1004" value="3" name="普通用户" description="普通用户" item_order="0"/>
+    <!-- 用户类型 E -->
+
+    <!-- 我的导入导出状态 S -->
+    <RECORD id="7f4c0550-7d2f-11e9-a68d-0050568e63cd" code="1005" parent_code="" name="我的导入导出状态" description="我的导入导出状态" sort="0"/>
+    <RECORD id="868cd27b-7d2f-11e9-a68d-0050568e63cd" code="100501" parent_code="1005" root_code="1005" value="1" name="执行中" description="执行中" item_order="0"/>
+    <RECORD id="8c3c3632-7d2f-11e9-a68d-0050568e63cd" code="100502" parent_code="1005" root_code="1005" value="2" name="全部成功" description="全部成功" item_order="0"/>
+    <RECORD id="91df5feb-7d2f-11e9-a68d-0050568e63cd" code="100503" parent_code="1005" root_code="1005" value="3" name="部分成功" description="部分成功" item_order="0"/>
+    <RECORD id="96fa5678-7d2f-11e9-a68d-0050568e63cd" code="100504" parent_code="1005" root_code="1005" value="4" name="全部失败" description="全部失败" item_order="0"/>
+    <!-- 我的导入导出状态 E -->
+
+    <!-- 我的导入导出操作类型 S -->
+    <RECORD id="27407b87-7d30-11e9-a68d-0050568e63cd" code="1006" parent_code="" name="我的导入导出操作类型" description="我的导入导出操作类型" sort="0"/>
+    <RECORD id="2c7506d9-7d30-11e9-a68d-0050568e63cd" code="100601" parent_code="1006" root_code="1006" value="1" name="导入" description="导入" item_order="0"/>
+    <RECORD id="31d052df-7d30-11e9-a68d-0050568e63cd" code="100602" parent_code="1006" root_code="1006" value="2" name="导出" description="导出" item_order="0"/>
+    <!-- 我的导入导出操作类型 E -->
+
+    <!-- 是否 S -->
+    <RECORD id="7795bd04-810f-11e9-a68d-0050568e63cd" code="1007" parent_code="" name="是否" description="是否" sort="0"/>
+    <RECORD id="7c8b88f9-810f-11e9-a68d-0050568e63cd" code="100701" parent_code="1007" root_code="1007" value="Y" name="是" description="是" item_order="0"/>
+    <RECORD id="8159aee5-810f-11e9-a68d-0050568e63cd" code="100702" parent_code="1007" root_code="1007" value="N" name="否" description="否" item_order="0"/>
+    <!-- 是否 E -->
+
+    <!-- 语言 S -->
+    <RECORD id="9e1cc27b-835d-11e9-a68d-0050568e63cd" code="1008" parent_code="" name="语言" description="语言" sort="0"/>
+    <RECORD id="a5006297-835d-11e9-a68d-0050568e63cd" code="100801" parent_code="1008" root_code="1008" value="zh_CN" name="zh_CN" description="zh_CN" item_order="0"/>
+    <RECORD id="aa602072-835d-11e9-a68d-0050568e63cd" code="100802" parent_code="1008" root_code="1008" value="en_US" name="en_US" description="en_US" item_order="0"/>
+    <!-- 语言 E -->
+
+    <!-- 数据权限类型 S -->
+    <RECORD id="a71021fa-8b53-11e9-a68d-0050568e63cd" code="1009" parent_code="" name="数据权限类型" description="数据权限类型" sort="0"/>
+    <RECORD id="ac450db5-8b53-11e9-a68d-0050568e63cd" code="100905" parent_code="1009" root_code="1009" value="1" name="本人可见" description="本人可见" item_order="0"/>
+    <RECORD id="b14e8ea3-8b53-11e9-a68d-0050568e63cd" code="100910" parent_code="1009" root_code="1009" value="2" name="角色可见" description="角色可见" item_order="0"/>
+    <RECORD id="b5fd863b-8b53-11e9-a68d-0050568e63cd" code="100915" parent_code="1009" root_code="1009" value="3" name="部门可见" description="部门可见" item_order="0"/>
+    <RECORD id="ba503ec8-8b53-11e9-a68d-0050568e63cd" code="100920" parent_code="1009" root_code="1009" value="4" name="公司可见" description="公司可见" item_order="0"/>
+    <RECORD id="824cbcd9-8cab-11e9-a68d-0050568e63cd" code="100925" parent_code="1009" root_code="1009" value="4" name="领导可见" description="领导可见" item_order="0"/>
+    <!-- 数据权限类型 E -->
+
+    <!-- 用户在线状态 S -->
+    <RECORD id="b2ce71c8-9198-11e9-a68d-0050568e63cd" code="1010" parent_code="" name="用户在线状态" description="用户在线状态" sort="0"/>
+    <RECORD id="b8fe432c-9198-11e9-a68d-0050568e63cd" code="101001" parent_code="1010" root_code="1010" value="1" name="在线" description="在线" item_order="0"/>
+    <RECORD id="bdcd043b-9198-11e9-a68d-0050568e63cd" code="101002" parent_code="1010" root_code="1010" value="0" name="离线" description="离线" item_order="0"/>
+    <!-- 用户在线状态 E -->
+</RECORDS>

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wust.springcloud.admin.server.dao.SysMenuMapper" >
+  	<resultMap id="BaseResultMap" type="SysMenu" >
+    	<id column="id" property="id"/>
+    	<result column="name" property="name"/>
+    	<result column="description" property="description"/>
+    	<result column="url" property="url"/>
+    	<result column="permission" property="permission"/>
+    	<result column="level" property="level"/>
+    	<result column="img" property="img"/>
+    	<result column="pid" property="pId"/>
+		<result column="type" property="type"/>
+		<result column="visible" property="visible"/>
+		<result property="createrId" column="creater_id"/>
+		<result property="createrName" column="creater_name"/>
+		<result property="createTime" column="create_time"/>
+		<result property="modifyId" column="modify_id"/>
+		<result property="modifyName" column="modify_name"/>
+		<result property="modifyTime" column="modify_time"/>
+  	</resultMap>
+
+	<resultMap id="MenuTreeDtoMap" type="com.wust.springcloud.common.dto.MenuTreeDto" >
+		<result column="id" property="id"/>
+		<result column="name" property="name"/>
+		<result column="description" property="description"/>
+		<result column="pid" property="pId"/>
+		<result column="level" property="level"/>
+		<result column="checked" property="checked"/>
+		<result column="nocheck" property="nocheck"/>
+	</resultMap>
+
+	<select id="findByOrganizationId" parameterType="String" resultMap="MenuTreeDtoMap">
+		SELECT
+			DISTINCT
+			m.id,
+			m.name,
+			m.description,
+			m.level,
+			m.pid,
+			IF(r.resource_id IS NULL,'false','true') AS checked
+		FROM sys_menu m
+		LEFT JOIN (SELECT srs.resource_id FROM sys_role_resource srs WHERE srs.type='m' AND srs.organization_id = #{0}) r
+		ON m.id = r.resource_id
+		WHERE m.permission != 'anon'
+		ORDER BY m.sort ASC
+	</select>
+
+  
+   <!-- 批量添加菜单 -->
+   	<insert id="batchInsert" parameterType="java.util.List">
+   		insert into sys_menu(
+			id ,
+		   	name,
+			description,
+		   	url,
+		   	permission,
+		   	level,
+		   	sort,
+		   	img,
+		   	pid,
+		   	type,
+			visible,
+		   	create_id,
+		   	modify_id,
+		   	create_time,
+		   	modify_time
+		  )
+		values
+		<foreach collection="list" index="index" item="item" separator=",">
+		(
+			#{item.id},
+			#{item.name},
+			#{item.description},
+			#{item.url},
+			#{item.permission},
+			#{item.level},
+			#{item.sort},
+			#{item.img},
+			#{item.pId},
+			#{item.type},
+			#{item.visible},
+			#{item.createrId},
+			#{item.modifyId},
+			sysdate(),
+			sysdate()
+		)
+		</foreach>
+   	</insert>
+
+
+
+	<!-- 清空所有菜单 -->
+  	<delete id="deleteAll">
+  		delete from sys_menu
+  	</delete>
+</mapper>

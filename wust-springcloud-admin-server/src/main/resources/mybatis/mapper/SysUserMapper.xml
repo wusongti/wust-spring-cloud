@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wust.springcloud.admin.server.dao.SysUserMapper">
+    <resultMap id="BaseResultMap" type="SysUser">
+        <result column="id" property="id"/>
+        <result column="login_name" property="loginName"/>
+        <result column="password" property="password"/>
+        <result column="real_name" property="realName"/>
+        <result column="sex" property="sex"/>
+        <result column="email" property="email"/>
+        <result column="mobile" property="mobile"/>
+        <result column="status" property="status"/>
+        <result column="type" property="type"/>
+        <result column="company_id" property="companyId"/>
+        <result property="createrId" column="creater_id"/>
+        <result property="createrName" column="creater_name"/>
+        <result property="modifyId" column="modify_id"/>
+        <result property="modifyName" column="modify_name"/>
+        <result property="createTime" column="create_time"/>
+        <result property="modifyTime" column="modify_time"/>
+    </resultMap>
+    <resultMap id="ListResultMap" extends="BaseResultMap" type="SysUserList">
+    </resultMap>
+
+    <select id="listPage" parameterType="SysUserSearch" resultMap="ListResultMap">
+        SELECT * FROM sys_user t WHERE 1=1
+        <if test="id != null and id !=  ''">
+            AND t.id = #{id}
+        </if>
+        <if test="loginName != null and loginName !=  ''">
+            AND t.login_name = #{loginName}
+        </if>
+        <if test="realName != null and realName !=  ''">
+            AND t.real_name = #{realName}
+        </if>
+        <if test="status != null and status !=  ''">
+            AND t.status = #{status}
+        </if>
+    </select>
+
+    <select id="findByCondition" parameterType="SysUserSearch" resultMap="ListResultMap">
+        SELECT * FROM sys_user t WHERE 1=1
+        <if test="id != null and id !=  ''">
+            AND t.id = #{id}
+        </if>
+        <if test="loginName != null and loginName !=  ''">
+            AND t.login_name = #{loginName}
+        </if>
+        <if test="password != null and password != ''">
+            AND t.password = #{password}
+        </if>
+    </select>
+
+    <select id="getDefaultLoginName" resultType="String">
+        SELECT concat(floor(MAX(u.login_name) + 1),'') FROM sys_user u WHERE u.login_name LIKE '1000%'
+    </select>
+
+
+    <insert id="batchInsert" parameterType="java.util.List">
+        INSERT INTO sys_user (
+            id,
+            login_name,
+            password,
+            real_name,
+            sex,
+            email,
+            mobile,
+            status,
+            type,
+            company_id,
+            creater_id,
+            creater_name,
+            create_time
+        )
+        VALUES
+        <foreach collection="list" index="index" item="item" separator=",">
+        (
+            UUID(),
+            #{item.loginName},
+            #{item.password},
+            #{item.realName},
+            #{item.sex},
+            #{item.email},
+            #{item.mobile},
+            '100201',
+            #{item.type},
+            #{item.companyId},
+            #{item.createrId},
+            #{item.createrName},
+            sysdate()
+        )
+        </foreach>
+    </insert>
+
+
+    <update id="batchUpdate" parameterType="java.util.List">
+        <foreach collection="list" separator=";" index="index" item="item">
+            UPDATE sys_user SET
+                real_name = #{item.realName},
+                type = #{item.type},
+                email = #{item.email},
+                sex = #{item.sex},
+                status = #{item.status},
+                mobile = #{item.mobile},
+                modify_id = #{item.modifyId},
+                modify_name = #{item.modifyName},
+                modify_time = sysdate()
+            WHERE id = #{item.id}
+        </foreach>
+    </update>
+
+    <delete id="batchDelete" parameterType="java.util.List">
+        <![CDATA[
+	       delete from sys_user where id in
+	    ]]>
+        <foreach collection="list" item = "id" open="(" separator="," close=")">
+            #{id }
+        </foreach>
+    </delete>
+</mapper>

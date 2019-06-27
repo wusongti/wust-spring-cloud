@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wust.springcloud.admin.server.dao.SysResourceMapper" >
+  	<resultMap id="BaseResultMap" type="SysResource" >
+    	<id column="id" property="id"/>
+    	<result column="menu_id" property="menuId"/>
+    	<result column="sname" property="name"/>
+		<result column="description" property="description"/>
+    	<result column="permission" property="permission"/>
+    	<result column="url" property="url"/>
+	  	<result property="createrId" column="creater_id"/>
+	  	<result property="createrName" column="creater_name"/>
+	  	<result property="createTime" column="create_time"/>
+	  	<result property="modifyId" column="modify_id"/>
+	  	<result property="modifyName" column="modify_name"/>
+	  	<result property="modifyTime" column="modify_time"/>
+  	</resultMap>
+
+	<resultMap id="ResourceTreeDtoMap" type="com.wust.springcloud.common.dto.ResourceTreeDto">
+		<result column="id" property="id"/>
+		<result column="menu_id" property="menuId"/>
+		<result column="name" property="name"/>
+		<result column="description" property="description"/>
+		<result column="checked" property="checked"/>
+		<result column="nocheck" property="nocheck"/>
+	</resultMap>
+
+	<select id="findByCondition" parameterType="SysResourceSearch" resultMap="BaseResultMap">
+		SELECT * FROM sys_resource sr WHERE 1=1
+		<if test="url != null and url != ''">
+			<![CDATA[ AND sr.url LIKE CONCAT('%',#{url},'%')]]>
+		</if>
+	</select>
+
+	<!-- 获取指定菜单下面的白名单集合 -->
+	<select id="findAnonResourcesByMenuId" parameterType="String" resultMap="BaseResultMap">
+		SELECT
+			sr.id,
+			sr.name,
+			sr.description,
+			sr.permission,
+			sr.url,
+			sr.menu_id
+		FROM sys_resource sr
+		WHERE sr.permission = 'anon' AND sr.menu_id = #{0}
+	</select>
+
+	<select id="findByOrganizationId" parameterType="String" resultMap="ResourceTreeDtoMap">
+		SELECT
+			DISTINCT
+			r.id,
+			r.name,
+			r.description,
+			r.menu_id,
+			IF(rr.resource_id IS NULL,'false','true') AS checked
+		FROM sys_resource r
+		LEFT JOIN (SELECT srs.resource_id FROM sys_role_resource srs WHERE srs.type='r' AND srs.organization_id = #{0}) rr
+		ON r.id = rr.resource_id
+		WHERE r.permission != 'anon'
+		ORDER BY r.name ASC
+	</select>
+
+	<!-- 批量添加资源 -->
+	<insert id="batchInsert" parameterType="java.util.List">
+	  		insert into sys_resource(
+				id ,
+			   	menu_id,
+			   	name,
+				description,
+			   	permission,
+			   	url,
+			   	create_id,
+			   	create_time,
+			   	modify_id,
+			   	modify_time
+			  )
+			values
+		<foreach collection="list" index="index" item="item" separator=",">
+			(
+				#{item.id},
+				#{item.menuId},
+				#{item.name},
+				#{item.description},
+				#{item.permission},
+				#{item.url},
+				#{item.createrId},
+				SYSDATE(),
+				#{item.modifyId},
+				SYSDATE()
+			)
+		</foreach>
+	</insert>
+
+	<!-- 清空资源 -->
+  	<delete id="deleteAll">
+  		delete from sys_resource
+  	</delete>
+</mapper>

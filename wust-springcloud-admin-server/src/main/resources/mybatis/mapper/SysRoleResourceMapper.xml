@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wust.springcloud.admin.server.dao.SysRoleResourceMapper" >
+	<resultMap  id="BaseResultMap" type="SysRoleResource">
+		<result property="id" column="id"/>
+		<result property="organizationId" column="organization_id"/>
+		<result property="resourceId" column="resource_id"/>
+		<result property="type" column="type"/>
+	</resultMap>
+
+	<resultMap id="ListResultMap" type="SysRoleResourceList" extends="BaseResultMap">
+	</resultMap>
+
+  	<select id="findByCondition" resultMap="ListResultMap" parameterType="SysRoleResource">
+	  SELECT * FROM sys_role_resource t WHERE 1=1
+	  <if test="type != null and type != ''">
+		  AND type = #{type}
+	  </if>
+	  <if test="organizationId != null and organizationId != ''">
+		  AND organization_id = #{organizationId}
+	  </if>
+	  <if test="resourceId != null and resourceId != ''">
+		  AND resource_id = #{resourceId}
+	  </if>
+  	</select>
+
+
+	<select id="groupByOrganizationId" resultMap="ListResultMap" parameterType="java.lang.String">
+		SELECT rs.organization_id,max(rs.resource_id) AS resource_id FROM sys_role_resource rs WHERE rs.type = #{0} GROUP BY rs.organization_id
+	</select>
+
+
+	<insert id="batchInsert" parameterType="java.util.List">
+  		insert into sys_role_resource
+		(
+			id,
+			organization_id,
+			resource_id,
+			type
+		) values
+		<foreach collection="list" item="item" index="index" separator=",">
+		(
+			#{item.id},
+			#{item.organizationId},
+			#{item.resourceId},
+			#{item.type}
+		)
+		</foreach>
+  	</insert>
+
+	<delete id="batchDelete">
+		DELETE FROM sys_role_resource  WHERE id  IN
+		<foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+			#{item}
+		</foreach>
+	</delete>
+
+	<delete id="deleteDirtyMenu">
+		DELETE FROM sys_role_resource  WHERE type = 'm' AND resource_id NOT IN(SELECT id FROM sys_menu)
+	</delete>
+
+	<delete id="deleteDirtyResource">
+		DELETE FROM sys_role_resource  WHERE type = 'r' AND resource_id NOT IN(SELECT id FROM sys_resource)
+	</delete>
+  
+  	<delete id="batchDeleteByOrganizationIds" parameterType="java.util.List">
+  		delete from sys_role_resource where organization_id in
+  		<foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+  			#{item}
+  		</foreach>
+  	</delete>
+</mapper>

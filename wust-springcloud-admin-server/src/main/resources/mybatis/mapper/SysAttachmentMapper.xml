@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wust.springcloud.admin.server.dao.SysAttachmentMapper">
+    <resultMap id="BaseResultMap" type="SysAttachment">
+        <result column="id" property="id"/>
+        <result column="relation_table" property="relationTable"/>
+        <result column="relation_id" property="relationId"/>
+        <result column="relation_field" property="relationField"/>
+        <result column="attachment_key" property="attachmentKey"/>
+        <result column="attachment_name" property="attachmentName"/>
+        <result column="attachment_size" property="attachmentSize"/>
+        <result column="attachment_path" property="attachmentPath"/>
+        <result column="attachment_suffix" property="attachmentSuffix"/>
+        <result property="createrId" column="creater_id"/>
+        <result property="createrName" column="creater_name"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+    <resultMap id="ListResultMap" extends="BaseResultMap" type="SysAttachmentList">
+    </resultMap>
+
+
+    <select id="findByCondition" parameterType="SysAttachmentSearch" resultMap="ListResultMap">
+        SELECT * FROM sys_attachment t WHERE 1=1
+        <if test="id != null and id !=  ''">
+            AND t.id = #{id}
+        </if>
+        <if test="relationTable != null and relationTable !=  ''">
+            AND t.relation_table = #{relationTable}
+        </if>
+        <if test="relationId != null and relationId != ''">
+            AND t.relation_id = #{relationId}
+        </if>
+        <if test="relationField != null and relationField != ''">
+            AND t.relation_field = #{relationField}
+        </if>
+        <if test="attachmentKey != null and attachmentKey != ''">
+            AND t.attachment_key = #{attachmentKey}
+        </if>
+        <if test="attachmentName != null and attachmentName != ''">
+            AND t.attachment_name = #{attachmentName}
+        </if>
+        <if test="attachmentSuffix != null and attachmentSuffix != ''">
+            AND t.attachment_suffix = #{attachmentSuffix}
+        </if>
+    </select>
+
+    <insert id="batchInsert" parameterType="java.util.List">
+        insert into sys_attachment(
+            id,
+            relation_table,
+            relation_id,
+            relation_field,
+            attachment_key,
+            attachment_name,
+            attachment_size,
+            attachment_path,
+            attachment_suffix,
+            creater_id,
+            creater_name,
+            create_time
+        )
+        values
+        <foreach collection="list" index="index" item="item" separator=",">
+            (
+                UUID(),
+                #{item.relationTable},
+                #{item.relationId},
+                #{item.relationField},
+                #{item.attachmentKey},
+                #{item.attachmentName},
+                #{item.attachmentSize},
+                #{item.attachmentPath},
+                #{item.attachmentSuffix},
+                #{item.createrId},
+                #{item.createrName},
+                sysdate()
+            )
+        </foreach>
+    </insert>
+
+
+    <delete id="batchDelete" parameterType="java.util.List">
+        DELETE FROM sys_attachment WHERE id IN
+        <foreach collection="list" item = "id" open="(" separator="," close=")">
+            #{id }
+        </foreach>
+    </delete>
+</mapper>

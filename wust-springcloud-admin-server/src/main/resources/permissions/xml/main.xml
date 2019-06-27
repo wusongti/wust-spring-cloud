@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<systems>
+	<subsystem id="20356848-80a5-4ecb-945e-964242c368c5" name="Wust" desc="企业基础平台管理系统">
+		<!-- 需要忽略校验的公共模块的URL请统一放在这里  -->
+		<modulegroup id="35ce0d97-f123-4715-b4e0-cb14c0292a31" name="anon" permission="anon" desc="公共模块白名单集合">
+			<path path = "permissions/xml/module_anon.xml"/>
+		</modulegroup>
+
+		<modulegroup id="8972b850-804e-11e9-a68d-0050568e63cd" name="Query Management" desc="查询管理" order="20001">
+			<path path = "permissions/xml/module_query.xml"/>
+		</modulegroup>
+
+		<modulegroup id="1a6debab-f513-4b3f-9d21-2b5249c3ec11" name="Setting" desc="系统配置" order="30001" >
+			<path path = "permissions/xml/module_setting.xml"/>
+		</modulegroup>
+	</subsystem>
+</systems>

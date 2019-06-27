@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wust.springcloud.sso.server.dao.SysResourceMapper" >
+  	<resultMap id="BaseResultMap" type="SysResource" >
+    	<id column="id" property="id"/>
+    	<result column="menu_id" property="menuId"/>
+    	<result column="sname" property="name"/>
+		<result column="description" property="description"/>
+    	<result column="permission" property="permission"/>
+    	<result column="url" property="url"/>
+	  	<result property="createrId" column="creater_id"/>
+	  	<result property="createrName" column="creater_name"/>
+	  	<result property="createTime" column="create_time"/>
+	  	<result property="modifyId" column="modify_id"/>
+	  	<result property="modifyName" column="modify_name"/>
+	  	<result property="modifyTime" column="modify_time"/>
+  	</resultMap>
+
+	<!-- 超级管理员：获取非白名单资源权限 -->
+	<select id="findAllResources4systemAdmin" parameterType="String" resultMap="BaseResultMap">
+		SELECT
+			sr.id,
+			sr.name,
+			sr.description,
+			sr.permission,
+			sr.url,
+			sr.menu_id
+		FROM sys_resource sr
+		WHERE sr.permission != 'anon'
+	</select>
+
+	<!-- 超级管理员：获取白名单资源权限 -->
+	<select id="findAllAnonResources4systemAdmin" parameterType="String" resultMap="BaseResultMap">
+		SELECT
+			sr.id,
+			sr.name,
+			sr.description,
+			sr.permission,
+			sr.url,
+			sr.menu_id
+		FROM sys_resource sr
+		WHERE sr.permission = 'anon'
+	</select>
+
+	<!-- 获取非超级管理员非白名单资源权限 -->
+  	<select id="findResourcesByUserId" parameterType="java.lang.String" resultMap="BaseResultMap">
+		SELECT
+			t1.*
+		FROM
+		(
+			SELECT
+				sr.id,
+				sr.name,
+				sr.description,
+				sr.permission,
+				sr.url,
+				sr.menu_id,
+				srr.organization_id
+			FROM
+				sys_resource sr,sys_role_resource srr
+			WHERE sr.id = srr.resource_id
+			AND srr.type='r'
+			AND sr.permission != 'anon'
+		)t1,
+		(
+			SELECT
+				o2.id
+			FROM
+				sys_organization o1
+			LEFT JOIN sys_organization o2 ON o1.pid = o2.id
+			WHERE  o1.relation_id = #{0}
+		)t2
+		WHERE t1.organization_id = t2.id
+  	</select>
+
+	<!-- 获取非超级管理员白名单资源权限 -->
+	<select id="findAnonResourcesByUserId" parameterType="java.lang.String" resultMap="BaseResultMap">
+		SELECT
+			t1.*
+		FROM
+		(
+			SELECT
+				sr.id,
+				sr.name,
+				sr.description,
+				sr.permission,
+				sr.url,
+				sr.menu_id,
+				srr.organization_id
+			FROM
+				sys_resource sr,sys_role_resource srr
+			WHERE sr.id = srr.resource_id
+			AND srr.type='r'
+			AND sr.permission = 'anon'
+		)t1,
+		(
+			SELECT
+				o2.id
+			FROM
+				sys_organization o1
+			LEFT JOIN sys_organization o2 ON o1.pid = o2.id
+			WHERE  o1.relation_id = #{0}
+		)t2
+		WHERE t1.organization_id = t2.id
+	</select>
+
+
+	<!-- 获取指定菜单下面的白名单集合 -->
+  	<select id="findAnonResourcesByMenuId" parameterType="String" resultMap="BaseResultMap">
+  		SELECT
+			sr.id,
+			sr.name,
+			sr.description,
+			sr.permission,
+			sr.url,
+			sr.menu_id
+		FROM sys_resource sr
+		WHERE sr.permission = 'anon' AND sr.menu_id = #{0}
+  	</select>
+
+
+	<!-- 获取全局白名资源单集合 -->
+	<select id="findCommonAnonResources" resultMap="BaseResultMap">
+		SELECT
+			sr.id,
+			sr.name,
+			sr.description,
+			sr.permission,
+			sr.url,
+			sr.menu_id
+		FROM sys_resource sr,sys_menu m WHERE sr.menu_id = m.id AND m.permission = 'anon'
+	</select>
+</mapper>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<excel id="admin_department">
+    <sheet label="部门列表">
+        <list>
+            <sql id="d0116796-85b8-11e9-a68d-0050568e63cd">
+                <![CDATA[
+                   SELECT
+                        t.code,
+                        t.name,
+                        t.leader,
+                        t.description,
+                        p.NAME AS pname
+                    FROM
+                        sys_department t
+                    LEFT JOIN
+                        sys_department p
+                    ON t.pcode = p.CODE
+                    WHERE 1=1
+                    <#if name??>
+                        AND t.name = '${name}'
+                    </#if>
+                ORDER BY t.pcode,t.code
+                ]]>
+            </sql>
+            <field column="code" label="编码"></field>
+            <field column="name" label="部门名"></field>
+            <field column="pname" label="父级公司"></field>
+            <field column="leader" label="部门负责人"></field>
+            <field column="description" label="描述"></field>
+        </list>
+    </sheet>
+</excel>

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wust.springcloud.admin.server.dao.SysImportExportMapper">
+    <resultMap id="BaseResultMap" type="SysImportExport">
+        <result column="id" property="id"/>
+        <result column="module_name" property="moduleName"/>
+        <result column="description" property="description"/>
+        <result column="operation_type" property="operationType"/>
+        <result column="status" property="status"/>
+        <result column="batch_no" property="batchNo"/>
+        <result column="start_time" property="startTime"/>
+        <result column="end_time" property="endTime"/>
+        <result column="msg" property="msg"/>
+        <result property="createrId" column="creater_id"/>
+        <result property="createrName" column="creater_name"/>
+        <result property="modifyId" column="modify_id"/>
+    </resultMap>
+    <resultMap id="ListResultMap" extends="BaseResultMap" type="SysImportExportList">
+    </resultMap>
+
+    <select id="listPage" parameterType="SysImportExportSearch" resultMap="ListResultMap">
+        SELECT
+            t1.*,
+            t2.attachment_size AS size,
+            t2.attachment_suffix AS suffix
+        FROM
+        sys_import_export t1,
+        sys_attachment t2
+        WHERE
+        t2.relation_table = 'sys_import_export'
+        AND t2.relation_id = t1.batch_no
+        <if test="batchNo != null and batchNo !=  ''">
+            AND t.batch_no = #{batchNo}
+        </if>
+        <if test="status != null and status !=  ''">
+            AND t1.status = #{status}
+        </if>
+        <if test="moduleName != null and moduleName !=  ''">
+            AND t1.module_name = #{moduleName}
+        </if>
+        <if test="operationType != null and operationType !=  ''">
+            AND t.operation_type = #{operationType}
+        </if>
+        <if test="createrName != null and createrName != ''">
+            AND t1.creater_id = #{createrName}
+        </if>
+        ORDER BY start_time DESC
+    </select>
+
+    <select id="findByCondition" parameterType="SysImportExportSearch" resultMap="ListResultMap">
+        SELECT * FROM sys_import_export t WHERE 1=1
+        <if test="batchNo != null and batchNo !=  ''">
+            AND t.batch_no = #{batchNo}
+        </if>
+        <if test="status != null and status !=  ''">
+            AND t.status = #{status}
+        </if>
+        <if test="moduleName != null and moduleName !=  ''">
+            AND t.module_name = #{moduleName}
+        </if>
+        <if test="operationType != null and operationType !=  ''">
+            AND t.operation_type = #{operationType}
+        </if>
+        <if test="createrName != null and createrName != ''">
+            AND t.creater_id = #{createrName}
+        </if>
+    </select>
+
+    <insert id="insert" parameterType="SysImportExport">
+        INSERT INTO sys_import_export (
+            id,
+            module_name,
+            description,
+            operation_type,
+            status,
+            batch_no,
+            start_time,
+            creater_id,
+            creater_name
+
+        )
+        VALUES (
+            UUID(),
+            #{moduleName},
+            #{description},
+            #{operationType},
+            #{status},
+            #{batchNo},
+            sysdate(),
+            #{createrId},
+            #{createrName}
+        )
+    </insert>
+
+    <update id="update" parameterType="SysImportExport">
+        UPDATE sys_import_export
+        <set>
+            status= #{status},
+            msg = #{msg},
+            end_time= sysdate()
+        </set>
+        WHERE batch_no = #{batchNo}
+    </update>
+
+    <select id="findBySql" parameterType="java.util.Map" resultType="java.util.Map">
+        ${sql}
+    </select>
+</mapper>

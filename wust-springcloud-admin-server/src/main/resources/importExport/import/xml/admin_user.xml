@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<excel id="admin_user">
+    <sheet index="0">
+        <list startRow="1" class="com.wust.springcloud.common.entity.sys.user.SysUserImport">
+            <field index="0" property="loginName" required="true"></field>
+            <field index="1" property="realName" required="true"></field>
+            <field index="2" property="email"></field>
+            <field index="3" property="sex" type="LookupItem" rootCode="1003"></field>
+            <field index="4" property="mobile"></field>
+            <field index="5" property="type" type="LookupItem" rootCode="1004"></field>
+        </list>
+    </sheet>
+</excel>

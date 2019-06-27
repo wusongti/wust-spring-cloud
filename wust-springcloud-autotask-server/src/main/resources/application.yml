@@ -1,0 +1,10 @@
+spring:
+  profiles:
+    active: dev
+
+mybatis:
+  config-locations: classpath:mybatis/mybatis-config.xml
+  mapper-locations: classpath:mybatis/mapper/**/*Mapper.xml
+  type-aliases-package: com.wust.springcloud.common.entity.**
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

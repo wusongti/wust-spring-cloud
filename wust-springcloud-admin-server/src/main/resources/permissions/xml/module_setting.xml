@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- modulegroup节点从main.xml里面复制过来的，id属性值要和main里面的一样，name和desc属性必须保留，但值可以空 -->
+<modulegroup id="1a6debab-f513-4b3f-9d21-2b5249c3ec11">
+	<module id="94fcc15c-85a4-11e9-a68d-0050568e63cd" name="Company Management" desc="公司管理" order="3000101" page="CompanyList" url="./CompanyList">
+		<operation id="ffec31aa-87fb-11e9-a68d-0050568e63cd" name="Search" desc="查询" url=""/>
+		<operation id="05f29473-87fc-11e9-a68d-0050568e63cd" name="Export" desc="导出" url=""/>
+		<operation id="0afe16b5-87fc-11e9-a68d-0050568e63cd" name="Create" desc="新建" url=""/>
+		<operation id="102c04b8-87fc-11e9-a68d-0050568e63cd" name="Update" desc="修改" url=""/>
+		<operation id="14e266b6-87fc-11e9-a68d-0050568e63cd" name="Delete" desc="删除" url=""/>
+	</module>
+
+	<module id="9b472b74-85a4-11e9-a68d-0050568e63cd" name="Department Management" desc="部门管理" order="3000105" page="DepartmentList" url="./DepartmentList">
+		<operation id="1ba1d62f-87fc-11e9-a68d-0050568e63cd" name="Search" desc="查询" url=""/>
+		<operation id="20a16a14-87fc-11e9-a68d-0050568e63cd" name="Export" desc="导出" url=""/>
+		<operation id="2545f350-87fc-11e9-a68d-0050568e63cd" name="Create" desc="新建" url=""/>
+		<operation id="2b5dff8d-87fc-11e9-a68d-0050568e63cd" name="Update" desc="修改" url=""/>
+		<operation id="2f9573ad-87fc-11e9-a68d-0050568e63cd" name="Delete" desc="删除" url=""/>
+	</module>
+
+	<module id="b485b58c-716f-11e9-a68d-0050568e63cd" name="Role Management" desc="角色管理" order="3000108" page="RoleList" url="./RoleList">
+		<operation id="5c7fd964-87fc-11e9-a68d-0050568e63cd" name="Search" desc="查询" url=""/>
+		<operation id="62628da1-87fc-11e9-a68d-0050568e63cd" name="Export" desc="导出" url=""/>
+		<operation id="67a72433-87fc-11e9-a68d-0050568e63cd" name="Import" desc="导入" url=""/>
+		<operation id="6ca3c101-87fc-11e9-a68d-0050568e63cd" name="Create" desc="新建" url=""/>
+		<operation id="720b2a9a-87fc-11e9-a68d-0050568e63cd" name="Update" desc="修改" url=""/>
+		<operation id="764500da-87fc-11e9-a68d-0050568e63cd" name="Delete" desc="删除" url=""/>
+	</module>
+
+	<module id="6c73459c-fcd6-4fc8-b606-9dedc5d87c23" name="User Management" desc="用户管理" order="3000111" page="UserList" url="./UserList">
+		<operation id="7c4bec3d-87fc-11e9-a68d-0050568e63cd" name="Search" desc="查询" url=""/>
+		<operation id="8199c503-87fc-11e9-a68d-0050568e63cd" name="Export" desc="导出" url=""/>
+		<operation id="863fc793-87fc-11e9-a68d-0050568e63cd" name="Import" desc="导入" url=""/>
+		<operation id="8b67ce73-87fc-11e9-a68d-0050568e63cd" name="Create" desc="新建" url=""/>
+		<operation id="90436815-87fc-11e9-a68d-0050568e63cd" name="Update" desc="修改" url=""/>
+		<operation id="95a383df-87fc-11e9-a68d-0050568e63cd" name="Delete" desc="删除" url=""/>
+	</module>
+
+	<module id="c8c0d04e-85a7-11e9-a68d-0050568e63cd" name="Organization" desc="组织架构" order="3000115" page="OrganizationList" url="./OrganizationList">
+		<operation id="9ac2c28e-87fc-11e9-a68d-0050568e63cd" name="AddCompany" desc="添加公司" url=""/>
+		<operation id="9f2ce4d5-87fc-11e9-a68d-0050568e63cd" name="AddDepartment" desc="添加部门" url=""/>
+		<operation id="a3b5d3d6-87fc-11e9-a68d-0050568e63cd" name="AddRole" desc="添加角色" url=""/>
+		<operation id="a8aa5a7e-87fc-11e9-a68d-0050568e63cd" name="AddUser" desc="添加用户" url=""/>
+		<operation id="ad2fdb46-87fc-11e9-a68d-0050568e63cd" name="Export" desc="导出" url=""/>
+		<operation id="b18e6ece-87fc-11e9-a68d-0050568e63cd" name="Delete" desc="移除" url=""/>
+	</module>
+
+	<module id="ba01ce93-716f-11e9-a68d-0050568e63cd" name="Data Permission" desc="数据权限" order="3000119" page="DataPrivilegeRulesList" url="./DataPrivilegeRulesList">
+		<operation id="ee4fe2fa-87fc-11e9-a68d-0050568e63cd" name="Search" desc="查询" url=""/>
+		<operation id="f7166026-87fc-11e9-a68d-0050568e63cd" name="Update" desc="修改" url=""/>
+	</module>
+
+	<module id="bfa76d77-716f-11e9-a68d-0050568e63cd" name="Lookup" desc="数据字典" order="3000123" page="LookupList" url="./LookupList">
+		<operation id="b8cb00c4-87fc-11e9-a68d-0050568e63cd" name="Search" desc="查询" url=""/>
+		<operation id="bd14e7dd-87fc-11e9-a68d-0050568e63cd" name="Update" desc="修改" url=""/>
+	</module>
+
+	<module id="cc6d9577-8cc1-11e9-a68d-0050568e63cd" name="Data Source" desc="数据源管理" order="3000124" page="DataSourceList" url="./DataSourceList">
+		<operation id="d5d2bb17-9887-11e9-a68d-0050568e63cd" name="Search" desc="查询" url=""/>
+		<operation id="db53017f-9887-11e9-a68d-0050568e63cd" name="Create" desc="初始化" url=""/>
+	</module>
+
+	<module id="d376619f-8732-11e9-a68d-0050568e63cd" name="App Token" desc="外部应用访问管理" order="3000126" page="AppTokenList" url="./AppTokenList">
+		<operation id="c1d74556-87fc-11e9-a68d-0050568e63cd" name="Search" desc="查询" url=""/>
+		<operation id="c65a0685-87fc-11e9-a68d-0050568e63cd" name="Export" desc="导出" url=""/>
+		<operation id="ca87fdb1-87fc-11e9-a68d-0050568e63cd" name="Create" desc="新建" url=""/>
+		<operation id="cf8bdeeb-87fc-11e9-a68d-0050568e63cd" name="Update" desc="修改" url=""/>
+		<operation id="d43b85e4-87fc-11e9-a68d-0050568e63cd" name="Delete" desc="删除" url=""/>
+	</module>
+</modulegroup>

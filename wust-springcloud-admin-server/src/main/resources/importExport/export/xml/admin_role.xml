@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<excel id="admin_role">
+    <sheet label="角色列表">
+        <list>
+            <sql id="d01a40b5-8043-11e9-a68d-0050568e63cd">
+                <![CDATA[
+                   SELECT
+                       t.name,
+                       t.status,
+                       t.description
+                    FROM
+                        sys_role t
+                    WHERE 1=1
+                    <#if name??>
+                        AND t.name = '${name}'
+                    </#if>
+                     <#if status??>
+                        AND t.status = '${status}'
+                    </#if>
+                ORDER BY t.code,t.status
+                ]]>
+            </sql>
+            <field column="name" label="角色名"></field>
+            <field column="status" label="状态"></field>
+            <field column="description" label="描述"></field>
+        </list>
+    </sheet>
+</excel>

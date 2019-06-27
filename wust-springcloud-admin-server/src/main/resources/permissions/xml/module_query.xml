@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- modulegroup节点从main.xml里面复制过来的，id属性值要和main里面的一样，name和desc属性必须保留，但值可以空 -->
+<modulegroup id="8972b850-804e-11e9-a68d-0050568e63cd">
+	<module id="ab849b58-2113-46bc-b805-6287715cca88" name="My Import and Export" desc="我的导入导出" order="2000101" page="MyImportExportList" url="./MyImportExportList">
+		<operation id="25350db7-87fd-11e9-a68d-0050568e63cd" name="Search" desc="查询" url=""/>
+		<operation id="29a60157-87fd-11e9-a68d-0050568e63cd" name="Download" desc="下载" url=""/>
+	</module>
+
+	<module id="1a133ce5-8977-4c82-9973-d134a002ecd2" name="Operation Log" desc="操作日志" order="2000102" page="OperationLogList" url="./OperationLogList">
+		<operation id="2dda74e9-87fd-11e9-a68d-0050568e63cd" name="Search" desc="查询" url=""/>
+	</module>
+
+	<module id="1e9a509f-8d9f-11e9-a68d-0050568e63cd" name="Job" desc="作业管理" order="2000105" page="JobList" url="./JobList">
+		<operation id="2446df53-8d9f-11e9-a68d-0050568e63cd" name="Search" desc="查询" url=""/>
+		<operation id="fabc4560-8da3-11e9-a68d-0050568e63cd" name="Create" desc="新建" url=""/>
+		<operation id="299dceb8-8d9f-11e9-a68d-0050568e63cd" name="Update" desc="修改" url=""/>
+		<operation id="0faac691-8da1-11e9-a68d-0050568e63cd" name="Delete" desc="删除" url=""/>
+	</module>
+</modulegroup>

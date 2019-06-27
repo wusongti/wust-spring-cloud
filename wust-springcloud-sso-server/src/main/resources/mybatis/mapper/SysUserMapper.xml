@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wust.springcloud.sso.server.dao.SysUserMapper">
+    <resultMap id="BaseResultMap" type="SysUser">
+        <result column="id" property="id"/>
+        <result column="login_name" property="loginName"/>
+        <result column="password" property="password"/>
+        <result column="real_name" property="realName"/>
+        <result column="sex" property="sex"/>
+        <result column="email" property="email"/>
+        <result column="mobile" property="mobile"/>
+        <result column="status" property="status"/>
+        <result column="type" property="type"/>
+        <result column="company_id" property="companyId"/>
+        <result property="createrId" column="creater_id"/>
+        <result property="createrName" column="creater_name"/>
+        <result property="modifyId" column="modify_id"/>
+        <result property="modifyName" column="modify_name"/>
+        <result property="createTime" column="create_time"/>
+        <result property="modifyTime" column="modify_time"/>
+    </resultMap>
+    <resultMap id="ListResultMap" extends="BaseResultMap" type="SysUserList">
+    </resultMap>
+
+    <select id="findByCondition" parameterType="SysUserSearch" resultMap="ListResultMap">
+        SELECT * FROM sys_user t WHERE 1=1
+        <if test="id != null and id !=  ''">
+            AND t.id = #{id}
+        </if>
+        <if test="loginName != null and loginName !=  ''">
+            AND t.login_name = #{loginName}
+        </if>
+        <if test="password != null and password != ''">
+            AND t.password = #{password}
+        </if>
+    </select>
+</mapper>
