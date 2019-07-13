@@ -1,14 +1,12 @@
-package com.wust.springcloud.autotask.server.dao;
+package com.wust.springcloud.autotask.server.core.service;
 
 import com.wust.springcloud.common.entity.qrtz.jobandtrigger.QrtzJobAndTriggerList;
 import com.wust.springcloud.common.entity.qrtz.jobandtrigger.QrtzJobAndTriggerSearch;
-import org.springframework.dao.DataAccessException;
-
 import java.util.List;
 
 /**
  * Created by WST on 2019/6/13.
  */
-public interface JobMapper {
-    List<QrtzJobAndTriggerList> listPage(QrtzJobAndTriggerSearch search) throws DataAccessException;
+public interface JobService {
+    List<QrtzJobAndTriggerList> listPage(QrtzJobAndTriggerSearch search);
 }

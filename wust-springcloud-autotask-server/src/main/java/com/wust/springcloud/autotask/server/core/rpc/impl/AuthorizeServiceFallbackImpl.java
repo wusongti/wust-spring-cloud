@@ -1,6 +1,6 @@
-package com.wust.springcloud.autotask.server.rpc.impl;
+package com.wust.springcloud.autotask.server.core.rpc.impl;
 
-import com.wust.springcloud.autotask.server.rpc.AuthorizeService;
+import com.wust.springcloud.autotask.server.core.rpc.AuthorizeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;

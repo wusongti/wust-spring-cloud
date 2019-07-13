@@ -1,4 +1,4 @@
-package com.wust.springcloud.autotask.server.job;
+package com.wust.springcloud.autotask.server.core.job;
 
 import com.wust.springcloud.common.annotations.JobAnnotation;
 import org.quartz.JobExecutionContext;

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >  
-<mapper namespace="com.wust.springcloud.autotask.server.dao.JobMapper">
+<mapper namespace="com.wust.springcloud.autotask.server.core.dao.JobMapper">
 	<resultMap id="BaseResultMap" type="QrtzJobAndTrigger" >
 		<association property="qrtzJobDetails" javaType="QrtzJobDetails">
 			<result column="job_name" property="jobName"/>

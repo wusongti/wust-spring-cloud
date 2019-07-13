@@ -1,4 +1,4 @@
-package com.wust.springcloud.autotask.server.entity;
+package com.wust.springcloud.autotask.server.core.entity;
 
 
 

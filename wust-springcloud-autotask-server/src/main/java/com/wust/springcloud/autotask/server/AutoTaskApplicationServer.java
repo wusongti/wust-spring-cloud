@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableFeignClients
 @EnableEurekaClient
 @EnableTransactionManagement
-@MapperScan("com.wust.springcloud.autotask.server.dao")
+@MapperScan("com.wust.springcloud.autotask.server.core.dao")
 @SpringBootApplication(scanBasePackages = {"com.wust.springcloud.autotask.server", "com.wust.springcloud.common"})
 public class AutoTaskApplicationServer {
 

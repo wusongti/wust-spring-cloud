@@ -1,4 +1,4 @@
-package com.wust.springcloud.autotask.server.rpc;
+package com.wust.springcloud.autotask.server.core.rpc;
 
 
 import org.springframework.cloud.openfeign.FeignClient;

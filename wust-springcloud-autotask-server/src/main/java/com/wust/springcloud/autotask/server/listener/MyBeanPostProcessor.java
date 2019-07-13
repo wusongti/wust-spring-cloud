@@ -1,7 +1,7 @@
 package com.wust.springcloud.autotask.server.listener;
 
 
-import com.wust.springcloud.autotask.server.job.BaseJob;
+import com.wust.springcloud.autotask.server.core.job.BaseJob;
 import com.wust.springcloud.common.annotations.JobAnnotation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -9,11 +9,8 @@ import org.quartz.*;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanPostProcessor;
-import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.stereotype.Component;
-import org.springframework.util.ReflectionUtils;
-import java.lang.reflect.Method;
 
 /**
  * spring管理的bean初始化完成后执行该类的方法

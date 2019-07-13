@@ -2,7 +2,7 @@ package com.wust.springcloud.autotask.server.interceptors;
 
 
 
-import com.wust.springcloud.autotask.server.rpc.AuthorizeService;
+import com.wust.springcloud.autotask.server.core.rpc.AuthorizeService;
 import com.wust.springcloud.common.interceptors.RealmHandlerAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerInterceptor;
