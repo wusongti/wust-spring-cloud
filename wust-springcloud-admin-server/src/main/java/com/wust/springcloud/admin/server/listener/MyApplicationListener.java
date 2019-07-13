@@ -1,10 +1,10 @@
 package com.wust.springcloud.admin.server.listener;
 
 import com.alibaba.fastjson.JSONObject;
-import com.wust.springcloud.admin.server.service.SysDataPrivilegeService;
-import com.wust.springcloud.admin.server.service.SysDataSourceService;
-import com.wust.springcloud.admin.server.service.SysLookupService;
-import com.wust.springcloud.admin.server.service.SysMenuService;
+import com.wust.springcloud.admin.server.core.service.SysDataPrivilegeService;
+import com.wust.springcloud.admin.server.core.service.SysDataSourceService;
+import com.wust.springcloud.admin.server.core.service.SysLookupService;
+import com.wust.springcloud.admin.server.core.service.SysMenuService;
 import com.wust.springcloud.common.context.DefaultBusinessContext;
 import com.wust.springcloud.common.enums.RedisKeyEnum;
 import com.wust.springcloud.common.util.MyStringUtils;

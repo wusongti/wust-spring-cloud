@@ -1,6 +1,6 @@
 package com.wust.springcloud.admin.server.dsaspect;
 
-import com.wust.springcloud.admin.server.service.SysOperationLogService;
+import com.wust.springcloud.admin.server.core.service.SysOperationLogService;
 import com.wust.springcloud.common.annotations.OperationLogAnnotation;
 import com.wust.springcloud.common.context.DefaultBusinessContext;
 import com.wust.springcloud.common.entity.sys.operationlog.SysOperationLog;
@@ -15,7 +15,6 @@ import org.springframework.stereotype.Component;
 import javax.servlet.ServletRequest;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -29,7 +28,7 @@ public class OperationLogAspect {
     private SysOperationLogService sysOperationLogServiceImpl;
 
     //环绕通知
-    @Around("execution(* com.wust.springcloud.admin.server.controller..*.*(..))")
+    @Around("execution(* com.wust.springcloud.admin.server.core.controller..*.*(..))")
     public Object methodAspect(ProceedingJoinPoint jp) throws Throwable {
         Signature sig = jp.getSignature();
         if (sig instanceof MethodSignature) {

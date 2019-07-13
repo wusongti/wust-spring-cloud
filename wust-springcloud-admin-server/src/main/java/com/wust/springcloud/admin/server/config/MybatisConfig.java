@@ -23,7 +23,7 @@ import javax.sql.DataSource;
  * Created by WST on 2019/6/20.
  */
 @Configuration
-@MapperScan(basePackages = {"com.wust.springcloud.admin.server.dao"})
+@MapperScan(basePackages = {"com.wust.springcloud.admin.server.core.dao"})
 public class MybatisConfig implements EnvironmentAware {
     private static Log logger = LogFactory.getLog(MybatisConfig.class);
     private Environment environment;
