@@ -38,6 +38,7 @@
 			m.description,
 			m.level,
 			m.pid,
+		    m.sort,
 			IF(r.resource_id IS NULL,'false','true') AS checked
 		FROM sys_menu m
 		LEFT JOIN (SELECT srs.resource_id FROM sys_role_resource srs WHERE srs.type='m' AND srs.organization_id = #{0}) r
