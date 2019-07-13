@@ -22,10 +22,10 @@
 
   	<select id="listPage" parameterType="SysDataPrivilegeRulesSearch" resultMap="ListResultMap">
 		SELECT
-			t1.business_name,
-			t.data_privilege_id,
-			t.creater_id,
-			t.create_time,
+			GROUP_CONCAT(t1.business_name) AS business_name,
+			GROUP_CONCAT(t.data_privilege_id) AS data_privilege_id,
+			GROUP_CONCAT(t.creater_id) AS creater_id,
+			GROUP_CONCAT(t.create_time) AS create_time,
 			GROUP_CONCAT(t.type) AS type
 		FROM
 			sys_data_privilege_rules t,sys_data_privilege t1
