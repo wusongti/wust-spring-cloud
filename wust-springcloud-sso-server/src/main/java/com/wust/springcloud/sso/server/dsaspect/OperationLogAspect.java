@@ -3,7 +3,7 @@ package com.wust.springcloud.sso.server.dsaspect;
 import com.wust.springcloud.common.annotations.OperationLogAnnotation;
 import com.wust.springcloud.common.context.DefaultBusinessContext;
 import com.wust.springcloud.common.entity.sys.operationlog.SysOperationLog;
-import com.wust.springcloud.sso.server.service.SysOperationLogService;
+import com.wust.springcloud.sso.server.core.service.SysOperationLogService;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.Around;
@@ -15,7 +15,6 @@ import org.springframework.stereotype.Component;
 import javax.servlet.ServletRequest;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -29,7 +28,7 @@ public class OperationLogAspect {
     private SysOperationLogService sysOperationLogServiceImpl;
 
     //环绕通知
-    @Around("execution(* com.wust.springcloud.sso.server.controller..*.*(..))")
+    @Around("execution(* com.wust.springcloud.sso.server.core.api..*.*(..))")
     public Object methodAspect(ProceedingJoinPoint jp) throws Throwable {
         Signature sig = jp.getSignature();
         if (sig instanceof MethodSignature) {

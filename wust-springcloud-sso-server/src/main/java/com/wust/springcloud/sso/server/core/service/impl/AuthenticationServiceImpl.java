@@ -1,4 +1,4 @@
-package com.wust.springcloud.sso.server.service.impl;
+package com.wust.springcloud.sso.server.core.service.impl;
 
 import com.wust.springcloud.common.entity.sys.apptoken.SysAppToken;
 import com.wust.springcloud.common.entity.sys.apptoken.SysAppTokenList;
@@ -8,15 +8,14 @@ import com.wust.springcloud.common.entity.sys.menu.SysMenuSearch;
 import com.wust.springcloud.common.entity.sys.resource.SysResource;
 import com.wust.springcloud.common.entity.sys.user.SysUserList;
 import com.wust.springcloud.common.entity.sys.user.SysUserSearch;
-import com.wust.springcloud.sso.server.dao.SysAppTokenMapper;
-import com.wust.springcloud.sso.server.dao.SysMenuMapper;
-import com.wust.springcloud.sso.server.dao.SysResourceMapper;
-import com.wust.springcloud.sso.server.dao.SysUserMapper;
-import com.wust.springcloud.sso.server.service.AuthenticationService;
+import com.wust.springcloud.sso.server.core.service.AuthenticationService;
+import com.wust.springcloud.sso.server.core.dao.SysAppTokenMapper;
+import com.wust.springcloud.sso.server.core.dao.SysMenuMapper;
+import com.wust.springcloud.sso.server.core.dao.SysResourceMapper;
+import com.wust.springcloud.sso.server.core.dao.SysUserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by WST on 2019/5/7.

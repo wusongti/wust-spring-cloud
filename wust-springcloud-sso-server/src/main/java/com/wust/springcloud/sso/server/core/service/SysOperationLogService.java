@@ -1,4 +1,4 @@
-package com.wust.springcloud.sso.server.service;
+package com.wust.springcloud.sso.server.core.service;
 
 import com.wust.springcloud.common.entity.sys.operationlog.SysOperationLog;
 import java.util.List;

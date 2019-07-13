@@ -1,8 +1,8 @@
-package com.wust.springcloud.sso.server.service.impl;
+package com.wust.springcloud.sso.server.core.service.impl;
 
 import com.wust.springcloud.common.entity.sys.operationlog.SysOperationLog;
-import com.wust.springcloud.sso.server.dao.SysOperationLogMapper;
-import com.wust.springcloud.sso.server.service.SysOperationLogService;
+import com.wust.springcloud.sso.server.core.service.SysOperationLogService;
+import com.wust.springcloud.sso.server.core.dao.SysOperationLogMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

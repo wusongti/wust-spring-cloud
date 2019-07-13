@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.PathVariable;
  */
 @FeignClient(value = "api-sso-server")
 public interface AuthorizeService {
-    @GetMapping(value = "/AuthenticationController/hasToken/{token}")
+    @GetMapping(value = "/AuthenticationApi/hasToken/{token}")
     boolean hasToken(@PathVariable("token")String token);
 
-    @GetMapping(value = "/AuthenticationController/getUserContextDtoByToken/{token}")
+    @GetMapping(value = "/AuthenticationApi/getUserContextDtoByToken/{token}")
     String getUserContextDtoByToken(@PathVariable("token")String token);
 }

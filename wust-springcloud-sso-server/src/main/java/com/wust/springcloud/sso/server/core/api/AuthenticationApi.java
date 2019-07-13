@@ -1,4 +1,4 @@
-package com.wust.springcloud.sso.server.controller;
+package com.wust.springcloud.sso.server.core.api;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -17,7 +17,7 @@ import com.wust.springcloud.common.enums.ApplicationEnum;
 import com.wust.springcloud.common.enums.OperationLogEnum;
 import com.wust.springcloud.common.util.*;
 import com.wust.springcloud.common.util.cache.SpringRedisTools;
-import com.wust.springcloud.sso.server.service.AuthenticationService;
+import com.wust.springcloud.sso.server.core.service.AuthenticationService;
 import io.jsonwebtoken.Claims;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.collections.CollectionUtils;
@@ -36,9 +36,9 @@ import java.util.concurrent.TimeUnit;
  * 认证授权控制器
  * Created by WST on 2019/3/15.
  */
-@RequestMapping("/AuthenticationController")
+@RequestMapping("/AuthenticationApi")
 @RestController
-public class AuthenticationController {
+public class AuthenticationApi {
     @Autowired
     private SpringRedisTools springRedisTools;
 

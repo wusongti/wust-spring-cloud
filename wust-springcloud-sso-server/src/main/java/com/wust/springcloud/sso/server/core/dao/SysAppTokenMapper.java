@@ -1,4 +1,4 @@
-package com.wust.springcloud.sso.server.dao;
+package com.wust.springcloud.sso.server.core.dao;
 
 import com.wust.springcloud.common.entity.sys.apptoken.SysAppToken;
 import com.wust.springcloud.common.entity.sys.apptoken.SysAppTokenList;
