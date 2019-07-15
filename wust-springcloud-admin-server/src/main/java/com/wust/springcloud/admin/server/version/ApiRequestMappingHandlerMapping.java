@@ -9,7 +9,7 @@ import java.lang.reflect.Method;
 /**
  * Created by WST on 2019/2/19.
  */
-public class CustomRequestMappingHandlerMapping extends RequestMappingHandlerMapping {
+public class ApiRequestMappingHandlerMapping extends RequestMappingHandlerMapping {
     @Override
     protected RequestCondition<ApiVersionCondition> getCustomTypeCondition(Class<?> handlerType) {
         ApiVersion apiVersion = AnnotationUtils.findAnnotation(handlerType, ApiVersion.class);

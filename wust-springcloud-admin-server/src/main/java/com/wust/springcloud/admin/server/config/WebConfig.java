@@ -4,7 +4,7 @@ package com.wust.springcloud.admin.server.config;
 
 
 import com.wust.springcloud.admin.server.interceptors.RealmHandlerInterceptor;
-import com.wust.springcloud.admin.server.version.CustomRequestMappingHandlerMapping;
+import com.wust.springcloud.admin.server.version.ApiRequestMappingHandlerMapping;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -32,7 +32,7 @@ public class WebConfig extends WebMvcConfigurationSupport {
     @Override
     @Bean
     public RequestMappingHandlerMapping requestMappingHandlerMapping() {
-        RequestMappingHandlerMapping handlerMapping = new CustomRequestMappingHandlerMapping();
+        RequestMappingHandlerMapping handlerMapping = new ApiRequestMappingHandlerMapping();
         handlerMapping.setOrder(0);
         handlerMapping.setInterceptors(getInterceptors());
         return handlerMapping;
