@@ -5,6 +5,7 @@ import com.wust.springcloud.admin.server.core.service.SysCompanyService;
 import com.wust.springcloud.common.entity.sys.company.SysCompany;
 import com.wust.springcloud.common.entity.sys.company.SysCompanyList;
 import com.wust.springcloud.common.entity.sys.company.SysCompanySearch;
+import com.wust.springcloud.common.exception.BusinessException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;

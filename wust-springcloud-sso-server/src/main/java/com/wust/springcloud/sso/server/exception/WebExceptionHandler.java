@@ -1,4 +1,4 @@
-package com.wust.springcloud.admin.server.exception;
+package com.wust.springcloud.sso.server.exception;
 
 import com.wust.springcloud.common.dto.ResponseDto;
 import com.wust.springcloud.common.exception.BaseWebExceptionHandler;
