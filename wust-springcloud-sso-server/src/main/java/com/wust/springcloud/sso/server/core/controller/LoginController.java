@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.wust.springcloud.common.annotations.OperationLogAnnotation;
 import com.wust.springcloud.common.context.DefaultBusinessContext;
-import com.wust.springcloud.common.dto.MessageMap;
+import com.wust.springcloud.common.dto.ResponseDto;
 import com.wust.springcloud.common.dto.UserContextDto;
 import com.wust.springcloud.common.entity.sys.apptoken.SysAppToken;
 import com.wust.springcloud.common.entity.sys.apptoken.SysAppTokenList;
@@ -49,20 +49,20 @@ public class LoginController {
      */
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_COMMON,businessName="内部登录",operationType= OperationLogEnum.Login)
     @RequestMapping(value = "/login",method = RequestMethod.POST)
-    public MessageMap login(@RequestBody JSONObject jsonObject) {
-        MessageMap messageMap = new MessageMap();
+    public ResponseDto login(@RequestBody JSONObject jsonObject) {
+        ResponseDto messageMap = new ResponseDto();
 
         String loginName = jsonObject.getString("loginName");
         String password = jsonObject.getString("password");
 
         if(MyStringUtils.isBlank(MyStringUtils.null2String(loginName))){
-            messageMap.setFlag(MessageMap.INFOR_WARNING);
+            messageMap.setFlag(ResponseDto.INFOR_WARNING);
             messageMap.setMessage("请输入登录账号");
             return messageMap;
         }
 
         if(MyStringUtils.isBlank(MyStringUtils.null2String(password))){
-            messageMap.setFlag(MessageMap.INFOR_WARNING);
+            messageMap.setFlag(ResponseDto.INFOR_WARNING);
             messageMap.setMessage("请输入登录口令");
             return messageMap;
         }
@@ -78,7 +78,7 @@ public class LoginController {
             subJSONObject.put("loginName",loginName);
             String token = createJWT(subJSONObject.toJSONString());
             if (StringUtils.isEmpty(MyStringUtils.null2String(token))) {
-                messageMap.setFlag(MessageMap.INFOR_WARNING);
+                messageMap.setFlag(ResponseDto.INFOR_WARNING);
                 messageMap.setMessage("登录失败");
             }else{
                 /**
@@ -99,7 +99,7 @@ public class LoginController {
                 messageMap.setObj(responseResource);
             }
         }else{
-            messageMap.setFlag(MessageMap.INFOR_WARNING);
+            messageMap.setFlag(ResponseDto.INFOR_WARNING);
             messageMap.setMessage("账号或密码错误");
             return messageMap;
         }
@@ -116,20 +116,20 @@ public class LoginController {
      */
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_COMMON,businessName="外部登录",operationType= OperationLogEnum.Login)
     @RequestMapping(value = "/login4api",method = RequestMethod.POST)
-    public MessageMap login4api(@RequestBody JSONObject jsonObject) {
-        MessageMap messageMap = new MessageMap();
+    public ResponseDto login4api(@RequestBody JSONObject jsonObject) {
+        ResponseDto messageMap = new ResponseDto();
 
         String loginName = jsonObject.getString("loginName");
         String password = jsonObject.getString("password");
 
         if(MyStringUtils.isBlank(MyStringUtils.null2String(loginName))){
-            messageMap.setFlag(MessageMap.INFOR_WARNING);
+            messageMap.setFlag(ResponseDto.INFOR_WARNING);
             messageMap.setMessage("请输入登录账号");
             return messageMap;
         }
 
         if(MyStringUtils.isBlank(MyStringUtils.null2String(password))){
-            messageMap.setFlag(MessageMap.INFOR_WARNING);
+            messageMap.setFlag(ResponseDto.INFOR_WARNING);
             messageMap.setMessage("请输入登录口令");
             return messageMap;
         }
@@ -144,7 +144,7 @@ public class LoginController {
             subJSONObject.put("loginName",loginName);
             String token = createJWT(subJSONObject.toJSONString());
             if (StringUtils.isEmpty(MyStringUtils.null2String(token))) {
-                messageMap.setFlag(MessageMap.INFOR_WARNING);
+                messageMap.setFlag(ResponseDto.INFOR_WARNING);
                 messageMap.setMessage("登录失败");
             }else{
                 String key = String.format(ApplicationEnum.WEB_LOGIN_KEY.getStringValue(),loginName);
@@ -158,7 +158,7 @@ public class LoginController {
 
             messageMap.setObj(token);
         }else{
-            messageMap.setFlag(MessageMap.INFOR_WARNING);
+            messageMap.setFlag(ResponseDto.INFOR_WARNING);
             messageMap.setMessage("账号或密码错误");
             return messageMap;
         }
@@ -172,8 +172,8 @@ public class LoginController {
      */
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_COMMON,businessName="登出",operationType= OperationLogEnum.Logout)
     @RequestMapping(value = "/logout/{loginName}",method = RequestMethod.POST)
-    public MessageMap logout(@PathVariable String loginName) {
-        MessageMap messageMap = new MessageMap();
+    public ResponseDto logout(@PathVariable String loginName) {
+        ResponseDto messageMap = new ResponseDto();
 
         String key = String.format(ApplicationEnum.WEB_LOGIN_KEY.getStringValue(),loginName);
         if(springRedisTools.hasKey(key)){
@@ -185,8 +185,8 @@ public class LoginController {
 
 
     @RequestMapping(value = "/loadSubMenuById/{loginName}/{menuId}",method = RequestMethod.POST)
-    public MessageMap loadSubMenuById(@PathVariable String loginName,@PathVariable String menuId) {
-        MessageMap messageMap = new MessageMap();
+    public ResponseDto loadSubMenuById(@PathVariable String loginName, @PathVariable String menuId) {
+        ResponseDto messageMap = new ResponseDto();
 
         String key = String.format(ApplicationEnum.WEB_LOGIN_KEY.getStringValue(),loginName);
         Object obj = springRedisTools.getByKey(key);

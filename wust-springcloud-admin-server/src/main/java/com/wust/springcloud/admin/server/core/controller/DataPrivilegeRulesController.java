@@ -3,8 +3,7 @@ package com.wust.springcloud.admin.server.core.controller;
 import com.wust.springcloud.admin.server.core.service.SysDataPrivilegeRulesService;
 import com.wust.springcloud.common.annotations.OperationLogAnnotation;
 import com.wust.springcloud.common.context.DefaultBusinessContext;
-import com.wust.springcloud.common.dto.BaseDto;
-import com.wust.springcloud.common.dto.MessageMap;
+import com.wust.springcloud.common.dto.ResponseDto;
 import com.wust.springcloud.common.entity.sys.dataprivilege.rules.SysDataPrivilegeRulesList;
 import com.wust.springcloud.common.entity.sys.dataprivilege.rules.SysDataPrivilegeRulesSearch;
 import com.wust.springcloud.common.enums.OperationLogEnum;
@@ -28,9 +27,8 @@ public class DataPrivilegeRulesController {
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_DATA_PRIVILEGE,businessName="分页查询",operationType= OperationLogEnum.Search)
     @RequestMapping(value = "/listPage",method = RequestMethod.POST)
     public @ResponseBody
-    BaseDto listPage(@RequestBody SysDataPrivilegeRulesSearch search){
-        BaseDto baseDto = new BaseDto();
-        MessageMap mm = new MessageMap();
+    ResponseDto listPage(@RequestBody SysDataPrivilegeRulesSearch search){
+        ResponseDto baseDto = new ResponseDto();
         DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
 
         List<SysDataPrivilegeRulesList> sysDataPrivilegeRulesLists =  sysDataPrivilegeRulesServiceImpl.listPage(search);
@@ -47,15 +45,14 @@ public class DataPrivilegeRulesController {
         }
         baseDto.setPage(search.getPageDto());
         baseDto.setLstDto(sysDataPrivilegeRulesLists);
-        baseDto.setMessageMap(mm);
         return baseDto;
     }
 
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_DATA_PRIVILEGE,businessName="修改",operationType= OperationLogEnum.Update)
     @RequestMapping(value = "/update/{dataPrivilegeId}/{types}",method = RequestMethod.POST)
     public @ResponseBody
-    MessageMap update(@PathVariable String dataPrivilegeId,@PathVariable String types){
-        MessageMap mm = sysDataPrivilegeRulesServiceImpl.update(dataPrivilegeId,types);
+    ResponseDto update(@PathVariable String dataPrivilegeId,@PathVariable String types){
+        ResponseDto mm = sysDataPrivilegeRulesServiceImpl.update(dataPrivilegeId,types);
         return mm;
     }
 }

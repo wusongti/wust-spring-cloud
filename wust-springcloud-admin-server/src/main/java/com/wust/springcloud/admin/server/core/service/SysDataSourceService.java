@@ -1,6 +1,6 @@
 package com.wust.springcloud.admin.server.core.service;
 
-import com.wust.springcloud.common.dto.MessageMap;
+import com.wust.springcloud.common.dto.ResponseDto;
 import com.wust.springcloud.common.entity.sys.datasource.SysDataSource;
 import com.wust.springcloud.common.entity.sys.datasource.SysDataSourceList;
 import com.wust.springcloud.common.entity.sys.datasource.SysDataSourceSearch;
@@ -14,7 +14,7 @@ public interface SysDataSourceService {
 
     List<SysDataSourceList> findByCondition(SysDataSourceSearch search);
 
-    MessageMap insert(SysDataSource entity);
+    ResponseDto insert(SysDataSource entity);
 
     int update(SysDataSource entity);
 

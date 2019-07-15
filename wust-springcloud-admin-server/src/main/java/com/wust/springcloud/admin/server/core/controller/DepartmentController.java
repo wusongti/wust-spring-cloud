@@ -5,8 +5,7 @@ import com.wust.springcloud.admin.server.core.service.SysDepartmentService;
 import com.wust.springcloud.admin.server.core.service.SysOrganizationService;
 import com.wust.springcloud.common.annotations.OperationLogAnnotation;
 import com.wust.springcloud.common.context.DefaultBusinessContext;
-import com.wust.springcloud.common.dto.BaseDto;
-import com.wust.springcloud.common.dto.MessageMap;
+import com.wust.springcloud.common.dto.ResponseDto;
 import com.wust.springcloud.common.entity.sys.department.*;
 import com.wust.springcloud.common.entity.sys.organization.SysOrganizationList;
 import com.wust.springcloud.common.entity.sys.organization.SysOrganizationSearch;
@@ -34,13 +33,11 @@ public class DepartmentController {
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_DEPARTMENT,businessName="分页查询",operationType= OperationLogEnum.Search)
     @RequestMapping(value = "/listPage",method = RequestMethod.POST)
     public @ResponseBody
-    BaseDto listPage(@RequestBody SysDepartmentSearch search){
-        BaseDto baseDto = new BaseDto();
-        MessageMap mm = new MessageMap();
+    ResponseDto listPage(@RequestBody SysDepartmentSearch search){
+        ResponseDto baseDto = new ResponseDto();
         List<SysDepartmentList> sysDepartmentLists =  sysDepartmentServiceImpl.listPage(search);
         baseDto.setPage(search.getPageDto());
         baseDto.setLstDto(sysDepartmentLists);
-        baseDto.setMessageMap(mm);
         return baseDto;
     }
 
@@ -48,8 +45,8 @@ public class DepartmentController {
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_DEPARTMENT,businessName="新建",operationType= OperationLogEnum.Insert)
     @RequestMapping(value = "/create",method = RequestMethod.POST)
     public @ResponseBody
-    MessageMap create(@RequestBody SysDepartmentCreate entity){
-        MessageMap mm = new MessageMap();
+    ResponseDto create(@RequestBody SysDepartmentCreate entity){
+        ResponseDto mm = new ResponseDto();
         DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
 
 
@@ -57,7 +54,7 @@ public class DepartmentController {
         sysDepartmentSearch.setName(entity.getName());
         List<SysDepartmentList> sysDepartmentLists = sysDepartmentServiceImpl.findByCondition(sysDepartmentSearch);
         if(CollectionUtils.isNotEmpty(sysDepartmentLists)){
-            mm.setFlag(MessageMap.INFOR_WARNING);
+            mm.setFlag(ResponseDto.INFOR_WARNING);
             mm.setMessage("您输入的部门名称已经存在");
             return mm;
         }
@@ -68,7 +65,7 @@ public class DepartmentController {
             sysDepartmentSearch.setName(entity.getPname());
             List<SysDepartmentList> parentLists = sysDepartmentServiceImpl.findByCondition(sysDepartmentSearch);
             if(CollectionUtils.isEmpty(parentLists)){
-                mm.setFlag(MessageMap.INFOR_WARNING);
+                mm.setFlag(ResponseDto.INFOR_WARNING);
                 mm.setMessage("您输入的父级部门不存在");
                 return mm;
             }
@@ -87,8 +84,8 @@ public class DepartmentController {
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_DEPARTMENT,businessName="修改",operationType= OperationLogEnum.Update)
     @RequestMapping(value = "/update",method = RequestMethod.POST)
     public @ResponseBody
-    MessageMap update(@RequestBody SysDepartmentUpdate entity){
-        MessageMap mm = new MessageMap();
+    ResponseDto update(@RequestBody SysDepartmentUpdate entity){
+        ResponseDto mm = new ResponseDto();
         DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
 
         SysDepartmentSearch sysDepartmentSearch = new SysDepartmentSearch();
@@ -96,7 +93,7 @@ public class DepartmentController {
         List<SysDepartmentList> departmentLists = sysDepartmentServiceImpl.findByCondition(sysDepartmentSearch);
         if(CollectionUtils.isNotEmpty(departmentLists)){
             if(!departmentLists.get(0).getCode().equals(entity.getCode())){
-                mm.setFlag(MessageMap.INFOR_WARNING);
+                mm.setFlag(ResponseDto.INFOR_WARNING);
                 mm.setMessage("您输入的部门名称已经存在，不能修改为系统已经存在的部门");
                 return mm;
             }
@@ -107,7 +104,7 @@ public class DepartmentController {
             sysDepartmentSearch.setName(entity.getPname());
             List<SysDepartmentList> parenLists = sysDepartmentServiceImpl.findByCondition(sysDepartmentSearch);
             if(CollectionUtils.isEmpty(parenLists)){
-                mm.setFlag(MessageMap.INFOR_WARNING);
+                mm.setFlag(ResponseDto.INFOR_WARNING);
                 mm.setMessage("您输入的父级部门不存在");
                 return mm;
             }
@@ -124,8 +121,8 @@ public class DepartmentController {
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_DEPARTMENT,businessName="删除",operationType= OperationLogEnum.Delete)
     @RequestMapping(value = "/delete/{id}",method = RequestMethod.DELETE)
     public @ResponseBody
-    MessageMap delete(@PathVariable String id){
-        MessageMap mm = new MessageMap();
+    ResponseDto delete(@PathVariable String id){
+        ResponseDto mm = new ResponseDto();
 
         SysDepartmentSearch sysDepartmentSearch = new SysDepartmentSearch();
         sysDepartmentSearch.setId(id);
@@ -135,7 +132,7 @@ public class DepartmentController {
             sysDepartmentSearch.setPcode( departmentLists.get(0).getCode());
             departmentLists = sysDepartmentServiceImpl.findByCondition(sysDepartmentSearch);
             if(CollectionUtils.isNotEmpty(departmentLists)){
-                mm.setFlag(MessageMap.INFOR_WARNING);
+                mm.setFlag(ResponseDto.INFOR_WARNING);
                 mm.setMessage("您要删除的部门存在子部门，不允许直接删除父级部门不");
                 return mm;
             }
@@ -145,7 +142,7 @@ public class DepartmentController {
         sysOrganizationSearch.setRelationId(id);
         List<SysOrganizationList> sysOrganizationLists = sysOrganizationServiceImpl.findByCondition(sysOrganizationSearch);
         if(CollectionUtils.isNotEmpty(sysOrganizationLists)){
-            mm.setFlag(MessageMap.INFOR_WARNING);
+            mm.setFlag(ResponseDto.INFOR_WARNING);
             mm.setMessage("您要删除的数据存在组织架构关系中，不允许删除");
             return mm;
         }

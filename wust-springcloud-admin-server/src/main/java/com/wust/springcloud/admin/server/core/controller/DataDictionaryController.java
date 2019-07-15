@@ -5,8 +5,7 @@ import com.wust.springcloud.admin.server.core.service.SysLookupPrivateService;
 import com.wust.springcloud.admin.server.core.service.SysLookupService;
 import com.wust.springcloud.common.annotations.OperationLogAnnotation;
 import com.wust.springcloud.common.context.DefaultBusinessContext;
-import com.wust.springcloud.common.dto.BaseDto;
-import com.wust.springcloud.common.dto.MessageMap;
+import com.wust.springcloud.common.dto.ResponseDto;
 import com.wust.springcloud.common.entity.sys.lookup.SysLookup;
 import com.wust.springcloud.common.entity.sys.lookup.SysLookupList;
 import com.wust.springcloud.common.entity.sys.lookup.SysLookupSearch;
@@ -38,9 +37,9 @@ public class DataDictionaryController {
 
     @RequestMapping(value = "/getLookupListByParentCode/{parentCode}/{defaultValue}",method = RequestMethod.POST)
     public @ResponseBody
-    BaseDto getLookupListByParentCode(@PathVariable String parentCode, @PathVariable String defaultValue){
-        BaseDto baseDto = new BaseDto();
-        MessageMap mm = new MessageMap();
+    ResponseDto getLookupListByParentCode(@PathVariable String parentCode, @PathVariable String defaultValue){
+        ResponseDto baseDto = new ResponseDto();
+        ResponseDto mm = new ResponseDto();
         DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
 
         List<SysLookupList> sysLookupLists = DataDictionaryUtil.getLookupListByParentCode(ctx.getCompanyId(),parentCode);
@@ -72,10 +71,9 @@ public class DataDictionaryController {
             }
             baseDto.setT(result);
         }else{
-            mm.setFlag(MessageMap.INFOR_WARNING);
+            mm.setFlag(ResponseDto.INFOR_WARNING);
             mm.setMessage("没有找到数据字典记录");
         }
-        baseDto.setMessageMap(mm);
         return baseDto;
     }
 
@@ -83,9 +81,8 @@ public class DataDictionaryController {
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_LOOKUP,businessName="查询默认数据字典表格树数据",operationType= OperationLogEnum.Search)
     @RequestMapping(value = "/getLookupTableTreeData",method = RequestMethod.POST)
     public @ResponseBody
-    BaseDto getLookupTableTreeData(@RequestBody SysLookupSearch sysLookupSearch){
-        BaseDto baseDto = new BaseDto();
-        MessageMap mm = new MessageMap();
+    ResponseDto getLookupTableTreeData(@RequestBody SysLookupSearch sysLookupSearch){
+        ResponseDto baseDto = new ResponseDto();
         DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
 
         sysLookupSearch.setRootCode("0000");
@@ -101,7 +98,6 @@ public class DataDictionaryController {
             baseDto.setLstDto(resultList);
         }
         baseDto.setPage(sysLookupSearch.getPageDto());
-        baseDto.setMessageMap(mm);
         return baseDto;
     }
 
@@ -109,9 +105,8 @@ public class DataDictionaryController {
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_LOOKUP,businessName="查询个性化数据字典表格树数据",operationType= OperationLogEnum.Search)
     @RequestMapping(value = "/getIndividuationLookupTableTreeData",method = RequestMethod.POST)
     public @ResponseBody
-    BaseDto getIndividuationLookupTableTreeData(@RequestBody SysLookupSearch sysLookupSearch){
-        BaseDto baseDto = new BaseDto();
-        MessageMap mm = new MessageMap();
+    ResponseDto getIndividuationLookupTableTreeData(@RequestBody SysLookupSearch sysLookupSearch){
+        ResponseDto baseDto = new ResponseDto();
         DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
 
         sysLookupSearch.setRootCode("0000");
@@ -127,7 +122,6 @@ public class DataDictionaryController {
             baseDto.setLstDto(resultList);
         }
         baseDto.setPage(sysLookupSearch.getPageDto());
-        baseDto.setMessageMap(mm);
         return baseDto;
     }
 
@@ -149,11 +143,11 @@ public class DataDictionaryController {
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_LOOKUP,businessName="判断个性化数据是否已经存在",operationType= OperationLogEnum.Search)
     @RequestMapping(value = "/exist",method = RequestMethod.POST)
     public @ResponseBody
-    MessageMap exist(@RequestBody SysLookupSearch sysLookupSearch){
-        MessageMap mm = new MessageMap();
+    ResponseDto exist(@RequestBody SysLookupSearch sysLookupSearch){
+        ResponseDto mm = new ResponseDto();
         List<SysLookupList> sysLookupLists =  sysLookupPrivateServiceImpl.findByCondition(sysLookupSearch);
         if(CollectionUtils.isNotEmpty(sysLookupLists)){
-            mm.setFlag(MessageMap.INFOR_WARNING);
+            mm.setFlag(ResponseDto.INFOR_WARNING);
             mm.setMessage("该记录已经存在个性化表");
             return mm;
         }
@@ -164,8 +158,8 @@ public class DataDictionaryController {
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_LOOKUP,businessName="新增个性化数据",operationType= OperationLogEnum.Insert)
     @RequestMapping(value = "/create",method = RequestMethod.POST)
     public @ResponseBody
-    MessageMap create(@RequestBody SysLookup sysLookup){
-        MessageMap mm = new MessageMap();
+    ResponseDto create(@RequestBody SysLookup sysLookup){
+        ResponseDto mm = new ResponseDto();
         DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
         sysLookup.setCreaterId(ctx.getUserId());
         sysLookup.setCreaterName(ctx.getLoginName());
@@ -177,8 +171,8 @@ public class DataDictionaryController {
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_LOOKUP,businessName="修改个性化数据",operationType= OperationLogEnum.Update)
     @RequestMapping(value = "/update",method = RequestMethod.POST)
     public @ResponseBody
-    MessageMap update(@RequestBody SysLookup sysLookup){
-        MessageMap mm = new MessageMap();
+    ResponseDto update(@RequestBody SysLookup sysLookup){
+        ResponseDto mm = new ResponseDto();
         DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
         sysLookup.setCreaterId(ctx.getUserId());
         sysLookup.setCreaterName(ctx.getLoginName());
@@ -190,8 +184,8 @@ public class DataDictionaryController {
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_LOOKUP,businessName="复制个性化数据",operationType= OperationLogEnum.Insert)
     @RequestMapping(value = "/copy",method = RequestMethod.POST)
     public @ResponseBody
-    MessageMap copy(@RequestBody SysLookup sysLookup){
-        MessageMap mm = new MessageMap();
+    ResponseDto copy(@RequestBody SysLookup sysLookup){
+        ResponseDto mm = new ResponseDto();
         DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
 
         SysLookupSearch sysLookupSearch = new SysLookupSearch();
@@ -199,7 +193,7 @@ public class DataDictionaryController {
         sysLookupSearch.setLan(sysLookup.getLan());
         List<SysLookupList> sysLookupLists = sysLookupPrivateServiceImpl.findByCondition(sysLookupSearch);
         if(CollectionUtils.isNotEmpty(sysLookupLists)){
-            mm.setFlag(MessageMap.INFOR_WARNING);
+            mm.setFlag(ResponseDto.INFOR_WARNING);
             mm.setMessage("该语言["+sysLookup.getLan()+"]的记录已经存在，请换一种语言试试");
             return mm;
         }
@@ -213,8 +207,8 @@ public class DataDictionaryController {
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_LOOKUP,businessName="修改显示隐藏属性",operationType= OperationLogEnum.Update)
     @RequestMapping(value = "/updateVisible",method = RequestMethod.POST)
     public @ResponseBody
-    MessageMap updateVisible(@RequestBody SysLookup sysLookup){
-        MessageMap mm = new MessageMap();
+    ResponseDto updateVisible(@RequestBody SysLookup sysLookup){
+        ResponseDto mm = new ResponseDto();
         DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
         sysLookup.setCreaterId(ctx.getUserId());
         sysLookup.setCreaterName(ctx.getLoginName());
@@ -232,8 +226,8 @@ public class DataDictionaryController {
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_LOOKUP,businessName="修改启用禁用属性",operationType= OperationLogEnum.Update)
     @RequestMapping(value = "/updateStatus",method = RequestMethod.POST)
     public @ResponseBody
-    MessageMap updateStatus(@RequestBody SysLookup sysLookup){
-        MessageMap mm = new MessageMap();
+    ResponseDto updateStatus(@RequestBody SysLookup sysLookup){
+        ResponseDto mm = new ResponseDto();
         DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
         sysLookup.setCreaterId(ctx.getUserId());
         sysLookup.setCreaterName(ctx.getLoginName());

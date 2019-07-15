@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.wust.springcloud.admin.server.core.dao.SysDataPrivilegeRulesMapper;
 import com.wust.springcloud.admin.server.core.service.SysDataPrivilegeRulesService;
 import com.wust.springcloud.common.context.DefaultBusinessContext;
-import com.wust.springcloud.common.dto.MessageMap;
+import com.wust.springcloud.common.dto.ResponseDto;
 import com.wust.springcloud.common.entity.sys.dataprivilege.rules.SysDataPrivilegeRules;
 import com.wust.springcloud.common.entity.sys.dataprivilege.rules.SysDataPrivilegeRulesList;
 import com.wust.springcloud.common.entity.sys.dataprivilege.rules.SysDataPrivilegeRulesSearch;
@@ -43,8 +43,8 @@ public class SysDataPrivilegeRulesServiceImpl implements SysDataPrivilegeRulesSe
 
     @Transactional(rollbackFor=Exception.class)
     @Override
-    public MessageMap update(String dataPrivilegeId, String types) {
-        MessageMap mm = new MessageMap();
+    public ResponseDto update(String dataPrivilegeId, String types) {
+        ResponseDto mm = new ResponseDto();
         DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
         SysDataPrivilegeRulesSearch sysDataPrivilegeRulesSearch = new SysDataPrivilegeRulesSearch();
         sysDataPrivilegeRulesSearch.setDataPrivilegeId(dataPrivilegeId);
@@ -95,7 +95,7 @@ public class SysDataPrivilegeRulesServiceImpl implements SysDataPrivilegeRulesSe
                 springRedisTools.addData(key, JSONObject.toJSONString(map));
             }
         }else{
-            mm.setFlag(MessageMap.INFOR_WARNING);
+            mm.setFlag(ResponseDto.INFOR_WARNING);
             mm.setMessage("该记录不存在，可能是刚刚被其他用户删除了");
         }
         return mm;

@@ -6,7 +6,7 @@ import com.wust.springcloud.admin.server.core.service.SysAttachmentService;
 import com.wust.springcloud.admin.server.core.task.ThreadPoolTask;
 import com.wust.springcloud.common.context.DefaultBusinessContext;
 import com.wust.springcloud.common.dto.ExcelDto;
-import com.wust.springcloud.common.dto.MessageMap;
+import com.wust.springcloud.common.dto.ResponseDto;
 import com.wust.springcloud.common.entity.sys.attachment.SysAttachment;
 import com.wust.springcloud.common.entity.sys.importexport.SysImportExport;
 import com.wust.springcloud.common.entity.sys.importexport.SysImportExportList;
@@ -50,8 +50,8 @@ public class ExportExcelServiceImpl extends POIExcelResolver4commonExport implem
     private SysAttachmentService sysAttachmentServiceImpl;
 
     @Override
-    public MessageMap export(ExcelDto excelDto) {
-        MessageMap mm = new MessageMap();
+    public ResponseDto export(ExcelDto excelDto) {
+        ResponseDto mm = new ResponseDto();
 
         /**
          * 耗时多的业务使用异步
@@ -74,8 +74,8 @@ public class ExportExcelServiceImpl extends POIExcelResolver4commonExport implem
 
     @Override
     public void exportCallback(DefaultBusinessContext ctx) {
-        MessageMap mm = new MessageMap();
-        mm.setFlag(MessageMap.INFOR_SUCCESS);
+        ResponseDto mm = new ResponseDto();
+        mm.setFlag(ResponseDto.INFOR_SUCCESS);
 
         SysImportExportSearch sysImportExportSearch = new SysImportExportSearch();
         sysImportExportSearch.setBatchNo(excelParameters.getBatchNo());
@@ -101,7 +101,7 @@ public class ExportExcelServiceImpl extends POIExcelResolver4commonExport implem
                 wb.write(fos);
                 logger.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>写入文件流");
             } catch (Exception e) {
-                mm.setFlag(MessageMap.INFOR_ERROR);
+                mm.setFlag(ResponseDto.INFOR_ERROR);
                 mm.setMessage(e.getMessage());
                 logger.error(e);
             }finally {
@@ -122,8 +122,8 @@ public class ExportExcelServiceImpl extends POIExcelResolver4commonExport implem
                 sysAttachment.setRelationField("excel");
                 sysAttachment.setCreaterId(ctx.getUserId());
                 sysAttachment.setCreaterName(ctx.getLoginName());
-                MessageMap uploadAttachmentMessageMap = sysAttachmentServiceImpl.uploadAttachment(tempFile,sysAttachment);
-                if(MessageMap.INFOR_SUCCESS.equals(uploadAttachmentMessageMap.getFlag())){
+                ResponseDto uploadAttachmentMessageMap = sysAttachmentServiceImpl.uploadAttachment(tempFile,sysAttachment);
+                if(ResponseDto.INFOR_SUCCESS.equals(uploadAttachmentMessageMap.getFlag())){
                     sysImportExport.setStatus("100502");
                 }else{
                     logger.error("上传Excel文件到文件服务器发生错误："+uploadAttachmentMessageMap.getMessage());
@@ -131,8 +131,8 @@ public class ExportExcelServiceImpl extends POIExcelResolver4commonExport implem
 
                     sysAttachment.setRelationField("log");
                     File logFile = FileUtil.createTempLogFile(excelParameters.getBatchNo(),mm.getMessage(),".txt");
-                    MessageMap uploadLogAttachmentMessageMap = sysAttachmentServiceImpl.uploadAttachment(logFile,sysAttachment);
-                    if(!MessageMap.INFOR_SUCCESS.equals(uploadLogAttachmentMessageMap.getFlag())){
+                    ResponseDto uploadLogAttachmentMessageMap = sysAttachmentServiceImpl.uploadAttachment(logFile,sysAttachment);
+                    if(!ResponseDto.INFOR_SUCCESS.equals(uploadLogAttachmentMessageMap.getFlag())){
                         sysImportExportList.setDescription("上传文件到文件服务器失败");
                     }
                 }

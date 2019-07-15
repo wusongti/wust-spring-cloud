@@ -7,7 +7,7 @@ import com.wust.springcloud.admin.server.core.service.SysUserImportService;
 import com.wust.springcloud.admin.server.core.service.SysAttachmentService;
 import com.wust.springcloud.admin.server.core.task.ThreadPoolTask;
 import com.wust.springcloud.common.context.DefaultBusinessContext;
-import com.wust.springcloud.common.dto.MessageMap;
+import com.wust.springcloud.common.dto.ResponseDto;
 import com.wust.springcloud.common.entity.sys.user.SysUser;
 import com.wust.springcloud.common.entity.sys.user.SysUserImport;
 import com.wust.springcloud.common.entity.sys.user.SysUserList;
@@ -60,8 +60,8 @@ public class SysUserImportServiceImpl extends DefaultImportServiceImpl implement
 
     @Transactional(rollbackFor=Exception.class)
     @Override
-    public MessageMap importByExcelCallback(DefaultBusinessContext ctx, String batchNo) {
-        MessageMap mm = new MessageMap();
+    public ResponseDto importByExcelCallback(DefaultBusinessContext ctx, String batchNo) {
+        ResponseDto mm = new ResponseDto();
         ExcelImportResult excelImportResult = null;
         try {
 
@@ -94,11 +94,11 @@ public class SysUserImportServiceImpl extends DefaultImportServiceImpl implement
                 }
                 mm.setMessage(errorMsg);
             }else{
-                mm.setFlag(MessageMap.INFOR_WARNING);
+                mm.setFlag(ResponseDto.INFOR_WARNING);
                 mm.setMessage("这是一个空Excel");
             }
         }catch (Exception e){
-            mm.setFlag(MessageMap.INFOR_ERROR);
+            mm.setFlag(ResponseDto.INFOR_ERROR);
             mm.setMessage(e.getMessage());
         }
         return mm;

@@ -4,8 +4,7 @@ import com.wust.springcloud.admin.server.core.service.SysCompanyService;
 import com.wust.springcloud.admin.server.core.service.SysOrganizationService;
 import com.wust.springcloud.common.annotations.OperationLogAnnotation;
 import com.wust.springcloud.common.context.DefaultBusinessContext;
-import com.wust.springcloud.common.dto.BaseDto;
-import com.wust.springcloud.common.dto.MessageMap;
+import com.wust.springcloud.common.dto.ResponseDto;
 import com.wust.springcloud.common.entity.sys.company.*;
 import com.wust.springcloud.common.entity.sys.organization.SysOrganizationList;
 import com.wust.springcloud.common.entity.sys.organization.SysOrganizationSearch;
@@ -33,13 +32,11 @@ public class CompanyController {
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_COMPANY,businessName="分页查询",operationType= OperationLogEnum.Search)
     @RequestMapping(value = "/listPage",method = RequestMethod.POST)
     public @ResponseBody
-    BaseDto listPage(@RequestBody SysCompanySearch search){
-        BaseDto baseDto = new BaseDto();
-        MessageMap mm = new MessageMap();
+    ResponseDto listPage(@RequestBody SysCompanySearch search){
+        ResponseDto baseDto = new ResponseDto();
         List<SysCompanyList> sysCompanyLists =  sysCompanyServiceImpl.listPage(search);
         baseDto.setPage(search.getPageDto());
         baseDto.setLstDto(sysCompanyLists);
-        baseDto.setMessageMap(mm);
         return baseDto;
     }
 
@@ -47,8 +44,8 @@ public class CompanyController {
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_COMPANY,businessName="新建",operationType= OperationLogEnum.Insert)
     @RequestMapping(value = "/create",method = RequestMethod.POST)
     public @ResponseBody
-    MessageMap create(@RequestBody SysCompanyCreate entity){
-        MessageMap mm = new MessageMap();
+    ResponseDto create(@RequestBody SysCompanyCreate entity){
+        ResponseDto mm = new ResponseDto();
         DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
 
 
@@ -56,7 +53,7 @@ public class CompanyController {
         sysCompanySearch.setName(entity.getName());
         List<SysCompanyList> companyLists = sysCompanyServiceImpl.findByCondition(sysCompanySearch);
         if(CollectionUtils.isNotEmpty(companyLists)){
-            mm.setFlag(MessageMap.INFOR_WARNING);
+            mm.setFlag(ResponseDto.INFOR_WARNING);
             mm.setMessage("您输入的公司名称已经存在");
             return mm;
         }
@@ -67,7 +64,7 @@ public class CompanyController {
             sysCompanySearch.setName(entity.getPname());
             List<SysCompanyList> parentCompanyLists = sysCompanyServiceImpl.findByCondition(sysCompanySearch);
             if(CollectionUtils.isEmpty(parentCompanyLists)){
-                mm.setFlag(MessageMap.INFOR_WARNING);
+                mm.setFlag(ResponseDto.INFOR_WARNING);
                 mm.setMessage("您输入的父级公司不存在");
                 return mm;
             }
@@ -86,8 +83,8 @@ public class CompanyController {
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_COMPANY,businessName="修改",operationType= OperationLogEnum.Update)
     @RequestMapping(value = "/update",method = RequestMethod.POST)
     public @ResponseBody
-    MessageMap update(@RequestBody SysCompanyUpdate entity){
-        MessageMap mm = new MessageMap();
+    ResponseDto update(@RequestBody SysCompanyUpdate entity){
+        ResponseDto mm = new ResponseDto();
         DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
 
         SysCompanySearch sysCompanySearch = new SysCompanySearch();
@@ -95,7 +92,7 @@ public class CompanyController {
         List<SysCompanyList> companyLists = sysCompanyServiceImpl.findByCondition(sysCompanySearch);
         if(CollectionUtils.isNotEmpty(companyLists)){
             if(!companyLists.get(0).getCode().equals(entity.getCode())){
-                mm.setFlag(MessageMap.INFOR_WARNING);
+                mm.setFlag(ResponseDto.INFOR_WARNING);
                 mm.setMessage("您输入的公司名称已经存在，不能修改为系统已经存在的公司");
                 return mm;
             }
@@ -106,7 +103,7 @@ public class CompanyController {
             sysCompanySearch.setName(entity.getPname());
             List<SysCompanyList> parentCompanyLists = sysCompanyServiceImpl.findByCondition(sysCompanySearch);
             if(CollectionUtils.isEmpty(parentCompanyLists)){
-                mm.setFlag(MessageMap.INFOR_WARNING);
+                mm.setFlag(ResponseDto.INFOR_WARNING);
                 mm.setMessage("您输入的父级公司不存在");
                 return mm;
             }
@@ -123,8 +120,8 @@ public class CompanyController {
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_COMPANY,businessName="删除",operationType= OperationLogEnum.Delete)
     @RequestMapping(value = "/delete/{id}",method = RequestMethod.DELETE)
     public @ResponseBody
-    MessageMap delete(@PathVariable String id){
-        MessageMap mm = new MessageMap();
+    ResponseDto delete(@PathVariable String id){
+        ResponseDto mm = new ResponseDto();
 
         SysCompanySearch sysCompanySearch = new SysCompanySearch();
         sysCompanySearch.setId(id);
@@ -134,7 +131,7 @@ public class CompanyController {
             sysCompanySearch.setPcode( companyLists.get(0).getCode());
             companyLists = sysCompanyServiceImpl.findByCondition(sysCompanySearch);
             if(CollectionUtils.isNotEmpty(companyLists)){
-                mm.setFlag(MessageMap.INFOR_WARNING);
+                mm.setFlag(ResponseDto.INFOR_WARNING);
                 mm.setMessage("您要删除的公司存在子公司，不允许直接删除父级公司");
                 return mm;
             }
@@ -144,7 +141,7 @@ public class CompanyController {
         sysOrganizationSearch.setRelationId(id);
         List<SysOrganizationList> sysOrganizationLists = sysOrganizationServiceImpl.findByCondition(sysOrganizationSearch);
         if(CollectionUtils.isNotEmpty(sysOrganizationLists)){
-            mm.setFlag(MessageMap.INFOR_WARNING);
+            mm.setFlag(ResponseDto.INFOR_WARNING);
             mm.setMessage("您要删除的数据存在组织架构关系中，不允许删除");
             return mm;
         }

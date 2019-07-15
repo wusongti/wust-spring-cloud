@@ -6,8 +6,7 @@ import com.wust.springcloud.admin.server.core.service.SysUserImportService;
 import com.wust.springcloud.admin.server.core.service.SysUserService;
 import com.wust.springcloud.common.annotations.OperationLogAnnotation;
 import com.wust.springcloud.common.context.DefaultBusinessContext;
-import com.wust.springcloud.common.dto.BaseDto;
-import com.wust.springcloud.common.dto.MessageMap;
+import com.wust.springcloud.common.dto.ResponseDto;
 import com.wust.springcloud.common.entity.sys.attachment.SysAttachment;
 import com.wust.springcloud.common.entity.sys.importexport.SysImportExport;
 import com.wust.springcloud.common.entity.sys.organization.SysOrganizationList;
@@ -55,9 +54,8 @@ public class UserController {
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_USER,businessName="分页查询",operationType= OperationLogEnum.Search)
     @RequestMapping(value = "/listPage",method = RequestMethod.POST)
     public @ResponseBody
-    BaseDto listPage(@RequestBody SysUserSearch sysUserSearch){
-        BaseDto baseDto = new BaseDto();
-        MessageMap mm = new MessageMap();
+    ResponseDto listPage(@RequestBody SysUserSearch sysUserSearch){
+        ResponseDto baseDto = new ResponseDto();
         DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
         List<SysUserList> sysUserLists =  sysUserServiceImpl.listPage(sysUserSearch);
         if(CollectionUtils.isNotEmpty(sysUserLists)){
@@ -75,15 +73,14 @@ public class UserController {
         }
         baseDto.setPage(sysUserSearch.getPageDto());
         baseDto.setLstDto(sysUserLists);
-        baseDto.setMessageMap(mm);
         return baseDto;
     }
 
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_USER,businessName="新增",operationType= OperationLogEnum.Insert)
     @RequestMapping(value = "/create",method = RequestMethod.POST)
     public @ResponseBody
-    MessageMap create(@RequestBody SysUser sysUser){
-        MessageMap mm = new MessageMap();
+    ResponseDto create(@RequestBody SysUser sysUser){
+        ResponseDto mm = new ResponseDto();
         DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
         sysUser.setCompanyId(ctx.getCompanyId());
         sysUser.setCreaterId(ctx.getUserId());
@@ -96,12 +93,12 @@ public class UserController {
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_USER,businessName="更新",operationType= OperationLogEnum.Update)
     @RequestMapping(value = "/update",method = RequestMethod.POST)
     public @ResponseBody
-    MessageMap update(@RequestBody SysUser sysUser){
-        MessageMap mm = new MessageMap();
+    ResponseDto update(@RequestBody SysUser sysUser){
+        ResponseDto mm = new ResponseDto();
         DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
 
         if("100201".equals(sysUser.getType())){
-            mm.setFlag(MessageMap.INFOR_WARNING);
+            mm.setFlag(ResponseDto.INFOR_WARNING);
             mm.setMessage("不能更新管理员账号");
             return mm;
         }
@@ -115,8 +112,8 @@ public class UserController {
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_USER,businessName="删除",operationType= OperationLogEnum.Delete)
     @RequestMapping(value = "/delete/{id}",method = RequestMethod.DELETE)
     public @ResponseBody
-    MessageMap delete(@PathVariable String id){
-        MessageMap mm = new MessageMap();
+    ResponseDto delete(@PathVariable String id){
+        ResponseDto mm = new ResponseDto();
 
         SysUserSearch sysUserSearch = new SysUserSearch();
         sysUserSearch.setId(id);
@@ -124,7 +121,7 @@ public class UserController {
         if(CollectionUtils.isNotEmpty(sysUserLists)){
             SysUserList sysUserList = sysUserLists.get(0);
             if("100401".equals(sysUserList.getType())){
-                mm.setFlag(MessageMap.INFOR_WARNING);
+                mm.setFlag(ResponseDto.INFOR_WARNING);
                 mm.setMessage("不允许删除管理员账号");
                 return mm;
             }
@@ -133,14 +130,14 @@ public class UserController {
             sysOrganizationSearch.setRelationId(id);
             List<SysOrganizationList> sysOrganizationLists = sysOrganizationServiceImpl.findByCondition(sysOrganizationSearch);
             if(CollectionUtils.isNotEmpty(sysOrganizationLists)){
-                mm.setFlag(MessageMap.INFOR_WARNING);
+                mm.setFlag(ResponseDto.INFOR_WARNING);
                 mm.setMessage("您要删除的数据存在组织架构关系中，不允许删除");
                 return mm;
             }
 
             sysUserServiceImpl.delete(id);
         }else{
-            mm.setFlag(MessageMap.INFOR_WARNING);
+            mm.setFlag(ResponseDto.INFOR_WARNING);
             mm.setMessage("该账号已经被其他用户删除");
             return mm;
         }
@@ -157,17 +154,17 @@ public class UserController {
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_USER,businessName="导入",operationType= OperationLogEnum.Import)
     @RequestMapping(value = "/importByExcel",method= RequestMethod.POST)
     public @ResponseBody
-    MessageMap importByExcel (HttpServletRequest request, @RequestParam(value = "file" , required = true) MultipartFile multipartFile) {
-        MessageMap mm = new MessageMap();
+    ResponseDto importByExcel (HttpServletRequest request, @RequestParam(value = "file" , required = true) MultipartFile multipartFile) {
+        ResponseDto mm = new ResponseDto();
         DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
 
         String moduleName = MyStringUtils.null2String(request.getParameter("moduleName"));
         if(StringUtils.isBlank(moduleName)){
-            mm.setFlag(MessageMap.INFOR_WARNING);
+            mm.setFlag(ResponseDto.INFOR_WARNING);
             mm.setMessage("上传文件失败，模块名必须填。");
             return mm;
         }else if(!moduleName.matches("[A-Za-z0-9_]+")){
-            mm.setFlag(MessageMap.INFOR_WARNING);
+            mm.setFlag(ResponseDto.INFOR_WARNING);
             mm.setMessage("上传文件失败，模块名只能是字母、数字、下划线或三者的组合。");
             return mm;
         }
@@ -197,7 +194,7 @@ public class UserController {
 
             this.sysUserImportServiceImpl.importByExcel("sysUserImportServiceImpl",tSysImportExport,multipartFile.getBytes());
         }catch (IOException e){
-            mm.setFlag(MessageMap.INFOR_ERROR);
+            mm.setFlag(ResponseDto.INFOR_ERROR);
             mm.setMessage("导入失败，转换文件失败。");
             return mm;
         }

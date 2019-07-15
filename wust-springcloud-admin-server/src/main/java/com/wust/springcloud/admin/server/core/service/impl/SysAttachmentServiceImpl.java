@@ -2,7 +2,7 @@ package com.wust.springcloud.admin.server.core.service.impl;
 
 import com.wust.springcloud.admin.server.core.dao.SysAttachmentMapper;
 import com.wust.springcloud.admin.server.core.service.SysAttachmentService;
-import com.wust.springcloud.common.dto.MessageMap;
+import com.wust.springcloud.common.dto.ResponseDto;
 import com.wust.springcloud.common.entity.sys.attachment.SysAttachment;
 import com.wust.springcloud.common.entity.sys.attachment.SysAttachmentList;
 import com.wust.springcloud.common.entity.sys.attachment.SysAttachmentSearch;
@@ -36,8 +36,8 @@ public class SysAttachmentServiceImpl implements SysAttachmentService {
     }
 
     @Override
-    public MessageMap uploadAttachment(File file,SysAttachment sysAttachment) {
-        MessageMap messageMap = new MessageMap();
+    public ResponseDto uploadAttachment(File file, SysAttachment sysAttachment) {
+        ResponseDto messageMap = new ResponseDto();
         String[] uploadResults = null;
         try {
             uploadResults = FastDFSManager.upload(file);
@@ -52,14 +52,14 @@ public class SysAttachmentServiceImpl implements SysAttachmentService {
                 sysAttachments.add(sysAttachment);
                 sysAttachmentMapper.batchInsert(sysAttachments) ;
             }else{
-                messageMap.setFlag(MessageMap.INFOR_WARNING);
+                messageMap.setFlag(ResponseDto.INFOR_WARNING);
                 messageMap.setMessage("上传文件到文件服务器失败");
             }
         } catch (IOException e) {
-            messageMap.setFlag(MessageMap.INFOR_WARNING);
+            messageMap.setFlag(ResponseDto.INFOR_WARNING);
             messageMap.setMessage("上传文件到文件服务器失败");
         } catch (MyException e) {
-            messageMap.setFlag(MessageMap.INFOR_WARNING);
+            messageMap.setFlag(ResponseDto.INFOR_WARNING);
             messageMap.setMessage("上传文件到文件服务器失败");
         }finally {
             FileUtil.deleteOnExit(file);
@@ -68,8 +68,8 @@ public class SysAttachmentServiceImpl implements SysAttachmentService {
     }
 
     @Override
-    public MessageMap uploadAttachment(byte[] file_buff, SysAttachment sysAttachment) {
-        MessageMap messageMap = new MessageMap();
+    public ResponseDto uploadAttachment(byte[] file_buff, SysAttachment sysAttachment) {
+        ResponseDto messageMap = new ResponseDto();
         String[] uploadResults = null;
         try {
             uploadResults = FastDFSManager.upload(file_buff,sysAttachment.getAttachmentName());
@@ -82,27 +82,27 @@ public class SysAttachmentServiceImpl implements SysAttachmentService {
                 sysAttachments.add(sysAttachment);
                 sysAttachmentMapper.batchInsert(sysAttachments) ;
             }else{
-                messageMap.setFlag(MessageMap.INFOR_WARNING);
+                messageMap.setFlag(ResponseDto.INFOR_WARNING);
                 messageMap.setMessage("上传文件到文件服务器失败");
             }
         } catch (IOException e) {
-            messageMap.setFlag(MessageMap.INFOR_WARNING);
+            messageMap.setFlag(ResponseDto.INFOR_WARNING);
             messageMap.setMessage("上传文件到文件服务器失败");
         } catch (MyException e) {
-            messageMap.setFlag(MessageMap.INFOR_WARNING);
+            messageMap.setFlag(ResponseDto.INFOR_WARNING);
             messageMap.setMessage("上传文件到文件服务器失败");
         }
         return messageMap;
     }
 
     @Override
-    public MessageMap batchUploadAttachment(List<File> files,List<SysAttachment> sysAttachments) {
+    public ResponseDto batchUploadAttachment(List<File> files,List<SysAttachment> sysAttachments) {
         return null;
     }
 
     @Override
-    public MessageMap downloadAttachment(SysAttachmentSearch sysAttachmentSearch) {
-        MessageMap messageMap = new MessageMap();
+    public ResponseDto downloadAttachment(SysAttachmentSearch sysAttachmentSearch) {
+        ResponseDto messageMap = new ResponseDto();
         List<SysAttachmentList> sysAttachmentLists = sysAttachmentMapper.findByCondition(sysAttachmentSearch);
         if(CollectionUtils.isNotEmpty(sysAttachmentLists)) {
             SysAttachmentList sysAttachmentList = sysAttachmentLists.get(0);
@@ -114,15 +114,15 @@ public class SysAttachmentServiceImpl implements SysAttachmentService {
             map.put("fileName",sysAttachmentList.getAttachmentName());
             messageMap.setMapMessage(map);
         }else{
-            messageMap.setFlag(MessageMap.INFOR_WARNING);
+            messageMap.setFlag(ResponseDto.INFOR_WARNING);
             messageMap.setMessage("服务器没有该文件上传记录");
         }
       return messageMap;
     }
 
     @Override
-    public MessageMap deleteAttachment(SysAttachmentSearch search) {
-        MessageMap messageMap = new MessageMap();
+    public ResponseDto deleteAttachment(SysAttachmentSearch search) {
+        ResponseDto messageMap = new ResponseDto();
         List<SysAttachmentList> sysAttachmentLists = sysAttachmentMapper.findByCondition(search);
         if(CollectionUtils.isNotEmpty(sysAttachmentLists)) {
             for (SysAttachmentList sysAttachmentList : sysAttachmentLists) {
@@ -138,7 +138,7 @@ public class SysAttachmentServiceImpl implements SysAttachmentService {
                 }
             }
         }else{
-            messageMap.setFlag(MessageMap.INFOR_WARNING);
+            messageMap.setFlag(ResponseDto.INFOR_WARNING);
             messageMap.setMessage("删除文件失败，服务器没有该文件上传记录");
         }
         return messageMap;

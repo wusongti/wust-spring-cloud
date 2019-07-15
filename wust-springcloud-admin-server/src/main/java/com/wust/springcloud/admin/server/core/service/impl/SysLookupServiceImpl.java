@@ -5,7 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.wust.springcloud.admin.server.core.dao.SysLookupMapper;
 import com.wust.springcloud.admin.server.core.service.SysLookupService;
 import com.wust.springcloud.common.context.DefaultBusinessContext;
-import com.wust.springcloud.common.dto.MessageMap;
+import com.wust.springcloud.common.dto.ResponseDto;
 import com.wust.springcloud.common.entity.sys.lookup.SysLookup;
 import com.wust.springcloud.common.entity.sys.lookup.SysLookupList;
 import com.wust.springcloud.common.entity.sys.lookup.SysLookupSearch;
@@ -44,7 +44,7 @@ public class SysLookupServiceImpl implements SysLookupService {
 
     @Transactional(rollbackFor=Exception.class)
     @Override
-    public MessageMap init() {
+    public ResponseDto init() {
         /**
          *  读取XML配置的数据字典
          */

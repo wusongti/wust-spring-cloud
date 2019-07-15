@@ -5,7 +5,7 @@ import com.wust.springcloud.admin.server.core.dao.SysMenuMapper;
 import com.wust.springcloud.admin.server.core.dao.SysResourceMapper;
 import com.wust.springcloud.admin.server.core.dao.SysRoleResourceMapper;
 import com.wust.springcloud.admin.server.core.service.SysMenuService;
-import com.wust.springcloud.common.dto.MessageMap;
+import com.wust.springcloud.common.dto.ResponseDto;
 import com.wust.springcloud.common.entity.sys.menu.SysMenu;
 import com.wust.springcloud.common.entity.sys.resource.SysResource;
 import com.wust.springcloud.common.entity.sys.role.resource.SysRoleResource;
@@ -44,7 +44,7 @@ public class SysMenuServiceImpl implements SysMenuService {
 
     @Transactional(rollbackFor=DataAccessException.class)
     @Override
-    public MessageMap init() {
+    public ResponseDto init() {
         /**
          * 解析xml得到菜单资源配置
          */

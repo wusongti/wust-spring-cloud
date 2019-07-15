@@ -3,7 +3,7 @@ package com.wust.springcloud.admin.server.core.task;
 import com.wust.springcloud.admin.server.core.service.DefaultImportService;
 import com.wust.springcloud.admin.server.core.service.ExportExcelService;
 import com.wust.springcloud.common.context.DefaultBusinessContext;
-import com.wust.springcloud.common.dto.MessageMap;
+import com.wust.springcloud.common.dto.ResponseDto;
 import com.wust.springcloud.common.util.SpringContextHolder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -29,7 +29,7 @@ public class ThreadPoolTask {
     public void importExcelTask(DefaultBusinessContext ctx,String serviceBeanName,String batchNo) {
         logger.info("-----------------开始导入");
         DefaultImportService  defaultImportService = ((DefaultImportService) SpringContextHolder.getBean(serviceBeanName));
-        MessageMap mm = new MessageMap();
+        ResponseDto mm = new ResponseDto();
         try {
             mm = defaultImportService.importByExcelCallback(ctx, batchNo);
         }finally {

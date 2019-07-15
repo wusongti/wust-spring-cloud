@@ -5,8 +5,7 @@ import com.wust.springcloud.admin.server.core.service.SysRoleImportService;
 import com.wust.springcloud.admin.server.core.service.SysRoleService;
 import com.wust.springcloud.common.annotations.OperationLogAnnotation;
 import com.wust.springcloud.common.context.DefaultBusinessContext;
-import com.wust.springcloud.common.dto.BaseDto;
-import com.wust.springcloud.common.dto.MessageMap;
+import com.wust.springcloud.common.dto.ResponseDto;
 import com.wust.springcloud.common.entity.sys.attachment.SysAttachment;
 import com.wust.springcloud.common.entity.sys.importexport.SysImportExport;
 import com.wust.springcloud.common.entity.sys.organization.SysOrganizationList;
@@ -49,9 +48,8 @@ public class RoleController {
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_ROLE,businessName="分页查询",operationType= OperationLogEnum.Search)
     @RequestMapping(value = "/listPage",method = RequestMethod.POST)
     public @ResponseBody
-    BaseDto listPage(@RequestBody SysRoleSearch sysRoleSearch){
-        BaseDto baseDto = new BaseDto();
-        MessageMap mm = new MessageMap();
+    ResponseDto listPage(@RequestBody SysRoleSearch sysRoleSearch){
+        ResponseDto baseDto = new ResponseDto();
         DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
         List<SysRoleList> sysRoleLists =  sysRoleServiceImpl.listPage(sysRoleSearch);
         if(CollectionUtils.isNotEmpty(sysRoleLists)){
@@ -61,7 +59,6 @@ public class RoleController {
         }
         baseDto.setPage(sysRoleSearch.getPageDto());
         baseDto.setLstDto(sysRoleLists);
-        baseDto.setMessageMap(mm);
         return baseDto;
     }
 
@@ -69,8 +66,8 @@ public class RoleController {
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_ROLE,businessName="新建",operationType= OperationLogEnum.Insert)
     @RequestMapping(value = "/create",method = RequestMethod.POST)
     public @ResponseBody
-    MessageMap create(@RequestBody SysRole sysRole){
-        MessageMap mm = new MessageMap();
+    ResponseDto create(@RequestBody SysRole sysRole){
+        ResponseDto mm = new ResponseDto();
         DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
 
         sysRole.setCode(CodeGenerator.genRoleCode());
@@ -78,7 +75,7 @@ public class RoleController {
         sysRole.setCreaterName(ctx.getLoginName());
         int result =  sysRoleServiceImpl.insert(sysRole);
         if(result < 1){
-            mm.setFlag(MessageMap.INFOR_WARNING);
+            mm.setFlag(ResponseDto.INFOR_WARNING);
             mm.setMessage("新增了"+result + "条记录");
         }
         return mm;
@@ -88,12 +85,12 @@ public class RoleController {
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_ROLE,businessName="修改",operationType= OperationLogEnum.Update)
     @RequestMapping(value = "/update",method = RequestMethod.POST)
     public @ResponseBody
-    MessageMap update(@RequestBody SysRole sysRole){
-        MessageMap mm = new MessageMap();
+    ResponseDto update(@RequestBody SysRole sysRole){
+        ResponseDto mm = new ResponseDto();
         DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
 
         if(sysRole.getName().toLowerCase().contains("admin")){
-            mm.setFlag(MessageMap.INFOR_WARNING);
+            mm.setFlag(ResponseDto.INFOR_WARNING);
             mm.setMessage("不能修改管理角色");
             return mm;
         }
@@ -102,7 +99,7 @@ public class RoleController {
         sysRole.setModifyName(ctx.getLoginName());
         int result =  sysRoleServiceImpl.update(sysRole);
         if(result < 1){
-            mm.setFlag(MessageMap.INFOR_WARNING);
+            mm.setFlag(ResponseDto.INFOR_WARNING);
             mm.setMessage("更新了0条记录");
         }
         return mm;
@@ -112,8 +109,8 @@ public class RoleController {
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_ROLE,businessName="删除",operationType= OperationLogEnum.Delete)
     @RequestMapping(value = "/delete/{id}",method = RequestMethod.DELETE)
     public @ResponseBody
-    MessageMap delete(@PathVariable String id){
-        MessageMap mm = new MessageMap();
+    ResponseDto delete(@PathVariable String id){
+        ResponseDto mm = new ResponseDto();
 
         SysRoleSearch sysRoleSearch = new SysRoleSearch();
         sysRoleSearch.setId(id);
@@ -121,7 +118,7 @@ public class RoleController {
         if(CollectionUtils.isNotEmpty(sysRoleLists)){
             SysRoleList sysRoleList = sysRoleLists.get(0);
             if(sysRoleList.getName().toLowerCase().contains("admin")){
-                mm.setFlag(MessageMap.INFOR_WARNING);
+                mm.setFlag(ResponseDto.INFOR_WARNING);
                 mm.setMessage("不能删除管理角色");
                 return mm;
             }
@@ -130,7 +127,7 @@ public class RoleController {
             sysOrganizationSearch.setRelationId(id);
             List<SysOrganizationList> sysOrganizationLists = sysOrganizationServiceImpl.findByCondition(sysOrganizationSearch);
             if(CollectionUtils.isNotEmpty(sysOrganizationLists)){
-                mm.setFlag(MessageMap.INFOR_WARNING);
+                mm.setFlag(ResponseDto.INFOR_WARNING);
                 mm.setMessage("您要删除的数据存在组织架构关系中，不允许删除");
                 return mm;
             }
@@ -140,7 +137,7 @@ public class RoleController {
             ids.add(id);
             sysRoleServiceImpl.batchDelete(ids);
         }else{
-            mm.setFlag(MessageMap.INFOR_WARNING);
+            mm.setFlag(ResponseDto.INFOR_WARNING);
             mm.setMessage("该记录已经被其他用户删除");
         }
         return mm;
@@ -156,17 +153,17 @@ public class RoleController {
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_ROLE,businessName="导入",operationType= OperationLogEnum.Import)
     @RequestMapping(value = "/importByExcel",method= RequestMethod.POST)
     public @ResponseBody
-    MessageMap importByExcel (HttpServletRequest request, @RequestParam(value = "file" , required = true) MultipartFile multipartFile) {
-        MessageMap mm = new MessageMap();
+    ResponseDto importByExcel (HttpServletRequest request, @RequestParam(value = "file" , required = true) MultipartFile multipartFile) {
+        ResponseDto mm = new ResponseDto();
         DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
 
         String moduleName = MyStringUtils.null2String(request.getParameter("moduleName"));
         if(StringUtils.isBlank(moduleName)){
-            mm.setFlag(MessageMap.INFOR_WARNING);
+            mm.setFlag(ResponseDto.INFOR_WARNING);
             mm.setMessage("上传文件失败，模块名必须填。");
             return mm;
         }else if(!moduleName.matches("[A-Za-z0-9_]+")){
-            mm.setFlag(MessageMap.INFOR_WARNING);
+            mm.setFlag(ResponseDto.INFOR_WARNING);
             mm.setMessage("上传文件失败，模块名只能是字母、数字、下划线或三者的组合。");
             return mm;
         }
@@ -196,7 +193,7 @@ public class RoleController {
 
             this.sysRoleImportServiceImpl.importByExcel("sysRoleImportServiceImpl",tSysImportExport,multipartFile.getBytes());
         }catch (IOException e){
-            mm.setFlag(MessageMap.INFOR_ERROR);
+            mm.setFlag(ResponseDto.INFOR_ERROR);
             mm.setMessage("导入失败，转换文件失败。");
             return mm;
         }

@@ -1,6 +1,6 @@
 package com.wust.springcloud.admin.server.core.service;
 
-import com.wust.springcloud.common.dto.MessageMap;
+import com.wust.springcloud.common.dto.ResponseDto;
 import com.wust.springcloud.common.entity.sys.attachment.SysAttachment;
 import com.wust.springcloud.common.entity.sys.attachment.SysAttachmentList;
 import com.wust.springcloud.common.entity.sys.attachment.SysAttachmentSearch;
@@ -16,13 +16,13 @@ public interface SysAttachmentService {
 
     int batchDelete(List<String> keys);
 
-    MessageMap uploadAttachment(File file,SysAttachment sysAttachment);
+    ResponseDto uploadAttachment(File file,SysAttachment sysAttachment);
 
-    MessageMap uploadAttachment(byte[] file_buff,SysAttachment sysAttachment);
+    ResponseDto uploadAttachment(byte[] file_buff,SysAttachment sysAttachment);
 
-    MessageMap batchUploadAttachment(List<File> files,List<SysAttachment> entities);
+    ResponseDto batchUploadAttachment(List<File> files,List<SysAttachment> entities);
 
-    MessageMap downloadAttachment(SysAttachmentSearch search);
+    ResponseDto downloadAttachment(SysAttachmentSearch search);
 
-    MessageMap deleteAttachment(SysAttachmentSearch search);
+    ResponseDto deleteAttachment(SysAttachmentSearch search);
 }

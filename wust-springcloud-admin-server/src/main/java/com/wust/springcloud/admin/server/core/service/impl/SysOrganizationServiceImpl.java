@@ -4,7 +4,7 @@ import com.wust.springcloud.admin.server.core.dao.SysOrganizationMapper;
 import com.wust.springcloud.admin.server.core.dao.SysResourceMapper;
 import com.wust.springcloud.admin.server.core.dao.SysRoleResourceMapper;
 import com.wust.springcloud.admin.server.core.service.SysOrganizationService;
-import com.wust.springcloud.common.dto.MessageMap;
+import com.wust.springcloud.common.dto.ResponseDto;
 import com.wust.springcloud.common.entity.sys.organization.SysOrganization;
 import com.wust.springcloud.common.entity.sys.organization.SysOrganizationList;
 import com.wust.springcloud.common.entity.sys.organization.SysOrganizationSearch;
@@ -56,8 +56,8 @@ public class SysOrganizationServiceImpl implements SysOrganizationService {
 
 
     @Override
-    public MessageMap setFunctionPermissions(SysRoleResourceCreate sysRoleResourceCreate) {
-        MessageMap mm = new MessageMap();
+    public ResponseDto setFunctionPermissions(SysRoleResourceCreate sysRoleResourceCreate) {
+        ResponseDto mm = new ResponseDto();
 
         List<SysRoleResource>  sysRoleResources = sysRoleResourceCreate.getSysRoleResources();
         List<SysRoleResource> list = new ArrayList<>();

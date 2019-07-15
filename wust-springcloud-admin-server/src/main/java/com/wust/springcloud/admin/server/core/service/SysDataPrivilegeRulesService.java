@@ -1,6 +1,6 @@
 package com.wust.springcloud.admin.server.core.service;
 
-import com.wust.springcloud.common.dto.MessageMap;
+import com.wust.springcloud.common.dto.ResponseDto;
 import com.wust.springcloud.common.entity.sys.dataprivilege.rules.SysDataPrivilegeRulesList;
 import com.wust.springcloud.common.entity.sys.dataprivilege.rules.SysDataPrivilegeRulesSearch;
 import java.util.List;
@@ -13,5 +13,5 @@ public interface SysDataPrivilegeRulesService {
 
     List<SysDataPrivilegeRulesList> findByCondition(SysDataPrivilegeRulesSearch search);
 
-    MessageMap update(String dataPrivilegeId, String types);
+    ResponseDto update(String dataPrivilegeId, String types);
 }

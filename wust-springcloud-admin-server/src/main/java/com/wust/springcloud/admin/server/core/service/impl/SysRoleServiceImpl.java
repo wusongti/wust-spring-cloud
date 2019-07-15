@@ -7,8 +7,8 @@ import com.wust.springcloud.admin.server.core.dao.SysResourceMapper;
 import com.wust.springcloud.admin.server.core.dao.SysRoleMapper;
 import com.wust.springcloud.admin.server.core.service.SysRoleService;
 import com.wust.springcloud.common.dto.MenuTreeDto;
-import com.wust.springcloud.common.dto.MessageMap;
 import com.wust.springcloud.common.dto.ResourceTreeDto;
+import com.wust.springcloud.common.dto.ResponseDto;
 import com.wust.springcloud.common.entity.sys.role.SysRole;
 import com.wust.springcloud.common.entity.sys.role.SysRoleList;
 import com.wust.springcloud.common.entity.sys.role.SysRoleSearch;
@@ -45,10 +45,10 @@ public class SysRoleServiceImpl implements SysRoleService {
     }
 
     @Override
-    public MessageMap findFunctionTreeByOrganizationId(String organizationId) {
-        MessageMap messageMap = new MessageMap();
+    public ResponseDto findFunctionTreeByOrganizationId(String organizationId) {
+        ResponseDto messageMap = new ResponseDto();
         if(MyStringUtils.isBlank(MyStringUtils.null2String(organizationId))){
-            messageMap.setFlag(MessageMap.INFOR_WARNING);
+            messageMap.setFlag(ResponseDto.INFOR_WARNING);
             messageMap.setMessage("请选择角色");
             return messageMap;
         }else{

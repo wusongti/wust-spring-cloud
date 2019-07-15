@@ -1,6 +1,6 @@
 package com.wust.springcloud.admin.server.core.service;
 
-import com.wust.springcloud.common.dto.MessageMap;
+import com.wust.springcloud.common.dto.ResponseDto;
 import com.wust.springcloud.common.entity.sys.lookup.SysLookupList;
 import com.wust.springcloud.common.entity.sys.lookup.SysLookupSearch;
 import java.util.List;
@@ -13,5 +13,5 @@ public interface SysLookupService {
 
     List<SysLookupList> findByCondition(SysLookupSearch search);
 
-    MessageMap init();
+    ResponseDto init();
 }

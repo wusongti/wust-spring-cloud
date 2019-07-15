@@ -4,8 +4,7 @@ import com.wust.springcloud.autotask.server.core.entity.JobAdd;
 import com.wust.springcloud.autotask.server.core.entity.JobUpdate;
 import com.wust.springcloud.autotask.server.core.job.BaseJob;
 import com.wust.springcloud.autotask.server.core.service.JobService;
-import com.wust.springcloud.common.dto.BaseDto;
-import com.wust.springcloud.common.dto.MessageMap;
+import com.wust.springcloud.common.dto.ResponseDto;
 import com.wust.springcloud.common.entity.qrtz.jobandtrigger.QrtzJobAndTriggerList;
 import com.wust.springcloud.common.entity.qrtz.jobandtrigger.QrtzJobAndTriggerSearch;
 import org.quartz.*;
@@ -29,21 +28,19 @@ public class JobController {
 
     @RequestMapping(value = "/listPage",method = RequestMethod.POST)
     public @ResponseBody
-    BaseDto listPage(@RequestBody QrtzJobAndTriggerSearch search){
-        BaseDto baseDto = new BaseDto();
-        MessageMap mm = new MessageMap();
+    ResponseDto listPage(@RequestBody QrtzJobAndTriggerSearch search){
+        ResponseDto baseDto = new ResponseDto();
         List<QrtzJobAndTriggerList> qrtzJobAndTriggerLists =  jobServiceImpl.listPage(search);
         baseDto.setPage(search.getPageDto());
         baseDto.setLstDto(qrtzJobAndTriggerLists);
-        baseDto.setMessageMap(mm);
         return baseDto;
     }
 
 
     @RequestMapping(value = "/create",method = RequestMethod.POST)
     public @ResponseBody
-    MessageMap create(@RequestBody JobAdd entity){
-        MessageMap mm = new MessageMap();
+    ResponseDto create(@RequestBody JobAdd entity){
+        ResponseDto mm = new ResponseDto();
 
        Scheduler scheduler = schedulerFactoryBean.getScheduler();
 
@@ -58,7 +55,7 @@ public class JobController {
             boolean isTriggerExists = scheduler.checkExists(triggerKey);
 
             if(isExists && isTriggerExists){
-                mm.setFlag(MessageMap.INFOR_WARNING);
+                mm.setFlag(ResponseDto.INFOR_WARNING);
                 mm.setMessage("您要创建的作业已经存在，作业名称["+entity.getJobName()+"]");
                 return mm;
             }
@@ -78,11 +75,11 @@ public class JobController {
                 scheduler.start();
             }
         } catch (SchedulerException e) {
-           mm.setFlag(MessageMap.INFOR_WARNING);
+           mm.setFlag(ResponseDto.INFOR_WARNING);
            mm.setMessage("创建作业任务失败");
            return mm;
         } catch (Exception e) {
-            mm.setFlag(MessageMap.INFOR_WARNING);
+            mm.setFlag(ResponseDto.INFOR_WARNING);
             mm.setMessage("创建作业任务失败");
             return mm;
         }finally {
@@ -97,8 +94,8 @@ public class JobController {
      */
     @RequestMapping(value = "/pause",method = RequestMethod.POST)
     public @ResponseBody
-    MessageMap pause(@RequestBody JobUpdate entity){
-        MessageMap mm = new MessageMap();
+    ResponseDto pause(@RequestBody JobUpdate entity){
+        ResponseDto mm = new ResponseDto();
         Scheduler scheduler = schedulerFactoryBean.getScheduler();
         try {
             JobKey jobKey = new JobKey(entity.getJobName(), entity.getJobGroupName());
@@ -107,11 +104,11 @@ public class JobController {
                 scheduler.pauseJob(jobKey);
             }
         }catch (SchedulerException e){
-            mm.setFlag(MessageMap.INFOR_WARNING);
+            mm.setFlag(ResponseDto.INFOR_WARNING);
             mm.setMessage("暂停作业失败");
             return mm;
         } catch (Exception e) {
-            mm.setFlag(MessageMap.INFOR_WARNING);
+            mm.setFlag(ResponseDto.INFOR_WARNING);
             mm.setMessage("暂停作业失败");
             return mm;
         }
@@ -125,8 +122,8 @@ public class JobController {
      */
     @RequestMapping(value = "/resume",method = RequestMethod.POST)
     public @ResponseBody
-    MessageMap resume(@RequestBody JobUpdate entity){
-        MessageMap mm = new MessageMap();
+    ResponseDto resume(@RequestBody JobUpdate entity){
+        ResponseDto mm = new ResponseDto();
         Scheduler scheduler = schedulerFactoryBean.getScheduler();
         try {
             JobKey jobKey = new JobKey(entity.getJobName(), entity.getJobGroupName());
@@ -135,11 +132,11 @@ public class JobController {
                 scheduler.resumeJob(jobKey);
             }
         }catch (SchedulerException e){
-            mm.setFlag(MessageMap.INFOR_WARNING);
+            mm.setFlag(ResponseDto.INFOR_WARNING);
             mm.setMessage("恢复作业失败");
             return mm;
         } catch (Exception e) {
-            mm.setFlag(MessageMap.INFOR_WARNING);
+            mm.setFlag(ResponseDto.INFOR_WARNING);
             mm.setMessage("恢复作业失败");
             return mm;
         }
@@ -148,8 +145,8 @@ public class JobController {
 
     @RequestMapping(value = "/update",method = RequestMethod.POST)
     public @ResponseBody
-    MessageMap update(@RequestBody JobUpdate entity){
-        MessageMap mm = new MessageMap();
+    ResponseDto update(@RequestBody JobUpdate entity){
+        ResponseDto mm = new ResponseDto();
         Scheduler scheduler = schedulerFactoryBean.getScheduler();
 
         try {
@@ -174,11 +171,11 @@ public class JobController {
                 scheduler.start();
             }
         }catch (SchedulerException e){
-            mm.setFlag(MessageMap.INFOR_WARNING);
+            mm.setFlag(ResponseDto.INFOR_WARNING);
             mm.setMessage("修改作业失败");
             return mm;
         } catch (Exception e) {
-            mm.setFlag(MessageMap.INFOR_WARNING);
+            mm.setFlag(ResponseDto.INFOR_WARNING);
             mm.setMessage("修改作业失败");
             return mm;
         }
@@ -188,8 +185,8 @@ public class JobController {
 
     @RequestMapping(value = "/delete/{jobName}/{jobGroupName}",method = RequestMethod.DELETE)
     public @ResponseBody
-    MessageMap delete(@PathVariable String jobName,@PathVariable String jobGroupName){
-        MessageMap mm = new MessageMap();
+    ResponseDto delete(@PathVariable String jobName,@PathVariable String jobGroupName){
+        ResponseDto mm = new ResponseDto();
         Scheduler scheduler = schedulerFactoryBean.getScheduler();
 
         try {
@@ -200,7 +197,7 @@ public class JobController {
                 scheduler.deleteJob(jobKey);
             }
         }catch (SchedulerException e){
-            mm.setFlag(MessageMap.INFOR_WARNING);
+            mm.setFlag(ResponseDto.INFOR_WARNING);
             mm.setMessage("删除作业失败");
             return mm;
         }

@@ -1,8 +1,7 @@
 package com.wust.springcloud.admin.server.core.controller;
 
 import com.wust.springcloud.admin.server.core.service.SysOperationLogService;
-import com.wust.springcloud.common.dto.BaseDto;
-import com.wust.springcloud.common.dto.MessageMap;
+import com.wust.springcloud.common.dto.ResponseDto;
 import com.wust.springcloud.common.entity.sys.operationlog.SysOperationLogList;
 import com.wust.springcloud.common.entity.sys.operationlog.SysOperationLogSearch;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,13 +19,11 @@ public class OperationLogController {
 
     @RequestMapping(value = "/listPage",method = RequestMethod.POST)
     public @ResponseBody
-    BaseDto listPage(@RequestBody SysOperationLogSearch sysOperationLogSearch){
-        BaseDto baseDto = new BaseDto();
-        MessageMap mm = new MessageMap();
+    ResponseDto listPage(@RequestBody SysOperationLogSearch sysOperationLogSearch){
+        ResponseDto baseDto = new ResponseDto();
         List<SysOperationLogList> sysOperationLogLists =  sysOperationLogServiceImpl.listPage(sysOperationLogSearch);
         baseDto.setPage(sysOperationLogSearch.getPageDto());
         baseDto.setLstDto(sysOperationLogLists);
-        baseDto.setMessageMap(mm);
         return baseDto;
     }
 }

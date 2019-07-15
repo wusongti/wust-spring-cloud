@@ -4,7 +4,7 @@ import com.wust.springcloud.admin.server.core.dao.SysImportExportMapper;
 import com.wust.springcloud.admin.server.core.service.SysAttachmentService;
 import com.wust.springcloud.admin.server.core.task.ThreadPoolTask;
 import com.wust.springcloud.common.context.DefaultBusinessContext;
-import com.wust.springcloud.common.dto.MessageMap;
+import com.wust.springcloud.common.dto.ResponseDto;
 import com.wust.springcloud.common.entity.sys.attachment.SysAttachment;
 import com.wust.springcloud.common.entity.sys.importexport.SysImportExport;
 import com.wust.springcloud.common.entity.sys.importexport.SysImportExportList;
@@ -55,7 +55,7 @@ public class DefaultImportServiceImpl extends POIExcelResolver4commonImport {
         threadPoolTask.importExcelTask(ctx,serviceBeanName,sysImportExport.getBatchNo());
     }
 
-    public void importByExcelAfter(DefaultBusinessContext ctx, MessageMap messageMap, String batchNo) {
+    public void importByExcelAfter(DefaultBusinessContext ctx, ResponseDto responseDto, String batchNo) {
         SysImportExportSearch condition = new SysImportExportSearch();
         condition.setBatchNo(batchNo);
         List<SysImportExportList> tSysImportExportListList = sysImportExportMapper.findByCondition(condition);
@@ -64,11 +64,11 @@ public class DefaultImportServiceImpl extends POIExcelResolver4commonImport {
         SysImportExport sysImportExport = new SysImportExport();
         BeanUtils.copyProperties(tSysImportExportListExist,sysImportExport);
 
-        if(MyStringUtils.isBlank(MyStringUtils.null2String(messageMap.getObj()))){
+        if(MyStringUtils.isBlank(MyStringUtils.null2String(responseDto.getObj()))){
             sysImportExport.setStatus("100504");
-            sysImportExport.setMsg(messageMap.getMessage());
+            sysImportExport.setMsg(responseDto.getMessage());
         }else{
-            sysImportExport.setStatus(messageMap.getObj()+"");
+            sysImportExport.setStatus(responseDto.getObj()+"");
         }
 
         sysImportExport.setEndTime(new Date());
@@ -81,6 +81,6 @@ public class DefaultImportServiceImpl extends POIExcelResolver4commonImport {
         sysAttachment.setRelationField("log");
         sysAttachment.setAttachmentName(sysImportExport.getBatchNo()+".txt");
 
-        sysAttachmentServiceImpl.uploadAttachment(messageMap.getMessage().getBytes(),sysAttachment);
+        sysAttachmentServiceImpl.uploadAttachment(responseDto.getMessage().getBytes(),sysAttachment);
     }
 }

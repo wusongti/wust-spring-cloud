@@ -1,6 +1,6 @@
 package com.wust.springcloud.admin.server.core.service;
 
-import com.wust.springcloud.common.dto.MessageMap;
+import com.wust.springcloud.common.dto.ResponseDto;
 import com.wust.springcloud.common.entity.sys.organization.SysOrganization;
 import com.wust.springcloud.common.entity.sys.organization.SysOrganizationList;
 import com.wust.springcloud.common.entity.sys.organization.SysOrganizationSearch;
@@ -25,5 +25,5 @@ public interface SysOrganizationService {
      * @param sysRoleResourceCreate
      * @return
      */
-    MessageMap setFunctionPermissions(SysRoleResourceCreate sysRoleResourceCreate);
+    ResponseDto setFunctionPermissions(SysRoleResourceCreate sysRoleResourceCreate);
 }

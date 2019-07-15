@@ -1,6 +1,5 @@
 package com.wust.springcloud.common.entity.sys.importexport;
 
-import com.wust.springcloud.common.dto.BaseDto;
 import com.wust.springcloud.common.entity.BaseEntity;
 
 import java.util.Date;

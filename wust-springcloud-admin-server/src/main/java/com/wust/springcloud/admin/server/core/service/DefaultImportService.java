@@ -1,7 +1,7 @@
 package com.wust.springcloud.admin.server.core.service;
 
 import com.wust.springcloud.common.context.DefaultBusinessContext;
-import com.wust.springcloud.common.dto.MessageMap;
+import com.wust.springcloud.common.dto.ResponseDto;
 import com.wust.springcloud.common.entity.sys.importexport.SysImportExport;
 
 /**
@@ -9,6 +9,6 @@ import com.wust.springcloud.common.entity.sys.importexport.SysImportExport;
  */
 public interface DefaultImportService {
     void importByExcel(String serviceBeanName,SysImportExport sysImportExport, byte[] file_buff);
-    MessageMap importByExcelCallback(DefaultBusinessContext ctx, String batchNo);
-    void importByExcelAfter(DefaultBusinessContext ctx,MessageMap messageMap,String batchNo);
+    ResponseDto importByExcelCallback(DefaultBusinessContext ctx, String batchNo);
+    void importByExcelAfter(DefaultBusinessContext ctx,ResponseDto responseDto,String batchNo);
 }

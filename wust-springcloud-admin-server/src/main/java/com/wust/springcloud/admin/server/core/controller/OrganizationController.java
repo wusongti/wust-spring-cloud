@@ -5,8 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.wust.springcloud.admin.server.core.service.*;
 import com.wust.springcloud.common.annotations.OperationLogAnnotation;
 import com.wust.springcloud.common.context.DefaultBusinessContext;
-import com.wust.springcloud.common.dto.BaseDto;
-import com.wust.springcloud.common.dto.MessageMap;
+import com.wust.springcloud.common.dto.ResponseDto;
 import com.wust.springcloud.common.entity.sys.company.SysCompanyList;
 import com.wust.springcloud.common.entity.sys.company.SysCompanySearch;
 import com.wust.springcloud.common.entity.sys.department.SysDepartmentList;
@@ -53,9 +52,8 @@ public class OrganizationController {
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_ORGANIZATION,businessName="分页查询",operationType= OperationLogEnum.Search)
     @RequestMapping(value = "/listPage",method = RequestMethod.POST)
     public @ResponseBody
-    BaseDto listPage(@RequestBody SysOrganizationSearch search){
-        BaseDto baseDto = new BaseDto();
-        MessageMap mm = new MessageMap();
+    ResponseDto listPage(@RequestBody SysOrganizationSearch search){
+        ResponseDto baseDto = new ResponseDto();
 
         List<SysOrganizationList> sysOrganizationLists =  sysOrganizationServiceImpl.listPage(search);
         if(CollectionUtils.isNotEmpty(sysOrganizationLists)){
@@ -112,7 +110,6 @@ public class OrganizationController {
             baseDto.setObj(map);
         }
         baseDto.setPage(search.getPageDto());
-        baseDto.setMessageMap(mm);
         return baseDto;
     }
 
@@ -120,8 +117,8 @@ public class OrganizationController {
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_ORGANIZATION,businessName="构件组织架构树",operationType= OperationLogEnum.Search)
     @RequestMapping(value = "/buildTree",method = RequestMethod.POST)
     public @ResponseBody
-    MessageMap buildTree(@RequestBody SysOrganizationSearch search){
-        MessageMap mm = new MessageMap();
+    ResponseDto buildTree(@RequestBody SysOrganizationSearch search){
+        ResponseDto mm = new ResponseDto();
 
         JSONArray jsonArray = new JSONArray();
         JSONObject rootJSONObject = new JSONObject();
@@ -192,8 +189,8 @@ public class OrganizationController {
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_ORGANIZATION,businessName="添加组织架构",operationType= OperationLogEnum.Insert)
     @RequestMapping(value = "/create",method = RequestMethod.POST)
     public @ResponseBody
-    MessageMap create(@RequestBody SysOrganization entity){
-        MessageMap mm = new MessageMap();
+    ResponseDto create(@RequestBody SysOrganization entity){
+        ResponseDto mm = new ResponseDto();
         DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
 
         SysOrganizationSearch sysOrganizationSearch = new SysOrganizationSearch();
@@ -207,7 +204,7 @@ public class OrganizationController {
         sysOrganizationSearch.setRelationId(entity.getRelationId());
         List<SysOrganizationList> sysOrganizationLists = sysOrganizationServiceImpl.findByCondition(sysOrganizationSearch);
         if(CollectionUtils.isNotEmpty(sysOrganizationLists)){
-            mm.setFlag(MessageMap.INFOR_WARNING);
+            mm.setFlag(ResponseDto.INFOR_WARNING);
             mm.setMessage("在组织架构中已经存在该条记录，不允许重复添加");
             return mm;
         }
@@ -225,8 +222,8 @@ public class OrganizationController {
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_ORGANIZATION,businessName="删除",operationType= OperationLogEnum.Delete)
     @RequestMapping(value = "/delete/{pid}/{relationId}/{type}",method = RequestMethod.DELETE)
     public @ResponseBody
-    MessageMap delete(@PathVariable String pid,@PathVariable String relationId,@PathVariable String type){
-        MessageMap mm = new MessageMap();
+    ResponseDto delete(@PathVariable String pid,@PathVariable String relationId,@PathVariable String type){
+        ResponseDto mm = new ResponseDto();
 
         SysOrganizationSearch sysOrganizationSearch = new SysOrganizationSearch();
         sysOrganizationSearch.setPid(pid);
@@ -239,7 +236,7 @@ public class OrganizationController {
             sysOrganizationSearch.setPid(id);
             sysOrganizationLists = sysOrganizationServiceImpl.findByCondition(sysOrganizationSearch);
             if(CollectionUtils.isNotEmpty(sysOrganizationLists)){
-                mm.setFlag(MessageMap.INFOR_WARNING);
+                mm.setFlag(ResponseDto.INFOR_WARNING);
                 mm.setMessage("您要删除的记录存在子节点，无法删除带有子节点的数据，请先删除所有子节点");
                 return mm;
             }
@@ -257,8 +254,8 @@ public class OrganizationController {
      * @return
      */
     @RequestMapping(value = "/findFunctionTreeByRoleId/{pId}/{roleId}",method = RequestMethod.POST)
-    public  @ResponseBody  MessageMap findFunctionTreeByRoleId(@PathVariable String pId,@PathVariable String roleId){
-        MessageMap messageMap = new MessageMap();
+    public  @ResponseBody  ResponseDto findFunctionTreeByRoleId(@PathVariable String pId,@PathVariable String roleId){
+        ResponseDto messageMap = new ResponseDto();
         SysOrganizationSearch sysOrganizationSearch = new SysOrganizationSearch();
         sysOrganizationSearch.setPid(pId);
         sysOrganizationSearch.setRelationId(roleId);
@@ -266,7 +263,7 @@ public class OrganizationController {
         if(CollectionUtils.isNotEmpty(sysOrganizationLists)){
             messageMap = sysRoleServiceImpl.findFunctionTreeByOrganizationId(sysOrganizationLists.get(0).getId());
         }else{
-            messageMap.setFlag(MessageMap.INFOR_WARNING);
+            messageMap.setFlag(ResponseDto.INFOR_WARNING);
             messageMap.setMessage("组织架构里面已经没有这个数据，刚刚可能是被其他用户删除了");
         }
         return messageMap;
@@ -280,8 +277,8 @@ public class OrganizationController {
      * @return
      */
     @RequestMapping(value = "/setFunctionPermissions",method = RequestMethod.POST)
-    public  @ResponseBody  MessageMap setFunctionPermissions(@RequestBody SysRoleResourceCreate sysRoleResourceAdd){
-        MessageMap messageMap = new MessageMap();
+    public  @ResponseBody  ResponseDto setFunctionPermissions(@RequestBody SysRoleResourceCreate sysRoleResourceAdd){
+        ResponseDto messageMap = new ResponseDto();
         SysOrganizationSearch sysOrganizationSearch = new SysOrganizationSearch();
         sysOrganizationSearch.setPid(sysRoleResourceAdd.getpId());
         sysOrganizationSearch.setRelationId(sysRoleResourceAdd.getRoleId());
@@ -290,7 +287,7 @@ public class OrganizationController {
             sysRoleResourceAdd.setOrganizationId(sysOrganizationLists.get(0).getId());
             messageMap = sysOrganizationServiceImpl.setFunctionPermissions(sysRoleResourceAdd);
         }else{
-            messageMap.setFlag(MessageMap.INFOR_WARNING);
+            messageMap.setFlag(ResponseDto.INFOR_WARNING);
             messageMap.setMessage("组织架构里面已经没有这个数据，刚刚可能是被其他用户删除了");
         }
         return messageMap;

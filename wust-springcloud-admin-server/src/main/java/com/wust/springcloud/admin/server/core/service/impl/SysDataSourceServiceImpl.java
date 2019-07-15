@@ -10,7 +10,7 @@ import com.wust.springcloud.admin.server.core.service.SysLookupService;
 import com.wust.springcloud.admin.server.core.service.SysMenuService;
 import com.wust.springcloud.admin.server.core.service.SysDataPrivilegeService;
 import com.wust.springcloud.common.context.DefaultBusinessContext;
-import com.wust.springcloud.common.dto.MessageMap;
+import com.wust.springcloud.common.dto.ResponseDto;
 import com.wust.springcloud.common.entity.sys.company.SysCompany;
 import com.wust.springcloud.common.entity.sys.company.SysCompanyList;
 import com.wust.springcloud.common.entity.sys.company.SysCompanySearch;
@@ -83,8 +83,8 @@ public class SysDataSourceServiceImpl implements SysDataSourceService {
     }
 
     @Override
-    public MessageMap insert(SysDataSource entity) {
-        MessageMap messageMap = new MessageMap();
+    public ResponseDto insert(SysDataSource entity) {
+        ResponseDto messageMap = new ResponseDto();
         DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
 
         SysCompanySearch sysCompanySearch = new SysCompanySearch();
@@ -180,7 +180,7 @@ public class SysDataSourceServiceImpl implements SysDataSourceService {
         }catch(Exception e){
             logger.error(e);
             sysDataSourceMapper.rollbackDataBase(parametersDDL);
-            messageMap.setFlag(MessageMap.INFOR_WARNING);
+            messageMap.setFlag(ResponseDto.INFOR_WARNING);
             messageMap.setMessage("初始化数据源失败");
             return messageMap;
         }

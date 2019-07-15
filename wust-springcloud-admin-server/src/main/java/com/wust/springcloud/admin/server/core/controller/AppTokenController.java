@@ -4,8 +4,7 @@ package com.wust.springcloud.admin.server.core.controller;
 import com.wust.springcloud.admin.server.core.service.SysAppTokenService;
 import com.wust.springcloud.common.annotations.OperationLogAnnotation;
 import com.wust.springcloud.common.context.DefaultBusinessContext;
-import com.wust.springcloud.common.dto.BaseDto;
-import com.wust.springcloud.common.dto.MessageMap;
+import com.wust.springcloud.common.dto.ResponseDto;
 import com.wust.springcloud.common.entity.sys.apptoken.SysAppToken;
 import com.wust.springcloud.common.entity.sys.apptoken.SysAppTokenList;
 import com.wust.springcloud.common.entity.sys.apptoken.SysAppTokenSearch;
@@ -30,9 +29,8 @@ public class AppTokenController {
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_APP_TOKEN,businessName="分页查询",operationType= OperationLogEnum.Search)
     @RequestMapping(value = "/listPage",method = RequestMethod.POST)
     public @ResponseBody
-    BaseDto listPage(@RequestBody SysAppTokenSearch search){
-        BaseDto baseDto = new BaseDto();
-        MessageMap mm = new MessageMap();
+    ResponseDto listPage(@RequestBody SysAppTokenSearch search){
+        ResponseDto baseDto = new ResponseDto();
         DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
 
         List<SysAppTokenList> sysAppTokenLists =  sysAppTokenServiceImpl.listPage(search);
@@ -43,7 +41,6 @@ public class AppTokenController {
         }
         baseDto.setPage(search.getPageDto());
         baseDto.setLstDto(sysAppTokenLists);
-        baseDto.setMessageMap(mm);
         return baseDto;
     }
 
@@ -51,15 +48,15 @@ public class AppTokenController {
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_APP_TOKEN,businessName="新建",operationType= OperationLogEnum.Insert)
     @RequestMapping(value = "/create",method = RequestMethod.POST)
     public @ResponseBody
-    MessageMap create(@RequestBody SysAppToken entity){
-        MessageMap mm = new MessageMap();
+    ResponseDto create(@RequestBody SysAppToken entity){
+        ResponseDto mm = new ResponseDto();
         DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
 
         SysAppTokenSearch sysAppTokenSearch = new SysAppTokenSearch();
         sysAppTokenSearch.setLoginName(entity.getLoginName());
         List<SysAppTokenList> sysAppTokenLists = sysAppTokenServiceImpl.findByCondition(sysAppTokenSearch);
         if(CollectionUtils.isNotEmpty(sysAppTokenLists)){
-            mm.setFlag(MessageMap.INFOR_WARNING);
+            mm.setFlag(ResponseDto.INFOR_WARNING);
             mm.setMessage("该账号已经存在");
             return mm;
         }
@@ -77,8 +74,8 @@ public class AppTokenController {
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_APP_TOKEN,businessName="修改密码",operationType= OperationLogEnum.Update)
     @RequestMapping(value = "/updatePassword",method = RequestMethod.POST)
     public @ResponseBody
-    MessageMap updatePassword(@RequestBody SysAppToken entity){
-        MessageMap mm = new MessageMap();
+    ResponseDto updatePassword(@RequestBody SysAppToken entity){
+        ResponseDto mm = new ResponseDto();
         DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
 
         entity.setModifyId(ctx.getUserId());
@@ -92,8 +89,8 @@ public class AppTokenController {
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_APP_TOKEN,businessName="修改状态",operationType= OperationLogEnum.Update)
     @RequestMapping(value = "/updateStatus",method = RequestMethod.POST)
     public @ResponseBody
-    MessageMap updateStatus(@RequestBody SysAppToken entity){
-        MessageMap mm = new MessageMap();
+    ResponseDto updateStatus(@RequestBody SysAppToken entity){
+        ResponseDto mm = new ResponseDto();
         DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
         entity.setCreaterId(ctx.getUserId());
         entity.setCreaterName(ctx.getLoginName());
@@ -112,8 +109,8 @@ public class AppTokenController {
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_APP_TOKEN,businessName="删除",operationType= OperationLogEnum.Delete)
     @RequestMapping(value = "/delete/{id}",method = RequestMethod.DELETE)
     public @ResponseBody
-    MessageMap delete(@PathVariable String id){
-        MessageMap mm = new MessageMap();
+    ResponseDto delete(@PathVariable String id){
+        ResponseDto mm = new ResponseDto();
         sysAppTokenServiceImpl.delete(id);
         return mm;
     }
