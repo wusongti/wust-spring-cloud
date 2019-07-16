@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-@RequestMapping("/{version}/DemoApi")
+@RequestMapping("/DemoApi")
 @RestController
 @ApiVersion(1)
-public class V1DemoApi {
-    @RequestMapping(value = "/test",method = RequestMethod.POST)
+public class DemoApi {
+    @RequestMapping(value = "/test",method = RequestMethod.GET)
     public @ResponseBody
     ResponseDto test() {
         ResponseDto mm = new ResponseDto();

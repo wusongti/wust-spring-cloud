@@ -29,14 +29,14 @@ public class WebConfig extends WebMvcConfigurationSupport {
         registry.addInterceptor(interceptor());
     }
 
-    @Override
+    /*@Override
     @Bean
     public RequestMappingHandlerMapping requestMappingHandlerMapping() {
         RequestMappingHandlerMapping handlerMapping = new ApiRequestMappingHandlerMapping();
         handlerMapping.setOrder(0);
         handlerMapping.setInterceptors(getInterceptors());
         return handlerMapping;
-    }
+    }*/
 
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {

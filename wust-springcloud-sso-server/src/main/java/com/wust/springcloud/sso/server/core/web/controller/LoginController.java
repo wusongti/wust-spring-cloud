@@ -109,61 +109,7 @@ public class LoginController {
 
 
 
-    /**
-     * 外部系统登录获取token
-     * @param jsonObject
-     * @return
-     */
-    @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_COMMON,businessName="外部登录",operationType= OperationLogEnum.Login)
-    @RequestMapping(value = "/login4api",method = RequestMethod.POST)
-    public ResponseDto login4api(@RequestBody JSONObject jsonObject) {
-        ResponseDto messageMap = new ResponseDto();
 
-        String loginName = jsonObject.getString("loginName");
-        String password = jsonObject.getString("password");
-
-        if(MyStringUtils.isBlank(MyStringUtils.null2String(loginName))){
-            messageMap.setFlag(ResponseDto.INFOR_WARNING);
-            messageMap.setMessage("请输入登录账号");
-            return messageMap;
-        }
-
-        if(MyStringUtils.isBlank(MyStringUtils.null2String(password))){
-            messageMap.setFlag(ResponseDto.INFOR_WARNING);
-            messageMap.setMessage("请输入登录口令");
-            return messageMap;
-        }
-
-        String passwordRC4 = Base64.encodeBase64String(RC4.encry_RC4_string(password, ApplicationEnum.RC4_LOGIN_PASSWORD.getStringValue()).getBytes());
-        SysAppTokenSearch sysAppTokenSearch = new SysAppTokenSearch();
-        sysAppTokenSearch.setLoginName(loginName);
-        sysAppTokenSearch.setPassword(passwordRC4);
-        List<SysAppTokenList> sysAppTokenLists =  authenticationServiceImpl.findByCondition(sysAppTokenSearch);
-        if(sysAppTokenLists != null && sysAppTokenLists.size() > 0){
-            JSONObject subJSONObject = new JSONObject();
-            subJSONObject.put("loginName",loginName);
-            String token = createJWT(subJSONObject.toJSONString());
-            if (StringUtils.isEmpty(MyStringUtils.null2String(token))) {
-                messageMap.setFlag(ResponseDto.INFOR_WARNING);
-                messageMap.setMessage("登录失败");
-            }else{
-                String key = String.format(ApplicationEnum.WEB_LOGIN_KEY.getStringValue(),loginName);
-                springRedisTools.addData(key, key,  ApplicationEnum.X_AUTH_TOKEN_EXPIRE_TIME.getIntValue(), TimeUnit.MINUTES);
-
-                SysAppToken sysAppToken = sysAppTokenLists.get(0);
-                sysAppToken.setToken(token);
-                sysAppToken.setExpireTime((new DateTime()).plusMinutes(ApplicationEnum.X_AUTH_TOKEN_EXPIRE_TIME.getIntValue()).toDate());
-                authenticationServiceImpl.update(sysAppToken);
-            }
-
-            messageMap.setObj(token);
-        }else{
-            messageMap.setFlag(ResponseDto.INFOR_WARNING);
-            messageMap.setMessage("账号或密码错误");
-            return messageMap;
-        }
-        return messageMap;
-    }
 
     /**
      * 登出
