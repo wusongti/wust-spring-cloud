@@ -46,7 +46,7 @@ public abstract class RealmHandlerAdapter {
     }
 
     private static void setDefaultBusinessContext(UserContextDto userContextDto,HttpServletRequest httpServletRequest){
-        DefaultBusinessContext.getContext().setLan(httpServletRequest.getLocale().toString());
+        DefaultBusinessContext.getContext().setLocale(httpServletRequest.getLocale());
         DefaultBusinessContext.getContext().setUserId(userContextDto.getUser().getId());
         DefaultBusinessContext.getContext().setLoginName(userContextDto.getUser().getLoginName());
         DefaultBusinessContext.getContext().setUserType(userContextDto.getUser().getType());

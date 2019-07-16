@@ -1,12 +1,14 @@
 package com.wust.springcloud.common.context;
 
+import java.util.Locale;
+
 /**
  * Created by WST on 2019/5/6.
  */
 public class BaseBusinessContext implements java.io.Serializable{
 
     protected String companyId;
-    protected String lan;
+    protected Locale locale;
     protected String dataSourceId;
 
     public String getCompanyId() {
@@ -17,12 +19,13 @@ public class BaseBusinessContext implements java.io.Serializable{
         this.companyId = companyId;
     }
 
-    public String getLan() {
-        return lan;
+    public Locale getLocale() {
+        // TODO 默认获取本地locale
+        return locale;
     }
 
-    public void setLan(String lan) {
-        this.lan = lan;
+    public void setLocale(Locale locale) {
+        this.locale = locale;
     }
 
     public String getDataSourceId() {

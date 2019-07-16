@@ -26,6 +26,7 @@ import org.apache.logging.log4j.Logger;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -49,10 +50,13 @@ public class ExportExcelServiceImpl extends POIExcelResolver4commonExport implem
     @Autowired
     private SysAttachmentService sysAttachmentServiceImpl;
 
+    @Autowired
+    private MessageSource messageSource;
+
     @Override
     public ResponseDto export(ExcelDto excelDto) {
         ResponseDto mm = new ResponseDto();
-
+        DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
         /**
          * 耗时多的业务使用异步
          */
@@ -63,11 +67,12 @@ public class ExportExcelServiceImpl extends POIExcelResolver4commonExport implem
             excelParameters.setXmlName(excelDto.getXmlName());
             excelParameters.setFileType(excelDto.getExcelSuffix());
 
-            DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
+
             threadPoolTask.exportExcelTask(ctx);
         } catch (Exception e) {
             logger.error("导出失败："+e);
-            throw new BusinessException("导出失败："+e.getMessage());
+            ;
+            throw new BusinessException(messageSource.getMessage("admin.server.message2",null,ctx.getLocale()) + "：" +e.getMessage());
         }
         return mm;
     }

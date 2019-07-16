@@ -1,7 +1,8 @@
 spring:
   profiles:
     active: dev
-
+  messages:
+    basename: i18n/message
 mybatis:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
