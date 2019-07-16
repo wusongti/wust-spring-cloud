@@ -1,4 +1,4 @@
-package com.wust.springcloud.sso.server.version;
+package com.wust.springcloud.common.version;
 
 import org.springframework.web.bind.annotation.Mapping;
 

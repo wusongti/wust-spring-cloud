@@ -1,4 +1,4 @@
-package com.wust.springcloud.admin.server.version;
+package com.wust.springcloud.common.version;
 
 import org.springframework.web.servlet.mvc.condition.RequestCondition;
 
