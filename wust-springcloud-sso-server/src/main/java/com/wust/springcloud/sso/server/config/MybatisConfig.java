@@ -2,8 +2,8 @@ package com.wust.springcloud.sso.server.config;
 
 
 
+import com.wust.springcloud.common.DynamicDataSource;
 import com.wust.springcloud.common.enums.ApplicationEnum;
-import com.wust.springcloud.sso.server.datasource.DynamicDataSource;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;

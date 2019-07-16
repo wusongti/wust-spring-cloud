@@ -1,4 +1,4 @@
-package com.wust.springcloud.admin.server.datasource;
+package com.wust.springcloud.common;
 
 
 import com.wust.springcloud.common.context.DefaultBusinessContext;
@@ -11,6 +11,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
+
 import javax.sql.DataSource;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
