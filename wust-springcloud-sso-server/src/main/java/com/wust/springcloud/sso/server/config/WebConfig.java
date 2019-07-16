@@ -1,7 +1,7 @@
 package com.wust.springcloud.sso.server.config;
 
 import com.wust.springcloud.common.version.ApiRequestMappingHandlerMapping;
-import org.springframework.boot.autoconfigure.web.servlet.WebMvcRegistrations;
+import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -10,7 +10,7 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 
 import java.util.List;
 
-@Configuration
+@SpringBootConfiguration
 public class WebConfig extends WebMvcConfigurationSupport {
 
 
@@ -23,7 +23,5 @@ public class WebConfig extends WebMvcConfigurationSupport {
         return handlerMapping;
     }
 
-    @Override
-    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-    }
+
 }

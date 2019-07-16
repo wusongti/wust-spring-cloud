@@ -110,8 +110,8 @@
         <module>wust-springcloud-admin-server</module>
         <module>wust-springcloud-eureka-server</module>
         <module>wust-springcloud-gateway-server</module>
-        <module>wust-springcloud-sso-server</module>
         <module>wust-springcloud-gateway-api-server</module>
+        <module>wust-springcloud-sso-server</module>
         <module>wust-springcloud-modules</module>
         <module>wust-springcloud-easyexcel</module>
         <module>wust-springcloud-autotask-server</module>
