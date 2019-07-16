@@ -5,7 +5,7 @@ package com.wust.springcloud.gateway.server.filter;
 
 import com.wust.springcloud.common.enums.ApplicationEnum;
 import com.wust.springcloud.common.util.MyStringUtils;
-import com.wust.springcloud.gateway.server.rpc.AuthorizeService;
+import com.wust.springcloud.gateway.server.core.service.AuthorizeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
@@ -28,7 +28,6 @@ import reactor.core.publisher.Mono;
 public class AccessFilter implements GlobalFilter {
     @Autowired
     private AuthorizeService authorizeService;
-
 
     @Override
     public Mono<Void> filter(ServerWebExchange serverWebExchange, GatewayFilterChain gatewayFilterChain) {

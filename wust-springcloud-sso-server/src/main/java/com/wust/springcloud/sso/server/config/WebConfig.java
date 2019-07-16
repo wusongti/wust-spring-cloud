@@ -10,7 +10,7 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 
 import java.util.List;
 
-@SpringBootConfiguration
+//@SpringBootConfiguration
 public class WebConfig extends WebMvcConfigurationSupport {
 
 
@@ -23,5 +23,8 @@ public class WebConfig extends WebMvcConfigurationSupport {
         return handlerMapping;
     }
 
+    @Override
+    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+    }
 
 }

@@ -3,7 +3,7 @@ package com.wust.springcloud.gateway.api.server.filter;
 
 import com.wust.springcloud.common.enums.ApplicationEnum;
 import com.wust.springcloud.common.util.MyStringUtils;
-import com.wust.springcloud.gateway.api.server.rpc.AuthorizeService;
+import com.wust.springcloud.gateway.api.server.core.service.AuthorizeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;

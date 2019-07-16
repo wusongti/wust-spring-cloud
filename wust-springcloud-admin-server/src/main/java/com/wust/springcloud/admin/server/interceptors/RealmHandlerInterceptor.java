@@ -1,7 +1,7 @@
 package com.wust.springcloud.admin.server.interceptors;
 
 
-import com.wust.springcloud.admin.server.core.rpc.AuthorizeService;
+import com.wust.springcloud.admin.server.core.service.AuthorizeService;
 import com.wust.springcloud.common.interceptors.RealmHandlerAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerInterceptor;
