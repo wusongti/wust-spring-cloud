@@ -36,29 +36,25 @@ public class AccessFilter implements GlobalFilter {
     public Mono<Void> filter(ServerWebExchange serverWebExchange, GatewayFilterChain gatewayFilterChain) {
         ServerHttpRequest request = serverWebExchange.getRequest();
         ServerHttpResponse response = serverWebExchange.getResponse();
-        if(request.getHeaders().containsKey(ApplicationEnum.API_SIGN)){
-            String jsonStr = MyStringUtils.null2String(request.getHeaders().get(ApplicationEnum.API_SIGN.getStringValue()).get(0));
-            if(MyStringUtils.isNotBlank(jsonStr)){
-                Map map = JSONObject.parseObject(jsonStr, Map.class);
-                if(verifyParameter(map)){
-                    boolean flag = SignUtil.verify(map); // 验证签名是否合法，防止篡改请求参数
-                    if(flag){
-                        if(verifyApiService.hasSign(map.get("sign").toString())){ // 防止重复的请求，如有则拦截掉
-                            response.setStatusCode(HttpStatus.UNAUTHORIZED);
-                            return response.setComplete();
-                        }else{
-                            response.setStatusCode(HttpStatus.OK);
-                            return gatewayFilterChain.filter(serverWebExchange);
-                        }
-                    }else{
+        String jsonStr = MyStringUtils.null2String(request.getHeaders().get(ApplicationEnum.API_SIGN.getStringValue()).get(0));
+        if(MyStringUtils.isNotBlank(jsonStr)){
+            Map map = JSONObject.parseObject(jsonStr, Map.class);
+            if(verifyParameter(map)){
+                boolean flag = SignUtil.verify(map); // 验证签名是否合法，防止篡改请求参数
+                if(flag){
+                    if(verifyApiService.hasSign(map.get("sign").toString())){ // 防止重复的请求，如有则拦截掉
                         response.setStatusCode(HttpStatus.UNAUTHORIZED);
                         return response.setComplete();
+                    }else{
+                        response.setStatusCode(HttpStatus.OK);
+                        return gatewayFilterChain.filter(serverWebExchange);
                     }
                 }else{
+                    logger.error("非法的请求，接口签名校验不通过");
                     response.setStatusCode(HttpStatus.UNAUTHORIZED);
                     return response.setComplete();
                 }
-            }else{ // 没有签名参数，不允许访问api接口
+            }else{
                 response.setStatusCode(HttpStatus.UNAUTHORIZED);
                 return response.setComplete();
             }

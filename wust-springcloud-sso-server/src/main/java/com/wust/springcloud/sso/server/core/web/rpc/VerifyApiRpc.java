@@ -33,7 +33,7 @@ public class VerifyApiRpc {
         if(springRedisTools.hasKey(sign)){
             return true;
         }else {
-            springRedisTools.addData(sign,null,5, TimeUnit.MINUTES);
+            springRedisTools.addData(sign,sign,5, TimeUnit.MINUTES);
             return false;
         }
     }

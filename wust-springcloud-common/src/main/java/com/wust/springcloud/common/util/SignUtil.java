@@ -276,15 +276,15 @@ public class SignUtil {
     public static void main(String[] args) {
         Map<String,String> parMap = new HashMap<>();
         parMap.put("appId","a");
+        parMap.put("companyId","-1");
         parMap.put("color","2");
-        parMap.put("a","3");
         parMap.put("b","4");
         System.out.println(SignUtil.sign(parMap));
 
 
 
         Map<String,String> parMap1 = new HashMap<>();
-        parMap1.put("a","3");
+        parMap1.put("companyId","-1");
         parMap1.put("b","4");
         parMap1.put("color","2");
         parMap1.put("appId","a");
