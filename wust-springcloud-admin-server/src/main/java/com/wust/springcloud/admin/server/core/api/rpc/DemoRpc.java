@@ -1,4 +1,4 @@
-package com.wust.springcloud.admin.server.core.web.rpc;
+package com.wust.springcloud.admin.server.core.api.rpc;
 
 
 

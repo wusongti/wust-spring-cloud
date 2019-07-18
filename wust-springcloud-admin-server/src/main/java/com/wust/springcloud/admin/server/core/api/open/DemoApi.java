@@ -1,4 +1,4 @@
-package com.wust.springcloud.admin.server.core.web.api;
+package com.wust.springcloud.admin.server.core.api.open;
 
 
 

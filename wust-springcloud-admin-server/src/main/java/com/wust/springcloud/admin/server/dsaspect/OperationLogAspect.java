@@ -28,7 +28,7 @@ public class OperationLogAspect {
     private SysOperationLogService sysOperationLogServiceImpl;
 
     //环绕通知
-    @Around("execution(* com.wust.springcloud.admin.server.core.controller..*.*(..))")
+    @Around("execution(* com.wust.springcloud.admin.server.core.api..*.*(..))")
     public Object methodAspect(ProceedingJoinPoint jp) throws Throwable {
         Signature sig = jp.getSignature();
         if (sig instanceof MethodSignature) {

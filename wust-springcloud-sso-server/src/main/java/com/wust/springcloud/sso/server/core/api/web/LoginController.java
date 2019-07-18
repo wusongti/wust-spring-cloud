@@ -1,4 +1,4 @@
-package com.wust.springcloud.sso.server.core.web.controller;
+package com.wust.springcloud.sso.server.core.api.web;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -6,9 +6,6 @@ import com.wust.springcloud.common.annotations.OperationLogAnnotation;
 import com.wust.springcloud.common.context.DefaultBusinessContext;
 import com.wust.springcloud.common.dto.ResponseDto;
 import com.wust.springcloud.common.dto.UserContextDto;
-import com.wust.springcloud.common.entity.sys.apptoken.SysAppToken;
-import com.wust.springcloud.common.entity.sys.apptoken.SysAppTokenList;
-import com.wust.springcloud.common.entity.sys.apptoken.SysAppTokenSearch;
 import com.wust.springcloud.common.entity.sys.menu.SysMenu;
 import com.wust.springcloud.common.entity.sys.resource.SysResource;
 import com.wust.springcloud.common.entity.sys.user.SysUserList;
@@ -23,7 +20,6 @@ import com.wust.springcloud.sso.server.core.service.AuthenticationService;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;

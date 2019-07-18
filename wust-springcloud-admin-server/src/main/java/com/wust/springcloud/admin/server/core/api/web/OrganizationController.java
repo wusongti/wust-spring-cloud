@@ -1,4 +1,4 @@
-package com.wust.springcloud.admin.server.core.web.controller;
+package com.wust.springcloud.admin.server.core.api.web;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;

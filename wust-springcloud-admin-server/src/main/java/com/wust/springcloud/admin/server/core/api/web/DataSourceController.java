@@ -1,4 +1,4 @@
-package com.wust.springcloud.admin.server.core.web.controller;
+package com.wust.springcloud.admin.server.core.api.web;
 
 import com.wust.springcloud.admin.server.core.service.SysDataSourceService;
 import com.wust.springcloud.common.annotations.OperationLogAnnotation;
