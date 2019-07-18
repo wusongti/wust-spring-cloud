@@ -1,11 +1,8 @@
 package com.wust.springcloud.common.util;
 
 
-import com.alibaba.fastjson.JSONObject;
-import org.apache.commons.codec.digest.DigestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.*;
@@ -18,10 +15,7 @@ public class SignUtil {
 
     private static Logger logger = LoggerFactory.getLogger(SignUtil.class);
 
-
-    private final static String APP_KEY = "TESTKET";
-
-    /** 加密密钥(加密盐)，为防止被穷举，可以按一定规则进行加密 */
+    /** 加密密钥 */
     public final static String SECRET_KEY = "API_SIGN_TIMU_SECRET_KEY";
 
     /** 字符编码 */
@@ -31,30 +25,6 @@ public class SignUtil {
     private final static int TIME_OUT = 5 * 60 * 1000;
 
 
-
-    /**
-     * 请求参数Map转换验证Map
-     * @param requestParams 请求参数Map
-     * @param charset 是否要转utf8编码
-     * @return
-     */
-    public static Map<String,String> toVerifyMap(Map<String, String[]> requestParams, boolean charset) {
-        Map<String,String> params = new HashMap<>();
-        for (Iterator iter = requestParams.keySet().iterator(); iter.hasNext();) {
-            String name = (String) iter.next();
-            String[] values = requestParams.get(name);
-            String valueStr = "";
-            for (int i = 0; i < values.length; i++) {
-                valueStr = (i == values.length - 1) ? valueStr + values[i] : valueStr + values[i] + ",";
-            }
-            //乱码解决，这段代码在出现乱码时使用。如果mysign和sign不相等也可以使用这段代码转化
-            if(charset) {
-                valueStr = getContentString(valueStr, INPUT_CHARSET);
-            }
-            params.put(name, valueStr);
-        }
-        return params;
-    }
 
     /**
      * 除去数组中的空值和签名参数
@@ -109,39 +79,8 @@ public class SignUtil {
         return result;
     }
 
-    /**
-     * 编码转换
-     * @param content
-     * @param charset
-     * @return
-     */
-    private static byte[] getContentBytes(String content, String charset) {
-        if (charset == null || "".equals(charset)) {
-            return content.getBytes();
-        }
-        try {
-            return content.getBytes(charset);
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException("MD5签名过程中出现错误,指定的编码集不对,您目前指定的编码集是:" + charset);
-        }
-    }
 
-    /**
-     * 编码转换
-     * @param content
-     * @param charset
-     * @return
-     */
-    private static String getContentString(String content, String charset) {
-        if (charset == null || "".equals(charset)) {
-            return new String(content.getBytes());
-        }
-        try {
-            return new String(content.getBytes("ISO-8859-1"), charset);
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException("指定的编码集不对,您目前指定的编码集是:" + charset);
-        }
-    }
+
 
     /**
      * URL转码
@@ -159,15 +98,6 @@ public class SignUtil {
 
 
 
-    /**
-     * 生成要请求的签名参数数组
-     * @param sParaTemp 需要签名的参数Map
-     * @return 要请求的签名参数数组
-     */
-    public static Map<String, String> signMap(Map<String, String[]> sParaTemp) {
-        //请求参数Map转换验证Map，并生成要请求的签名参数数组
-        return sign(toVerifyMap(sParaTemp, false));
-    }
 
     /**
      * 生成要请求的签名参数数组
@@ -186,53 +116,17 @@ public class SignUtil {
         //把数组所有元素，按照“参数=参数值”的模式用“&”字符拼接成字符串
         String paraStr = createLinkString(paraMapTemp);
         //生成签名结果
-        String signStr = DigestUtils.md5Hex(getContentBytes(paraStr + SECRET_KEY, INPUT_CHARSET));
+        String signStr = MD5.MD5(paraStr + SECRET_KEY);
         //签名结果加入请求提交参数组中
         paraMapTemp.put("sign", signStr);
         return paraMapTemp;
     }
 
-    public static String getSignStr(Map<String, String> sParaTemp) {
-        return sign(sParaTemp).get("sign");
-    }
 
 
 
-    /**
-     * 生成要请求的签名参数字符串“参数=参数值”&链接
-     * @param sParaTemp 需要签名的参数Map
-     * @return 请求的签名参数字符串
-     */
-    public static String signStringMap(Map<String, String[]> sParaTemp) {
-        //生成要请求的签名参数数组
-        Map<String, String> sign = signMap(sParaTemp);
-        //生成要请求的签名参数字符串“参数=参数值”&链接
-        return createLinkString(sign, true);
-    }
-
-    /**
-     * 生成要请求的签名参数字符串“参数=参数值”&链接
-     * @param sParaTemp 需要签名的参数
-     * @return
-     */
-    public static String signString(Map<String, String> sParaTemp) {
-        //生成要请求的签名参数数组
-        Map<String, String> sign = sign(sParaTemp);
-        //生成要请求的签名参数字符串“参数=参数值”&链接
-        return createLinkString(sign, true);
-    }
 
 
-    //TODO 验证签名
-    /**
-     * 根据反馈回来的信息，生成签名结果
-     * @param paramsMap 通知返回来的请求参数Map
-     * @return 验证结果
-     */
-    public static boolean verifyMap(Map<String, String[]> paramsMap) {
-        //请求参数Map转换验证Map，并根据反馈回来的信息，生成签名结果
-        return verify(toVerifyMap(paramsMap, false));
-    }
 
     /**
      * 根据反馈回来的信息，生成签名结果
@@ -247,18 +141,22 @@ public class SignUtil {
             logger.info("sign is null");
             return false;
         }
+
         String timestamp = "";
         if (params.get("timestamp") != null) {
             timestamp = params.get("timestamp");
         }else {
             return false;
         }
+
         //过滤空值、sign
         Map<String, String> sParaNew = paraFilter(params);
+
         //获取待签名字符串
         String preSignStr = createLinkString(sParaNew);
+
         //获得签名验证结果
-        String mysign = DigestUtils.md5Hex(getContentBytes(preSignStr + SECRET_KEY, INPUT_CHARSET));
+        String mysign = MD5.MD5(preSignStr + SECRET_KEY);
         if (mysign.equals(sign)) {
             //是否超时
             long curr = System.currentTimeMillis();

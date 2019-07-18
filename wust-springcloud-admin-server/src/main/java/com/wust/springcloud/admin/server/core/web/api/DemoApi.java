@@ -7,7 +7,6 @@ import com.wust.springcloud.common.dto.ResponseDto;
 import com.wust.springcloud.common.version.ApiVersion;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
 
 @RequestMapping("/DemoApi")
 @RestController

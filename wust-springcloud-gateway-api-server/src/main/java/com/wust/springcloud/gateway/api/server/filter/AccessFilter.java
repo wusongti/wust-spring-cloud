@@ -43,6 +43,7 @@ public class AccessFilter implements GlobalFilter {
                 boolean flag = SignUtil.verify(map); // 验证签名是否合法，防止篡改请求参数
                 if(flag){
                     if(verifyApiService.hasSign(map.get("sign").toString())){ // 防止重复的请求，如有则拦截掉
+                        logger.error("重复的请求，已经被网管拦截");
                         response.setStatusCode(HttpStatus.UNAUTHORIZED);
                         return response.setComplete();
                     }else{
