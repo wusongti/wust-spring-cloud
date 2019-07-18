@@ -9,6 +9,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
 
 /**
  * Created by WST on 2019/6/17.
@@ -18,30 +19,18 @@ public abstract class RealmHandlerAdapter {
 
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
         String token = MyStringUtils.null2String(httpServletRequest.getHeader(ApplicationEnum.X_AUTH_TOKEN.getStringValue()));
-        if(MyStringUtils.isBlank(token)){
-            if(httpServletRequest.getParameterMap().containsKey(ApplicationEnum.X_AUTH_TOKEN.getStringValue())){
-                token = httpServletRequest.getParameter(ApplicationEnum.X_AUTH_TOKEN.getStringValue());
-            }
-
-            if(MyStringUtils.isBlank(token)){
+        if(MyStringUtils.isNotBlank(token)){ // 前端网页请求
+            String jsonString = getUserContextDtoByToken(token);
+            if(MyStringUtils.isBlank(MyStringUtils.null2String(jsonString))){
                 logger.error("该请求是非法的，原因是没有登录系统或者登录信息已经过期");
                 return false;
             }
-        }
 
-        boolean flag = hasToken(token);
-        if(!flag){
-            logger.error("该请求是非法的，原因是没有登录系统或者登录信息已经过期");
-            return false;
+            UserContextDto userContextDto = JSONObject.parseObject(jsonString,UserContextDto.class);
+            setDefaultBusinessContext(userContextDto,httpServletRequest);
+        }else{ // 开放api请求
+            setDefaultBusinessContext(httpServletRequest);
         }
-        String jsonString = getUserContextDtoByToken(token);
-        if(MyStringUtils.isBlank(MyStringUtils.null2String(jsonString))){
-            logger.error("该请求是非法的，原因是没有登录系统或者登录信息已经过期");
-            return false;
-        }
-
-        UserContextDto userContextDto = JSONObject.parseObject(jsonString,UserContextDto.class);
-        setDefaultBusinessContext(userContextDto,httpServletRequest);
         return true;
     }
 
@@ -52,6 +41,16 @@ public abstract class RealmHandlerAdapter {
         DefaultBusinessContext.getContext().setUserType(userContextDto.getUser().getType());
         DefaultBusinessContext.getContext().setCompanyId(userContextDto.getUser().getCompanyId());
         DefaultBusinessContext.getContext().setDataSourceId(userContextDto.getUser().getCompanyId());
+    }
+
+    private static void setDefaultBusinessContext(HttpServletRequest httpServletRequest){
+        String jsonStr = MyStringUtils.null2String(httpServletRequest.getHeader(ApplicationEnum.API_SIGN.getStringValue()));
+        Map paraMap = JSONObject.parseObject(jsonStr, Map.class);
+
+        DefaultBusinessContext.getContext().setLocale(httpServletRequest.getLocale());
+        DefaultBusinessContext.getContext().setSignMap(paraMap);
+        DefaultBusinessContext.getContext().setCompanyId(paraMap.get("companyId").toString());
+        DefaultBusinessContext.getContext().setDataSourceId(paraMap.get("companyId").toString());
     }
 
     protected abstract boolean hasToken(String token);

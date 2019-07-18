@@ -1,5 +1,7 @@
 package com.wust.springcloud.common.context;
 
+import java.util.Map;
+
 /**
  * Created by WST on 2019/5/6.
  */
@@ -26,6 +28,8 @@ public class DefaultBusinessContext extends BaseBusinessContext{
     private String userType;
     private String xAuthToken;
     private String ip;
+    /** api请求参数 */
+    private Map<String, Object> signMap;
 
     public String getUserId() {
         return userId;
@@ -75,15 +79,24 @@ public class DefaultBusinessContext extends BaseBusinessContext{
         this.ip = ip;
     }
 
+    public Map<String, Object> getSignMap() {
+        return signMap;
+    }
+
+    public void setSignMap(Map<String, Object> signMap) {
+        this.signMap = signMap;
+    }
+
     @Override
     public String toString() {
-        return super.toString() + "\nDefaultBusinessContext{" +
+        return "DefaultBusinessContext{" +
                 "userId='" + userId + '\'' +
                 ", loginName='" + loginName + '\'' +
                 ", realName='" + realName + '\'' +
                 ", userType='" + userType + '\'' +
                 ", xAuthToken='" + xAuthToken + '\'' +
                 ", ip='" + ip + '\'' +
+                ", signMap=" + signMap +
                 '}';
     }
 }

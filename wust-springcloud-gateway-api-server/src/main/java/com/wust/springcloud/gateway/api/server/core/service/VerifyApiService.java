@@ -5,10 +5,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 /**
- * Created by WST on 2019/4/18.
+ * @author ：wust
+ * @date ：Created in 2019/7/18 14:15
+ * @description：
+ * @version:
  */
 @FeignClient(value = "api-sso-server")
-public interface AuthorizeService {
-    @GetMapping(value = "/AuthenticationRpc/hasToken/{token}")
-    boolean hasToken(@PathVariable("token") String token);
+public interface VerifyApiService {
+    @GetMapping(value = "/VerifyApiRpc/hasSign/{sign}")
+    boolean hasSign(@PathVariable String sign);
 }

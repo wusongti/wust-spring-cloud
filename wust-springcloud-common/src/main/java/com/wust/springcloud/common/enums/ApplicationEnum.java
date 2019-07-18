@@ -16,6 +16,8 @@ public enum  ApplicationEnum {
 
     X_AUTH_TOKEN_EXPIRE_TIME(10), // 单位：分钟
 
+    API_SIGN("API_SIGN"),
+
     RC4_LOGIN_PASSWORD("jZ5$x!6yeAo1Qe^r89"),
 
     MENUT_TYPE_M("m"),              // 资源类型，菜单

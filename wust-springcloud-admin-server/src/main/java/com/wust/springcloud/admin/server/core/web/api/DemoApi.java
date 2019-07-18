@@ -2,12 +2,12 @@ package com.wust.springcloud.admin.server.core.web.api;
 
 
 
+import com.wust.springcloud.common.context.DefaultBusinessContext;
 import com.wust.springcloud.common.dto.ResponseDto;
 import com.wust.springcloud.common.version.ApiVersion;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.*;
 
 @RequestMapping("/DemoApi")
 @RestController
@@ -17,8 +17,8 @@ public class DemoApi {
     public @ResponseBody
     ResponseDto test() {
         ResponseDto mm = new ResponseDto();
-        mm.setMessage("版本1");
-        System.out.println(" 版本1");
+        DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
+        System.out.println("获得参数="+ctx.getSignMap());
         return mm;
     }
 }
