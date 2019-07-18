@@ -8,7 +8,7 @@ import java.lang.annotation.*;
  * 接口版本标识注解
  * Created by WST on 2019/2/19.
  */
-@Target({ElementType.METHOD,ElementType.TYPE})
+@Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Mapping
