@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableFeignClients
 @EnableEurekaClient
 @EnableTransactionManagement
-@MapperScan("com.wust.springcloud.admin.server.dao")
 @SpringBootApplication(scanBasePackages = {"com.wust.springcloud.admin.server", "com.wust.springcloud.common"})
 public class AdminApplicationServer {
 

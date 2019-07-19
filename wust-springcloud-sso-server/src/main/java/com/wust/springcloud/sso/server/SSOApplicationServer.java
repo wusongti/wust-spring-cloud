@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * Created by WST on 2019/3/29.
  */
 @EnableEurekaClient
-@MapperScan("com.wust.springcloud.sso.server.core.dao")
 @EnableTransactionManagement
 @SpringBootApplication(scanBasePackages = {"com.wust.springcloud.sso.server", "com.wust.springcloud.common"})
 public class SSOApplicationServer {
