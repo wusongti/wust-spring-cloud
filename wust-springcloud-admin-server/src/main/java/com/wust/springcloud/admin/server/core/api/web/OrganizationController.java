@@ -54,12 +54,6 @@ public class OrganizationController {
     @Autowired
     private SysUserService sysUserServiceImpl;
 
-    @Autowired
-    private RabbitTemplate rabbitTemplate;
-
-    @Autowired
-    private Environment env;
-
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_ORGANIZATION,businessName="分页查询",operationType= OperationLogEnum.Search)
     @RequestMapping(value = "/listPage",method = RequestMethod.POST)
     public @ResponseBody
@@ -226,15 +220,6 @@ public class OrganizationController {
         List<SysOrganization> entities = new ArrayList<>(1);
         entities.add(entity);
         sysOrganizationServiceImpl.batchInsert(entities);
-
-
-
-
-
-        rabbitTemplate.setMessageConverter(new Jackson2JsonMessageConverter());
-        rabbitTemplate.setExchange(env.getProperty("exchange.organization.name"));
-        rabbitTemplate.setRoutingKey(env.getProperty("routing.organization.key.name"));
-        rabbitTemplate.convertAndSend("你好");
         return mm;
     }
 
@@ -263,12 +248,6 @@ public class OrganizationController {
             List<String> ids = new ArrayList<>(1);
             ids.add(id);
             sysOrganizationServiceImpl.batchDelete(ids);
-
-
-            rabbitTemplate.setMessageConverter(new Jackson2JsonMessageConverter());
-            rabbitTemplate.setExchange(env.getProperty("exchange.organization.name"));
-            rabbitTemplate.setRoutingKey(env.getProperty("routing.organization.key.name"));
-            rabbitTemplate.convertAndSend("你好");
         }
         return mm;
     }
