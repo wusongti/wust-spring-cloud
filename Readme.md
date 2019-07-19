@@ -1,8 +1,4 @@
-https://www.cnblogs.com/keepMoveForevery/p/10400010.html
-https://blog.csdn.net/u010882691/article/details/82427138
 TODO
-接口版本
-接口签名
 MQ
 组织架构
 URL过滤拦截
@@ -10,3 +6,10 @@ URL过滤拦截
 嵌套事务
 
 
+
+总结PPT
+架构设计原理
+各个部件讲解
+安全支撑设计
+吞吐量设计讲解
+业务组织架构讲解

@@ -1,0 +1,10 @@
+exchange:
+  organization:
+    name: ${mq.env}.organization.exchange
+queue:
+  organization:
+    name: ${mq.env}.organization.queue
+routing:
+  organization:
+    key:
+      name: ${mq.env}.organization.routing.key

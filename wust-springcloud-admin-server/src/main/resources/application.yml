@@ -1,8 +1,11 @@
 spring:
   profiles:
     active: dev
+    include: rabbitmq
   messages:
     basename: i18n/message
 mybatis:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+mq:
+  env: dev
