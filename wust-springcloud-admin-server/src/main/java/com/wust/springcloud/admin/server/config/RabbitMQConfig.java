@@ -46,7 +46,7 @@ public class RabbitMQConfig {
      * 一对一模式
      * @return
      */
-    @Bean(name = "singleListenerContainer")
+   @Bean(name = "singleListenerContainer")
     public SimpleRabbitListenerContainerFactory listenerContainer(){
         SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
         factory.setConnectionFactory(connectionFactory);
@@ -63,7 +63,7 @@ public class RabbitMQConfig {
      * 一对多模式
      * @return
      */
-    @Bean(name = "multiListenerContainer")
+   @Bean(name = "multiListenerContainer")
     public SimpleRabbitListenerContainerFactory multiListenerContainer(){
         SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
         factoryConfigurer.configure(factory,connectionFactory);
@@ -94,20 +94,5 @@ public class RabbitMQConfig {
             }
         });
         return rabbitTemplate;
-    }
-
-    @Bean
-    public Queue organizationQueue() {
-        return new Queue(env.getProperty("queue.organization.name"),true);
-    }
-
-    @Bean
-    DirectExchange organizationExchange(){
-        return new DirectExchange(env.getProperty("exchange.organization.name"),true,false);
-    }
-
-    @Bean
-    Binding organizationBinding(){
-        return  BindingBuilder.bind(organizationQueue()).to(organizationExchange()).with(env.getProperty("routing.organization.name"));
     }
 }

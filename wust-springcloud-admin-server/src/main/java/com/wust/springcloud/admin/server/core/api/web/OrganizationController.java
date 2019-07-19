@@ -21,7 +21,12 @@ import com.wust.springcloud.common.entity.sys.user.SysUserSearch;
 import com.wust.springcloud.common.enums.OperationLogEnum;
 import com.wust.springcloud.common.util.MyStringUtils;
 import org.apache.commons.collections.CollectionUtils;
+import org.springframework.amqp.core.Message;
+import org.springframework.amqp.core.MessageBuilder;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -48,6 +53,12 @@ public class OrganizationController {
 
     @Autowired
     private SysUserService sysUserServiceImpl;
+
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
+
+    @Autowired
+    private Environment env;
 
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_ORGANIZATION,businessName="分页查询",operationType= OperationLogEnum.Search)
     @RequestMapping(value = "/listPage",method = RequestMethod.POST)
@@ -215,6 +226,15 @@ public class OrganizationController {
         List<SysOrganization> entities = new ArrayList<>(1);
         entities.add(entity);
         sysOrganizationServiceImpl.batchInsert(entities);
+
+
+
+
+
+        rabbitTemplate.setMessageConverter(new Jackson2JsonMessageConverter());
+        rabbitTemplate.setExchange(env.getProperty("exchange.organization.name"));
+        rabbitTemplate.setRoutingKey(env.getProperty("routing.organization.key.name"));
+        rabbitTemplate.convertAndSend("你好");
         return mm;
     }
 
@@ -243,6 +263,12 @@ public class OrganizationController {
             List<String> ids = new ArrayList<>(1);
             ids.add(id);
             sysOrganizationServiceImpl.batchDelete(ids);
+
+
+            rabbitTemplate.setMessageConverter(new Jackson2JsonMessageConverter());
+            rabbitTemplate.setExchange(env.getProperty("exchange.organization.name"));
+            rabbitTemplate.setRoutingKey(env.getProperty("routing.organization.key.name"));
+            rabbitTemplate.convertAndSend("你好");
         }
         return mm;
     }
