@@ -3,7 +3,6 @@ package com.wust.springcloud.common;
 
 import com.wust.springcloud.common.context.DefaultBusinessContext;
 import com.wust.springcloud.common.entity.sys.datasource.SysDataSourceList;
-import com.wust.springcloud.common.enums.ApplicationEnum;
 import com.wust.springcloud.common.exception.BusinessException;
 import com.wust.springcloud.common.util.MyStringUtils;
 import com.wust.springcloud.common.util.cache.DataDictionaryUtil;
@@ -11,7 +10,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
-
 import javax.sql.DataSource;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -27,10 +25,8 @@ public class DynamicDataSource extends AbstractRoutingDataSource {
     @Override
     protected Object determineCurrentLookupKey() {
         DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
-        String dataSourceId = MyStringUtils.isBlank(MyStringUtils.null2String(ctx.getDataSourceId())) ? ApplicationEnum.DEFAULT.name() : ctx.getDataSourceId();
-
-        lookupAndCreateDataSource(dataSourceId);
-        return dataSourceId;
+        lookupAndCreateDataSource(ctx.getDataSourceId());
+        return ctx.getDataSourceId();
     }
 
     private void lookupAndCreateDataSource(String dataSourceId) {

@@ -34,7 +34,7 @@ public class MybatisConfig implements EnvironmentAware {
         DynamicDataSource dynamicDataSource = new DynamicDataSource();
 
         /**
-         * 设置默认数据源
+         * 添加默认数据源到管理缓存
          */
         DataSource dataSource = dynamicDataSource.createDataSource(
                 ApplicationEnum.DEFAULT.name(),
@@ -43,7 +43,6 @@ public class MybatisConfig implements EnvironmentAware {
                 environment.getProperty("spring.datasource.password"),
                 environment.getProperty("spring.datasource.driver-class-name"));
         dynamicDataSource.setDefaultTargetDataSource(dataSource);
-
         return dynamicDataSource;
     }
 

@@ -6,6 +6,7 @@ import com.wust.springcloud.admin.server.core.service.SysDataSourceService;
 import com.wust.springcloud.admin.server.core.service.SysLookupService;
 import com.wust.springcloud.admin.server.core.service.SysMenuService;
 import com.wust.springcloud.common.context.DefaultBusinessContext;
+import com.wust.springcloud.common.enums.ApplicationEnum;
 import com.wust.springcloud.common.enums.RedisKeyEnum;
 import com.wust.springcloud.common.util.MyStringUtils;
 import com.wust.springcloud.common.util.cache.SpringRedisTools;
@@ -45,6 +46,7 @@ public class MyApplicationListener implements ApplicationListener<ApplicationRea
         /**
          * 默认初始化平台库数据
          */
+        DefaultBusinessContext.getContext().setDataSourceId(ApplicationEnum.DEFAULT.getStringValue());
         sysMenuServiceImpl.init();
         sysLookupServiceImpl.init();
         sysDataSourceService.cacheDataSource();

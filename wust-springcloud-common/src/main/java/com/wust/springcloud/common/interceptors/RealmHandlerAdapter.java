@@ -34,15 +34,31 @@ public abstract class RealmHandlerAdapter {
         return true;
     }
 
+    /**
+     * 内部系统web前端请求，设置上下文
+     * @param userContextDto
+     * @param httpServletRequest
+     */
     private static void setDefaultBusinessContext(UserContextDto userContextDto,HttpServletRequest httpServletRequest){
         DefaultBusinessContext.getContext().setLocale(httpServletRequest.getLocale());
         DefaultBusinessContext.getContext().setUserId(userContextDto.getUser().getId());
         DefaultBusinessContext.getContext().setLoginName(userContextDto.getUser().getLoginName());
         DefaultBusinessContext.getContext().setUserType(userContextDto.getUser().getType());
         DefaultBusinessContext.getContext().setCompanyId(userContextDto.getUser().getCompanyId());
-        DefaultBusinessContext.getContext().setDataSourceId(userContextDto.getUser().getCompanyId());
+
+        if("100401".equals(userContextDto.getUser().getType())
+        || "100402".equals(userContextDto.getUser().getType())
+        || "100403".equals(userContextDto.getUser().getType())){ // 研发层、运营层的数据源走平台
+            DefaultBusinessContext.getContext().setDataSourceId(ApplicationEnum.DEFAULT.getStringValue());
+        }else{ // 业务操作层走具体数据库
+            DefaultBusinessContext.getContext().setDataSourceId(userContextDto.getUser().getCompanyId());
+        }
     }
 
+    /**
+     * 外部系统api请求，设置上下文
+     * @param httpServletRequest
+     */
     private static void setDefaultBusinessContext(HttpServletRequest httpServletRequest){
         String jsonStr = MyStringUtils.null2String(httpServletRequest.getHeader(ApplicationEnum.API_SIGN.getStringValue()));
         Map paraMap = JSONObject.parseObject(jsonStr, Map.class);

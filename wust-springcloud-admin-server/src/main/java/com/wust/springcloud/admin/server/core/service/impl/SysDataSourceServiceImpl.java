@@ -157,9 +157,9 @@ public class SysDataSourceServiceImpl implements SysDataSourceService {
             SysUser user = new SysUser();
             user.setCompanyId(sysCompany.getId());
             user.setLoginName(loginName);
-            user.setRealName(sysCompany.getName() + "系统管理员");
+            user.setRealName(sysCompany.getName() + "运营方管理员账号");
             user.setStatus("100201");
-            user.setType("100402");
+            user.setType("100403");
             user.setPassword("NDU3YzhjMWE0MWQ2");
             sysUsers.add(user);
             sysUserMapper.batchInsert(sysUsers);
