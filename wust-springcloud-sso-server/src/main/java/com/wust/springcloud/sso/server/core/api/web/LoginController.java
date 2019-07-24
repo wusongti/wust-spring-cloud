@@ -67,6 +67,7 @@ public class LoginController {
         SysUserSearch sysUserSearch = new SysUserSearch();
         sysUserSearch.setLoginName(loginName);
         sysUserSearch.setPassword(passwordRC4);
+        DefaultBusinessContext.getContext().setDataSourceId(ApplicationEnum.DEFAULT.name());
         List<SysUserList> sysUserLists =  authenticationServiceImpl.findByCondition(sysUserSearch);
         if(sysUserLists != null && sysUserLists.size() > 0){
             SysUserList sysUserList = sysUserLists.get(0);
@@ -125,9 +126,6 @@ public class LoginController {
 
 
     private UserContextDto getUserContextDto(final SysUserList sysUserList){
-        // 切换数据源，然后查找对应数据源下的菜单资源
-        DefaultBusinessContext.getContext().setDataSourceId(sysUserList.getCompanyId());
-
         List<SysMenu> menus = null;                            // 非白名单菜单
         Map<Integer,List<SysMenu>> groupMenusByLevel = null;   // 根据菜单级别分组menus
         Map<String,List<SysMenu>> groupMenusByPid = null;      // 根据pid分组 menus
@@ -142,6 +140,8 @@ public class LoginController {
         String userId = sysUserList.getId();
         String type = sysUserList.getType();
         if("100401".equals(type)){ // 系统管理员
+            // 切换数据源，然后查找对应数据源下的菜单资源
+            DefaultBusinessContext.getContext().setDataSourceId(ApplicationEnum.DEFAULT.name());
             menus = authenticationServiceImpl.findAllMenus4SystemAdmin();
             groupMenusByLevel = groupByLevelMenus(menus);
             groupMenusByPid = groupByPidMenus(menus);
@@ -151,10 +151,12 @@ public class LoginController {
             resources4anon = authenticationServiceImpl.findAllAnonResources4systemAdmin();
             groupResourcesByMenuId = groupByMenuIdResources(resources);
         }else{ // 非系统管理员
+            // 切换数据源，然后查找对应数据源下的菜单资源
+            DefaultBusinessContext.getContext().setDataSourceId(sysUserList.getCompanyId());
+
             menus = authenticationServiceImpl.findMenuByUserId(userId);
             groupMenusByLevel = groupByLevelMenus(menus);
             groupMenusByPid = groupByPidMenus(menus);
-
 
             resources = authenticationServiceImpl.findResourcesByUserId(userId);
             resources4anon = authenticationServiceImpl.findAnonResourcesByUserId(userId);

@@ -4,9 +4,13 @@ import com.alibaba.fastjson.JSONObject;
 import com.wust.springcloud.common.context.DefaultBusinessContext;
 import com.wust.springcloud.common.dto.UserContextDto;
 import com.wust.springcloud.common.enums.ApplicationEnum;
+import com.wust.springcloud.common.util.JwtHelper;
 import com.wust.springcloud.common.util.MyStringUtils;
+import com.wust.springcloud.common.util.cache.SpringRedisTools;
+import io.jsonwebtoken.Claims;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
@@ -16,6 +20,9 @@ import java.util.Map;
  */
 public abstract class ContextHandlerAdapter {
     static Logger logger = LogManager.getLogger(ContextHandlerAdapter.class);
+
+    @Autowired
+    private SpringRedisTools springRedisTools;
 
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
         String token = MyStringUtils.null2String(httpServletRequest.getHeader(ApplicationEnum.X_AUTH_TOKEN.getStringValue()));
@@ -41,17 +48,23 @@ public abstract class ContextHandlerAdapter {
      */
     private static void setDefaultBusinessContext(UserContextDto userContextDto,HttpServletRequest httpServletRequest){
         DefaultBusinessContext.getContext().setLocale(httpServletRequest.getLocale());
-        DefaultBusinessContext.getContext().setUserId(userContextDto.getUser().getId());
-        DefaultBusinessContext.getContext().setLoginName(userContextDto.getUser().getLoginName());
-        DefaultBusinessContext.getContext().setUserType(userContextDto.getUser().getType());
-        DefaultBusinessContext.getContext().setCompanyId(userContextDto.getUser().getCompanyId());
+
+        if(userContextDto != null){
+            DefaultBusinessContext.getContext().setUserId(userContextDto.getUser().getId());
+            DefaultBusinessContext.getContext().setLoginName(userContextDto.getUser().getLoginName());
+            DefaultBusinessContext.getContext().setUserType(userContextDto.getUser().getType());
+            DefaultBusinessContext.getContext().setCompanyId(userContextDto.getUser().getCompanyId());
+        }
+
 
         if("100401".equals(userContextDto.getUser().getType())
         || "100402".equals(userContextDto.getUser().getType())
         || "100403".equals(userContextDto.getUser().getType())){ // 研发层、运营层的数据源走平台
             DefaultBusinessContext.getContext().setDataSourceId(ApplicationEnum.DEFAULT.name());
         }else{ // 业务操作层走具体数据库
-            DefaultBusinessContext.getContext().setDataSourceId(userContextDto.getUser().getCompanyId());
+            if(userContextDto != null){
+                DefaultBusinessContext.getContext().setDataSourceId(userContextDto.getUser().getCompanyId());
+            }
         }
     }
 
@@ -69,7 +82,28 @@ public abstract class ContextHandlerAdapter {
         DefaultBusinessContext.getContext().setDataSourceId(paraMap.get("companyId").toString());
     }
 
-    protected abstract boolean hasToken(String token);
 
-    protected abstract String getUserContextDtoByToken(String token);
+    private String getUserContextDtoByToken(String token) {
+        JSONObject jsonObject = parseJWT(token);
+        if(jsonObject == null){
+        }else {
+            String loginName = jsonObject.getString("loginName");
+            String key = String.format(ApplicationEnum.WEB_LOGIN_KEY.getStringValue(), loginName);
+            if (springRedisTools.hasKey(key)) {
+                Object obj = springRedisTools.getByKey(key);
+                return obj + "";
+            }
+        }
+        return null;
+    }
+
+    private JSONObject parseJWT(String token){
+        JSONObject jsonObject = null;
+        try {
+            Claims claims = JwtHelper.parseJWT(ApplicationEnum.JWT_ACCESS_SECRET.getStringValue(),token);
+            jsonObject = JSONObject.parseObject(claims.getSubject());
+        } catch (Exception e) {
+        }
+        return jsonObject;
+    }
 }

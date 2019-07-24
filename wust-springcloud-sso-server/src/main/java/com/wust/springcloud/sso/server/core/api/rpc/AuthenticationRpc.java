@@ -33,27 +33,6 @@ public class AuthenticationRpc {
     private AuthenticationService authenticationServiceImpl;
 
 
-    /**
-     * 根据token获取UserContextDto
-     * @param token
-     * @return
-     */
-    @RequestMapping(value = "/getUserContextDtoByToken/{token}")
-    public String getUserContextDtoByToken(@PathVariable String token){
-        String jsonString = null;
-        JSONObject jsonObject = parseJWT(token);
-        if(jsonObject == null){
-        }else {
-            String loginName = jsonObject.getString("loginName");
-            String key = String.format(ApplicationEnum.WEB_LOGIN_KEY.getStringValue(), loginName);
-            if (springRedisTools.hasKey(key)) {
-                Object obj = springRedisTools.getByKey(key);
-                jsonString = obj + "";
-                return jsonString;
-            }
-        }
-        return jsonString;
-    }
 
 
     /**

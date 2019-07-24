@@ -3,6 +3,7 @@ package com.wust.springcloud.sso.server.dsaspect;
 import com.wust.springcloud.common.annotations.OperationLogAnnotation;
 import com.wust.springcloud.common.context.DefaultBusinessContext;
 import com.wust.springcloud.common.entity.sys.operationlog.SysOperationLog;
+import com.wust.springcloud.common.enums.ApplicationEnum;
 import com.wust.springcloud.sso.server.core.service.SysOperationLogService;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
@@ -51,6 +52,7 @@ public class OperationLogAspect {
                 sysOperationLog.setOperationData(parseToString(args));
                 sysOperationLog.setSource("sso-server");
                 sysOperationLogs.add(sysOperationLog);
+                DefaultBusinessContext.getContext().setDataSourceId(ApplicationEnum.DEFAULT.name());
                 sysOperationLogServiceImpl.batchInsert(sysOperationLogs);
             }
         }
