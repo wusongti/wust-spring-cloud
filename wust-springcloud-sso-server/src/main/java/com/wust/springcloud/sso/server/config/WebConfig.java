@@ -1,7 +1,7 @@
-package com.wust.springcloud.admin.server.config;
+package com.wust.springcloud.sso.server.config;
 
 
-import com.wust.springcloud.admin.server.interceptors.ContextHandlerInterceptor;
+import com.wust.springcloud.sso.server.interceptors.ContextHandlerInterceptor;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -22,5 +22,6 @@ public class WebConfig extends WebMvcConfigurationSupport {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(interceptor());
     }
+
 
 }

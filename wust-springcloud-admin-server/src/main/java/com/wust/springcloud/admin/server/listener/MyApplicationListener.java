@@ -46,7 +46,7 @@ public class MyApplicationListener implements ApplicationListener<ApplicationRea
         /**
          * 默认初始化平台库数据
          */
-        DefaultBusinessContext.getContext().setDataSourceId(ApplicationEnum.DEFAULT.getStringValue());
+        DefaultBusinessContext.getContext().setDataSourceId(ApplicationEnum.DEFAULT.name());
         sysMenuServiceImpl.init();
         sysLookupServiceImpl.init();
         sysDataSourceService.cacheDataSource();

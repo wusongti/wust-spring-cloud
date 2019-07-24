@@ -3,14 +3,14 @@ package com.wust.springcloud.autotask.server.interceptors;
 
 
 import com.wust.springcloud.autotask.server.core.rpc.AuthorizeService;
-import com.wust.springcloud.common.interceptors.RealmHandlerAdapter;
+import com.wust.springcloud.common.interceptors.ContextHandlerAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 /**
  * Created by WST on 2019/6/12.
  */
-public class RealmHandlerInterceptor extends RealmHandlerAdapter implements HandlerInterceptor {
+public class RealmHandlerInterceptor extends ContextHandlerAdapter implements HandlerInterceptor {
     @Autowired
     private AuthorizeService authorizeService;
 

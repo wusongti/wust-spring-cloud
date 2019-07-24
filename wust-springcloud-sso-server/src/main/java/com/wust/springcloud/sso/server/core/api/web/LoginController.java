@@ -107,54 +107,10 @@ public class LoginController {
 
 
 
-    /**
-     * 登出
-     * @param loginName
-     * @return
-     */
-    @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_COMMON,businessName="登出",operationType= OperationLogEnum.Logout)
-    @RequestMapping(value = "/logout/{loginName}",method = RequestMethod.POST)
-    public ResponseDto logout(@PathVariable String loginName) {
-        ResponseDto messageMap = new ResponseDto();
-
-        String key = String.format(ApplicationEnum.WEB_LOGIN_KEY.getStringValue(),loginName);
-        if(springRedisTools.hasKey(key)){
-            springRedisTools.deleteByKey(key);
-        }
-
-        return messageMap;
-    }
 
 
-    @RequestMapping(value = "/loadSubMenuById/{loginName}/{menuId}",method = RequestMethod.POST)
-    public ResponseDto loadSubMenuById(@PathVariable String loginName, @PathVariable String menuId) {
-        ResponseDto messageMap = new ResponseDto();
 
-        String key = String.format(ApplicationEnum.WEB_LOGIN_KEY.getStringValue(),loginName);
-        Object obj = springRedisTools.getByKey(key);
-        if(obj != null){
-            UserContextDto userContextDto = JSONObject.parseObject(obj+"",UserContextDto.class);
-            Map<String, List<SysMenu>> stringListMap = userContextDto.getGroupMenusByPid();
-            List<SysMenu> sysMenus = stringListMap.get(menuId);
-            if(CollectionUtils.isNotEmpty(sysMenus)){
-                JSONArray jsonArray = new JSONArray(sysMenus.size());
-                for (SysMenu menu : sysMenus) {
-                    JSONObject menuJsonObject = new JSONObject();
-                    menuJsonObject.put("id",menu.getId());
-                    menuJsonObject.put("name",menu.getName());
-                    menuJsonObject.put("description",menu.getDescription());
-                    menuJsonObject.put("img",menu.getImg());
-                    menuJsonObject.put("url",menu.getUrl());
-                    menuJsonObject.put("level",menu.getLevel());
-                    menuJsonObject.put("permission",menu.getPermission());
-                    jsonArray.add(menuJsonObject);
-                }
-                messageMap.setObj(jsonArray);
-            }
-        }
 
-        return messageMap;
-    }
 
 
     private String createJWT(String subject) {

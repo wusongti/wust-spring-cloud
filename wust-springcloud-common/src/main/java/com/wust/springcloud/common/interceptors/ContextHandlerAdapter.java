@@ -14,8 +14,8 @@ import java.util.Map;
 /**
  * Created by WST on 2019/6/17.
  */
-public abstract class RealmHandlerAdapter {
-    static Logger logger = LogManager.getLogger(RealmHandlerAdapter.class);
+public abstract class ContextHandlerAdapter {
+    static Logger logger = LogManager.getLogger(ContextHandlerAdapter.class);
 
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
         String token = MyStringUtils.null2String(httpServletRequest.getHeader(ApplicationEnum.X_AUTH_TOKEN.getStringValue()));
@@ -49,7 +49,7 @@ public abstract class RealmHandlerAdapter {
         if("100401".equals(userContextDto.getUser().getType())
         || "100402".equals(userContextDto.getUser().getType())
         || "100403".equals(userContextDto.getUser().getType())){ // 研发层、运营层的数据源走平台
-            DefaultBusinessContext.getContext().setDataSourceId(ApplicationEnum.DEFAULT.getStringValue());
+            DefaultBusinessContext.getContext().setDataSourceId(ApplicationEnum.DEFAULT.name());
         }else{ // 业务操作层走具体数据库
             DefaultBusinessContext.getContext().setDataSourceId(userContextDto.getUser().getCompanyId());
         }
