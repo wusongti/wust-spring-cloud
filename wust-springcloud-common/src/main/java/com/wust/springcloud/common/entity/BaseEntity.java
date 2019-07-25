@@ -39,6 +39,11 @@ public class BaseEntity implements java.io.Serializable {
      * 语言环境
      **/
     protected String lan;
+    /**
+     * 公司编码
+     **/
+    protected String companyId;
+
 
     public String getCreaterId() {
         return createrId;
@@ -96,6 +101,13 @@ public class BaseEntity implements java.io.Serializable {
         this.lan = lan;
     }
 
+    public String getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(String companyId) {
+        this.companyId = companyId;
+    }
 
     @Override
     public String toString() {
@@ -107,6 +119,7 @@ public class BaseEntity implements java.io.Serializable {
                 ", modifyName='" + modifyName + '\'' +
                 ", modifyTime=" + modifyTime +
                 ", lan='" + lan + '\'' +
+                ", companyId='" + companyId + '\'' +
                 '}';
     }
 }
