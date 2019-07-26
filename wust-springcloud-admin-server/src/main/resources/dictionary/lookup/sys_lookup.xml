@@ -25,8 +25,8 @@
     <!-- 用户类型 S -->
     <RECORD id="ef59432b-76e2-11e9-a68d-0050568e63cd" code="1004" parent_code="" name="用户类型" description="用户类型" sort="0"/>
     <RECORD id="f3bed220-76e2-11e9-a68d-0050568e63cd" code="100401" parent_code="1004" root_code="1004" value="0" name="平台超级管理员" visible="N" description="平台超级管理员" item_order="0"/>
-    <RECORD id="09a68d3a-932d-11e9-a68d-0050568e63cd" code="100402" parent_code="1004" root_code="1004" value="1" name="平台普通管理员" visible="N" description="平台普通管理员" item_order="0"/>
-    <RECORD id="1e91f6fc-adbb-11e9-948a-00f1f3059872" code="100403" parent_code="1004" root_code="1004" value="2" name="运营方管理账号" visible="N" description="运营方管理账号" item_order="0"/>
+    <RECORD id="09a68d3a-932d-11e9-a68d-0050568e63cd" code="100402" parent_code="1004" root_code="1004" value="1" name="平台普通管理员" description="平台普通管理员" item_order="0"/>
+    <RECORD id="1e91f6fc-adbb-11e9-948a-00f1f3059872" code="100403" parent_code="1004" root_code="1004" value="2" name="运营方管理账号" description="运营方管理账号" item_order="0"/>
     <RECORD id="c9071d8e-873c-11e9-a68d-0050568e63cd" code="100404" parent_code="1004" root_code="1004" value="3" name="项目账号" description="项目账号" item_order="0"/>
     <!-- 用户类型 E -->
 

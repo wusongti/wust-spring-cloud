@@ -59,11 +59,11 @@
 		<operation id="db53017f-9887-11e9-a68d-0050568e63cd" name="Create" desc="初始化" url=""/>
 	</module>
 
-	<module id="d376619f-8732-11e9-a68d-0050568e63cd" name="App Token" desc="外部应用访问管理" order="3000126" page="AppTokenList" url="./AppTokenList">
+	<!--<module id="d376619f-8732-11e9-a68d-0050568e63cd" name="App Token" desc="外部应用访问管理" order="3000126" page="AppTokenList" url="./AppTokenList">
 		<operation id="c1d74556-87fc-11e9-a68d-0050568e63cd" name="Search" desc="查询" url=""/>
 		<operation id="c65a0685-87fc-11e9-a68d-0050568e63cd" name="Export" desc="导出" url=""/>
 		<operation id="ca87fdb1-87fc-11e9-a68d-0050568e63cd" name="Create" desc="新建" url=""/>
 		<operation id="cf8bdeeb-87fc-11e9-a68d-0050568e63cd" name="Update" desc="修改" url=""/>
 		<operation id="d43b85e4-87fc-11e9-a68d-0050568e63cd" name="Delete" desc="删除" url=""/>
-	</module>
+	</module>-->
 </modulegroup>
