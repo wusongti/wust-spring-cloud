@@ -43,36 +43,11 @@ public class MyApplicationListener implements ApplicationListener<ApplicationRea
 
     @Override
     public void onApplicationEvent(ApplicationReadyEvent applicationReadyEvent) {
-        /**
-         * 默认初始化平台库数据
-         */
         DefaultBusinessContext.getContext().setDataSourceId(ApplicationEnum.DEFAULT.name());
         sysMenuServiceImpl.init();
         sysLookupServiceImpl.init();
         sysDataSourceService.cacheDataSource();
         sysDataPrivilegeServiceImpl.init();
-
-
-        /**
-         * 为所有公司库初始化数据
-         */
-        Object obj = springRedisTools.getByKey(RedisKeyEnum.REDIS_TABLE_KEY_DATA_SOURCE.name());
-        if(obj != null) {
-            JSONObject jsonObject = JSONObject.parseObject(obj.toString());
-            for (String dataSourceId : jsonObject.keySet()) {
-                if (MyStringUtils.isBlank(MyStringUtils.null2String(dataSourceId))) {
-                    continue;
-                }
-
-                // 切换数据源
-                DefaultBusinessContext.getContext().setDataSourceId(dataSourceId);
-                DefaultBusinessContext.getContext().setCompanyId(dataSourceId);
-
-                sysMenuServiceImpl.init();
-                sysLookupServiceImpl.init();
-                sysDataPrivilegeServiceImpl.init();
-            }
-        }
     }
 
 }

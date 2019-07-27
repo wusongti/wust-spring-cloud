@@ -12,10 +12,7 @@ import org.w3c.dom.NodeList;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  *
@@ -50,16 +47,22 @@ public class XMLLookupResolver extends XMLDefaultResolver {
 
     @Override
     public void parseXML() throws BusinessException {
-        String mainXMLPath = "dictionary" + File.separator + "lookup" + File.separator + "sys_lookup.xml";
+        String[] mainXMLPaths = {"dictionary" + File.separator + "lookup" + File.separator + "sys_lookup.xml","dictionary" + File.separator + "lookup" + File.separator + "sys_lookup_en_US.xml"};
         String mainXSDPath = "dictionary" + File.separator + "lookup" + File.separator + "sys_lookup.xsd";
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 
         //validateXML(mainXSDPath, mainXMLPath);
         try{
             DocumentBuilder db = dbf.newDocumentBuilder();
-            org.w3c.dom.Document doc = db.parse(ResourceUtils.getFile("classpath:" + mainXMLPath));
-            org.w3c.dom.Element element = doc.getDocumentElement();
-            doParseXML(element);
+            for (String mainXMLPath : mainXMLPaths) {
+                String lan = mainXMLPath.substring(mainXMLPath.length() - 9,mainXMLPath.indexOf("."));
+                if(mainXMLPath.contains("sys_lookup.xml")){
+                    lan = "zh_CN";
+                }
+                org.w3c.dom.Document doc = db.parse(ResourceUtils.getFile("classpath:" + mainXMLPath));
+                org.w3c.dom.Element element = doc.getDocumentElement();
+                doParseXML(element,lan);
+            }
         }catch (Exception e){
             throw new BusinessException(e);
         }
@@ -74,14 +77,14 @@ public class XMLLookupResolver extends XMLDefaultResolver {
     }
 
 
-    private void doParseXML(org.w3c.dom.Element element) throws Exception {
+    private void doParseXML(org.w3c.dom.Element element, String lan) throws Exception {
         NodeList children = element.getChildNodes();
         for (int i = 0; i < children.getLength(); i++) {
             Node node = children.item(i);
             short nodeType = node.getNodeType();
             if (nodeType == Node.ELEMENT_NODE) {
                 if (ELEMENT_RECORD.equalsIgnoreCase(node.getNodeName())) {
-                    String id = ((org.w3c.dom.Element) node).getAttribute(ELEMENT_ID);
+                    String id = UUID.randomUUID().toString();
                     String code = ((org.w3c.dom.Element) node).getAttribute(ELEMENT_CODE);
                     String parentCode = ((org.w3c.dom.Element) node).getAttribute(ELEMENT_PARENT_CODE);
                     String rootCode = ((org.w3c.dom.Element) node).getAttribute(ELEMENT_ROOT_CODE);
@@ -90,17 +93,9 @@ public class XMLLookupResolver extends XMLDefaultResolver {
                     String status = ((org.w3c.dom.Element) node).getAttribute(ELEMENT_STATUS);
                     String visible = ((org.w3c.dom.Element) node).getAttribute(ELEMENT_VISIBLE);
                     String description = ((org.w3c.dom.Element) node).getAttribute(ELEMENT_DESCRIPTION);
-                    String lan = ((org.w3c.dom.Element) node).getAttribute(ELEMENT_LAN);
                     String sort = ((org.w3c.dom.Element) node).getAttribute(ELEMENT_SORT);
 
-
-                    String uniqueKeyId = "ID" + id;
-                    if (uniqueKeyIdChecking.containsKey(uniqueKeyId)) {
-                        throw new BusinessException("解析sys_lookup.xml失败，ID元素值不允许重复[" + id + "]");
-                    }
-                    uniqueKeyIdChecking.put(uniqueKeyId, null);
-
-                    String uniqueKeyCode = "CODE" + code;
+                    String uniqueKeyCode = "CODE" + code + lan;
                     if (uniqueKeyCodeChecking.containsKey(uniqueKeyCode)) {
                         throw new BusinessException("解析sys_lookup.xml失败，CODE元素值不允许重复[" + code + "]");
                     }
@@ -121,7 +116,7 @@ public class XMLLookupResolver extends XMLDefaultResolver {
                     lookup.setLan(MyStringUtils.isBlank(MyStringUtils.null2String(lan)) ? "zh_CN" : lan);
                     this.sysLookups.add(lookup);
                 }
-                doParseXML((org.w3c.dom.Element) node);
+                doParseXML((org.w3c.dom.Element) node,lan);
             }
         }
     }

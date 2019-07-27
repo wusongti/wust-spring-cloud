@@ -29,6 +29,9 @@
 
     <select id="listPage" parameterType="SysLookupSearch" resultMap="ListMap">
         SELECT * FROM sys_lookup t WHERE 1 = 1
+        <if test="lan != null and lan !=  ''">
+            AND t.lan = #{lan}
+        </if>
         <if test="code != null and code !=  ''">
             AND t.code = #{code}
         </if>
@@ -53,6 +56,9 @@
         SELECT * FROM sys_lookup t WHERE 1 = 1
         <if test="id != null and id !=  ''">
             AND t.id = #{id}
+        </if>
+        <if test="lan != null and lan !=  ''">
+            AND t.lan = #{lan}
         </if>
         <if test="code != null and code !=  ''">
             AND t.code = #{code}

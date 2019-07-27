@@ -1,13 +1,13 @@
 <?xml version="1.0" standalone="yes"?>
 <RECORDS>
     <!-- Demo S -->
-    <RECORD code="1001" parent_code="" name="一级数据" description="一级数据" sort="0"/>
-    <RECORD code="100101" parent_code="1001" root_code="1001" name="二级数据1" description="二级数据1" sort="0"/>
-    <RECORD code="100102" parent_code="1001" root_code="1001" name="二级数据2" description="二级数据2" sort="0"/>
-    <RECORD code="10010101" parent_code="100101" root_code="1001" name="三级数据1" description="三级数据1" sort="0"/>
-    <RECORD code="10010102" parent_code="100101" root_code="1001" name="三级数据2" description="三级数据2" sort="0"/>
-    <RECORD code="10010201" parent_code="100102" root_code="1001" name="三级数据3" description="三级数据3" sort="0"/>
-    <RECORD code="10010202" parent_code="100102" root_code="1001" name="三级数据4" description="三级数据4" sort="0"/>
+    <RECORD code="1001" parent_code="" name="One Level Data" description="One Level Data" sort="0"/>
+    <RECORD code="100101" parent_code="1001" root_code="1001" name="Two Level Data1" description="Two Level Data1" sort="0"/>
+    <RECORD code="100102" parent_code="1001" root_code="1001" name="Two Level Data2" description="Two Level Data2" sort="0"/>
+    <RECORD code="10010101" parent_code="100101" root_code="1001" name="Three Level Data1" description="Three Level Data1" sort="0"/>
+    <RECORD code="10010102" parent_code="100101" root_code="1001" name="Three Level Data2" description="Three Level Data2" sort="0"/>
+    <RECORD code="10010201" parent_code="100102" root_code="1001" name="Three Level Data3" description="Three Level Data3" sort="0"/>
+    <RECORD code="10010202" parent_code="100102" root_code="1001" name="Three Level Data4" description="Three Level Data4" sort="0"/>
     <!-- Demo E -->
 
     <!-- 启用禁用状态 S -->
