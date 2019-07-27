@@ -126,6 +126,7 @@ public class LoginController {
 
 
     private UserContextDto getUserContextDto(final SysUserList sysUserList){
+        JSONArray menuJSONArray = null;
         List<SysMenu> menus = null;                            // 非白名单菜单
         Map<Integer,List<SysMenu>> groupMenusByLevel = null;   // 根据菜单级别分组menus
         Map<String,List<SysMenu>> groupMenusByPid = null;      // 根据pid分组 menus
@@ -145,7 +146,7 @@ public class LoginController {
             menus = authenticationServiceImpl.findAllMenus4SystemAdmin();
             groupMenusByLevel = groupByLevelMenus(menus);
             groupMenusByPid = groupByPidMenus(menus);
-
+            menuJSONArray = menuToJSON(groupMenusByPid,groupMenusByLevel.get(1));
 
             resources = authenticationServiceImpl.findAllResources4systemAdmin();
             resources4anon = authenticationServiceImpl.findAllAnonResources4systemAdmin();
@@ -157,6 +158,7 @@ public class LoginController {
             menus = authenticationServiceImpl.findMenuByUserId(userId);
             groupMenusByLevel = groupByLevelMenus(menus);
             groupMenusByPid = groupByPidMenus(menus);
+            menuJSONArray = menuToJSON(groupMenusByPid,groupMenusByLevel.get(1));
 
             resources = authenticationServiceImpl.findResourcesByUserId(userId);
             resources4anon = authenticationServiceImpl.findAnonResourcesByUserId(userId);
@@ -164,8 +166,7 @@ public class LoginController {
         }
 
         userContextDto.setUser(sysUserList);
-        userContextDto.setGroupMenusByLevel(groupMenusByLevel);
-        userContextDto.setGroupMenusByPid(groupMenusByPid);
+        userContextDto.setMenuJSONArray(menuJSONArray);
         userContextDto.setResources(resources);
         userContextDto.setAnonResources(resources4anon);
         userContextDto.setGroupResourcesByPid(groupResourcesByMenuId);
@@ -219,6 +220,35 @@ public class LoginController {
         return null;
     }
 
+
+    private JSONArray menuToJSON(Map<String,List<SysMenu>> groupByPidMenus,List<SysMenu> current){
+        JSONArray jsonArray = new JSONArray();
+        if(org.apache.commons.collections.CollectionUtils.isNotEmpty(current)){
+            for (SysMenu menu : current) {
+                JSONObject jsonObject = new JSONObject();
+                String id = menu.getId();
+                jsonObject.put("id",id);
+                jsonObject.put("pId",menu.getpId());
+                jsonObject.put("name",menu.getName());
+                jsonObject.put("description",menu.getDescription());
+                jsonObject.put("img",menu.getImg());
+                jsonObject.put("level",menu.getLevel());
+
+                if(groupByPidMenus.containsKey(id)){
+                    List<SysMenu> subList = groupByPidMenus.get(id);
+                    jsonObject.put("children",subList);
+                    menuToJSON(groupByPidMenus,subList);
+                }else {
+                    jsonObject.put("children",null);
+                }
+
+                jsonArray.add(jsonObject);
+            }
+            return jsonArray;
+        }
+        return null;
+    }
+
     /**
      * 对资源按菜单分组
      * @param resources
@@ -247,6 +277,7 @@ public class LoginController {
         jsonObject.put("xAuthToken",xAuthToken);
         jsonObject.put("userId",userContextDto.getUser().getId());
         jsonObject.put("loginName",userContextDto.getUser().getLoginName());
+        jsonObject.put("realName",userContextDto.getUser().getRealName());
 
         /**
          * 简化并设置登录用户拥有的所有资源权限
@@ -260,28 +291,7 @@ public class LoginController {
             jsonObject.put("permissions",simplePermissions);
         }
 
-
-        /**
-         * 简化并设置一级菜单
-         */
-        if(!org.springframework.util.CollectionUtils.isEmpty(userContextDto.getGroupMenusByLevel())){
-            List<SysMenu> firstLevel = userContextDto.getGroupMenusByLevel().get(1);
-            if(CollectionUtils.isNotEmpty(firstLevel)){
-                JSONArray jsonArray = new JSONArray(firstLevel.size());
-                for (SysMenu menu : firstLevel) {
-                    JSONObject menuJsonObject = new JSONObject();
-                    menuJsonObject.put("id",menu.getId());
-                    menuJsonObject.put("name",menu.getName());
-                    menuJsonObject.put("description",menu.getDescription());
-                    menuJsonObject.put("img",menu.getImg());
-                    menuJsonObject.put("url",menu.getUrl());
-                    menuJsonObject.put("level",menu.getLevel());
-                    menuJsonObject.put("permission",menu.getPermission());
-                    jsonArray.add(menuJsonObject);
-                }
-                jsonObject.put("oneLevelMenus",jsonArray);
-            }
-        }
+        jsonObject.put("menus",userContextDto.getMenuJSONArray());
         return jsonObject;
     }
 }
