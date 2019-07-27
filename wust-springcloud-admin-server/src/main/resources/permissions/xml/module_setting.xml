@@ -49,7 +49,7 @@
 		<operation id="f7166026-87fc-11e9-a68d-0050568e63cd" name="Update" desc="修改" url=""/>
 	</module>
 
-	<module id="bfa76d77-716f-11e9-a68d-0050568e63cd" name="Lookup" desc="数据字典" order="3000123" page="LookupList" url="./LookupList">
+	<module id="bfa76d77-716f-11e9-a68d-0050568e63cd" name="Lookup" desc="数据字典" order="3000123" page="LookupIndex" url="./LookupIndex">
 		<operation id="b8cb00c4-87fc-11e9-a68d-0050568e63cd" name="Search" desc="查询" url=""/>
 		<operation id="bd14e7dd-87fc-11e9-a68d-0050568e63cd" name="Update" desc="修改" url=""/>
 	</module>
