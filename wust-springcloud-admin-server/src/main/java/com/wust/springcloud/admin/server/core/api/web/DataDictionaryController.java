@@ -28,7 +28,7 @@ public class DataDictionaryController {
         ResponseDto mm = new ResponseDto();
         DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
 
-        List<SysLookupList> sysLookupLists = DataDictionaryUtil.getLookupListByParentCode(ctx.getCompanyId(),parentCode);
+        List<SysLookupList> sysLookupLists = DataDictionaryUtil.getLookupListByParentCode(ctx.getLocale().toString(),parentCode);
         if (CollectionUtils.isNotEmpty(sysLookupLists)) {
             StringBuffer html = new StringBuffer();
             boolean hasDefaultValueFlag = false;

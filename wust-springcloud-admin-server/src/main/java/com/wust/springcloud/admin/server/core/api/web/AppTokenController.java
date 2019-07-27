@@ -36,7 +36,7 @@ public class AppTokenController {
         List<SysAppTokenList> sysAppTokenLists =  sysAppTokenServiceImpl.listPage(search);
         if(CollectionUtils.isNotEmpty(sysAppTokenLists)){
             for (SysAppTokenList sysAppTokenList : sysAppTokenLists) {
-                sysAppTokenList.setStatusLabel(DataDictionaryUtil.getLookupNameByCode(ctx.getCompanyId(),sysAppTokenList.getStatus()));
+                sysAppTokenList.setStatusLabel(DataDictionaryUtil.getLookupNameByCode(ctx.getLocale().toString(),sysAppTokenList.getStatus()));
             }
         }
         baseDto.setPage(search.getPageDto());

@@ -60,14 +60,14 @@ public class UserController {
         List<SysUserList> sysUserLists =  sysUserServiceImpl.listPage(sysUserSearch);
         if(CollectionUtils.isNotEmpty(sysUserLists)){
             for (SysUserList sysUserList : sysUserLists) {
-                sysUserList.setSexLabel(DataDictionaryUtil.getLookupNameByCode(ctx.getCompanyId(),sysUserList.getSex()));
-                sysUserList.setStatusLabel(DataDictionaryUtil.getLookupNameByCode(ctx.getCompanyId(),sysUserList.getStatus()));
-                sysUserList.setTypeLabel(DataDictionaryUtil.getLookupNameByCode(ctx.getCompanyId(),sysUserList.getType()));
+                sysUserList.setSexLabel(DataDictionaryUtil.getLookupNameByCode(ctx.getLocale().toString(),sysUserList.getSex()));
+                sysUserList.setStatusLabel(DataDictionaryUtil.getLookupNameByCode(ctx.getLocale().toString(),sysUserList.getStatus()));
+                sysUserList.setTypeLabel(DataDictionaryUtil.getLookupNameByCode(ctx.getLocale().toString(),sysUserList.getType()));
 
                 if(springRedisTools.hasKey(String.format(ApplicationEnum.WEB_LOGIN_KEY.getStringValue(),sysUserList.getLoginName()))){
-                    sysUserList.setOnlineStatusLabel(DataDictionaryUtil.getLookupNameByCode(ctx.getCompanyId(),"101001"));
+                    sysUserList.setOnlineStatusLabel(DataDictionaryUtil.getLookupNameByCode(ctx.getLocale().toString(),"101001"));
                 }else{
-                    sysUserList.setOnlineStatusLabel(DataDictionaryUtil.getLookupNameByCode(ctx.getCompanyId(),"101002"));
+                    sysUserList.setOnlineStatusLabel(DataDictionaryUtil.getLookupNameByCode(ctx.getLocale().toString(),"101002"));
                 }
             }
         }

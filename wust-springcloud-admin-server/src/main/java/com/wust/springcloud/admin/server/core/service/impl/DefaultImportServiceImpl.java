@@ -43,7 +43,7 @@ public class DefaultImportServiceImpl extends POIExcelResolver4commonImport {
     @Override
     protected String getLookupItemCodeByName(String rootCode, String name) {
         DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
-        return DataDictionaryUtil.getLookupCodeByRootCodeAndName(ctx.getCompanyId(),rootCode,name);
+        return DataDictionaryUtil.getLookupCodeByRootCodeAndName(ctx.getLocale().toString(),rootCode,name);
     }
 
 

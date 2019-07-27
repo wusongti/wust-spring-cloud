@@ -72,8 +72,8 @@ public class LookupController {
         List<SysLookupList>  sysLookupLists = sysLookupServiceImpl.listPage(sysLookupSearch);
         if (CollectionUtils.isNotEmpty(sysLookupLists)) {
             for (SysLookupList sysLookupList : sysLookupLists) {
-                sysLookupList.setVisibleLabel(DataDictionaryUtil.getLookupNameByCode(ctx.getCompanyId(),sysLookupList.getVisible()));
-                sysLookupList.setStatusLabel(DataDictionaryUtil.getLookupNameByCode(ctx.getCompanyId(),sysLookupList.getStatus()));
+                sysLookupList.setVisibleLabel(DataDictionaryUtil.getLookupNameByCode(ctx.getLocale().toString(),sysLookupList.getVisible()));
+                sysLookupList.setStatusLabel(DataDictionaryUtil.getLookupNameByCode(ctx.getLocale().toString(),sysLookupList.getStatus()));
             }
 
             responseDto.setLstDto(sysLookupLists);

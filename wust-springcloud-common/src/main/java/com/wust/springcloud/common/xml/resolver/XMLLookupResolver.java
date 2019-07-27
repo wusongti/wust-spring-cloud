@@ -42,7 +42,8 @@ public class XMLLookupResolver extends XMLDefaultResolver {
 
     private final Map<String, String> uniqueKeyIdChecking = new HashMap<>();
     private final Map<String, String> uniqueKeyCodeChecking = new HashMap<>();
-    private final List<SysLookup> sysLookups = new ArrayList<SysLookup>();
+    private final Map<String,List> map = new HashMap<>(2);
+    private List<SysLookup> sysLookups;
 
 
     @Override
@@ -59,6 +60,8 @@ public class XMLLookupResolver extends XMLDefaultResolver {
                 if(mainXMLPath.contains("sys_lookup.xml")){
                     lan = "zh_CN";
                 }
+                sysLookups = new ArrayList<>();
+                map.put(lan,sysLookups);
                 org.w3c.dom.Document doc = db.parse(ResourceUtils.getFile("classpath:" + mainXMLPath));
                 org.w3c.dom.Element element = doc.getDocumentElement();
                 doParseXML(element,lan);
@@ -71,8 +74,6 @@ public class XMLLookupResolver extends XMLDefaultResolver {
     @Override
     public Map<String, List> getResult() {
         this.parseXML();
-        Map<String, List> map = new HashMap<>(1);
-        map.put("sysLookups",sysLookups);
         return map;
     }
 

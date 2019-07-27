@@ -73,7 +73,7 @@ public class SysLookupPrivateServiceImpl implements SysLookupPrivateService {
 
     private void getChildrenByParentCode(SysLookup parent,final List<SysLookup> resultList,List<String> codes){
         DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
-        List<SysLookupList> sysLookupLists = DataDictionaryUtil.getLookupListByParentCode(ctx.getCompanyId(),parent.getCode());
+        List<SysLookupList> sysLookupLists = DataDictionaryUtil.getLookupListByParentCode(ctx.getLocale().toString(),parent.getCode());
         if(CollectionUtils.isNotEmpty(sysLookupLists)){
             for (SysLookupList sysLookupList : sysLookupLists) {
                 sysLookupList.setLan(parent.getLan());

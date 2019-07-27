@@ -54,7 +54,7 @@ public class RoleController {
         List<SysRoleList> sysRoleLists =  sysRoleServiceImpl.listPage(sysRoleSearch);
         if(CollectionUtils.isNotEmpty(sysRoleLists)){
             for (SysRoleList sysRoleList : sysRoleLists) {
-                sysRoleList.setStatusLabel(DataDictionaryUtil.getLookupNameByCode(ctx.getCompanyId(),sysRoleList.getStatus()));
+                sysRoleList.setStatusLabel(DataDictionaryUtil.getLookupNameByCode(ctx.getLocale().toString(),sysRoleList.getStatus()));
             }
         }
         baseDto.setPage(sysRoleSearch.getPageDto());

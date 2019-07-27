@@ -50,9 +50,9 @@ public class DataDictionaryUtil {
      * @param parentCode
      * @return
      */
-    public static List<SysLookupList> getLookupListByParentCode(String companyId,String parentCode) {
+    public static List<SysLookupList> getLookupListByParentCode(String lan,String parentCode) {
         List<SysLookupList> sysLookupLists = null;
-        String key = String.format(RedisKeyEnum.REDIS_TABLE_KEY_GROUP_GROUP_LOOKUP_BY_PID.getStringValue(),companyId);
+        String key = String.format(RedisKeyEnum.REDIS_TABLE_KEY_GROUP_GROUP_LOOKUP_BY_PID.getStringValue(),lan);
         Object obj = getRedisSpringBean().getByKey(key);
         if(obj != null){
             JSONObject jsonObject = JSONObject.parseObject(obj+"");
@@ -68,8 +68,8 @@ public class DataDictionaryUtil {
      * @param codeValue
      * @return
      */
-    public static String getLookupNameByCode(String companyId,String codeValue) {
-        String key = String.format(RedisKeyEnum.REDIS_TABLE_KEY_GROUP_LOOKUP_NAME_BY_CODE.getStringValue(),companyId);
+    public static String getLookupNameByCode(String lan,String codeValue) {
+        String key = String.format(RedisKeyEnum.REDIS_TABLE_KEY_GROUP_LOOKUP_NAME_BY_CODE.getStringValue(),lan);
         Object obj = getRedisSpringBean().getByKey(key);
         if(obj != null){
             JSONObject jsonObject = JSONObject.parseObject(obj.toString());
@@ -85,8 +85,8 @@ public class DataDictionaryUtil {
      * @param name
      * @return
      */
-    public static String getLookupCodeByRootCodeAndName(String companyId,String rootCode, String name) {
-        String k = String.format(RedisKeyEnum.REDIS_TABLE_KEY_GROUP_LOOKUP_CODE_BY_ROOT_CODE_AND_NAME.getStringValue(),companyId);
+    public static String getLookupCodeByRootCodeAndName(String lan,String rootCode, String name) {
+        String k = String.format(RedisKeyEnum.REDIS_TABLE_KEY_GROUP_LOOKUP_CODE_BY_ROOT_CODE_AND_NAME.getStringValue(),lan);
         Object obj = getRedisSpringBean().getByKey(k);
         if(obj != null){
             JSONObject jsonObject = JSONObject.parseObject(obj.toString());

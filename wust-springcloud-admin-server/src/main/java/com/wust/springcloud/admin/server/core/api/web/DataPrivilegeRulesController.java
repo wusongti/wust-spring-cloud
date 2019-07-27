@@ -38,7 +38,7 @@ public class DataPrivilegeRulesController {
                 String[] types = sysDataPrivilegeRulesList.getType().split(",");
                 Arrays.sort(types);
                 for (String type : types) {
-                    typeNameStr += "【" + DataDictionaryUtil.getLookupNameByCode(ctx.getCompanyId(),type) + "】";
+                    typeNameStr += "【" + DataDictionaryUtil.getLookupNameByCode(ctx.getLocale().toString(),type) + "】";
                 }
                 sysDataPrivilegeRulesList.setTypeName(typeNameStr);
             }

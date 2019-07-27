@@ -163,6 +163,6 @@ public class ExportExcelServiceImpl extends POIExcelResolver4commonExport implem
     @Override
     protected String getLookupItemNameByCode(String code) {
         DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
-        return DataDictionaryUtil.getLookupNameByCode(ctx.getCompanyId(),code);
+        return DataDictionaryUtil.getLookupNameByCode(ctx.getLocale().toString(),code);
     }
 }

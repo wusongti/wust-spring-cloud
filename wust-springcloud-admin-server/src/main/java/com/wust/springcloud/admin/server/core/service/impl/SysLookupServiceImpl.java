@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.wust.springcloud.admin.server.core.dao.SysLookupMapper;
 import com.wust.springcloud.admin.server.core.service.SysLookupService;
-import com.wust.springcloud.common.context.DefaultBusinessContext;
 import com.wust.springcloud.common.dto.ResponseDto;
 import com.wust.springcloud.common.entity.sys.lookup.SysLookup;
 import com.wust.springcloud.common.entity.sys.lookup.SysLookupList;
@@ -18,8 +17,10 @@ import com.wust.springcloud.common.xml.factory.XMLLookupFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by WST on 2019/4/29.
@@ -51,33 +52,35 @@ public class SysLookupServiceImpl implements SysLookupService {
         XMLDefinitionFactory xmlLookupFactory = new XMLLookupFactory();
         XMLAbstractResolver resolver = xmlLookupFactory.createXMLResolver();
         Map<String,List> resultMap =  resolver.getResult();
-        List<SysLookup> sysLookups = resultMap.get("sysLookups");
+        List zhCNList = resultMap.get("zh_CN");
+        List enUSList = resultMap.get("en_US");
 
-        DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
 
+        List<SysLookup> sysLookups = new ArrayList<>();
+        sysLookups.addAll(zhCNList);
+        sysLookups.addAll(enUSList);
         sysLookupMapper.deleteAll();
         sysLookupMapper.batchInsert(sysLookups);
 
-        /**
-         * TODO 读取数据库配置的个性化数据字典，用以覆盖XML配置的数据字典
-         */
+        Set<String> keySet = resultMap.keySet();
+        for (String lan : keySet) {
+            List list = resultMap.get(lan);
+            String groupLookupCodeByRootCodeAndNameJSONString = groupLookupCodeByRootCodeAndName(list);
+            String groupLookupNameByCodeJSONString = groupLookupNameByCode(list);
+            String groupLookupByPidJSONString = groupLookupByParentCode(list);
 
+            String key = String.format(RedisKeyEnum.REDIS_TABLE_KEY_GROUP_LOOKUP_CODE_BY_ROOT_CODE_AND_NAME.getStringValue(),lan);
+            springRedisTools.deleteByKey(key);
+            springRedisTools.addData(key, groupLookupCodeByRootCodeAndNameJSONString);
 
-        String groupLookupCodeByRootCodeAndNameJSONString = groupLookupCodeByRootCodeAndName(sysLookups);
-        String groupLookupNameByCodeJSONString = groupLookupNameByCode(sysLookups);
-        String groupLookupByPidJSONString = groupLookupByParentCode(sysLookups);
+            String key1 = String.format(RedisKeyEnum.REDIS_TABLE_KEY_GROUP_LOOKUP_NAME_BY_CODE.getStringValue(),lan);
+            springRedisTools.deleteByKey(key1);
+            springRedisTools.addData(key1, groupLookupNameByCodeJSONString);
 
-        String key = String.format(RedisKeyEnum.REDIS_TABLE_KEY_GROUP_LOOKUP_CODE_BY_ROOT_CODE_AND_NAME.getStringValue(),ctx.getCompanyId());
-        springRedisTools.deleteByKey(key);
-        springRedisTools.addData(key, groupLookupCodeByRootCodeAndNameJSONString);
-
-        String key1 = String.format(RedisKeyEnum.REDIS_TABLE_KEY_GROUP_LOOKUP_NAME_BY_CODE.getStringValue(),ctx.getCompanyId());
-        springRedisTools.deleteByKey(key1);
-        springRedisTools.addData(key1, groupLookupNameByCodeJSONString);
-
-        String key2 = String.format(RedisKeyEnum.REDIS_TABLE_KEY_GROUP_GROUP_LOOKUP_BY_PID.getStringValue(),ctx.getCompanyId());
-        springRedisTools.deleteByKey(key2);
-        springRedisTools.addData(key2, groupLookupByPidJSONString);
+            String key2 = String.format(RedisKeyEnum.REDIS_TABLE_KEY_GROUP_GROUP_LOOKUP_BY_PID.getStringValue(),lan);
+            springRedisTools.deleteByKey(key2);
+            springRedisTools.addData(key2, groupLookupByPidJSONString);
+        }
         return null;
     }
 

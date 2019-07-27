@@ -43,8 +43,8 @@ public class MyImportExportController {
         List<SysImportExportList> sysImportExportLists =  sysImportExportServiceImpl.listPage(sysImportExportSearch);
         if(CollectionUtils.isNotEmpty(sysImportExportLists)){
             for (SysImportExportList sysImportExportList : sysImportExportLists) {
-                sysImportExportList.setStatusLabel(DataDictionaryUtil.getLookupNameByCode(ctx.getCompanyId(),sysImportExportList.getStatus()));
-                sysImportExportList.setOperationTypeLabel(DataDictionaryUtil.getLookupNameByCode(ctx.getCompanyId(),sysImportExportList.getOperationType()));
+                sysImportExportList.setStatusLabel(DataDictionaryUtil.getLookupNameByCode(ctx.getLocale().toString(),sysImportExportList.getStatus()));
+                sysImportExportList.setOperationTypeLabel(DataDictionaryUtil.getLookupNameByCode(ctx.getLocale().toString(),sysImportExportList.getOperationType()));
             }
         }
         baseDto.setPage(sysImportExportSearch.getPageDto());
