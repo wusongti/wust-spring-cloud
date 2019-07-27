@@ -68,6 +68,7 @@ public class LookupController {
     ResponseDto listPage(@RequestBody SysLookupSearch sysLookupSearch){
         ResponseDto responseDto = new ResponseDto();
         DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
+        sysLookupSearch.setLan(ctx.getLocale().toString());
         List<SysLookupList>  sysLookupLists = sysLookupServiceImpl.listPage(sysLookupSearch);
         if (CollectionUtils.isNotEmpty(sysLookupLists)) {
             for (SysLookupList sysLookupList : sysLookupLists) {
