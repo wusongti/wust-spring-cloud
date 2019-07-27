@@ -24,7 +24,7 @@ public class HelloJob implements BaseJob{
 
     @Override
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
-        Object dataSourceObj = springRedisTools.getByKey(RedisKeyEnum.REDIS_TABLE_KEY_DATA_SOURCE.name());
+       /* Object dataSourceObj = springRedisTools.getByKey(RedisKeyEnum.REDIS_TABLE_KEY_DATA_SOURCE.name());
         if(dataSourceObj != null) {
             JSONObject jsonObject = (JSONObject) dataSourceObj;
             Set<String> keys = jsonObject.keySet();
@@ -32,7 +32,7 @@ public class HelloJob implements BaseJob{
             for (String companyId : keys) {
                 System.out.println("执行了。。。" + companyId);
             }
-        }
+        }*/
 
     }
 }

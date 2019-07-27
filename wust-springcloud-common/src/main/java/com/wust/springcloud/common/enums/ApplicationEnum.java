@@ -14,6 +14,8 @@ public enum  ApplicationEnum {
 
     X_AUTH_TOKEN("x-auth-token"),
 
+    X_LOCALE("x-locale"),
+
     X_AUTH_TOKEN_EXPIRE_TIME(10), // 单位：分钟
 
     API_SIGN("API_SIGN"),

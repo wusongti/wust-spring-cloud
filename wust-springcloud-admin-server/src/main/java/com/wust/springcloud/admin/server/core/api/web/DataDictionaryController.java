@@ -1,6 +1,8 @@
 package com.wust.springcloud.admin.server.core.api.web;
 
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.wust.springcloud.admin.server.core.service.SysLookupPrivateService;
 import com.wust.springcloud.admin.server.core.service.SysLookupService;
 import com.wust.springcloud.common.annotations.OperationLogAnnotation;
@@ -16,7 +18,6 @@ import com.wust.springcloud.common.util.cache.DataDictionaryUtil;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,9 +28,6 @@ import java.util.List;
 public class DataDictionaryController {
     @Autowired
     private SpringRedisTools springRedisTools;
-
-    @Autowired
-    private SysLookupService sysLookupServiceImpl;
 
     @Autowired
     private SysLookupPrivateService sysLookupPrivateServiceImpl;
@@ -78,65 +76,12 @@ public class DataDictionaryController {
     }
 
 
-    @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_LOOKUP,businessName="查询默认数据字典表格树数据",operationType= OperationLogEnum.Search)
-    @RequestMapping(value = "/getLookupTableTreeData",method = RequestMethod.POST)
-    public @ResponseBody
-    ResponseDto getLookupTableTreeData(@RequestBody SysLookupSearch sysLookupSearch){
-        ResponseDto baseDto = new ResponseDto();
-        DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
-
-        sysLookupSearch.setRootCode("0000");
-        List<SysLookupList> sysLookupLists =  sysLookupServiceImpl.findByCondition(sysLookupSearch);
-        if(CollectionUtils.isNotEmpty(sysLookupLists)){
-            List<SysLookupList> resultList = new ArrayList<>(100);
-            for (SysLookupList sysLookupList : sysLookupLists) {
-                sysLookupList.setVisibleLabel(DataDictionaryUtil.getLookupNameByCode(ctx.getCompanyId(),sysLookupList.getVisible()));
-                sysLookupList.setStatusLabel(DataDictionaryUtil.getLookupNameByCode(ctx.getCompanyId(),sysLookupList.getStatus()));
-                resultList.add(sysLookupList);
-                getChildrenByParentCode(sysLookupList,resultList);
-            }
-            baseDto.setLstDto(resultList);
-        }
-        baseDto.setPage(sysLookupSearch.getPageDto());
-        return baseDto;
-    }
 
 
-    @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_LOOKUP,businessName="查询个性化数据字典表格树数据",operationType= OperationLogEnum.Search)
-    @RequestMapping(value = "/getIndividuationLookupTableTreeData",method = RequestMethod.POST)
-    public @ResponseBody
-    ResponseDto getIndividuationLookupTableTreeData(@RequestBody SysLookupSearch sysLookupSearch){
-        ResponseDto baseDto = new ResponseDto();
-        DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
 
-        sysLookupSearch.setRootCode("0000");
-        List<SysLookupList> sysLookupLists =  sysLookupPrivateServiceImpl.findByCondition(sysLookupSearch);
-        if(CollectionUtils.isNotEmpty(sysLookupLists)){
-            List<SysLookupList> resultList = new ArrayList<>(100);
-            for (SysLookupList sysLookupList : sysLookupLists) {
-                sysLookupList.setVisibleLabel(DataDictionaryUtil.getLookupNameByCode(ctx.getCompanyId(),sysLookupList.getVisible()));
-                sysLookupList.setStatusLabel(DataDictionaryUtil.getLookupNameByCode(ctx.getCompanyId(),sysLookupList.getStatus()));
-                resultList.add(sysLookupList);
-                getChildrenByParentCode(sysLookupList,resultList);
-            }
-            baseDto.setLstDto(resultList);
-        }
-        baseDto.setPage(sysLookupSearch.getPageDto());
-        return baseDto;
-    }
 
-    private void getChildrenByParentCode(SysLookup parent,final List<SysLookupList> resultList){
-        DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
-        List<SysLookupList> sysLookupLists = DataDictionaryUtil.getLookupListByParentCode(ctx.getCompanyId(),parent.getCode());
-        if(CollectionUtils.isNotEmpty(sysLookupLists)){
-            for (SysLookupList sysLookupList : sysLookupLists) {
-                sysLookupList.setVisibleLabel(DataDictionaryUtil.getLookupNameByCode(ctx.getCompanyId(),sysLookupList.getVisible()));
-                sysLookupList.setStatusLabel(DataDictionaryUtil.getLookupNameByCode(ctx.getCompanyId(),sysLookupList.getStatus()));
-                resultList.add(sysLookupList);
-                getChildrenByParentCode(sysLookupList,resultList);
-            }
-        }
-    }
+
+
 
 
 

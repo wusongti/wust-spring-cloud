@@ -13,6 +13,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -47,7 +48,14 @@ public abstract class ContextHandlerAdapter {
      * @param httpServletRequest
      */
     private static void setDefaultBusinessContext(UserContextDto userContextDto,HttpServletRequest httpServletRequest){
-        DefaultBusinessContext.getContext().setLocale(httpServletRequest.getLocale());
+        String localeStr = MyStringUtils.null2String(httpServletRequest.getHeader(ApplicationEnum.X_LOCALE.getStringValue()));
+        if (MyStringUtils.isBlank(localeStr)) {
+            DefaultBusinessContext.getContext().setLocale(httpServletRequest.getLocale());
+        }else{
+            Locale locale = new Locale(localeStr.split("-")[0],localeStr.split("-")[1]);
+            DefaultBusinessContext.getContext().setLocale(locale);
+        }
+
 
         if(userContextDto != null){
             DefaultBusinessContext.getContext().setUserId(userContextDto.getUser().getId());
@@ -76,7 +84,14 @@ public abstract class ContextHandlerAdapter {
         String jsonStr = MyStringUtils.null2String(httpServletRequest.getHeader(ApplicationEnum.API_SIGN.getStringValue()));
         Map paraMap = JSONObject.parseObject(jsonStr, Map.class);
 
-        DefaultBusinessContext.getContext().setLocale(httpServletRequest.getLocale());
+        String localeStr = MyStringUtils.null2String(httpServletRequest.getHeader(ApplicationEnum.X_LOCALE.getStringValue()));
+        if (MyStringUtils.isBlank(localeStr)) {
+            DefaultBusinessContext.getContext().setLocale(httpServletRequest.getLocale());
+        }else{
+            Locale locale = new Locale(localeStr.split("-")[0],localeStr.split("-")[1]);
+            DefaultBusinessContext.getContext().setLocale(locale);
+        }
+
         DefaultBusinessContext.getContext().setSignMap(paraMap);
         DefaultBusinessContext.getContext().setCompanyId(paraMap.get("companyId").toString());
         DefaultBusinessContext.getContext().setDataSourceId(paraMap.get("companyId").toString());
