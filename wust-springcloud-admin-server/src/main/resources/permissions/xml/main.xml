@@ -6,43 +6,43 @@
 			<path path = "permissions/xml/module_anon.xml"/>
 		</modulegroup>
 
-		<modulegroup id="8972b850-804e-11e9-a68d-0050568e63cd" name="Query Management" desc="查询管理" order="11001">
+		<modulegroup id="8972b850-804e-11e9-a68d-0050568e63cd" name="Query Management" desc="查询管理" order="11001" img="el-icon-menu">
 			<path path = "permissions/xml/module_query.xml"/>
 		</modulegroup>
 
-		<modulegroup id="1a6debab-f513-4b3f-9d21-2b5249c3ec11" name="Setting" desc="系统配置" order="12001" >
+		<modulegroup id="1a6debab-f513-4b3f-9d21-2b5249c3ec11" name="Setting" desc="系统配置" order="12001"  img="el-icon-setting">
 			<path path = "permissions/xml/module_setting.xml"/>
 		</modulegroup>
 
-		<modulegroup id="2517bcaa-af7c-11e9-948a-00f1f3059872" name="Electricity Management" desc="电力管理" order="13001">
+		<modulegroup id="2517bcaa-af7c-11e9-948a-00f1f3059872" name="Electricity Management" desc="电力管理" order="13001" img="el-icon-menu">
 			<path path = "permissions/xml/module_query.xml"/>
 		</modulegroup>
 
-		<modulegroup id="413f2170-af7c-11e9-948a-00f1f3059872" name="Water Management" desc="水源管理" order="14001">
+		<modulegroup id="413f2170-af7c-11e9-948a-00f1f3059872" name="Water Management" desc="水源管理" order="14001" img="el-icon-menu">
 			<path path = "permissions/xml/module_query.xml"/>
 		</modulegroup>
 
-		<modulegroup id="484920c7-af7c-11e9-948a-00f1f3059872" name="Wisdom Car Parking Management" desc="智慧停车管理" order="15001">
+		<modulegroup id="484920c7-af7c-11e9-948a-00f1f3059872" name="Wisdom Car Parking Management" desc="智慧停车管理" order="15001" img="el-icon-menu">
 			<path path = "permissions/xml/module_query.xml"/>
 		</modulegroup>
 
-		<modulegroup id="4d6d7f22-af7c-11e9-948a-00f1f3059872" name="Wisdom Access Door Management" desc="智慧门禁管理" order="16001">
+		<modulegroup id="4d6d7f22-af7c-11e9-948a-00f1f3059872" name="Wisdom Access Door Management" desc="智慧门禁管理" order="16001" img="el-icon-menu">
 			<path path = "permissions/xml/module_query.xml"/>
 		</modulegroup>
 
-		<modulegroup id="52243151-af7c-11e9-948a-00f1f3059872" name="Wisdom Lift Management" desc="梯控管理" order="17001">
+		<modulegroup id="52243151-af7c-11e9-948a-00f1f3059872" name="Wisdom Lift Management" desc="梯控管理" order="17001" img="el-icon-menu">
 			<path path = "permissions/xml/module_query.xml"/>
 		</modulegroup>
 
-		<modulegroup id="578f577d-af7c-11e9-948a-00f1f3059872" name="Video Surveillance Management" desc="视频监控管理" order="18001">
+		<modulegroup id="578f577d-af7c-11e9-948a-00f1f3059872" name="Video Surveillance Management" desc="视频监控管理" order="18001" img="el-icon-menu">
 			<path path = "permissions/xml/module_query.xml"/>
 		</modulegroup>
 
-		<modulegroup id="5c58f656-af7c-11e9-948a-00f1f3059872" name="Security Management" desc="安防报警" order="19001">
+		<modulegroup id="5c58f656-af7c-11e9-948a-00f1f3059872" name="Security Management" desc="安防报警" order="19001" img="el-icon-menu">
 			<path path = "permissions/xml/module_query.xml"/>
 		</modulegroup>
 
-		<modulegroup id="607decc8-af7c-11e9-948a-00f1f3059872" name="Community  Broadcast Management" desc="小区公共广播" order="20001">
+		<modulegroup id="607decc8-af7c-11e9-948a-00f1f3059872" name="Community  Broadcast Management" desc="小区公共广播" order="20001" img="el-icon-menu">
 			<path path = "permissions/xml/module_query.xml"/>
 		</modulegroup>
 
