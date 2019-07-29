@@ -6,7 +6,7 @@
 			<path path = "permissions/xml/module_anon.xml"/>
 		</modulegroup>
 
-		<modulegroup id="8972b850-804e-11e9-a68d-0050568e63cd" name="Query Management" desc="查询管理" order="11001" img="el-icon-menu">
+		<modulegroup id="8972b850-804e-11e9-a68d-0050568e63cd" name="Query Management" desc="查询管理" order="11001" img="el-icon-search">
 			<path path = "permissions/xml/module_query.xml"/>
 		</modulegroup>
 
@@ -22,11 +22,11 @@
 			<path path = "permissions/xml/module_query.xml"/>
 		</modulegroup>
 
-		<modulegroup id="484920c7-af7c-11e9-948a-00f1f3059872" name="Wisdom Car Parking Management" desc="智慧停车管理" order="15001" img="el-icon-menu">
+		<modulegroup id="484920c7-af7c-11e9-948a-00f1f3059872" name="Wisdom Car Parking Management" desc="智慧停车" order="15001" img="el-icon-menu">
 			<path path = "permissions/xml/module_query.xml"/>
 		</modulegroup>
 
-		<modulegroup id="4d6d7f22-af7c-11e9-948a-00f1f3059872" name="Wisdom Access Door Management" desc="智慧门禁管理" order="16001" img="el-icon-menu">
+		<modulegroup id="4d6d7f22-af7c-11e9-948a-00f1f3059872" name="Wisdom Access Door Management" desc="智慧门禁" order="16001" img="el-icon-menu">
 			<path path = "permissions/xml/module_query.xml"/>
 		</modulegroup>
 
@@ -34,7 +34,7 @@
 			<path path = "permissions/xml/module_query.xml"/>
 		</modulegroup>
 
-		<modulegroup id="578f577d-af7c-11e9-948a-00f1f3059872" name="Video Surveillance Management" desc="视频监控管理" order="18001" img="el-icon-menu">
+		<modulegroup id="578f577d-af7c-11e9-948a-00f1f3059872" name="Video Surveillance Management" desc="视频监控" order="18001" img="el-icon-menu">
 			<path path = "permissions/xml/module_query.xml"/>
 		</modulegroup>
 
@@ -42,7 +42,7 @@
 			<path path = "permissions/xml/module_query.xml"/>
 		</modulegroup>
 
-		<modulegroup id="607decc8-af7c-11e9-948a-00f1f3059872" name="Community  Broadcast Management" desc="小区公共广播" order="20001" img="el-icon-menu">
+		<modulegroup id="607decc8-af7c-11e9-948a-00f1f3059872" name="Community  Broadcast Management" desc="公共广播" order="20001" img="el-icon-message-solid">
 			<path path = "permissions/xml/module_query.xml"/>
 		</modulegroup>
 

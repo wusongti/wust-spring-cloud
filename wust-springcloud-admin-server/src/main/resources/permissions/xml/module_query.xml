@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- modulegroup节点从main.xml里面复制过来的，id属性值要和main里面的一样，name和desc属性必须保留，但值可以空 -->
 <modulegroup id="8972b850-804e-11e9-a68d-0050568e63cd">
-	<module id="ab849b58-2113-46bc-b805-6287715cca88" name="My Import and Export" desc="我的导入导出" order="1100101" page="MyImportExportList" url="./MyImportExportList">
+	<module id="ab849b58-2113-46bc-b805-6287715cca88" name="My Import and Export" desc="导入导出" order="1100101" page="MyImportExportList" url="./MyImportExportList">
 		<operation id="25350db7-87fd-11e9-a68d-0050568e63cd" name="Search" desc="查询" url=""/>
 		<operation id="29a60157-87fd-11e9-a68d-0050568e63cd" name="Download" desc="下载" url=""/>
 	</module>
