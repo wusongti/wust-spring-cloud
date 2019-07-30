@@ -35,6 +35,14 @@
 		<operation id="95a383df-87fc-11e9-a68d-0050568e63cd" name="Delete" desc="删除" url=""/>
 	</module>
 
+	<module id="fc773a6d-b296-11e9-a2ec-00f1f3059872" name="Project Management" desc="项目管理" order="1200101" page="ProjectList" url="./ProjectList" img="el-icon-document">
+		<operation id="0dc1ea8b-b297-11e9-a2ec-00f1f3059872" name="Search" desc="查询" url=""/>
+		<operation id="19e39dbf-b297-11e9-a2ec-00f1f3059872" name="Export" desc="导出" url=""/>
+		<operation id="226cb8f4-b297-11e9-a2ec-00f1f3059872" name="Create" desc="新建" url=""/>
+		<operation id="29bed76e-b297-11e9-a2ec-00f1f3059872" name="Update" desc="修改" url=""/>
+		<operation id="2e6fe007-b297-11e9-a2ec-00f1f3059872" name="Delete" desc="删除" url=""/>
+	</module>
+
 	<module id="c8c0d04e-85a7-11e9-a68d-0050568e63cd" name="Organization" desc="组织架构" order="1200112" page="OrganizationList" url="./OrganizationList" img="el-icon-document">
 		<operation id="9ac2c28e-87fc-11e9-a68d-0050568e63cd" name="AddCompany" desc="添加公司" url=""/>
 		<operation id="9f2ce4d5-87fc-11e9-a68d-0050568e63cd" name="AddDepartment" desc="添加部门" url=""/>

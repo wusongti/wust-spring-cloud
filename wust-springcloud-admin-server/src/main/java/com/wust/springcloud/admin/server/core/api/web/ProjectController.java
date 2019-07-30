@@ -23,7 +23,7 @@ import java.util.List;
  * @description：
  * @version:
  */
-@RequestMapping("/DepartmentController")
+@RequestMapping("/ProjectController")
 @RestController
 public class ProjectController {
     @Autowired
