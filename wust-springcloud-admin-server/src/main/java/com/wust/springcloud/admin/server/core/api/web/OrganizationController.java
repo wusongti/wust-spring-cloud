@@ -13,6 +13,8 @@ import com.wust.springcloud.common.entity.sys.department.SysDepartmentSearch;
 import com.wust.springcloud.common.entity.sys.organization.SysOrganization;
 import com.wust.springcloud.common.entity.sys.organization.SysOrganizationList;
 import com.wust.springcloud.common.entity.sys.organization.SysOrganizationSearch;
+import com.wust.springcloud.common.entity.sys.project.SysProjectList;
+import com.wust.springcloud.common.entity.sys.project.SysProjectSearch;
 import com.wust.springcloud.common.entity.sys.role.SysRoleList;
 import com.wust.springcloud.common.entity.sys.role.SysRoleSearch;
 import com.wust.springcloud.common.entity.sys.role.resource.SysRoleResourceCreate;
@@ -54,6 +56,9 @@ public class OrganizationController {
     @Autowired
     private SysUserService sysUserServiceImpl;
 
+    @Autowired
+    private SysProjectService sysProjectServiceImpl;
+
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_ORGANIZATION,businessName="分页查询",operationType= OperationLogEnum.Search)
     @RequestMapping(value = "/listPage",method = RequestMethod.POST)
     public @ResponseBody
@@ -64,6 +69,7 @@ public class OrganizationController {
         if(CollectionUtils.isNotEmpty(sysOrganizationLists)){
             List<SysCompanyList> sysCompanyLists = new ArrayList<>(sysOrganizationLists.size());
             List<SysDepartmentList> sysDepartmentLists = new ArrayList<>(sysOrganizationLists.size());
+            List<SysProjectList> sysProjectLists = new ArrayList<>(sysOrganizationLists.size());
             List<SysRoleList> sysRoleLists = new ArrayList<>(sysOrganizationLists.size());
             List<SysUserList> sysUserLists = new ArrayList<>(sysOrganizationLists.size());
 
@@ -81,7 +87,12 @@ public class OrganizationController {
                         sysCompanyLists.add(sysCompanyServiceImplByCondition.get(0));
                     }
                 }else if("101109".equalsIgnoreCase(type)){ // 项目
-                    // TODO 查询项目
+                    SysProjectSearch sysProjectSearch = new SysProjectSearch();
+                    sysProjectSearch.setId(relationId);
+                    List<SysProjectList> list = sysProjectServiceImpl.findByCondition(sysProjectSearch);
+                    if(CollectionUtils.isNotEmpty(sysProjectLists)){
+                        sysProjectLists.add(sysProjectLists.get(0));
+                    }
                 }else if("101111".equalsIgnoreCase(type)){ // 部门
                     SysDepartmentSearch sysDepartmentSearch = new SysDepartmentSearch();
                     sysDepartmentSearch.setId(relationId);
@@ -112,6 +123,9 @@ public class OrganizationController {
             }
             if(CollectionUtils.isNotEmpty(sysDepartmentLists)){
                 map.put("departmentList",sysDepartmentLists);
+            }
+            if(CollectionUtils.isNotEmpty(sysProjectLists)){
+                map.put("sysProjectList",sysProjectLists);
             }
             if(CollectionUtils.isNotEmpty(sysRoleLists)){
                 map.put("roleList",sysRoleLists);
@@ -175,7 +189,12 @@ public class OrganizationController {
                         name = "分公司-" + sysCompanyLists.get(0).getName();
                     }
                 }else if("101109".equalsIgnoreCase(type)){
-                   // TODO 处理项目
+                    SysProjectSearch sysProjectSearch = new SysProjectSearch();
+                    sysProjectSearch.setId(relationId);
+                    List<SysProjectList> sysProjectLists = sysProjectServiceImpl.findByCondition(sysProjectSearch);
+                    if(CollectionUtils.isNotEmpty(sysProjectLists)){
+                        name = "项目-" + sysProjectLists.get(0).getName();
+                    }
                 }else if("101111".equalsIgnoreCase(type)){
                     SysDepartmentSearch sysDepartmentSearch = new SysDepartmentSearch();
                     sysDepartmentSearch.setId(relationId);

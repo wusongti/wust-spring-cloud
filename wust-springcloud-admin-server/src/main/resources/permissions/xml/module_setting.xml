@@ -46,6 +46,7 @@
 	<module id="c8c0d04e-85a7-11e9-a68d-0050568e63cd" name="Organization" desc="组织架构" order="1200112" page="OrganizationList" url="./OrganizationList" img="el-icon-document">
 		<operation id="9ac2c28e-87fc-11e9-a68d-0050568e63cd" name="AddCompany" desc="添加公司" url=""/>
 		<operation id="9f2ce4d5-87fc-11e9-a68d-0050568e63cd" name="AddDepartment" desc="添加部门" url=""/>
+		<operation id="ee0320ba-b299-11e9-a2ec-00f1f3059872" name="AddProject" desc="添加项目" url=""/>
 		<operation id="a3b5d3d6-87fc-11e9-a68d-0050568e63cd" name="AddRole" desc="添加角色" url=""/>
 		<operation id="a8aa5a7e-87fc-11e9-a68d-0050568e63cd" name="AddUser" desc="添加用户" url=""/>
 		<operation id="ad2fdb46-87fc-11e9-a68d-0050568e63cd" name="Export" desc="导出" url=""/>
