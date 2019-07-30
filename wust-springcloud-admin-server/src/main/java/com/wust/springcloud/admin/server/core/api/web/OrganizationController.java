@@ -82,21 +82,21 @@ public class OrganizationController {
                     }
                 }else if("101109".equalsIgnoreCase(type)){ // 项目
                     // TODO 查询项目
-                }else if("101111".equalsIgnoreCase(type)){
+                }else if("101111".equalsIgnoreCase(type)){ // 部门
                     SysDepartmentSearch sysDepartmentSearch = new SysDepartmentSearch();
                     sysDepartmentSearch.setId(relationId);
                     List<SysDepartmentList> sysDepartmentServiceImplByCondition = sysDepartmentServiceImpl.findByCondition(sysDepartmentSearch);
                     if(CollectionUtils.isNotEmpty(sysDepartmentServiceImplByCondition)){
                         sysDepartmentLists.add(sysDepartmentServiceImplByCondition.get(0));
                     }
-                }else if("101113".equalsIgnoreCase(type)){
+                }else if("101113".equalsIgnoreCase(type)){ // 角色
                     SysRoleSearch sysRoleSearch = new SysRoleSearch();
                     sysRoleSearch.setId(relationId);
                     List<SysRoleList> sysRoleServiceImplByCondition = sysRoleServiceImpl.findByCondition(sysRoleSearch);
                     if(CollectionUtils.isNotEmpty(sysRoleServiceImplByCondition)){
                         sysRoleLists.add(sysRoleServiceImplByCondition.get(0));
                     }
-                }else if("101115".equalsIgnoreCase(type)){
+                }else if("101115".equalsIgnoreCase(type)){ // 用户
                     SysUserSearch sysUserSearch = new SysUserSearch();
                     sysUserSearch.setId(relationId);
                     List<SysUserList> sysUserServiceImplByCondition = sysUserServiceImpl.findByCondition(sysUserSearch);
@@ -109,11 +109,14 @@ public class OrganizationController {
             Map<String,List> map = new HashMap<>(5);
             if(CollectionUtils.isNotEmpty(sysCompanyLists)){
                 map.put("companyList",sysCompanyLists);
-            }else if(CollectionUtils.isNotEmpty(sysDepartmentLists)){
+            }
+            if(CollectionUtils.isNotEmpty(sysDepartmentLists)){
                 map.put("departmentList",sysDepartmentLists);
-            }else if(CollectionUtils.isNotEmpty(sysRoleLists)){
+            }
+            if(CollectionUtils.isNotEmpty(sysRoleLists)){
                 map.put("roleList",sysRoleLists);
-            }else if(CollectionUtils.isNotEmpty(sysUserLists)){
+            }
+            if(CollectionUtils.isNotEmpty(sysUserLists)){
                 map.put("userList",sysUserLists);
             }
             baseDto.setObj(map);
