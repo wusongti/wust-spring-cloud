@@ -19,6 +19,7 @@ public class CodeGenerator {
     private static final String CODE_TYPE_IMPORT_EXPORT_CODE = "importExportCode";
     private static final String CODE_TYPE_COMPANY_CODE = "companyCode";
     private static final String CODE_TYPE_DEPARTMENT_CODE = "departmentCode";
+    private static final String CODE_TYPE_PROJECT_CODE = "projectCode";
     private static final String CODE_TYPE_ROLE_CODE = "roleCode";
     private static final String CODE_TYPE_USER_CODE = "userCode";
 
@@ -72,6 +73,20 @@ public class CodeGenerator {
         String key =  CODE_TYPE_DEPARTMENT_CODE;
 
         long newValue = getNewValueByKey(key,1,1,TimeUnit.DAYS,"Department Code");
+
+        code = StringUtils.leftPad(newValue + "",codeLength,"0");
+
+        return code;
+    }
+
+    public static String genProjectCode(){
+        int codeLength = 3;
+
+        String code = "";
+
+        String key =  CODE_TYPE_PROJECT_CODE;
+
+        long newValue = getNewValueByKey(key,1,1,TimeUnit.DAYS,"Project Code");
 
         code = StringUtils.leftPad(newValue + "",codeLength,"0");
 

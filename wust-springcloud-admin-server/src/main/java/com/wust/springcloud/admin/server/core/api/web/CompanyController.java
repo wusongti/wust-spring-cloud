@@ -10,7 +10,6 @@ import com.wust.springcloud.common.entity.sys.organization.SysOrganizationList;
 import com.wust.springcloud.common.entity.sys.organization.SysOrganizationSearch;
 import com.wust.springcloud.common.enums.OperationLogEnum;
 import com.wust.springcloud.common.util.CodeGenerator;
-import com.wust.springcloud.common.util.MyStringUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -51,7 +50,7 @@ public class CompanyController {
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_COMPANY,businessName="新建",operationType= OperationLogEnum.Insert)
     @RequestMapping(value = "/create",method = RequestMethod.POST)
     public @ResponseBody
-    ResponseDto create(@RequestBody SysCompanyCreate entity){
+    ResponseDto create(@RequestBody SysCompany entity){
         ResponseDto mm = new ResponseDto();
         DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
 
@@ -66,19 +65,6 @@ public class CompanyController {
         }
 
 
-        if(MyStringUtils.isNotBlank(MyStringUtils.null2String(entity.getPname()))){
-            sysCompanySearch = new SysCompanySearch();
-            sysCompanySearch.setName(entity.getPname());
-            List<SysCompanyList> parentCompanyLists = sysCompanyServiceImpl.findByCondition(sysCompanySearch);
-            if(CollectionUtils.isEmpty(parentCompanyLists)){
-                mm.setFlag(ResponseDto.INFOR_WARNING);
-                mm.setMessage("您输入的父级公司不存在");
-                return mm;
-            }
-            entity.setPcode(parentCompanyLists.get(0).getCode());
-        }
-
-
         entity.setCode(CodeGenerator.genCompanyCode());
         entity.setCreaterId(ctx.getUserId());
         entity.setCreaterName(ctx.getLoginName());
@@ -90,7 +76,7 @@ public class CompanyController {
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_COMPANY,businessName="修改",operationType= OperationLogEnum.Update)
     @RequestMapping(value = "/update",method = RequestMethod.POST)
     public @ResponseBody
-    ResponseDto update(@RequestBody SysCompanyUpdate entity){
+    ResponseDto update(@RequestBody SysCompany entity){
         ResponseDto mm = new ResponseDto();
         DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
 
@@ -103,18 +89,6 @@ public class CompanyController {
                 mm.setMessage("您输入的公司名称已经存在，不能修改为系统已经存在的公司");
                 return mm;
             }
-        }
-
-        if(MyStringUtils.isNotBlank(MyStringUtils.null2String(entity.getPname()))){
-            sysCompanySearch = new SysCompanySearch();
-            sysCompanySearch.setName(entity.getPname());
-            List<SysCompanyList> parentCompanyLists = sysCompanyServiceImpl.findByCondition(sysCompanySearch);
-            if(CollectionUtils.isEmpty(parentCompanyLists)){
-                mm.setFlag(ResponseDto.INFOR_WARNING);
-                mm.setMessage("您输入的父级公司不存在");
-                return mm;
-            }
-            entity.setPcode(parentCompanyLists.get(0).getCode());
         }
 
         entity.setModifyId(ctx.getUserId());

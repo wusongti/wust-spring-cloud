@@ -45,7 +45,7 @@ public class DepartmentController {
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_DEPARTMENT,businessName="新建",operationType= OperationLogEnum.Insert)
     @RequestMapping(value = "/create",method = RequestMethod.POST)
     public @ResponseBody
-    ResponseDto create(@RequestBody SysDepartmentCreate entity){
+    ResponseDto create(@RequestBody SysDepartment entity){
         ResponseDto mm = new ResponseDto();
         DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
 
@@ -60,19 +60,6 @@ public class DepartmentController {
         }
 
 
-        if(MyStringUtils.isNotBlank(MyStringUtils.null2String(entity.getPname()))){
-            sysDepartmentSearch = new SysDepartmentSearch();
-            sysDepartmentSearch.setName(entity.getPname());
-            List<SysDepartmentList> parentLists = sysDepartmentServiceImpl.findByCondition(sysDepartmentSearch);
-            if(CollectionUtils.isEmpty(parentLists)){
-                mm.setFlag(ResponseDto.INFOR_WARNING);
-                mm.setMessage("您输入的父级部门不存在");
-                return mm;
-            }
-            entity.setPcode(parentLists.get(0).getCode());
-        }
-
-
         entity.setCode(CodeGenerator.genDetartmentCode());
         entity.setCreaterId(ctx.getUserId());
         entity.setCreaterName(ctx.getLoginName());
@@ -84,7 +71,7 @@ public class DepartmentController {
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_DEPARTMENT,businessName="修改",operationType= OperationLogEnum.Update)
     @RequestMapping(value = "/update",method = RequestMethod.POST)
     public @ResponseBody
-    ResponseDto update(@RequestBody SysDepartmentUpdate entity){
+    ResponseDto update(@RequestBody SysDepartment entity){
         ResponseDto mm = new ResponseDto();
         DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
 
@@ -97,18 +84,6 @@ public class DepartmentController {
                 mm.setMessage("您输入的部门名称已经存在，不能修改为系统已经存在的部门");
                 return mm;
             }
-        }
-
-        if(MyStringUtils.isNotBlank(MyStringUtils.null2String(entity.getPname()))){
-            sysDepartmentSearch = new SysDepartmentSearch();
-            sysDepartmentSearch.setName(entity.getPname());
-            List<SysDepartmentList> parenLists = sysDepartmentServiceImpl.findByCondition(sysDepartmentSearch);
-            if(CollectionUtils.isEmpty(parenLists)){
-                mm.setFlag(ResponseDto.INFOR_WARNING);
-                mm.setMessage("您输入的父级部门不存在");
-                return mm;
-            }
-            entity.setPcode(parenLists.get(0).getCode());
         }
 
         entity.setModifyId(ctx.getUserId());

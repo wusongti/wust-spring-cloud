@@ -20,6 +20,7 @@ public enum OperationLogEnum {
     MODULE_ADMIN_COMPANY("公司模块"),
     MODULE_ADMIN_DATA_SOURCE("数据源模块"),
     MODULE_ADMIN_DEPARTMENT("部门模块"),
+    MODULE_ADMIN_PROJECT("项目模块"),
     MODULE_ADMIN_ROLE("角色模块"),
     MODULE_ADMIN_USER("用户模块"),
     MODULE_ADMIN_ORGANIZATION("组织架构模块"),
