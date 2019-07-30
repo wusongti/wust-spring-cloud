@@ -163,7 +163,6 @@ public class OrganizationController {
                     List<SysCompanyList> sysCompanyLists = sysCompanyServiceImpl.findByCondition(sysCompanySearch);
                     if(CollectionUtils.isNotEmpty(sysCompanyLists)){
                         name = "总公司-" + sysCompanyLists.get(0).getName();
-                        pId = MyStringUtils.isBlank(pId) ? "-1" : pId;
                     }
                 }else if("101107".equalsIgnoreCase(type)){
                     SysCompanySearch sysCompanySearch = new SysCompanySearch();
@@ -171,7 +170,6 @@ public class OrganizationController {
                     List<SysCompanyList> sysCompanyLists = sysCompanyServiceImpl.findByCondition(sysCompanySearch);
                     if(CollectionUtils.isNotEmpty(sysCompanyLists)){
                         name = "分公司-" + sysCompanyLists.get(0).getName();
-                        pId = MyStringUtils.isBlank(pId) ? "-1" : pId;
                     }
                 }else if("101109".equalsIgnoreCase(type)){
                    // TODO 处理项目
@@ -224,8 +222,8 @@ public class OrganizationController {
         sysOrganizationSearch.setType(entity.getType());
 
         // 同一个角色和用户可以在不同节点下面出现
-        if("sys_role".equalsIgnoreCase(entity.getType())
-                || "sys_user".equalsIgnoreCase(entity.getType())){
+        if("101113".equalsIgnoreCase(entity.getType())
+                || "101115".equalsIgnoreCase(entity.getType())){
             sysOrganizationSearch.setPid(entity.getPid());
         }
         sysOrganizationSearch.setRelationId(entity.getRelationId());

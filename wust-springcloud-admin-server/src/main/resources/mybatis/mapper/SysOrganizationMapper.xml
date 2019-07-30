@@ -26,7 +26,7 @@
 		<if test="type == ''">
 			LEFT JOIN sys_company t1 ON t.relation_id = t1.id
 		</if>
-		<if test="type == '101101' OR type == '101104' OR type == '101107' OR type == '101109'">
+		<if test="type == '101101' or type == '101104' or type == '101107' or type == '101109'">
 			LEFT JOIN sys_department t1 ON t.relation_id = t1.id
 		</if>
 		<if test="type == '101111'">
@@ -50,7 +50,7 @@
 			<if test="type == ''">
 				AND t1.name LIKE  CONCAT('%',#{name},'%')
 			</if>
-			<if test="type == '101101' OR type == '101104' OR type == '101107' OR type == '101109'">
+			<if test="type == '101101' or type == '101104' or type == '101107' or type == '101109'">
 				AND t1.name LIKE  CONCAT('%',#{name},'%')
 			</if>
 			<if test="type == '101111'">
