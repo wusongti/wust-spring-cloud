@@ -70,4 +70,15 @@
     <RECORD code="101001" parent_code="1010" root_code="1010" value="1" name="在线" description="在线" item_order="0"/>
     <RECORD code="101002" parent_code="1010" root_code="1010" value="0" name="离线" description="离线" item_order="0"/>
     <!-- 用户在线状态 E -->
+
+    <!-- 组织架构类别 S -->
+    <RECORD code="1011" parent_code="" name="组织架构类别" description="组织架构类别" sort="0"/>
+    <RECORD code="101101" parent_code="1011" root_code="1011" value="1" name="代理商" description="代理商" item_order="0"/>
+    <RECORD code="101104" parent_code="1011" root_code="1011" value="4" name="总公司" description="总公司" item_order="0"/>
+    <RECORD code="101107" parent_code="1011" root_code="1011" value="7" name="分公司" description="分公司" item_order="0"/>
+    <RECORD code="101109" parent_code="1011" root_code="1011" value="9" name="项目" description="项目" visible="N" item_order="0"/>
+    <RECORD code="101111" parent_code="1011" root_code="1011" value="11" name="部门" description="部门" visible="N" item_order="0"/>
+    <RECORD code="101113" parent_code="1011" root_code="1011" value="13" name="岗位" description="岗位" visible="N" item_order="0"/>
+    <RECORD code="101115" parent_code="1011" root_code="1011" value="15" name="用户" description="用户" visible="N" item_order="0"/>
+    <!-- 组织架构类别 E -->
 </RECORDS>
