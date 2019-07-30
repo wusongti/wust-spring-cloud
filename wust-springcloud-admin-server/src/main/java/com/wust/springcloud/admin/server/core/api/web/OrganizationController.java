@@ -272,15 +272,14 @@ public class OrganizationController {
 
 
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_ORGANIZATION,businessName="删除",operationType= OperationLogEnum.Delete)
-    @RequestMapping(value = "/delete/{pid}/{relationId}/{type}",method = RequestMethod.DELETE)
+    @RequestMapping(value = "/delete/{pid}/{relationId}",method = RequestMethod.DELETE)
     public @ResponseBody
-    ResponseDto delete(@PathVariable String pid,@PathVariable String relationId,@PathVariable String type){
+    ResponseDto delete(@PathVariable String pid,@PathVariable String relationId){
         ResponseDto mm = new ResponseDto();
 
         SysOrganizationSearch sysOrganizationSearch = new SysOrganizationSearch();
         sysOrganizationSearch.setPid(pid);
         sysOrganizationSearch.setRelationId(relationId);
-        sysOrganizationSearch.setType(type);
         List<SysOrganizationList> sysOrganizationLists = sysOrganizationServiceImpl.findByCondition(sysOrganizationSearch);
         if(CollectionUtils.isNotEmpty(sysOrganizationLists)){
             String id = sysOrganizationLists.get(0).getId();
