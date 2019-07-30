@@ -248,9 +248,10 @@ public class OrganizationController {
         SysOrganizationSearch sysOrganizationSearch = new SysOrganizationSearch();
         sysOrganizationSearch.setType(entity.getType());
 
-        // 同一个角色和用户可以在不同节点下面出现
-        if("101113".equalsIgnoreCase(entity.getType())
-                || "101115".equalsIgnoreCase(entity.getType())){
+        // 同一个部门、角色和用户可以在不同节点下面出现
+        if("101111".equals(entity.getType())
+                || "101113".equals(entity.getType())
+                || "101115".equals(entity.getType())){
             sysOrganizationSearch.setPid(entity.getPid());
         }
         sysOrganizationSearch.setRelationId(entity.getRelationId());
