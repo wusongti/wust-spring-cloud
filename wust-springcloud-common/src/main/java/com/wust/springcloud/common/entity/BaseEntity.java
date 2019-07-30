@@ -2,6 +2,8 @@
 package com.wust.springcloud.common.entity;
 
 
+import com.wust.springcloud.common.dto.PageDto;
+
 import java.util.Date;
 
 /**
@@ -43,6 +45,9 @@ public class BaseEntity implements java.io.Serializable {
      * 公司编码
      **/
     protected String companyId;
+
+    private PageDto pageDto;
+
 
 
     public String getCreaterId() {
@@ -109,6 +114,14 @@ public class BaseEntity implements java.io.Serializable {
         this.companyId = companyId;
     }
 
+    public PageDto getPageDto() {
+        return pageDto;
+    }
+
+    public void setPageDto(PageDto pageDto) {
+        this.pageDto = pageDto;
+    }
+
     @Override
     public String toString() {
         return "BaseEntity{" +
@@ -120,6 +133,7 @@ public class BaseEntity implements java.io.Serializable {
                 ", modifyTime=" + modifyTime +
                 ", lan='" + lan + '\'' +
                 ", companyId='" + companyId + '\'' +
+                ", pageDto=" + pageDto +
                 '}';
     }
 }
