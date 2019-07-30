@@ -69,7 +69,6 @@ public class AccessFilter implements GlobalFilter {
                         return response.setComplete();
                     }
                 }else{
-                    System.err.print("请登录=" + token);
                     response.setStatusCode(HttpStatus.NO_CONTENT);
                     return response.setComplete();
                 }

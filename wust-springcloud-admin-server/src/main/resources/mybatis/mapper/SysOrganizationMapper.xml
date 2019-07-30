@@ -26,13 +26,13 @@
 		<if test="type == ''">
 			LEFT JOIN sys_company t1 ON t.relation_id = t1.id
 		</if>
-		<if test="type == 'sys_company'">
+		<if test="type == '101101' OR type == '101104' OR type == '101107' OR type == '101109'">
 			LEFT JOIN sys_department t1 ON t.relation_id = t1.id
 		</if>
-		<if test="type == 'sys_department'">
+		<if test="type == '101111'">
 			LEFT JOIN sys_role t1 ON t.relation_id = t1.id
 		</if>
-		<if test="type == 'sys_role'">
+		<if test="type == '101113'">
 			LEFT JOIN sys_user t1 ON t.relation_id = t1.id
 		</if>
 		WHERE
@@ -50,13 +50,13 @@
 			<if test="type == ''">
 				AND t1.name LIKE  CONCAT('%',#{name},'%')
 			</if>
-			<if test="type == 'sys_company'">
+			<if test="type == '101101' OR type == '101104' OR type == '101107' OR type == '101109'">
 				AND t1.name LIKE  CONCAT('%',#{name},'%')
 			</if>
-			<if test="type == 'sys_department'">
+			<if test="type == '101111'">
 				AND t1.name LIKE  CONCAT('%',#{name},'%')
 			</if>
-			<if test="type == 'sys_role'">
+			<if test="type == '101113'">
 				AND t1.login_name LIKE  CONCAT('%',#{name},'%')
 			</if>
 		</if>
