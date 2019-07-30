@@ -90,8 +90,8 @@ public class OrganizationController {
                     SysProjectSearch sysProjectSearch = new SysProjectSearch();
                     sysProjectSearch.setId(relationId);
                     List<SysProjectList> list = sysProjectServiceImpl.findByCondition(sysProjectSearch);
-                    if(CollectionUtils.isNotEmpty(sysProjectLists)){
-                        sysProjectLists.add(sysProjectLists.get(0));
+                    if(CollectionUtils.isNotEmpty(list)){
+                        sysProjectLists.add(list.get(0));
                     }
                 }else if("101111".equalsIgnoreCase(type)){ // 部门
                     SysDepartmentSearch sysDepartmentSearch = new SysDepartmentSearch();
@@ -118,6 +118,11 @@ public class OrganizationController {
             }
 
             Map<String,List> map = new HashMap<>(5);
+            map.put("companyList",null);
+            map.put("departmentList",null);
+            map.put("projectList",null);
+            map.put("roleList",null);
+            map.put("userList",null);
             if(CollectionUtils.isNotEmpty(sysCompanyLists)){
                 map.put("companyList",sysCompanyLists);
             }
@@ -125,7 +130,7 @@ public class OrganizationController {
                 map.put("departmentList",sysDepartmentLists);
             }
             if(CollectionUtils.isNotEmpty(sysProjectLists)){
-                map.put("sysProjectList",sysProjectLists);
+                map.put("projectList",sysProjectLists);
             }
             if(CollectionUtils.isNotEmpty(sysRoleLists)){
                 map.put("roleList",sysRoleLists);
