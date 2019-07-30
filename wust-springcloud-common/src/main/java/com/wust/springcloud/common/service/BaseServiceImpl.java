@@ -2,6 +2,8 @@ package com.wust.springcloud.common.service;
 
 import com.wust.springcloud.common.dao.BaseMapper;
 import com.wust.springcloud.common.entity.BaseEntity;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 
 /**
@@ -32,6 +34,7 @@ public abstract class BaseServiceImpl implements BaseService{
         return getBaseMapper().insert(entity);
     }
 
+    @Transactional(rollbackFor=Exception.class)
     @Override
     public int batchInsert(List entities){
         return getBaseMapper().batchInsert(entities);
@@ -42,6 +45,7 @@ public abstract class BaseServiceImpl implements BaseService{
         return getBaseMapper().update(entity);
     }
 
+    @Transactional(rollbackFor=Exception.class)
     @Override
     public int batchUpdate(List entities){
         return getBaseMapper().batchUpdate(entities);
@@ -52,6 +56,7 @@ public abstract class BaseServiceImpl implements BaseService{
         return getBaseMapper().delete(key);
     }
 
+    @Transactional(rollbackFor=Exception.class)
     @Override
     public int batchDelete(List keys){
         return getBaseMapper().batchDelete(keys);
