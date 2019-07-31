@@ -1,9 +1,9 @@
 package com.wust.springcloud.admin.server.core.dao;
 
-import com.wust.springcloud.common.dao.BaseMapper;
+import com.wust.springcloud.common.dao.IBaseMapper;
 
 /**
  * Created by WST on 2019/4/18.
  */
-public interface SysAppTokenMapper  extends BaseMapper {
+public interface SysAppTokenMapper  extends IBaseMapper {
 }

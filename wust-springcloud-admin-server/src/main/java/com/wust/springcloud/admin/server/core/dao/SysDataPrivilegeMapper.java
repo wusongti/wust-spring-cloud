@@ -1,12 +1,12 @@
 package com.wust.springcloud.admin.server.core.dao;
 
 
-import com.wust.springcloud.common.dao.BaseMapper;
+import com.wust.springcloud.common.dao.IBaseMapper;
 import org.springframework.dao.DataAccessException;
 
 /**
  * Created by WST on 2019/6/10.
  */
-public interface SysDataPrivilegeMapper extends BaseMapper {
+public interface SysDataPrivilegeMapper extends IBaseMapper {
     int deleteAll() throws DataAccessException;
 }

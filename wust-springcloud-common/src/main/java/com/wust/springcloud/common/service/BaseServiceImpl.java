@@ -1,6 +1,6 @@
 package com.wust.springcloud.common.service;
 
-import com.wust.springcloud.common.dao.BaseMapper;
+import com.wust.springcloud.common.dao.IBaseMapper;
 import com.wust.springcloud.common.entity.BaseEntity;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -62,5 +62,5 @@ public abstract class BaseServiceImpl implements BaseService{
         return getBaseMapper().batchDelete(keys);
     }
 
-    protected abstract BaseMapper getBaseMapper();
+    protected abstract IBaseMapper getBaseMapper();
 }

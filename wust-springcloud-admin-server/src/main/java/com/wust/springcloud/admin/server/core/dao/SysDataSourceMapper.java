@@ -1,13 +1,13 @@
 package com.wust.springcloud.admin.server.core.dao;
 
-import com.wust.springcloud.common.dao.BaseMapper;
+import com.wust.springcloud.common.dao.IBaseMapper;
 import org.springframework.dao.DataAccessException;
 import java.util.Map;
 
 /**
  * Created by WST on 2019/6/17.
  */
-public interface SysDataSourceMapper  extends BaseMapper {
+public interface SysDataSourceMapper  extends IBaseMapper {
 
     int createDataBase(Map parameters) throws DataAccessException;
 

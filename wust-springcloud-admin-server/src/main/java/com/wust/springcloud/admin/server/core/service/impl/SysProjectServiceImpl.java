@@ -2,7 +2,7 @@ package com.wust.springcloud.admin.server.core.service.impl;
 
 import com.wust.springcloud.admin.server.core.dao.SysProjectMapper;
 import com.wust.springcloud.admin.server.core.service.SysProjectService;
-import com.wust.springcloud.common.dao.BaseMapper;
+import com.wust.springcloud.common.dao.IBaseMapper;
 import com.wust.springcloud.common.service.BaseServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,7 +20,7 @@ public class SysProjectServiceImpl extends BaseServiceImpl implements SysProject
     private SysProjectMapper sysProjectMapper;
 
     @Override
-    protected BaseMapper getBaseMapper() {
+    protected IBaseMapper getBaseMapper() {
         return sysProjectMapper;
     }
 }

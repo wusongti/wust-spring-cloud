@@ -4,7 +4,7 @@ import com.wust.springcloud.common.entity.BaseEntity;
 import org.springframework.dao.DataAccessException;
 import java.util.List;
 
-public interface BaseMapper<T extends BaseEntity> {
+public interface IBaseMapper<T extends BaseEntity>{
     /**
      * 分页查询
      * @param search
