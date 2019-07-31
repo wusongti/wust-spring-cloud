@@ -273,25 +273,18 @@ public class OrganizationController {
 
 
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_ORGANIZATION,businessName="删除",operationType= OperationLogEnum.Delete)
-    @RequestMapping(value = "/delete/{pid}/{relationId}",method = RequestMethod.DELETE)
+    @RequestMapping(value = "/delete/{id}",method = RequestMethod.DELETE)
     public @ResponseBody
-    ResponseDto delete(@PathVariable String pid,@PathVariable String relationId){
+    ResponseDto delete(@PathVariable String id){
         ResponseDto mm = new ResponseDto();
 
         SysOrganizationSearch sysOrganizationSearch = new SysOrganizationSearch();
-        sysOrganizationSearch.setPid(pid);
-        sysOrganizationSearch.setRelationId(relationId);
+        sysOrganizationSearch.setPid(id);
         List<SysOrganizationList> sysOrganizationLists = sysOrganizationServiceImpl.findByCondition(sysOrganizationSearch);
         if(CollectionUtils.isNotEmpty(sysOrganizationLists)){
-            String id = sysOrganizationLists.get(0).getId();
-            sysOrganizationSearch = new SysOrganizationSearch();
-            sysOrganizationSearch.setPid(id);
-            sysOrganizationLists = sysOrganizationServiceImpl.findByCondition(sysOrganizationSearch);
-            if(CollectionUtils.isNotEmpty(sysOrganizationLists)){
-                mm.setFlag(ResponseDto.INFOR_WARNING);
-                mm.setMessage("您要删除的记录存在子节点，无法删除带有子节点的数据，请先删除所有子节点");
-                return mm;
-            }
+            mm.setFlag(ResponseDto.INFOR_WARNING);
+            mm.setMessage("您要删除的记录存在子节点，无法删除带有子节点的数据，请先删除所有子节点");
+        }else{
             List<String> ids = new ArrayList<>(1);
             ids.add(id);
             sysOrganizationServiceImpl.batchDelete(ids);
