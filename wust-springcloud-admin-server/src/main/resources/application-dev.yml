@@ -32,3 +32,6 @@ spring:
           concurrency: 10
           max-concurrency: 20
           prefetch: 5
+mybatis:
+    configuration:
+        log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

@@ -1,23 +1,40 @@
 eureka:
-    client:
-        serviceUrl:
-            defaultZone: http://localhost:8761/eureka/
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
 server:
-    port: 8769
+  port: 8769
 spring:
-    application:
-        name: api-autotask-server
-    redis:
-        host: 127.0.0.1
-        port: 6379
-        password:
-        pool:
-          max-active: 100
-          max-idle: 10
-          max-wait: 100000
-        timeout: 0
-    datasource:
-            driver-class-name: com.mysql.cj.jdbc.Driver
-            url: jdbc:mysql://10.1.20.11:3306/wust-quartz?useSSL=false&allowPublicKeyRetrieval=true&allowMultiQueries=true
-            username: root
-            password: m123
+  application:
+    name: api-autotask-server
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password:
+    pool:
+      max-active: 100
+      max-idle: 10
+      max-wait: 100000
+    timeout: 0
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/wust-quartz?useSSL=false&allowPublicKeyRetrieval=true&allowMultiQueries=true&serverTimezone=GMT%2B8
+    username: root
+    password: 123456
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+    publisher-confirms: true
+    virtual-host: /
+    listener:
+      concurrency: 10
+      max-concurrency: 20
+      prefetch: 5
+mybatis:
+  config-locations: classpath:mybatis/mybatis-config.xml
+  mapper-locations: classpath:mybatis/mapper/**/*Mapper.xml
+  type-aliases-package: com.wust.springcloud.common.entity.**
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
