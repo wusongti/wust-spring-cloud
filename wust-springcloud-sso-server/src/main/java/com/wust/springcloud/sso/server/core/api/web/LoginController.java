@@ -206,7 +206,7 @@ public class LoginController {
         Map<String,List<SysMenu>> stringListMap = new HashMap<>();
         if(org.apache.commons.collections.CollectionUtils.isNotEmpty(menus)){
             for (SysMenu menu : menus) {
-                String key = menu.getpId();
+                String key = menu.getPid();
                 if(stringListMap.containsKey(key)){
                     stringListMap.get(key).add(menu);
                 }else{
@@ -228,7 +228,7 @@ public class LoginController {
                 JSONObject jsonObject = new JSONObject();
                 String id = menu.getId();
                 jsonObject.put("id",id);
-                jsonObject.put("pId",menu.getpId());
+                jsonObject.put("pId",menu.getPid());
                 jsonObject.put("name",menu.getName());
                 jsonObject.put("description",menu.getDescription());
                 jsonObject.put("img",menu.getImg());

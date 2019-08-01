@@ -9,7 +9,7 @@
     	<result column="permission" property="permission"/>
     	<result column="level" property="level"/>
     	<result column="img" property="img"/>
-    	<result column="pid" property="pId"/>
+    	<result column="pid" property="pid"/>
 		<result column="type" property="type"/>
 		<result column="visible" property="visible"/>
 		<result property="createrId" column="creater_id"/>
@@ -26,14 +26,14 @@
 		<if test="id != null and id !=  ''">
 			AND sm.id = #{id}
 		</if>
-		<if test="pId != null and pId !=  ''">
-			AND sm.pid = #{pId}
+		<if test="pid != null and pid !=  ''">
+			AND sm.pid = #{pid}
 		</if>
 		<if test="level != null and level !=  ''">
 			AND sm.level = #{level}
 		</if>
 		<if test="type != null and type !=  ''">
-			AND sm.pid = #{pId}
+			AND sm.pid = #{pid}
 		</if>
 		order by sm.sort ASC
 	</select>

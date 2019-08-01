@@ -4,7 +4,6 @@
   	<resultMap id="BaseResultMap" type="SysCompany" >
 		<id column="id" property="id"/>
 		<result column="code" property="code"/>
-		<result column="pcode" property="pcode"/>
 	    <result column="name" property="name"/>
 		<result column="leader" property="leader"/>
 	    <result column="description" property="description"/>
@@ -17,80 +16,33 @@
   	</resultMap>
   
   	<resultMap id="ListResultMap" type="SysCompanyList" extends="BaseResultMap">
-		<result column="pname" property="pname"/>
   	</resultMap>
-  	
 
 
   	<select id="listPage" parameterType="SysCompanySearch" resultMap="ListResultMap">
 		SELECT
-			t.*,
-			p.NAME AS pname
+			t.*
 		FROM
 			sys_company t
-		LEFT JOIN
-			sys_company p
-		ON t.pcode = p.CODE
 		WHERE
 		1 = 1
 		<if test="code != null and code !=  ''">
 			AND t.code = #{code}
 		</if>
-		<if test="pcode != null and pcode !=  ''">
-			AND t.pcode = #{pcode}
-		</if>
 		<if test="name != null and name !=  ''">
 			AND t.name = #{name}
 		</if>
-		ORDER BY t.pcode,t.code
   	</select>
   
   	<select id="findByCondition" parameterType="SysCompanySearch" resultMap="ListResultMap">
 		SELECT t.* FROM sys_company t WHERE 1=1
-		<if test="id != null and id !=  ''">
-			AND t.id = #{id}
-		</if>
 		<if test="code != null and code !=  ''">
 			AND t.code = #{code}
-		</if>
-		<if test="pcode != null and pcode !=  ''">
-			AND t.pcode = #{pcode}
 		</if>
 		<if test="name != null and name !=  ''">
 			AND t.name = #{name}
 		</if>
-		ORDER BY t.pcode,t.code
   	</select>
-
-
-	<insert id="batchInsert" parameterType="java.util.List">
-		INSERT INTO sys_company (
-			id,
-			code,
-			pcode,
-			name,
-			leader,
-			description,
-			creater_id,
-			creater_name,
-			create_time
-		)
-		VALUES
-		<foreach collection="list" index="index" item="item" separator=",">
-		(
-			UUID(),
-			#{item.code},
-			#{item.pcode},
-			#{item.name},
-			#{item.leader},
-			#{item.description},
-			#{item.createrId},
-			#{item.createrName},
-			sysdate()
-		)
-		</foreach>
-	</insert>
-
 
 	<update id="batchUpdate" parameterType="java.util.List">
 		<foreach collection="list" separator=";" index="index" item="item">

@@ -24,6 +24,7 @@
         <fastjson.version>1.2.33</fastjson.version>
         <mybatis-version>2.1.0</mybatis-version>
         <mapper-version>2.1.4</mapper-version>
+        <persistence-api-version>1.0.2</persistence-api-version>
         <mysql-connector-java-version>8.0.13</mysql-connector-java-version>
         <commons-lang3-version>3.4</commons-lang3-version>
         <commons-beanutils-version>1.9.3</commons-beanutils-version>
@@ -96,6 +97,12 @@
                 <groupId>tk.mybatis</groupId>
                 <artifactId>mapper-spring-boot-starter</artifactId>
                 <version>${mapper-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>javax.persistence</groupId>
+                <artifactId>persistence-api</artifactId>
+                <version>${persistence-api-version}</version>
             </dependency>
 
             <dependency>

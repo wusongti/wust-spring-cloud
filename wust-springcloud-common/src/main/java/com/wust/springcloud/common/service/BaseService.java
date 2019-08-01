@@ -19,12 +19,6 @@ public interface BaseService<T extends BaseEntity> {
      */
     List<T> findByCondition(T search);
 
-    /**
-     * 根据key获取单个数据
-     * @param key key可以是id，也可是code，表里能区别数据的唯一键
-     * @return
-     */
-    T findSingle(String key);
 
     /**
      * 单个插入
@@ -45,7 +39,7 @@ public interface BaseService<T extends BaseEntity> {
      * @param entity
      * @return
      */
-    int update(T entity);
+    int updateByPrimaryKey(T entity);
 
     /**
      * 批量更新
@@ -59,7 +53,7 @@ public interface BaseService<T extends BaseEntity> {
      * @param key
      * @return
      */
-    int delete(String key);
+    int deleteByPrimaryKey(String key);
 
     /**
      * 批量删除

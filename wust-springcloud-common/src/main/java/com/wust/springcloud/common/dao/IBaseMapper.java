@@ -2,9 +2,11 @@ package com.wust.springcloud.common.dao;
 
 import com.wust.springcloud.common.entity.BaseEntity;
 import org.springframework.dao.DataAccessException;
+import tk.mybatis.mapper.common.Mapper;
+import tk.mybatis.mapper.common.MySqlMapper;
 import java.util.List;
 
-public interface IBaseMapper<T extends BaseEntity> {
+public interface IBaseMapper<T extends BaseEntity>  extends Mapper<T>, MySqlMapper<T> {
     /**
      * 分页查询
      * @param search
@@ -22,37 +24,6 @@ public interface IBaseMapper<T extends BaseEntity> {
      */
     List<T> findByCondition(T search) throws DataAccessException;
 
-    /**
-     * 根据key获取单个数据
-     * @param key key可以是id，也可是code，表里能区别数据的唯一键
-     * @return
-     * @throws DataAccessException
-     */
-    T findSingle(String key) throws DataAccessException;
-
-    /**
-     * 单个插入
-     * @param entity
-     * @return
-     * @throws DataAccessException
-     */
-    int insert(T entity) throws DataAccessException;
-
-    /**
-     * 批量插入
-     * @param entities
-     * @return
-     * @throws DataAccessException
-     */
-    int batchInsert(List<T> entities) throws DataAccessException;
-
-    /**
-     * 单个更新
-     * @param entity
-     * @return
-     * @throws DataAccessException
-     */
-    int update(T entity) throws DataAccessException;
 
     /**
      * 批量更新
@@ -62,13 +33,6 @@ public interface IBaseMapper<T extends BaseEntity> {
      */
     int batchUpdate(List<T> entities) throws DataAccessException;
 
-    /**
-     * 单个删除
-     * @param key
-     * @return
-     * @throws DataAccessException
-     */
-    int delete(String key) throws DataAccessException;
 
     /**
      * 批量删除

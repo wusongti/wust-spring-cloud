@@ -17,7 +17,7 @@ public class SysMenu extends BaseEntity {
     private Integer level;		// 菜单的层次
     private Integer sort;      // 菜单的排序
     private String img;         // 菜单图片
-    private String pId;			// 父级菜单id
+    private String pid;			// 父级菜单id
     private String type;        // 菜单类型
     private String visible;     // 是否可见
 
@@ -85,12 +85,12 @@ public class SysMenu extends BaseEntity {
         this.img = img;
     }
 
-    public String getpId() {
-        return pId;
+    public String getPid() {
+        return pid;
     }
 
-    public void setpId(String pId) {
-        this.pId = pId;
+    public void setPid(String pid) {
+        this.pid = pid;
     }
 
     public String getType() {
@@ -120,7 +120,7 @@ public class SysMenu extends BaseEntity {
                 ", level=" + level +
                 ", sort=" + sort +
                 ", img='" + img + '\'' +
-                ", pId='" + pId + '\'' +
+                ", pid='" + pid + '\'' +
                 ", type='" + type + '\'' +
                 ", visible='" + visible + '\'' +
                 '}';

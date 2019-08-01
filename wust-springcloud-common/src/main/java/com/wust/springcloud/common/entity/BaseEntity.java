@@ -2,8 +2,6 @@
 package com.wust.springcloud.common.entity;
 
 
-import com.wust.springcloud.common.dto.PageDto;
-
 import java.util.Date;
 
 /**
@@ -37,14 +35,7 @@ public class BaseEntity implements java.io.Serializable {
      * 修改时间
      **/
     protected Date modifyTime;
-    /**
-     * 语言环境
-     **/
-    protected String lan;
-    /**
-     * 公司编码
-     **/
-    protected String companyId;
+
 
 
     public String getCreaterId() {
@@ -95,21 +86,7 @@ public class BaseEntity implements java.io.Serializable {
         this.modifyTime = modifyTime;
     }
 
-    public String getLan() {
-        return lan;
-    }
 
-    public void setLan(String lan) {
-        this.lan = lan;
-    }
-
-    public String getCompanyId() {
-        return companyId;
-    }
-
-    public void setCompanyId(String companyId) {
-        this.companyId = companyId;
-    }
 
     @Override
     public String toString() {
@@ -120,8 +97,6 @@ public class BaseEntity implements java.io.Serializable {
                 ", modifyId='" + modifyId + '\'' +
                 ", modifyName='" + modifyName + '\'' +
                 ", modifyTime=" + modifyTime +
-                ", lan='" + lan + '\'' +
-                ", companyId='" + companyId + '\'' +
                 '}';
     }
 }

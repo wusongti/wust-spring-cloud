@@ -9,7 +9,7 @@
     	<result column="permission" property="permission"/>
     	<result column="level" property="level"/>
     	<result column="img" property="img"/>
-    	<result column="pid" property="pId"/>
+    	<result column="pid" property="pid"/>
 		<result column="type" property="type"/>
 		<result column="visible" property="visible"/>
 		<result property="createrId" column="creater_id"/>
@@ -24,7 +24,7 @@
 		<result column="id" property="id"/>
 		<result column="name" property="name"/>
 		<result column="description" property="description"/>
-		<result column="pid" property="pId"/>
+		<result column="pid" property="pid"/>
 		<result column="level" property="level"/>
 		<result column="checked" property="checked"/>
 		<result column="nocheck" property="nocheck"/>
@@ -46,49 +46,6 @@
 		WHERE m.permission != 'anon'
 		ORDER BY m.sort ASC
 	</select>
-
-  
-   <!-- 批量添加菜单 -->
-   	<insert id="batchInsert" parameterType="java.util.List">
-   		insert into sys_menu(
-			id ,
-		   	name,
-			description,
-		   	url,
-		   	permission,
-		   	level,
-		   	sort,
-		   	img,
-		   	pid,
-		   	type,
-			visible,
-		   	create_id,
-		   	modify_id,
-		   	create_time,
-		   	modify_time
-		  )
-		values
-		<foreach collection="list" index="index" item="item" separator=",">
-		(
-			#{item.id},
-			#{item.name},
-			#{item.description},
-			#{item.url},
-			#{item.permission},
-			#{item.level},
-			#{item.sort},
-			#{item.img},
-			#{item.pId},
-			#{item.type},
-			#{item.visible},
-			#{item.createrId},
-			#{item.modifyId},
-			sysdate(),
-			sysdate()
-		)
-		</foreach>
-   	</insert>
-
 
 
 	<!-- 清空所有菜单 -->

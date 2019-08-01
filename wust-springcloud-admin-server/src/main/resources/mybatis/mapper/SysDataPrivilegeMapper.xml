@@ -43,27 +43,6 @@
 		ORDER BY t.business_name
   	</select>
 
-
-	<insert id="batchInsert" parameterType="java.util.List">
-		INSERT INTO sys_data_privilege (
-			id,
-			business_name,
-			creater_id,
-			creater_name,
-			create_time
-		)
-		VALUES
-		<foreach collection="list" index="index" item="item" separator=",">
-		(
-			#{item.id},
-			#{item.businessName},
-			#{item.createrId},
-			#{item.createrName},
-			sysdate()
-		)
-		</foreach>
-	</insert>
-
 	<delete id="deleteAll">
 		delete from sys_data_privilege
 	</delete>

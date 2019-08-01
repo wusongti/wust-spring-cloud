@@ -115,6 +115,7 @@ public class XMLLookupResolver extends XMLDefaultResolver {
                     lookup.setVisible(MyStringUtils.isBlank(visible) ? "100701" : ("Y".equalsIgnoreCase(visible) ? "100701" : "100702"));
                     lookup.setDescription(description);
                     lookup.setLan(MyStringUtils.isBlank(MyStringUtils.null2String(lan)) ? "zh_CN" : lan);
+                    lookup.setCreateTime(new Date());
                     this.sysLookups.add(lookup);
                 }
                 doParseXML((org.w3c.dom.Element) node,lan);

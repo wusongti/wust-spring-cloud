@@ -35,3 +35,7 @@ spring:
 mybatis:
     configuration:
         log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+        mapUnderscoreToCamelCase: true
+mapper:
+    mappers: com.wust.springcloud.common.dao.IBaseMapper
+    identity: MYSQL

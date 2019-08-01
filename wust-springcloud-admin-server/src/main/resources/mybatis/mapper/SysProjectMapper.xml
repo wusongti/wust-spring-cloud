@@ -57,84 +57,6 @@
   	</select>
 
 
-	<select id="findSingle" parameterType="String" resultType="SysProjectList">
-		SELECT
-			t.*
-		FROM
-			sys_project t
-		WHERE
-		1 = 1
-		<if test="id != null and id !=  ''">
-			AND t.id = #{id}
-		</if>
-		<if test="code != null and code !=  ''">
-			AND t.code = #{code}
-		</if>
-	</select>
-
-
-	<insert id="insert" parameterType="SysProject">
-		INSERT INTO sys_project (
-			id,
-			code,
-			name,
-			addr,
-			description,
-			creater_id,
-			creater_name,
-			create_time
-		)
-		VALUES
-		(
-			UUID(),
-			#{code},
-			#{name},
-			#{addr},
-			#{description},
-			#{createrId},
-			#{createrName},
-			sysdate()
-		)
-	</insert>
-
-
-	<insert id="batchInsert" parameterType="java.util.List">
-		INSERT INTO sys_project (
-			id,
-			code,
-			name,
-			addr,
-			description,
-			creater_id,
-			creater_name,
-			create_time
-		)
-		VALUES
-		<foreach collection="list" index="index" item="item" separator=",">
-		(
-			UUID(),
-			#{item.code},
-			#{item.name},
-			#{item.addr},
-			#{item.description},
-			#{item.createrId},
-			#{item.createrName},
-			sysdate()
-		)
-		</foreach>
-	</insert>
-
-
-	<update id="update" parameterType="SysProject">
-		update sys_project set
-			name = #{name},
-			description = #{description},
-			addr = #{addr},
-			modify_id = #{modifyId},
-			modify_time = sysdate()
-		where id = #{id}
-	</update>
-
 
 	<update id="batchUpdate" parameterType="java.util.List">
 		<foreach collection="list" separator=";" index="index" item="item">
@@ -149,17 +71,14 @@
 	</update>
 
 
-	<delete id="delete" parameterType="java.lang.String">
-		delete from sys_project where id = #{0}
-	</delete>
 
 
 	<delete id="batchDelete" parameterType="java.util.List">
-		<![CDATA[  
+		<![CDATA[
 	       delete from sys_project where id in
-	    ]]>  
+	    ]]>
 	    <foreach collection="list" item = "id" open="(" separator="," close=")">
 	  		#{id }
-	    </foreach> 
+	    </foreach>
 	</delete>
 </mapper>

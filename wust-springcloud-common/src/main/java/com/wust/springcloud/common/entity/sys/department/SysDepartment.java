@@ -10,7 +10,6 @@ public class SysDepartment extends BaseEntity{
 
     private String id;
     private String code;
-    private String pcode;		    // 父级部门编码
     private String name;	        // 名称
     private String leader;		    // 公司负责人
     private String description;     // 描述
@@ -29,14 +28,6 @@ public class SysDepartment extends BaseEntity{
 
     public void setCode(String code) {
         this.code = code;
-    }
-
-    public String getPcode() {
-        return pcode;
-    }
-
-    public void setPcode(String pcode) {
-        this.pcode = pcode;
     }
 
     public String getName() {
@@ -68,7 +59,6 @@ public class SysDepartment extends BaseEntity{
         return super.toString() + "\nSysDepartment{" +
                 "id='" + id + '\'' +
                 ", code='" + code + '\'' +
-                ", pcode='" + pcode + '\'' +
                 ", name='" + name + '\'' +
                 ", leader='" + leader + '\'' +
                 ", description='" + description + '\'' +

@@ -25,24 +25,19 @@ public abstract class BaseServiceImpl implements BaseService{
     }
 
     @Override
-    public BaseEntity findSingle(String key){
-        return getBaseMapper().findSingle(key);
+    public int insert(BaseEntity entity){
+        return getBaseMapper().insert(entity);
     }
 
     @Override
-    public int insert(BaseEntity entity){
-        return getBaseMapper().insert(entity);
+    public int updateByPrimaryKey(BaseEntity entity) {
+        return getBaseMapper().updateByPrimaryKey(entity);
     }
 
     @Transactional(rollbackFor=Exception.class)
     @Override
     public int batchInsert(List entities){
-        return getBaseMapper().batchInsert(entities);
-    }
-
-    @Override
-    public int update(BaseEntity entity){
-        return getBaseMapper().update(entity);
+        return getBaseMapper().insertList(entities);
     }
 
     @Transactional(rollbackFor=Exception.class)
@@ -52,8 +47,8 @@ public abstract class BaseServiceImpl implements BaseService{
     }
 
     @Override
-    public int delete(String key){
-        return getBaseMapper().delete(key);
+    public int deleteByPrimaryKey(String key){
+        return getBaseMapper().deleteByPrimaryKey(key);
     }
 
     @Transactional(rollbackFor=Exception.class)

@@ -15,10 +15,7 @@ import org.w3c.dom.NodeList;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 public class XMLPermissionResolver extends XMLDefaultResolver {
@@ -113,8 +110,9 @@ public class XMLPermissionResolver extends XMLDefaultResolver {
                             menuEntity.setUrl(url);
                             menuEntity.setLevel(0);
                             menuEntity.setSort(Integer.parseInt(order));
-                            menuEntity.setpId(null);
+                            menuEntity.setPid(null);
                             menuEntity.setType("subSystem");
+                            menuEntity.setCreateTime(new Date());
 
                             parseMenuList.add(menuEntity);
                             parseMenuMap.put(menuEntity.getId(), menuEntity);
@@ -149,9 +147,10 @@ public class XMLPermissionResolver extends XMLDefaultResolver {
                             menuEntity.setLevel(sysMenuParent == null ? 0 : (sysMenuParent.getLevel() + 1));
                             menuEntity.setSort(Integer.parseInt(order));
                             menuEntity.setImg(img);
-                            menuEntity.setpId(pid);
+                            menuEntity.setPid(pid);
                             menuEntity.setType("menuGroup");
                             menuEntity.setVisible(visible);
+                            menuEntity.setCreateTime(new Date());
 
                             parseMenuList.add(menuEntity);
                             parseMenuMap.put(menuEntity.getId(), menuEntity);
@@ -210,10 +209,11 @@ public class XMLPermissionResolver extends XMLDefaultResolver {
                             menuEntity.setLevel(level);
                             menuEntity.setSort(Integer.parseInt(order));
                             menuEntity.setImg(img);
-                            menuEntity.setpId(pid);
+                            menuEntity.setPid(pid);
                             menuEntity.setPermission(permissionNew);
                             menuEntity.setType("menu");
                             menuEntity.setVisible(visible);
+                            menuEntity.setCreateTime(new Date());
 
                             parseMenuList.add(menuEntity);
                             parseMenuMap.put(menuEntity.getId(), menuEntity);
@@ -269,6 +269,7 @@ public class XMLPermissionResolver extends XMLDefaultResolver {
                             resourceEntity.setUrl(url);
                             resourceEntity.setMenuId(pid);
                             resourceEntity.setPermission(permissionNew);
+                            resourceEntity.setCreateTime(new Date());
 
                             parseResourceList.add(resourceEntity);
                             parseResourceMap.put(resourceEntity.getId(), resourceEntity);

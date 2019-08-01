@@ -18,6 +18,7 @@ public class SysLookup extends BaseEntity{
     private String description;
     private Integer sort;
     private String visible;
+    private String lan;
 
     public String getId() {
         return id;
@@ -99,9 +100,18 @@ public class SysLookup extends BaseEntity{
         this.visible = visible;
     }
 
+    public String getLan() {
+        return lan;
+    }
+
+    public void setLan(String lan) {
+        this.lan = lan;
+    }
+
+
     @Override
     public String toString() {
-        return super.toString() + "\nSysLookup{" +
+        return "SysLookup{" +
                 "id='" + id + '\'' +
                 ", code='" + code + '\'' +
                 ", parentCode='" + parentCode + '\'' +
@@ -112,6 +122,7 @@ public class SysLookup extends BaseEntity{
                 ", description='" + description + '\'' +
                 ", sort=" + sort +
                 ", visible='" + visible + '\'' +
+                ", lan='" + lan + '\'' +
                 '}';
     }
 }
