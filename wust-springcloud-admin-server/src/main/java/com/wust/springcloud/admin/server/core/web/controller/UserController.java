@@ -82,6 +82,7 @@ public class UserController {
     ResponseDto create(@RequestBody SysUser sysUser){
         ResponseDto mm = new ResponseDto();
         DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
+        sysUser.setStatus("100201");
         sysUser.setCompanyId(ctx.getCompanyId());
         sysUser.setCreaterId(ctx.getUserId());
         sysUser.setCreaterName(ctx.getLoginName());

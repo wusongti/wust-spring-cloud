@@ -71,6 +71,7 @@ public class RoleController {
         DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
 
         sysRole.setCode(CodeGenerator.genRoleCode());
+        sysRole.setStatus("100201");
         sysRole.setCreaterId(ctx.getUserId());
         sysRole.setCreaterName(ctx.getLoginName());
         int result =  sysRoleServiceImpl.insert(sysRole);
