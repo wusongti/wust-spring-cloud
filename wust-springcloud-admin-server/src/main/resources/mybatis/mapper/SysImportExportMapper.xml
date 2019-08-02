@@ -3,17 +3,20 @@
 <mapper namespace="com.wust.springcloud.admin.server.core.dao.SysImportExportMapper">
     <resultMap id="BaseResultMap" type="SysImportExport">
         <result column="id" property="id"/>
+        <result column="batch_no" property="batchNo"/>
         <result column="module_name" property="moduleName"/>
         <result column="description" property="description"/>
         <result column="operation_type" property="operationType"/>
         <result column="status" property="status"/>
-        <result column="batch_no" property="batchNo"/>
+        <result column="msg" property="msg"/>
         <result column="start_time" property="startTime"/>
         <result column="end_time" property="endTime"/>
-        <result column="msg" property="msg"/>
         <result property="createrId" column="creater_id"/>
         <result property="createrName" column="creater_name"/>
+        <result property="createTime" column="create_time"/>
         <result property="modifyId" column="modify_id"/>
+        <result property="modifyName" column="modify_name"/>
+        <result property="modifyTime" column="modify_time"/>
     </resultMap>
     <resultMap id="ListResultMap" extends="BaseResultMap" type="SysImportExportList">
     </resultMap>

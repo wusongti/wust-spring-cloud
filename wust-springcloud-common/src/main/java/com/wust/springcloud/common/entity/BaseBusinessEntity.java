@@ -9,13 +9,13 @@ package com.wust.springcloud.common.entity;
 public class BaseBusinessEntity extends BaseEntity{
     private static final long serialVersionUID = -5289712815406052036L;
 
-    protected String companyId;
+    protected Long companyId;
 
-    public String getCompanyId() {
+    public Long getCompanyId() {
         return companyId;
     }
 
-    public void setCompanyId(String companyId) {
+    public void setCompanyId(Long companyId) {
         this.companyId = companyId;
     }
 

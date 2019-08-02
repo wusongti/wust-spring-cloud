@@ -5,7 +5,7 @@ import com.wust.springcloud.common.entity.BaseEntity;
 /**
  * Created by WST on 2019/5/23.
  */
-public class SysAttachment extends BaseEntity{
+public class SysAttachment extends BaseEntity {
     private static final long serialVersionUID = -5743315252070614027L;
 
     private String relationTable;
@@ -16,7 +16,7 @@ public class SysAttachment extends BaseEntity{
     private String attachmentSize;
     private String attachmentPath;
     private String attachmentSuffix;
-
+    private Long companyId;
 
     public String getRelationTable() {
         return relationTable;
@@ -82,10 +82,18 @@ public class SysAttachment extends BaseEntity{
         this.attachmentSuffix = attachmentSuffix;
     }
 
+    public Long getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(Long companyId) {
+        this.companyId = companyId;
+    }
+
     @Override
     public String toString() {
         return super.toString() + "\nSysAttachment{" +
-                ", relationTable='" + relationTable + '\'' +
+                "relationTable='" + relationTable + '\'' +
                 ", relationId='" + relationId + '\'' +
                 ", relationField='" + relationField + '\'' +
                 ", attachmentKey='" + attachmentKey + '\'' +
@@ -93,6 +101,7 @@ public class SysAttachment extends BaseEntity{
                 ", attachmentSize='" + attachmentSize + '\'' +
                 ", attachmentPath='" + attachmentPath + '\'' +
                 ", attachmentSuffix='" + attachmentSuffix + '\'' +
+                ", companyId='" + companyId + '\'' +
                 '}';
     }
 }

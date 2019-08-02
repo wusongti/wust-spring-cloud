@@ -1,14 +1,17 @@
 package com.wust.springcloud.common.entity.sys.importexport;
 
+
 import com.wust.springcloud.common.entity.BaseEntity;
 import java.util.Date;
 
 /**
  * Created by WST on 2019/5/20.
  */
-public class SysImportExport extends BaseEntity{
+public class SysImportExport extends BaseEntity {
     private static final long serialVersionUID = 8972450411783576856L;
 
+    /** 批次号 **/
+    private String batchNo;
     /** 模块名称 **/
     private String moduleName;
     /** 描述 **/
@@ -17,13 +20,12 @@ public class SysImportExport extends BaseEntity{
     private String operationType;
     /** 当前状态：1，执行中；2，全部导入成功；3，部分导入成功；4，导入失败。 **/
     private String status;
-    /** 批次号 **/
-    private String batchNo;
+    private String msg;
     /** 开始时间 **/
     private Date startTime;
     /** 结束时间 **/
     private Date endTime;
-    private String msg;
+    private Long companyId;
 
     public String getModuleName() {
         return moduleName;
@@ -89,16 +91,26 @@ public class SysImportExport extends BaseEntity{
         this.msg = msg;
     }
 
+    public Long getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(Long companyId) {
+        this.companyId = companyId;
+    }
+
     @Override
     public String toString() {
         return super.toString() + "\nSysImportExport{" +
-                ", moduleName='" + moduleName + '\'' +
+                "moduleName='" + moduleName + '\'' +
                 ", description='" + description + '\'' +
                 ", operationType='" + operationType + '\'' +
                 ", status='" + status + '\'' +
                 ", batchNo='" + batchNo + '\'' +
                 ", startTime=" + startTime +
                 ", endTime=" + endTime +
+                ", msg='" + msg + '\'' +
+                ", companyId='" + companyId + '\'' +
                 '}';
     }
 }

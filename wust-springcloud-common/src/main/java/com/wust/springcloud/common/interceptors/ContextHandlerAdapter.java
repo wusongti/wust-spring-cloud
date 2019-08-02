@@ -65,15 +65,8 @@ public abstract class ContextHandlerAdapter {
         }
 
 
-        if("100401".equals(userContextDto.getUser().getType())
-        || "100402".equals(userContextDto.getUser().getType())
-        || "100403".equals(userContextDto.getUser().getType())){ // 研发层、运营层的数据源走平台
-            DefaultBusinessContext.getContext().setDataSourceId(ApplicationEnum.DEFAULT.name());
-        }else{ // 业务操作层走具体数据库
-            if(userContextDto != null){
-                DefaultBusinessContext.getContext().setDataSourceId(userContextDto.getUser().getCompanyId());
-            }
-        }
+        // 目前暂时用不到切换数据源，所有用户的数据源一样
+        DefaultBusinessContext.getContext().setDataSourceId(ApplicationEnum.DEFAULT.name());
     }
 
     /**

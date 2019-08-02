@@ -1,12 +1,13 @@
 package com.wust.springcloud.common.entity.sys.operationlog;
 
+
 import com.wust.springcloud.common.entity.BaseEntity;
 
 
 /**
  * Created by WST on 2019/5/28.
  */
-public class SysOperationLog extends BaseEntity{
+public class SysOperationLog extends BaseEntity {
     private static final long serialVersionUID = 8700623348930994787L;
 
     private String moduleName;
@@ -16,7 +17,7 @@ public class SysOperationLog extends BaseEntity{
     private String operationType;
     private String operationIp;
     private String source;
-
+    private Long companyId;
 
     public String getModuleName() {
         return moduleName;
@@ -42,7 +43,6 @@ public class SysOperationLog extends BaseEntity{
         this.operationRole = operationRole;
     }
 
-
     public String getOperationData() {
         return operationData;
     }
@@ -50,7 +50,6 @@ public class SysOperationLog extends BaseEntity{
     public void setOperationData(String operationData) {
         this.operationData = operationData;
     }
-
 
     public String getOperationType() {
         return operationType;
@@ -76,16 +75,25 @@ public class SysOperationLog extends BaseEntity{
         this.source = source;
     }
 
+    public Long getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(Long companyId) {
+        this.companyId = companyId;
+    }
+
     @Override
     public String toString() {
-        return "SysOperationLog{" +
-                ", moduleName='" + moduleName + '\'' +
+        return super.toString() + "\nSysOperationLog{" +
+                "moduleName='" + moduleName + '\'' +
                 ", businessName='" + businessName + '\'' +
                 ", operationRole='" + operationRole + '\'' +
                 ", operationData='" + operationData + '\'' +
                 ", operationType='" + operationType + '\'' +
                 ", operationIp='" + operationIp + '\'' +
                 ", source='" + source + '\'' +
+                ", companyId='" + companyId + '\'' +
                 '}';
     }
 }
