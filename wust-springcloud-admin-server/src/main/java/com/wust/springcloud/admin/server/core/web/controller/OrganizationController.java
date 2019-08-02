@@ -259,10 +259,9 @@ public class OrganizationController {
 
         entity.setCreaterId(ctx.getUserId());
         entity.setCreaterName(ctx.getLoginName());
+        sysOrganizationServiceImpl.insert(entity);
 
-        List<SysOrganization> entities = new ArrayList<>(1);
-        entities.add(entity);
-        sysOrganizationServiceImpl.batchInsert(entities);
+        mm.setObj(entity.getId());
         return mm;
     }
 
