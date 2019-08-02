@@ -1,8 +1,8 @@
 TODO
 组织架构、数据权限
+自动任务
 导入导出由线程池改为MQ做
 URL过滤拦截
-service和dao集成base类去做
 嵌套事务
 
 
