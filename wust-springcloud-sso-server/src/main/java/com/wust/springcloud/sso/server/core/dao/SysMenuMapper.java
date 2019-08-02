@@ -1,14 +1,13 @@
 package com.wust.springcloud.sso.server.core.dao;
 
+import com.wust.springcloud.common.dao.IBaseMapper;
 import com.wust.springcloud.common.entity.sys.menu.SysMenu;
 import com.wust.springcloud.common.entity.sys.menu.SysMenuSearch;
 import org.springframework.dao.DataAccessException;
-
 import java.util.List;
-import java.util.Map;
 
 
-public interface SysMenuMapper {
+public interface SysMenuMapper extends IBaseMapper<SysMenu> {
 	List<SysMenu> findByCondition(SysMenuSearch sysMenuSearch) throws DataAccessException;
 
 	/**
@@ -20,8 +19,8 @@ public interface SysMenuMapper {
 
 	/**
 	 * 非超级管理员查询
-	 * @param loginName
+	 * @param userId
 	 * @return
 	 */
-	List<SysMenu> findMenuByUserId(String loginName) throws DataAccessException;
+	List<SysMenu> findMenuByUserId(Long userId) throws DataAccessException;
 }

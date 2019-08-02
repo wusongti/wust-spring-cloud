@@ -6,7 +6,7 @@
 				<xs:element ref="modulegroup" minOccurs="0" maxOccurs="unbounded"/>
 				<xs:element ref="module" minOccurs="0" maxOccurs="unbounded"/>
 			</xs:sequence>
-			<xs:attribute name="id" type="xs:string" use="required"/>
+			<xs:attribute name="code" type="xs:string" use="required"/>
 			<xs:attribute name="name" type="xs:string"/>
 			<xs:attribute name="desc" type="xs:string"/>
 			<xs:attribute name="order" type="xs:string"/>
@@ -22,7 +22,7 @@
 				<xs:element ref="operation" minOccurs="0" maxOccurs="unbounded"/>
 				<xs:element ref="modulegroup" minOccurs="0" maxOccurs="unbounded"/>
 			</xs:sequence>
-			<xs:attribute name="id" type="xs:string" use="required"/>
+			<xs:attribute name="code" type="xs:string" use="required"/>
 			<xs:attribute name="name" type="xs:string" use="required"/>
 			<xs:attribute name="desc" type="xs:string" use="required"/>
 			<xs:attribute name="order" type="xs:string"/>
@@ -36,7 +36,7 @@
 	</xs:element>
 	<xs:element name="operation">
 		<xs:complexType>
-			<xs:attribute name="id" type="xs:string" use="required"/>
+			<xs:attribute name="code" type="xs:string" use="required"/>
 			<xs:attribute name="name" type="xs:string" use="required"/>
 			<xs:attribute name="desc" type="xs:string" use="required"/>
 			<xs:attribute name="permission" type="xs:string"/>

@@ -2,22 +2,24 @@ package com.wust.springcloud.common.entity.sys.dataprivilege;
 
 import com.wust.springcloud.common.entity.BaseEntity;
 
+
 /**
  * Created by WST on 2019/6/10.
  */
 public class SysDataPrivilege extends BaseEntity{
     private static final long serialVersionUID = 5467184476284496996L;
 
-    private String id;
+    private String uuid;
+
     private String businessName;
 
 
-    public String getId() {
-        return id;
+    public String getUuid() {
+        return uuid;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 
     public String getBusinessName() {
@@ -32,7 +34,7 @@ public class SysDataPrivilege extends BaseEntity{
     @Override
     public String toString() {
         return super.toString() + "\nSysDataPrivilege{" +
-                "id='" + id + '\'' +
+                "uuid='" + uuid + '\'' +
                 ", businessName='" + businessName + '\'' +
                 '}';
     }

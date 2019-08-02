@@ -2,6 +2,8 @@ package com.wust.springcloud.common.entity.sys.project;
 
 import com.wust.springcloud.common.entity.BaseEntity;
 
+
+
 /**
  * @author ：wust
  * @date ：Created in 2019/7/30 11:39
@@ -11,19 +13,11 @@ import com.wust.springcloud.common.entity.BaseEntity;
 public class SysProject extends BaseEntity {
     private static final long serialVersionUID = 869596893803958296L;
 
-    private String id;
     private String code;
     private String name;
     private String addr;
     private String description;
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getCode() {
         return code;
@@ -60,7 +54,6 @@ public class SysProject extends BaseEntity {
     @Override
     public String toString() {
         return super.toString() + "\nSysProject{" +
-                "id='" + id + '\'' +
                 ", code='" + code + '\'' +
                 ", name='" + name + '\'' +
                 ", addr='" + addr + '\'' +

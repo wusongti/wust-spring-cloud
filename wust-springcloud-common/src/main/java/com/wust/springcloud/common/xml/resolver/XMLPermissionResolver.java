@@ -34,7 +34,7 @@ public class XMLPermissionResolver extends XMLDefaultResolver {
     /**
      * 属性名称
      */
-    private static final String ELEMENT_ATTRIBUTE_ID = "id";
+    private static final String ELEMENT_ATTRIBUTE_CODE = "code";
     private static final String ELEMENT_ATTRIBUTE_NAME = "name";
     private static final String ELEMENT_ATTRIBUTE_DESC = "desc";
     private static final String ELEMENT_ATTRIBUTE_PERMISSION = "permission";
@@ -91,9 +91,9 @@ public class XMLPermissionResolver extends XMLDefaultResolver {
             short nodeType = node.getNodeType();
             if (nodeType == Node.ELEMENT_NODE) {
                 if (ELEMENT_SUBSYSTEM.equals(node.getNodeName())) {   // 解析subsystem节点
-                    String id = ((org.w3c.dom.Element) node).getAttribute(ELEMENT_ATTRIBUTE_ID);
-                    if (!parseMenuMap.containsKey(id)) {  // 忽略已经解析过的节点
-                        if (!"*".equals(id) && StringUtils.isNotBlank(id)) {    // id属性值为星号或为空则可以忽略
+                    String code = ((org.w3c.dom.Element) node).getAttribute(ELEMENT_ATTRIBUTE_CODE);
+                    if (!parseMenuMap.containsKey(code)) {  // 忽略已经解析过的节点
+                        if (!"*".equals(code) && StringUtils.isNotBlank(code)) {    // id属性值为星号或为空则可以忽略
                             String name = ((org.w3c.dom.Element) node).getAttribute(ELEMENT_ATTRIBUTE_NAME);
                             String desc = ((org.w3c.dom.Element) node).getAttribute(ELEMENT_ATTRIBUTE_DESC);
                             String permission = ((org.w3c.dom.Element) node).getAttribute(ELEMENT_ATTRIBUTE_PERMISSION);
@@ -103,34 +103,34 @@ public class XMLPermissionResolver extends XMLDefaultResolver {
 
 
                             SysMenu menuEntity = new SysMenu();
-                            menuEntity.setId(id);
+                            menuEntity.setCode(code);
                             menuEntity.setName(name);
                             menuEntity.setDescription(desc);
                             menuEntity.setPermission(permission);
                             menuEntity.setUrl(url);
                             menuEntity.setLevel(0);
                             menuEntity.setSort(Integer.parseInt(order));
-                            menuEntity.setPid(null);
+                            menuEntity.setPcode(null);
                             menuEntity.setType("subSystem");
                             menuEntity.setCreateTime(new Date());
 
                             parseMenuList.add(menuEntity);
-                            parseMenuMap.put(menuEntity.getId(), menuEntity);
+                            parseMenuMap.put(menuEntity.getCode(), menuEntity);
                         } else {
-                            logger.info("属性id值为[" + id + "]，的节点忽略");
+                            logger.info("属性code值为[" + code + "]，的节点忽略");
                         }
                     } else {
-                        logger.info("已经解析过此节点：" + parseMenuMap.get(id));
+                        logger.info("已经解析过此节点：" + parseMenuMap.get(code));
                     }
                 } else if (ELEMENT_MODULEGROUP.equals(node.getNodeName())) {   // 解析modulegroup节点
-                    String id = ((org.w3c.dom.Element) node).getAttribute(ELEMENT_ATTRIBUTE_ID);
-                    if (!parseMenuMap.containsKey(id)) {  // 忽略已经解析过的节点
-                        if (!"*".equals(id) && StringUtils.isNotBlank(id)) {    // id属性值为星号或为空则可以忽略
+                    String code = ((org.w3c.dom.Element) node).getAttribute(ELEMENT_ATTRIBUTE_CODE);
+                    if (!parseMenuMap.containsKey(code)) {  // 忽略已经解析过的节点
+                        if (!"*".equals(code) && StringUtils.isNotBlank(code)) {    // id属性值为星号或为空则可以忽略
                             String name = ((org.w3c.dom.Element) node).getAttribute(ELEMENT_ATTRIBUTE_NAME);
                             String desc = ((org.w3c.dom.Element) node).getAttribute(ELEMENT_ATTRIBUTE_DESC);
                             String permission = ((org.w3c.dom.Element) node).getAttribute(ELEMENT_ATTRIBUTE_PERMISSION);
                             String url = ((org.w3c.dom.Element) node).getAttribute(ELEMENT_ATTRIBUTE_URL);
-                            String pid = ((org.w3c.dom.Element) node.getParentNode()).getAttribute(ELEMENT_ATTRIBUTE_ID);
+                            String pcode = ((org.w3c.dom.Element) node.getParentNode()).getAttribute(ELEMENT_ATTRIBUTE_CODE);
                             String orderString = ((org.w3c.dom.Element) node).getAttribute(ELEMENT_ATTRIBUTE_ORDER);
                             String order = StringUtils.isBlank(MyStringUtils.null2String(orderString)) ? "-1" : orderString;
                             String img = ((org.w3c.dom.Element) node).getAttribute(ELEMENT_ATTRIBUTE_IMG);
@@ -138,37 +138,37 @@ public class XMLPermissionResolver extends XMLDefaultResolver {
 
 
                             SysMenu menuEntity = new SysMenu();
-                            menuEntity.setId(id);
+                            menuEntity.setCode(code);
                             menuEntity.setName(name);
                             menuEntity.setDescription(desc);
                             menuEntity.setPermission(permission);
                             menuEntity.setUrl(url);
-                            SysMenu sysMenuParent = parseMenuMap.get(pid) == null ? null : (SysMenu) parseMenuMap.get(pid);
+                            SysMenu sysMenuParent = parseMenuMap.get(pcode) == null ? null : (SysMenu) parseMenuMap.get(pcode);
                             menuEntity.setLevel(sysMenuParent == null ? 0 : (sysMenuParent.getLevel() + 1));
                             menuEntity.setSort(Integer.parseInt(order));
                             menuEntity.setImg(img);
-                            menuEntity.setPid(pid);
+                            menuEntity.setPcode(pcode);
                             menuEntity.setType("menuGroup");
                             menuEntity.setVisible(visible);
                             menuEntity.setCreateTime(new Date());
 
                             parseMenuList.add(menuEntity);
-                            parseMenuMap.put(menuEntity.getId(), menuEntity);
+                            parseMenuMap.put(menuEntity.getCode(), menuEntity);
                         } else {
-                            logger.info("属性id值为[" + id + "]，的节点忽略");
+                            logger.info("属性id值为[" + code + "]，的节点忽略");
                         }
                     } else {
-                        logger.info("已经解析过此节点：" + parseMenuMap.get(id));
+                        logger.info("已经解析过此节点：" + parseMenuMap.get(code));
                     }
                 } else if (ELEMENT_MODULE.equals(node.getNodeName())) {
-                    String id = ((org.w3c.dom.Element) node).getAttribute(ELEMENT_ATTRIBUTE_ID);
-                    if (!parseMenuMap.containsKey(id)) {  // 忽略已经解析过的节点
-                        if (!"*".equals(id) && StringUtils.isNotBlank(id)) {    // id属性值为星号或为空则可以忽略
+                    String code = ((org.w3c.dom.Element) node).getAttribute(ELEMENT_ATTRIBUTE_CODE);
+                    if (!parseMenuMap.containsKey(code)) {  // 忽略已经解析过的节点
+                        if (!"*".equals(code) && StringUtils.isNotBlank(code)) {    // id属性值为星号或为空则可以忽略
                             String name = ((org.w3c.dom.Element) node).getAttribute(ELEMENT_ATTRIBUTE_NAME);
                             String desc = ((org.w3c.dom.Element) node).getAttribute(ELEMENT_ATTRIBUTE_DESC);
                             String permission = ((org.w3c.dom.Element) node).getAttribute(ELEMENT_ATTRIBUTE_PERMISSION);
                             String url = ((org.w3c.dom.Element) node).getAttribute(ELEMENT_ATTRIBUTE_URL);
-                            String pid = ((org.w3c.dom.Element) node.getParentNode()).getAttribute(ELEMENT_ATTRIBUTE_ID);
+                            String pcode = ((org.w3c.dom.Element) node.getParentNode()).getAttribute(ELEMENT_ATTRIBUTE_CODE);
                             String orderString = ((org.w3c.dom.Element) node).getAttribute(ELEMENT_ATTRIBUTE_ORDER);
                             String order = StringUtils.isBlank(MyStringUtils.null2String(orderString)) ? "-1" : orderString;
                             String img = ((org.w3c.dom.Element) node).getAttribute(ELEMENT_ATTRIBUTE_IMG);
@@ -199,39 +199,39 @@ public class XMLPermissionResolver extends XMLDefaultResolver {
                             }
 
 
-                            SysMenu tSysMenuParent = parseMenuMap.get(pid) == null ? null : (SysMenu) parseMenuMap.get(pid);
+                            SysMenu tSysMenuParent = parseMenuMap.get(pcode) == null ? null : (SysMenu) parseMenuMap.get(pcode);
                             Integer level = isLeaf(node) ? -1 : tSysMenuParent.getLevel() + 1;
                             SysMenu menuEntity = new SysMenu();
-                            menuEntity.setId(id);
+                            menuEntity.setCode(code);
                             menuEntity.setName(name);
                             menuEntity.setDescription(desc);
                             menuEntity.setUrl(url);
                             menuEntity.setLevel(level);
                             menuEntity.setSort(Integer.parseInt(order));
                             menuEntity.setImg(img);
-                            menuEntity.setPid(pid);
+                            menuEntity.setPcode(pcode);
                             menuEntity.setPermission(permissionNew);
                             menuEntity.setType("menu");
                             menuEntity.setVisible(visible);
                             menuEntity.setCreateTime(new Date());
 
                             parseMenuList.add(menuEntity);
-                            parseMenuMap.put(menuEntity.getId(), menuEntity);
+                            parseMenuMap.put(menuEntity.getCode(), menuEntity);
                         } else {
-                            logger.info("属性id值为[" + id + "]，的节点忽略");
+                            logger.info("属性code值为[" + code + "]，的节点忽略");
                         }
                     } else {
-                        logger.info("已经解析过此节点：" + parseMenuMap.get(id));
+                        logger.info("已经解析过此节点：" + parseMenuMap.get(code));
                     }
                 } else if (ELEMENT_OPERATION.equals(node.getNodeName())) {
-                    String id = ((org.w3c.dom.Element) node).getAttribute(ELEMENT_ATTRIBUTE_ID);
-                    if (!parseResourceMap.containsKey(id)) {  // 忽略已经解析过的节点
-                        if (!"*".equals(id) && StringUtils.isNotBlank(id)) {    // id属性值为星号或为空则可以忽略
+                    String code = ((org.w3c.dom.Element) node).getAttribute(ELEMENT_ATTRIBUTE_CODE);
+                    if (!parseResourceMap.containsKey(code)) {  // 忽略已经解析过的节点
+                        if (!"*".equals(code) && StringUtils.isNotBlank(code)) {    // id属性值为星号或为空则可以忽略
                             String name = ((org.w3c.dom.Element) node).getAttribute(ELEMENT_ATTRIBUTE_NAME);
                             String desc = ((org.w3c.dom.Element) node).getAttribute(ELEMENT_ATTRIBUTE_DESC);
                             String permission = ((org.w3c.dom.Element) node).getAttribute(ELEMENT_ATTRIBUTE_PERMISSION);
                             String url = ((org.w3c.dom.Element) node).getAttribute(ELEMENT_ATTRIBUTE_URL);
-                            String pid = ((org.w3c.dom.Element) node.getParentNode()).getAttribute(ELEMENT_ATTRIBUTE_ID);
+                            String menuCode = ((org.w3c.dom.Element) node.getParentNode()).getAttribute(ELEMENT_ATTRIBUTE_CODE);
                             String parentPermission = ((org.w3c.dom.Element) node.getParentNode()).getAttribute(ELEMENT_ATTRIBUTE_PERMISSION);
                             String parentPage = ((org.w3c.dom.Element) node.getParentNode()).getAttribute(ELEMENT_ATTRIBUTE_PAGE);
 
@@ -263,21 +263,21 @@ public class XMLPermissionResolver extends XMLDefaultResolver {
                             }
 
                             SysResource resourceEntity = new SysResource();
-                            resourceEntity.setId(id);
+                            resourceEntity.setCode(code);
                             resourceEntity.setName(name);
                             resourceEntity.setDescription(desc);
                             resourceEntity.setUrl(url);
-                            resourceEntity.setMenuId(pid);
+                            resourceEntity.setMenuCode(menuCode);
                             resourceEntity.setPermission(permissionNew);
                             resourceEntity.setCreateTime(new Date());
 
                             parseResourceList.add(resourceEntity);
-                            parseResourceMap.put(resourceEntity.getId(), resourceEntity);
+                            parseResourceMap.put(resourceEntity.getCode(), resourceEntity);
                         } else {
-                            logger.info("属性id值为[" + id + "]，的节点忽略");
+                            logger.info("属性code值为[" + code + "]，的节点忽略");
                         }
                     } else {
-                        logger.info("已经解析过此节点：" + parseResourceMap.get(id));
+                        logger.info("已经解析过此节点：" + parseResourceMap.get(code));
                     }
                 } else if (ELEMENT_PATH.equals(node.getNodeName())) {
                     String path = ((org.w3c.dom.Element) node).getAttribute(ELEMENT_ATTRIBUTE_PATH);

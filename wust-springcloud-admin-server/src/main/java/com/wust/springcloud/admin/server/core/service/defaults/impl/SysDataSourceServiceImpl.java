@@ -87,7 +87,6 @@ public class SysDataSourceServiceImpl extends BaseServiceImpl implements SysData
         DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
 
         SysCompanySearch sysCompanySearch = new SysCompanySearch();
-        sysCompanySearch.setId(entity.getCompanyId());
         List<SysCompanyList> sysCompanyLists = sysCompanyMapper.findByCondition(sysCompanySearch);
         SysCompany sysCompany = sysCompanyLists.get(0);
 
@@ -155,7 +154,6 @@ public class SysDataSourceServiceImpl extends BaseServiceImpl implements SysData
              */
             List<SysUser> sysUsers = new ArrayList<>(1);
             SysUser user = new SysUser();
-            user.setCompanyId(sysCompany.getId());
             user.setLoginName(loginName);
             user.setRealName(sysCompany.getName() + "运营方管理员账号");
             user.setStatus("100201");

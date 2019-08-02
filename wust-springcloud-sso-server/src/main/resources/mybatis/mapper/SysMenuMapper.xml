@@ -2,14 +2,15 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.wust.springcloud.sso.server.core.dao.SysMenuMapper" >
   	<resultMap id="BaseResultMap" type="SysMenu" >
-    	<id column="id" property="id"/>
-    	<result column="name" property="name"/>
-    	<result column="description" property="description"/>
-    	<result column="url" property="url"/>
-    	<result column="permission" property="permission"/>
-    	<result column="level" property="level"/>
-    	<result column="img" property="img"/>
-    	<result column="pid" property="pid"/>
+		<id column="id" property="id"/>
+		<result column="code" property="code"/>
+		<result column="pcode" property="pcode"/>
+		<result column="name" property="name"/>
+		<result column="description" property="description"/>
+		<result column="url" property="url"/>
+		<result column="permission" property="permission"/>
+		<result column="level" property="level"/>
+		<result column="img" property="img"/>
 		<result column="type" property="type"/>
 		<result column="visible" property="visible"/>
 		<result property="createrId" column="creater_id"/>
@@ -26,14 +27,17 @@
 		<if test="id != null and id !=  ''">
 			AND sm.id = #{id}
 		</if>
-		<if test="pid != null and pid !=  ''">
-			AND sm.pid = #{pid}
+		<if test="code != null and code !=  ''">
+			AND sm.code = #{code}
+		</if>
+		<if test="pcode != null and pcode !=  ''">
+			AND sm.pcode = #{pcode}
 		</if>
 		<if test="level != null and level !=  ''">
 			AND sm.level = #{level}
 		</if>
 		<if test="type != null and type !=  ''">
-			AND sm.pid = #{pid}
+			AND sm.type = #{type}
 		</if>
 		order by sm.sort ASC
 	</select>
@@ -42,13 +46,14 @@
 	<select id="findAllMenus4SystemAdmin" resultMap="BaseResultMap">
 		SELECT
 			sm.id,
+			sm.code,
+			sm.pcode,
 			sm.name,
 			sm.description,
 			sm.permission,
 			sm.url,
 			sm.img,
 			sm.level,
-			sm.pid,
 			sm.type,
 			sm.visible
 		FROM sys_menu sm
@@ -59,27 +64,28 @@
 
 
 	<!-- 获取非超级管理员的非白名单菜单集合 -->
-	<select id="findMenuByUserId" parameterType="java.lang.String" resultMap="BaseResultMap">
+	<select id="findMenuByUserId" parameterType="java.lang.Long" resultMap="BaseResultMap">
 		SELECT
 			t1.*
 		FROM
 		(
 			SELECT
 				sm.id,
+				sm.code,
+				sm.pcode,
 				sm.name,
 				sm.description,
 				sm.permission,
 				sm.url,
 				sm.img,
 				sm.level,
-				sm.pid,
 				sm.type,
 				sm.visible,
 				sm.sort,
 				sr.organization_id
 			FROM
 				sys_menu sm,sys_role_resource sr
-			WHERE sm.id = sr.resource_id
+			WHERE sm.code = sr.resource_id
 			AND sr.type='m'
 			AND sm.permission != 'anon'
 		)t1,

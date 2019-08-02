@@ -3,8 +3,8 @@
 <mapper namespace="com.wust.springcloud.sso.server.core.dao.SysResourceMapper" >
   	<resultMap id="BaseResultMap" type="SysResource" >
     	<id column="id" property="id"/>
-    	<result column="menu_id" property="menuId"/>
-    	<result column="sname" property="name"/>
+    	<result column="menu_code" property="menuCode"/>
+    	<result column="name" property="name"/>
 		<result column="description" property="description"/>
     	<result column="permission" property="permission"/>
     	<result column="url" property="url"/>
@@ -24,7 +24,7 @@
 			sr.description,
 			sr.permission,
 			sr.url,
-			sr.menu_id
+			sr.menu_code
 		FROM sys_resource sr
 		WHERE sr.permission != 'anon'
 	</select>
@@ -37,13 +37,13 @@
 			sr.description,
 			sr.permission,
 			sr.url,
-			sr.menu_id
+			sr.menu_code
 		FROM sys_resource sr
 		WHERE sr.permission = 'anon'
 	</select>
 
 	<!-- 获取非超级管理员非白名单资源权限 -->
-  	<select id="findResourcesByUserId" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	<select id="findResourcesByUserId" parameterType="java.lang.Long" resultMap="BaseResultMap">
 		SELECT
 			t1.*
 		FROM
@@ -54,7 +54,7 @@
 				sr.description,
 				sr.permission,
 				sr.url,
-				sr.menu_id,
+				sr.menu_code,
 				srr.organization_id
 			FROM
 				sys_resource sr,sys_role_resource srr
@@ -74,7 +74,7 @@
   	</select>
 
 	<!-- 获取非超级管理员白名单资源权限 -->
-	<select id="findAnonResourcesByUserId" parameterType="java.lang.String" resultMap="BaseResultMap">
+	<select id="findAnonResourcesByUserId" parameterType="java.lang.Long" resultMap="BaseResultMap">
 		SELECT
 			t1.*
 		FROM
@@ -85,7 +85,7 @@
 				sr.description,
 				sr.permission,
 				sr.url,
-				sr.menu_id,
+				sr.menu_code,
 				srr.organization_id
 			FROM
 				sys_resource sr,sys_role_resource srr
@@ -113,9 +113,9 @@
 			sr.description,
 			sr.permission,
 			sr.url,
-			sr.menu_id
+			sr.menu_code
 		FROM sys_resource sr
-		WHERE sr.permission = 'anon' AND sr.menu_id = #{0}
+		WHERE sr.permission = 'anon' AND sr.menu_code = #{0}
   	</select>
 
 
@@ -127,7 +127,7 @@
 			sr.description,
 			sr.permission,
 			sr.url,
-			sr.menu_id
-		FROM sys_resource sr,sys_menu m WHERE sr.menu_id = m.id AND m.permission = 'anon'
+			sr.menu_code
+		FROM sys_resource sr,sys_menu m WHERE sr.menu_code = m.code AND m.permission = 'anon'
 	</select>
 </mapper>

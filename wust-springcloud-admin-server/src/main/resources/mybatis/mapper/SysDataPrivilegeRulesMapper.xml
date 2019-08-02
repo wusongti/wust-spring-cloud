@@ -4,6 +4,7 @@
   	<resultMap id="BaseResultMap" type="SysDataPrivilegeRules" >
 		<id column="id" property="id"/>
 		<result column="data_privilege_id" property="dataPrivilegeId"/>
+		<result column="data_privilege_uuid" property="dataPrivilegeUuid"/>
 		<result column="type" property="type"/>
 		<result column="expression" property="expression"/>
 		<result property="createrId" column="creater_id"/>
@@ -31,8 +32,8 @@
 			sys_data_privilege_rules t,sys_data_privilege t1
 		WHERE
 		t.data_privilege_id = t1.id
-		<if test="dataPrivilegeId != null and dataPrivilegeId !=  ''">
-			AND t.data_privilege_id = #{dataPrivilegeId}
+		<if test="dataPrivilegeUuid != null and dataPrivilegeUuid !=  ''">
+			AND t.data_privilege_uuid = #{dataPrivilegeUuid}
 		</if>
 		<if test="type != null and type !=  ''">
 			AND t.type = #{type}
@@ -54,8 +55,8 @@
 		<if test="id != null and id !=  ''">
 			AND t.id = #{id}
 		</if>
-		<if test="dataPrivilegeId != null and dataPrivilegeId !=  ''">
-			AND t.data_privilege_id = #{dataPrivilegeId}
+		<if test="dataPrivilegeUuid != null and dataPrivilegeUuid !=  ''">
+			AND t.data_privilege_uuid = #{dataPrivilegeUuid}
 		</if>
 		<if test="type != null and type !=  ''">
 			AND t.type = #{type}
@@ -73,12 +74,7 @@
 		</foreach>
 	</update>
 
-	<delete id="batchDelete" parameterType="java.util.List">
-		<![CDATA[
-	       delete from sys_data_privilege_rules where id in
-	    ]]>
-		<foreach collection="list" item = "id" open="(" separator="," close=")">
-			#{id }
-		</foreach>
+	<delete id="deleteByDataPrivilegeId" parameterType="Long">
+		delete from sys_data_privilege_rules where data_privilege_id = #{0}
 	</delete>
 </mapper>

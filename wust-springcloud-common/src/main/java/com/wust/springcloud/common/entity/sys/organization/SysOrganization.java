@@ -2,30 +2,23 @@ package com.wust.springcloud.common.entity.sys.organization;
 
 import com.wust.springcloud.common.entity.BaseEntity;
 
+
 /**
  * Created by WST on 2019/6/3.
  */
 public class SysOrganization extends BaseEntity{
     private static final long serialVersionUID = 1638234693920231189L;
 
-    private String id;
-    private String pid;
+    private Long pid;
     private String type;
-    private String relationId;
+    private Long relationId;
 
-    public String getId() {
-        return id;
-    }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getPid() {
+    public Long getPid() {
         return pid;
     }
 
-    public void setPid(String pid) {
+    public void setPid(Long pid) {
         this.pid = pid;
     }
 
@@ -37,11 +30,11 @@ public class SysOrganization extends BaseEntity{
         this.type = type;
     }
 
-    public String getRelationId() {
+    public Long getRelationId() {
         return relationId;
     }
 
-    public void setRelationId(String relationId) {
+    public void setRelationId(Long relationId) {
         this.relationId = relationId;
     }
 }

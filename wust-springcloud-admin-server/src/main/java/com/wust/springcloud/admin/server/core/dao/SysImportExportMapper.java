@@ -13,7 +13,7 @@ import java.util.Map;
  * Created by WST on 2019/5/20.
  */
 public interface SysImportExportMapper  extends IBaseMapper<SysImportExport> {
-    @PrivilegeAnnotation(id = "a6d1c14b-8b47-11e9-a68d-0050568e63cd",businessName = "导入导出")
+    @PrivilegeAnnotation(uuid = "a6d1c14b-8b47-11e9-a68d-0050568e63cd",businessName = "导入导出")
     List<SysImportExportList> listPage(SysImportExportSearch search) throws DataAccessException;
 
     List<SysImportExportList> findByCondition(SysImportExportSearch search) throws DataAccessException;

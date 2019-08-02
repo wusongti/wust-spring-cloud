@@ -2,6 +2,7 @@
 package com.wust.springcloud.common.entity;
 
 
+import javax.persistence.Id;
 import java.util.Date;
 
 /**
@@ -11,10 +12,16 @@ import java.util.Date;
  */
 public class BaseEntity implements java.io.Serializable {
     private static final long serialVersionUID = -7114772512426125749L;
+
+    /**
+     * 主键
+     */
+    @Id
+    private Long id;
     /**
      * 创建人id
      **/
-    protected String createrId;
+    protected Long createrId;
     /**
      * 创建人名称
      **/
@@ -26,7 +33,7 @@ public class BaseEntity implements java.io.Serializable {
     /**
      * 修改人id
      **/
-    protected String modifyId;
+    protected Long modifyId;
     /**
      * 修改人名称
      **/
@@ -37,12 +44,19 @@ public class BaseEntity implements java.io.Serializable {
     protected Date modifyTime;
 
 
+    public Long getId() {
+        return id;
+    }
 
-    public String getCreaterId() {
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getCreaterId() {
         return createrId;
     }
 
-    public void setCreaterId(String createrId) {
+    public void setCreaterId(Long createrId) {
         this.createrId = createrId;
     }
 
@@ -62,11 +76,11 @@ public class BaseEntity implements java.io.Serializable {
         this.createTime = createTime;
     }
 
-    public String getModifyId() {
+    public Long getModifyId() {
         return modifyId;
     }
 
-    public void setModifyId(String modifyId) {
+    public void setModifyId(Long modifyId) {
         this.modifyId = modifyId;
     }
 
@@ -86,12 +100,11 @@ public class BaseEntity implements java.io.Serializable {
         this.modifyTime = modifyTime;
     }
 
-
-
     @Override
     public String toString() {
         return "BaseEntity{" +
-                "createrId='" + createrId + '\'' +
+                "id=" + id +
+                ", createrId='" + createrId + '\'' +
                 ", createrName='" + createrName + '\'' +
                 ", createTime=" + createTime +
                 ", modifyId='" + modifyId + '\'' +

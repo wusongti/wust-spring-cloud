@@ -3,6 +3,7 @@
 <mapper namespace="com.wust.springcloud.admin.server.core.dao.SysDataPrivilegeMapper" >
   	<resultMap id="BaseResultMap" type="SysDataPrivilege" >
 		<id column="id" property="id"/>
+		<result column="uuid" property="uuid"/>
 		<result column="business_name" property="businessName"/>
 		<result property="createrId" column="creater_id"/>
 		<result property="createrName" column="creater_name"/>
@@ -24,6 +25,9 @@
 			sys_data_privilege t
 		WHERE
 		1 = 1
+		<if test="uuid != null and uuid !=  ''">
+			AND t.uuid = #{uuid}
+		</if>
 		<if test="businessName != null and businessName !=  ''">
 			AND t.business_name = #{businessName}
 		</if>
@@ -37,6 +41,9 @@
 			sys_data_privilege t
 		WHERE
 		1 = 1
+		<if test="uuid != null and uuid !=  ''">
+			AND t.uuid = #{uuid}
+		</if>
 		<if test="businessName != null and businessName !=  ''">
 			AND t.business_name = #{businessName}
 		</if>
@@ -45,14 +52,5 @@
 
 	<delete id="deleteAll">
 		delete from sys_data_privilege
-	</delete>
-
-	<delete id="batchDelete" parameterType="java.util.List">
-		<![CDATA[
-	       delete from sys_data_privilege where id in
-	    ]]>
-		<foreach collection="list" item = "id" open="(" separator="," close=")">
-			#{id }
-		</foreach>
 	</delete>
 </mapper>

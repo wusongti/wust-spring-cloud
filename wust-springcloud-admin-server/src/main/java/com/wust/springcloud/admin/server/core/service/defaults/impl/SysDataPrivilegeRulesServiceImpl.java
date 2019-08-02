@@ -1,11 +1,15 @@
 package com.wust.springcloud.admin.server.core.service.defaults.impl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.wust.springcloud.admin.server.core.dao.SysDataPrivilegeMapper;
 import com.wust.springcloud.admin.server.core.dao.SysDataPrivilegeRulesMapper;
 import com.wust.springcloud.admin.server.core.service.defaults.SysDataPrivilegeRulesService;
 import com.wust.springcloud.common.context.DefaultBusinessContext;
 import com.wust.springcloud.common.dao.IBaseMapper;
 import com.wust.springcloud.common.dto.ResponseDto;
+import com.wust.springcloud.common.entity.sys.dataprivilege.SysDataPrivilege;
+import com.wust.springcloud.common.entity.sys.dataprivilege.SysDataPrivilegeList;
+import com.wust.springcloud.common.entity.sys.dataprivilege.SysDataPrivilegeSearch;
 import com.wust.springcloud.common.entity.sys.dataprivilege.rules.SysDataPrivilegeRules;
 import com.wust.springcloud.common.entity.sys.dataprivilege.rules.SysDataPrivilegeRulesList;
 import com.wust.springcloud.common.entity.sys.dataprivilege.rules.SysDataPrivilegeRulesSearch;
@@ -23,6 +27,10 @@ import java.util.*;
  */
 @Service("sysDataPrivilegeRulesServiceImpl")
 public class SysDataPrivilegeRulesServiceImpl extends BaseServiceImpl implements SysDataPrivilegeRulesService {
+
+    @Autowired
+    private SysDataPrivilegeMapper sysDataPrivilegeMapper;
+
     @Autowired
     private SysDataPrivilegeRulesMapper sysDataPrivilegeRulesMapper;
 
@@ -40,19 +48,18 @@ public class SysDataPrivilegeRulesServiceImpl extends BaseServiceImpl implements
 
     @Transactional(rollbackFor=Exception.class)
     @Override
-    public ResponseDto update(String dataPrivilegeId, String types) {
+    public ResponseDto update(Long dataPrivilegeId, String types) {
         ResponseDto mm = new ResponseDto();
         DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
         SysDataPrivilegeRulesSearch sysDataPrivilegeRulesSearch = new SysDataPrivilegeRulesSearch();
         sysDataPrivilegeRulesSearch.setDataPrivilegeId(dataPrivilegeId);
         List<SysDataPrivilegeRulesList>  sysDataPrivilegeRulesLists = sysDataPrivilegeRulesMapper.findByCondition(sysDataPrivilegeRulesSearch);
         if(CollectionUtils.isNotEmpty(sysDataPrivilegeRulesLists)){
-            List<String> ids = new ArrayList<>(sysDataPrivilegeRulesLists.size());
             for (SysDataPrivilegeRulesList sysDataPrivilegeRulesList : sysDataPrivilegeRulesLists) {
-                ids.add(sysDataPrivilegeRulesList.getId());
+                sysDataPrivilegeRulesMapper.deleteByDataPrivilegeId(sysDataPrivilegeRulesList.getDataPrivilegeId());
             }
 
-            sysDataPrivilegeRulesMapper.batchDelete(ids);
+            SysDataPrivilege sysDataPrivilege = sysDataPrivilegeMapper.selectByPrimaryKey(dataPrivilegeId);
 
             String[] typeArray = types.split(",");
             List<SysDataPrivilegeRules> createEntities = new ArrayList<>(typeArray.length);
@@ -61,6 +68,7 @@ public class SysDataPrivilegeRulesServiceImpl extends BaseServiceImpl implements
                 sysDataPrivilegeRules.setCreaterId(ctx.getUserId());
                 sysDataPrivilegeRules.setCreaterName(ctx.getLoginName());
                 sysDataPrivilegeRules.setDataPrivilegeId(dataPrivilegeId);
+                sysDataPrivilegeRules.setDataPrivilegeUuid(sysDataPrivilege.getUuid());
                 sysDataPrivilegeRules.setType(s);
                 sysDataPrivilegeRules.setCreateTime(new Date());
                 if("100905".equals(s)){ // 本人可见
@@ -87,7 +95,7 @@ public class SysDataPrivilegeRulesServiceImpl extends BaseServiceImpl implements
             sysDataPrivilegeRulesSearch = new SysDataPrivilegeRulesSearch();
             sysDataPrivilegeRulesLists = sysDataPrivilegeRulesMapper.findByCondition(sysDataPrivilegeRulesSearch);
             if(CollectionUtils.isNotEmpty(sysDataPrivilegeRulesLists)){
-                Map<String,List<SysDataPrivilegeRulesList>> map = groupByDataPrivilegeId(sysDataPrivilegeRulesLists);
+                Map<Long,List<SysDataPrivilegeRulesList>> map = groupByDataPrivilegeId(sysDataPrivilegeRulesLists);
                 String key = "dataPrivilege_" + ctx.getCompanyId();
                 springRedisTools.deleteByKey(key);
                 springRedisTools.addData(key, JSONObject.toJSONString(map));
@@ -104,11 +112,11 @@ public class SysDataPrivilegeRulesServiceImpl extends BaseServiceImpl implements
      * @param sysDataPrivilegeRulesLists
      * @return
      */
-    private Map<String,List<SysDataPrivilegeRulesList>> groupByDataPrivilegeId(List<SysDataPrivilegeRulesList> sysDataPrivilegeRulesLists){
-        Map<String,List<SysDataPrivilegeRulesList>> map = new HashMap<>(50);
+    private Map<Long,List<SysDataPrivilegeRulesList>> groupByDataPrivilegeId(List<SysDataPrivilegeRulesList> sysDataPrivilegeRulesLists){
+        Map<Long,List<SysDataPrivilegeRulesList>> map = new HashMap<>(50);
         int size = sysDataPrivilegeRulesLists.size();
         for (int i = 0;i < size; i++) {
-            String dataPrivilegeId = sysDataPrivilegeRulesLists.get(i).getDataPrivilegeId();
+            Long dataPrivilegeId = sysDataPrivilegeRulesLists.get(i).getDataPrivilegeId();
             if(map.containsKey(dataPrivilegeId)){
                 List<SysDataPrivilegeRulesList> list = map.get(dataPrivilegeId);
                 list.add(sysDataPrivilegeRulesLists.get(i));

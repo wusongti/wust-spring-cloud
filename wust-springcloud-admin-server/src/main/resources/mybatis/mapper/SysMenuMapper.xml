@@ -3,13 +3,14 @@
 <mapper namespace="com.wust.springcloud.admin.server.core.dao.SysMenuMapper" >
   	<resultMap id="BaseResultMap" type="SysMenu" >
     	<id column="id" property="id"/>
+		<result column="code" property="code"/>
+		<result column="pcode" property="pcode"/>
     	<result column="name" property="name"/>
     	<result column="description" property="description"/>
     	<result column="url" property="url"/>
     	<result column="permission" property="permission"/>
     	<result column="level" property="level"/>
     	<result column="img" property="img"/>
-    	<result column="pid" property="pid"/>
 		<result column="type" property="type"/>
 		<result column="visible" property="visible"/>
 		<result property="createrId" column="creater_id"/>
@@ -22,22 +23,24 @@
 
 	<resultMap id="MenuTreeDtoMap" type="com.wust.springcloud.common.dto.MenuTreeDto" >
 		<result column="id" property="id"/>
+		<result column="code" property="code"/>
+		<result column="pcode" property="pcode"/>
 		<result column="name" property="name"/>
 		<result column="description" property="description"/>
-		<result column="pid" property="pid"/>
 		<result column="level" property="level"/>
 		<result column="checked" property="checked"/>
 		<result column="nocheck" property="nocheck"/>
 	</resultMap>
 
-	<select id="findByOrganizationId" parameterType="String" resultMap="MenuTreeDtoMap">
+	<select id="findByOrganizationId" parameterType="Long" resultMap="MenuTreeDtoMap">
 		SELECT
 			DISTINCT
 			m.id,
+		    m.code,
+			m.pcode,
 			m.name,
 			m.description,
 			m.level,
-			m.pid,
 		    m.sort,
 			IF(r.resource_id IS NULL,'false','true') AS checked
 		FROM sys_menu m

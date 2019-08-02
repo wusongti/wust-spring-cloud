@@ -53,12 +53,12 @@ public interface BaseService<T extends BaseEntity> {
      * @param key
      * @return
      */
-    int deleteByPrimaryKey(String key);
+    int deleteByPrimaryKey(Long key);
 
     /**
      * 批量删除
      * @param keys
      * @return
      */
-    int batchDelete(List<String> keys);
+    int batchDelete(List<Object> keys);
 }

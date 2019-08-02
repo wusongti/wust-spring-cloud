@@ -8,8 +8,8 @@ import com.wust.springcloud.common.entity.BaseEntity;
 public class SysMenu extends BaseEntity {
     private static final long serialVersionUID = 9169618756448096826L;
 
-
-    private String id;			// 菜单id
+    private String code;
+    private String pcode;
     private String name;		// 菜单名称
     private String description; // 菜单描述
     private String url;			// 菜单指向的url
@@ -17,16 +17,24 @@ public class SysMenu extends BaseEntity {
     private Integer level;		// 菜单的层次
     private Integer sort;      // 菜单的排序
     private String img;         // 菜单图片
-    private String pid;			// 父级菜单id
     private String type;        // 菜单类型
     private String visible;     // 是否可见
 
-    public String getId() {
-        return id;
+
+    public String getCode() {
+        return code;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getPcode() {
+        return pcode;
+    }
+
+    public void setPcode(String pcode) {
+        this.pcode = pcode;
     }
 
     public String getName() {
@@ -85,14 +93,6 @@ public class SysMenu extends BaseEntity {
         this.img = img;
     }
 
-    public String getPid() {
-        return pid;
-    }
-
-    public void setPid(String pid) {
-        this.pid = pid;
-    }
-
     public String getType() {
         return type;
     }
@@ -109,10 +109,12 @@ public class SysMenu extends BaseEntity {
         this.visible = visible;
     }
 
+
     @Override
     public String toString() {
-        return super.toString() + "\nSysMenu{" +
-                "id='" + id + '\'' +
+        return "SysMenu{" +
+                ", code='" + code + '\'' +
+                ", pcode='" + pcode + '\'' +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", url='" + url + '\'' +
@@ -120,7 +122,6 @@ public class SysMenu extends BaseEntity {
                 ", level=" + level +
                 ", sort=" + sort +
                 ", img='" + img + '\'' +
-                ", pid='" + pid + '\'' +
                 ", type='" + type + '\'' +
                 ", visible='" + visible + '\'' +
                 '}';

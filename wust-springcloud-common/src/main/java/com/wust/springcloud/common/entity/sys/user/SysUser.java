@@ -2,6 +2,7 @@ package com.wust.springcloud.common.entity.sys.user;
 
 import com.wust.springcloud.common.entity.BaseEntity;
 
+
 /**
  * Created by WST on 2019/4/18.
  */
@@ -9,7 +10,6 @@ public class SysUser extends BaseEntity{
 
     private static final long serialVersionUID = -6977013476931964414L;
 
-    private String id;
     private String loginName;
     private transient String password;
     private String realName;
@@ -20,13 +20,6 @@ public class SysUser extends BaseEntity{
     private String type;
     private String companyId;
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getLoginName() {
         return loginName;

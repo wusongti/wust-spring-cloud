@@ -1,4 +1,4 @@
-package com.wust.springcloud.sso.server.core.api.web;
+package com.wust.springcloud.sso.server.core.web.controller;
 
 import com.wust.springcloud.common.annotations.OperationLogAnnotation;
 import com.wust.springcloud.common.dto.ResponseDto;

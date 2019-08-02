@@ -40,5 +40,5 @@ public interface IBaseMapper<T extends BaseEntity>  extends Mapper<T>, MySqlMapp
      * @return
      * @throws DataAccessException
      */
-    int batchDelete(List<String> keys) throws DataAccessException;
+    int batchDelete(List<Long> keys) throws DataAccessException;
 }

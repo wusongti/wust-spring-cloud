@@ -43,7 +43,7 @@ public class MyBeanPostProcessor implements BeanPostProcessor {
                 PrivilegeAnnotation permissionOperation = AnnotationUtils.findAnnotation(method, PrivilegeAnnotation.class);
                 if (null != permissionOperation) {
                     SysDataPrivilege sysDataPrivilege = new SysDataPrivilege();
-                    sysDataPrivilege.setId(permissionOperation.id());
+                    sysDataPrivilege.setUuid(permissionOperation.uuid());
                     sysDataPrivilege.setBusinessName(permissionOperation.businessName());
 
                     Object obj = springRedisTools.getByKey(key);

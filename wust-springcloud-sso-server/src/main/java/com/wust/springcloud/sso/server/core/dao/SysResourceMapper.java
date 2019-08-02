@@ -1,14 +1,12 @@
 package com.wust.springcloud.sso.server.core.dao;
 
 
+import com.wust.springcloud.common.dao.IBaseMapper;
 import com.wust.springcloud.common.entity.sys.resource.SysResource;
-import com.wust.springcloud.common.entity.sys.resource.SysResourceSearch;
 import org.springframework.dao.DataAccessException;
-
 import java.util.List;
-import java.util.Map;
 
-public interface SysResourceMapper {
+public interface SysResourceMapper extends IBaseMapper<SysResource> {
 	/**
 	 * 超级管理员：获取非白名单资源权限
 	 * @return
@@ -28,7 +26,7 @@ public interface SysResourceMapper {
 	 * @param userId
 	 * @return
 	 */
-	List<SysResource> findAnonResourcesByUserId(String userId) throws DataAccessException;
+	List<SysResource> findAnonResourcesByUserId(Long userId) throws DataAccessException;
 
 
 	/**
@@ -36,14 +34,14 @@ public interface SysResourceMapper {
 	 * @param useId
 	 * @return
 	 */
-	List<SysResource> findResourcesByUserId(String useId) throws DataAccessException;
+	List<SysResource> findResourcesByUserId(Long useId) throws DataAccessException;
 
 	/**
 	 * 根据菜单获取其下面的资源集合
-	 * @param menuId
+	 * @param menuCode
 	 * @return
 	 */
-	List<SysResource> findAnonResourcesByMenuId(String menuId) throws DataAccessException;
+	List<SysResource> findAnonResourcesByMenuId(String menuCode) throws DataAccessException;
 
 	/**
 	 * 获取公共白名单集合

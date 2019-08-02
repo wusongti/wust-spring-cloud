@@ -110,7 +110,7 @@ public class RoleController {
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_ROLE,businessName="删除",operationType= OperationLogEnum.Delete)
     @RequestMapping(value = "/delete/{id}",method = RequestMethod.DELETE)
     public @ResponseBody
-    ResponseDto delete(@PathVariable String id){
+    ResponseDto delete(@PathVariable Long id){
         ResponseDto mm = new ResponseDto();
 
         SysRoleSearch sysRoleSearch = new SysRoleSearch();
@@ -134,7 +134,7 @@ public class RoleController {
             }
 
 
-            List<String> ids = new ArrayList<>(1);
+            List<Long> ids = new ArrayList<>(1);
             ids.add(id);
             sysRoleServiceImpl.batchDelete(ids);
         }else{

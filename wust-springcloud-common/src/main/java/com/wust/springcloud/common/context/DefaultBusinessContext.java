@@ -22,7 +22,7 @@ public class DefaultBusinessContext extends BaseBusinessContext{
 
 
 
-    private String userId;
+    private Long userId;
     private String loginName;
     private String realName;
     private String userType;
@@ -31,11 +31,11 @@ public class DefaultBusinessContext extends BaseBusinessContext{
     /** api请求参数 */
     private Map<String, Object> signMap;
 
-    public String getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 

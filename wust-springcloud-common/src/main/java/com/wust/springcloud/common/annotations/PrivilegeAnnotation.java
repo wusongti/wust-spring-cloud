@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD})
 public @interface PrivilegeAnnotation {
-    String id();
+    String uuid();
 
     // 业务名称
     String businessName();

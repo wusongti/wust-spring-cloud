@@ -1,22 +1,15 @@
-package com.wust.springcloud.sso.server.core.api.rpc;
+package com.wust.springcloud.sso.server.core.rpc.api;
 
 
 import com.alibaba.fastjson.JSONObject;
 import com.wust.springcloud.common.annotations.OperationLogAnnotation;
-import com.wust.springcloud.common.entity.sys.apptoken.SysAppToken;
-import com.wust.springcloud.common.entity.sys.apptoken.SysAppTokenList;
-import com.wust.springcloud.common.entity.sys.apptoken.SysAppTokenSearch;
 import com.wust.springcloud.common.enums.ApplicationEnum;
 import com.wust.springcloud.common.enums.OperationLogEnum;
 import com.wust.springcloud.common.util.*;
 import com.wust.springcloud.common.util.cache.SpringRedisTools;
-import com.wust.springcloud.common.version.ApiVersion;
-import com.wust.springcloud.sso.server.core.service.AuthenticationService;
 import io.jsonwebtoken.Claims;
-import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -28,9 +21,6 @@ import java.util.concurrent.TimeUnit;
 public class AuthenticationRpc {
     @Autowired
     private SpringRedisTools springRedisTools;
-
-    @Autowired
-    private AuthenticationService authenticationServiceImpl;
 
 
 
@@ -61,20 +51,6 @@ public class AuthenticationRpc {
                     flag = false;
                     return flag;
                 }
-
-
-                /**
-                 * 刷新token时间
-                 */
-                SysAppTokenSearch sysAppTokenSearch = new SysAppTokenSearch();
-                sysAppTokenSearch.setLoginName(loginName);
-                List<SysAppTokenList> sysAppTokenLists =  authenticationServiceImpl.findByCondition(sysAppTokenSearch);
-                if(sysAppTokenLists != null && sysAppTokenLists.size() > 0){
-                    SysAppToken sysAppToken = sysAppTokenLists.get(0);
-                    sysAppToken.setExpireTime((new DateTime()).plusMinutes(ApplicationEnum.X_AUTH_TOKEN_EXPIRE_TIME.getIntValue()).toDate());
-                    authenticationServiceImpl.update(sysAppToken);
-                }
-
                 flag = true;
             }else{
                 flag = false;

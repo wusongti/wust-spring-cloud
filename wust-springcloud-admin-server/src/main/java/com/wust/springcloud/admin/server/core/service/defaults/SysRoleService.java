@@ -7,5 +7,5 @@ import com.wust.springcloud.common.service.BaseService;
  * Created by WST on 2019/5/27.
  */
 public interface SysRoleService extends BaseService {
-    ResponseDto findFunctionTreeByOrganizationId(String organizationId);
+    ResponseDto findFunctionTreeByOrganizationId(Long organizationId);
 }

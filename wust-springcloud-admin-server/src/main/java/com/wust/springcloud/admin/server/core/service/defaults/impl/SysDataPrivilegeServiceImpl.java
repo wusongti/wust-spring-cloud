@@ -54,44 +54,50 @@ public class SysDataPrivilegeServiceImpl extends BaseServiceImpl implements SysD
         try {
             Object obj = springRedisTools.getByKey(key);
             if (obj != null) {
-                List<SysDataPrivilege> sysDataPrivileges = new ArrayList<>(100);
+                /**
+                 * 清空主表
+                 *
+                 */
+                sysDataPrivilegeMapper.deleteAll();
+
+
                 Map<String, String> idMap = new HashMap(100);
                 JSONArray jsonArray = JSONObject.parseArray(obj.toString());
                 for (Object o : jsonArray) {
                     SysDataPrivilege sysDataPrivilege = JSONObject.parseObject(o.toString(), SysDataPrivilege.class);
-                    if (idMap.containsKey(sysDataPrivilege.getId())) {
+                    if (idMap.containsKey(sysDataPrivilege.getUuid())) {
                         continue;
                     }
-                    idMap.put(sysDataPrivilege.getId(), "");
+                    idMap.put(sysDataPrivilege.getUuid(), "");
                     sysDataPrivilege.setCreateTime(new Date());
-                    sysDataPrivileges.add(sysDataPrivilege);
-                }
+                    sysDataPrivilegeMapper.insert(sysDataPrivilege);
 
 
-                /**
-                 * 将权限注解重新初始化到数据库表（因为程序员可能增删改了权限注解）
-                 */
-                sysDataPrivilegeMapper.deleteAll();
-                sysDataPrivilegeMapper.insertList(sysDataPrivileges);
 
-                List<SysDataPrivilegeRules> sysDataPrivilegeRulesCreates = new ArrayList<>(200);
-                for (SysDataPrivilege entity : sysDataPrivileges) {
+
+                    /**
+                     * 处理子表，如果子表有数据则更新外键，没有则初始化一条数据
+                     */
                     SysDataPrivilegeRulesSearch sysDataPrivilegeRulesSearch = new SysDataPrivilegeRulesSearch();
-                    sysDataPrivilegeRulesSearch.setDataPrivilegeId(entity.getId());
+                    sysDataPrivilegeRulesSearch.setDataPrivilegeUuid(sysDataPrivilege.getUuid());
                     List<SysDataPrivilegeRulesList> sysDataPrivilegeRulesLists = sysDataPrivilegeRulesMapper.findByCondition(sysDataPrivilegeRulesSearch);
                     if (CollectionUtils.isEmpty(sysDataPrivilegeRulesLists)) { // 对于新增的权限注解，默认规则类型是“本人可见”
                         SysDataPrivilegeRules sysDataPrivilegeRules = new SysDataPrivilegeRules();
-                        sysDataPrivilegeRules.setDataPrivilegeId(entity.getId());
+                        sysDataPrivilegeRules.setDataPrivilegeId(sysDataPrivilege.getId());
+                        sysDataPrivilegeRules.setDataPrivilegeUuid(sysDataPrivilege.getUuid());
                         sysDataPrivilegeRules.setType("100905");
                         sysDataPrivilegeRules.setExpression(" creater_id = #currentUserId");
                         sysDataPrivilegeRules.setCreateTime(new Date());
-                        sysDataPrivilegeRulesCreates.add(sysDataPrivilegeRules);
+                        sysDataPrivilegeRulesMapper.insert(sysDataPrivilegeRules);
+                    }else{
+                        for (SysDataPrivilegeRulesList sysDataPrivilegeRulesList : sysDataPrivilegeRulesLists) {
+                            sysDataPrivilegeRulesList.setDataPrivilegeId(sysDataPrivilege.getId());
+                            sysDataPrivilegeRulesMapper.updateByPrimaryKey(sysDataPrivilegeRulesList);
+                        }
                     }
                 }
 
-                if (CollectionUtils.isNotEmpty(sysDataPrivilegeRulesCreates)) {
-                    sysDataPrivilegeRulesMapper.insertList(sysDataPrivilegeRulesCreates);
-                }
+
 
                 /**
                  * 放入缓存，以便SQL拦截器使用
@@ -99,7 +105,7 @@ public class SysDataPrivilegeServiceImpl extends BaseServiceImpl implements SysD
                 SysDataPrivilegeRulesSearch sysDataPrivilegeRulesSearch = new SysDataPrivilegeRulesSearch();
                 List<SysDataPrivilegeRulesList> sysDataPrivilegeRulesLists = sysDataPrivilegeRulesMapper.findByCondition(sysDataPrivilegeRulesSearch);
                 if (CollectionUtils.isNotEmpty(sysDataPrivilegeRulesLists)) {
-                    Map<String, List<SysDataPrivilegeRulesList>> map = groupByDataPrivilegeId(sysDataPrivilegeRulesLists);
+                    Map<String, List<SysDataPrivilegeRulesList>> map = groupByDataPrivilegeUuid(sysDataPrivilegeRulesLists);
                     String key1 = "dataPrivilege_" + ctx.getCompanyId();
                     springRedisTools.deleteByKey(key1);
                     springRedisTools.addData(key1, JSONObject.toJSONString(map));
@@ -113,23 +119,23 @@ public class SysDataPrivilegeServiceImpl extends BaseServiceImpl implements SysD
 
 
     /**
-     * 根据dataPrivilegeId分组
+     * 根据dataPrivilegeUuid分组
      * @param sysDataPrivilegeRulesLists
      * @return
      */
-    private Map<String,List<SysDataPrivilegeRulesList>> groupByDataPrivilegeId(List<SysDataPrivilegeRulesList> sysDataPrivilegeRulesLists){
+    private Map<String,List<SysDataPrivilegeRulesList>> groupByDataPrivilegeUuid(List<SysDataPrivilegeRulesList> sysDataPrivilegeRulesLists){
         Map<String,List<SysDataPrivilegeRulesList>> map = new HashMap<>(50);
         int size = sysDataPrivilegeRulesLists.size();
         for (int i = 0;i < size; i++) {
-            String dataPrivilegeId = sysDataPrivilegeRulesLists.get(i).getDataPrivilegeId();
-            if(map.containsKey(dataPrivilegeId)){
-                List<SysDataPrivilegeRulesList> list = map.get(dataPrivilegeId);
+            String dataPrivilegeUuid = sysDataPrivilegeRulesLists.get(i).getDataPrivilegeUuid();
+            if(map.containsKey(dataPrivilegeUuid)){
+                List<SysDataPrivilegeRulesList> list = map.get(dataPrivilegeUuid);
                 list.add(sysDataPrivilegeRulesLists.get(i));
-                map.put(dataPrivilegeId,list);
+                map.put(dataPrivilegeUuid,list);
             }else{
                 List<SysDataPrivilegeRulesList> list = new ArrayList<>(10);
                 list.add(sysDataPrivilegeRulesLists.get(i));
-                map.put(dataPrivilegeId,list);
+                map.put(dataPrivilegeUuid,list);
             }
         }
         return map;

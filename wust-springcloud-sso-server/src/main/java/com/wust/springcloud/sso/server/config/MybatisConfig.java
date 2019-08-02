@@ -1,13 +1,10 @@
 package com.wust.springcloud.sso.server.config;
 
-
-
 import com.wust.springcloud.common.DynamicDataSource;
 import com.wust.springcloud.common.enums.ApplicationEnum;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,6 +14,7 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.lang.NonNull;
 import org.springframework.transaction.PlatformTransactionManager;
+import tk.mybatis.spring.annotation.MapperScan;
 import javax.sql.DataSource;
 
 /**
@@ -43,7 +41,6 @@ public class MybatisConfig implements EnvironmentAware {
                 environment.getProperty("spring.datasource.password"),
                 environment.getProperty("spring.datasource.driver-class-name"));
         dynamicDataSource.setDefaultTargetDataSource(dataSource);
-
         return dynamicDataSource;
     }
 

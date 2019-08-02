@@ -14,9 +14,9 @@ public interface SysResourceMapper extends IBaseMapper<SysResource> {
 
 	List<SysResourceList> findByCondition(SysResourceSearch search) throws DataAccessException;
 
-	List<SysResource> findAnonResourcesByMenuId(String menuId) throws DataAccessException;
+	List<SysResource> findAnonResourcesByMenuId(String menuCode) throws DataAccessException;
 
-	List<ResourceTreeDto> findByOrganizationId(String organizationId);
+	List<ResourceTreeDto> findByOrganizationId(Long organizationId);
 
 	int deleteAll() throws DataAccessException;
 }

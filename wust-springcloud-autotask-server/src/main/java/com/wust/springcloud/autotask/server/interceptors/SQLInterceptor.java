@@ -295,7 +295,7 @@ public class SQLInterceptor implements Interceptor {
     private Map findPrivilegeAnnotation(MappedStatement mappedStatement) throws ClassNotFoundException {
         Map<String,Object> resultMap = new HashedMap();
         resultMap.put("openPrivilegeFilter",false);
-        resultMap.put("dataPrivilegeId","");
+        resultMap.put("dataPrivilegeUuid","");
 
         String namespace = mappedStatement.getId();
         String methodName = namespace.substring(namespace.lastIndexOf('.') + 1,namespace.length());
@@ -307,7 +307,7 @@ public class SQLInterceptor implements Interceptor {
                 if(annotation != null){
                     PrivilegeAnnotation privilegeAnnotation = (PrivilegeAnnotation)annotation;
                     resultMap.put("openPrivilegeFilter",true);
-                    resultMap.put("dataPrivilegeId",privilegeAnnotation.id());
+                    resultMap.put("dataPrivilegeUuid",privilegeAnnotation.uuid());
                 }
                 break;
             }

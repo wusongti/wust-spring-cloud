@@ -1,13 +1,10 @@
 package com.wust.springcloud.sso.server.core.dao;
 
+import com.wust.springcloud.common.dao.IBaseMapper;
 import com.wust.springcloud.common.entity.sys.operationlog.SysOperationLog;
-import org.springframework.dao.DataAccessException;
-
-import java.util.List;
 
 /**
  * Created by WST on 2019/5/28.
  */
-public interface SysOperationLogMapper {
-    int batchInsert(List<SysOperationLog> sysOperationLogs) throws DataAccessException;
+public interface SysOperationLogMapper extends IBaseMapper<SysOperationLog> {
 }

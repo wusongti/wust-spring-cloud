@@ -1,7 +1,6 @@
 package com.wust.springcloud.common.entity.sys.synchrodata;
 
 import com.wust.springcloud.common.entity.BaseEntity;
-
 import java.util.Date;
 
 /**
@@ -13,7 +12,6 @@ import java.util.Date;
 public class SysSynchrodata extends BaseEntity {
     private static final long serialVersionUID = -6711790922198557776L;
 
-    private String id;
     private String code;
     private String tableName;
     private String tableFieldName;
@@ -31,14 +29,6 @@ public class SysSynchrodata extends BaseEntity {
     private String errorMessage;
     private Date synchroTime;
 
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getCode() {
         return code;

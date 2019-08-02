@@ -51,7 +51,7 @@ public class DataPrivilegeRulesController {
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_DATA_PRIVILEGE,businessName="修改",operationType= OperationLogEnum.Update)
     @RequestMapping(value = "/update/{dataPrivilegeId}/{types}",method = RequestMethod.POST)
     public @ResponseBody
-    ResponseDto update(@PathVariable String dataPrivilegeId,@PathVariable String types){
+    ResponseDto update(@PathVariable Long dataPrivilegeId,@PathVariable String types){
         ResponseDto mm = sysDataPrivilegeRulesServiceImpl.update(dataPrivilegeId,types);
         return mm;
     }

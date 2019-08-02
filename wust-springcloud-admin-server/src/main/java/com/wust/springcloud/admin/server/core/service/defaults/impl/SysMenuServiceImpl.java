@@ -111,21 +111,20 @@ public class SysMenuServiceImpl  extends BaseServiceImpl implements SysMenuServi
         List<SysRoleResourceList> sysRoleResourceLists = sysRoleResourceMapper.groupByOrganizationId(ApplicationEnum.MENUT_TYPE_M.getStringValue());
         if(!CollectionUtils.isEmpty(sysRoleResourceLists)){
             for (SysRoleResourceList sysRoleResourceList : sysRoleResourceLists) {
-                String organizationId = sysRoleResourceList.getOrganizationId();
-                String menuId = sysRoleResourceList.getResourceId();
+                Long organizationId = sysRoleResourceList.getOrganizationId();
+                String menuCode = sysRoleResourceList.getResourceId();
 
                 /**
                  * 找到该菜单下面的白名单资源
                  */
-                List<String> annonResourceIdList = new ArrayList<>(20);
+                List<Long> annonResourceIdList = new ArrayList<>(20);
                 List<SysRoleResource> anonList = new ArrayList<>(20);
-                List<SysResource> sysResources4anon = sysResourceMapper.findAnonResourcesByMenuId(menuId);
+                List<SysResource> sysResources4anon = sysResourceMapper.findAnonResourcesByMenuId(menuCode);
                 if(!CollectionUtils.isEmpty(sysResources4anon)){
                     for (SysResource sysResource : sysResources4anon) {
                         SysRoleResource anon = new SysRoleResource();
-                        anon.setId(UUID.randomUUID().toString());
                         anon.setOrganizationId(organizationId);
-                        anon.setResourceId(sysResource.getId());
+                        anon.setResourceId(sysResource.getCode());
                         anon.setType(ApplicationEnum.MENUT_TYPE_R.getStringValue());
                         anon.setCreateTime(new Date());
                         anonList.add(anon);

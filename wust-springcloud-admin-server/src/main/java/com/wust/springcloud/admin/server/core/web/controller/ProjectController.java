@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @author ：wust
@@ -63,10 +64,10 @@ public class ProjectController {
             return mm;
         }
 
-
         entity.setCode(CodeGenerator.genProjectCode());
         entity.setCreaterId(ctx.getUserId());
         entity.setCreaterName(ctx.getLoginName());
+        entity.setCreateTime(new Date());
         sysProjectServiceImpl.insert(entity);
         return mm;
     }
@@ -101,7 +102,7 @@ public class ProjectController {
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_PROJECT,businessName="删除",operationType= OperationLogEnum.Delete)
     @RequestMapping(value = "/delete/{id}",method = RequestMethod.DELETE)
     public @ResponseBody
-    ResponseDto delete(@PathVariable String id){
+    ResponseDto delete(@PathVariable Long id){
         ResponseDto mm = new ResponseDto();
 
         SysOrganizationSearch sysOrganizationSearch = new SysOrganizationSearch();

@@ -8,25 +8,25 @@ import com.wust.springcloud.common.entity.BaseEntity;
 public class SysDataPrivilegeRules extends BaseEntity{
     private static final long serialVersionUID = 3076982881361832373L;
 
-    private String id;
-    private String dataPrivilegeId;
+    private Long dataPrivilegeId;
+    private String dataPrivilegeUuid;
     private String type;
     private String expression;
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getDataPrivilegeId() {
+    public Long getDataPrivilegeId() {
         return dataPrivilegeId;
     }
 
-    public void setDataPrivilegeId(String dataPrivilegeId) {
+    public void setDataPrivilegeId(Long dataPrivilegeId) {
         this.dataPrivilegeId = dataPrivilegeId;
+    }
+
+    public String getDataPrivilegeUuid() {
+        return dataPrivilegeUuid;
+    }
+
+    public void setDataPrivilegeUuid(String dataPrivilegeUuid) {
+        this.dataPrivilegeUuid = dataPrivilegeUuid;
     }
 
     public String getType() {
@@ -45,5 +45,13 @@ public class SysDataPrivilegeRules extends BaseEntity{
         this.expression = expression;
     }
 
-
+    @Override
+    public String toString() {
+        return super.toString() + "\nSysDataPrivilegeRules{" +
+                "dataPrivilegeId=" + dataPrivilegeId +
+                ", dataPrivilegeUuid='" + dataPrivilegeUuid + '\'' +
+                ", type='" + type + '\'' +
+                ", expression='" + expression + '\'' +
+                '}';
+    }
 }

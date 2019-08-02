@@ -19,7 +19,7 @@ public interface SysMenuMapper  extends IBaseMapper<SysMenu> {
 	 * @param organizationId
 	 * @return
 	 */
-	List<MenuTreeDto> findByOrganizationId(String organizationId);
+	List<MenuTreeDto> findByOrganizationId(Long organizationId);
 
 
 	/**

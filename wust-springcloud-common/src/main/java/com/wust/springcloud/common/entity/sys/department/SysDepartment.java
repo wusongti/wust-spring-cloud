@@ -2,25 +2,18 @@ package com.wust.springcloud.common.entity.sys.department;
 
 import com.wust.springcloud.common.entity.BaseEntity;
 
+
 /**
  * Created by WST on 2019/6/3.
  */
 public class SysDepartment extends BaseEntity{
     private static final long serialVersionUID = -2583497779223895688L;
 
-    private String id;
     private String code;
     private String name;	        // 名称
     private String leader;		    // 公司负责人
     private String description;     // 描述
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getCode() {
         return code;
@@ -57,7 +50,6 @@ public class SysDepartment extends BaseEntity{
     @Override
     public String toString() {
         return super.toString() + "\nSysDepartment{" +
-                "id='" + id + '\'' +
                 ", code='" + code + '\'' +
                 ", name='" + name + '\'' +
                 ", leader='" + leader + '\'' +

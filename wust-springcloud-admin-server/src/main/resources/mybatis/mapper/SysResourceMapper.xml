@@ -3,8 +3,9 @@
 <mapper namespace="com.wust.springcloud.admin.server.core.dao.SysResourceMapper" >
   	<resultMap id="BaseResultMap" type="SysResource" >
     	<id column="id" property="id"/>
-    	<result column="menu_id" property="menuId"/>
-    	<result column="sname" property="name"/>
+		<result column="code" property="code"/>
+    	<result column="menu_code" property="menuCode"/>
+    	<result column="name" property="name"/>
 		<result column="description" property="description"/>
     	<result column="permission" property="permission"/>
     	<result column="url" property="url"/>
@@ -18,7 +19,8 @@
 
 	<resultMap id="ResourceTreeDtoMap" type="com.wust.springcloud.common.dto.ResourceTreeDto">
 		<result column="id" property="id"/>
-		<result column="menu_id" property="menuId"/>
+		<result column="code" property="code"/>
+		<result column="menu_code" property="menuCode"/>
 		<result column="name" property="name"/>
 		<result column="description" property="description"/>
 		<result column="checked" property="checked"/>
@@ -40,18 +42,18 @@
 			sr.description,
 			sr.permission,
 			sr.url,
-			sr.menu_id
+			sr.menu_code
 		FROM sys_resource sr
-		WHERE sr.permission = 'anon' AND sr.menu_id = #{0}
+		WHERE sr.permission = 'anon' AND sr.menu_code = #{0}
 	</select>
 
-	<select id="findByOrganizationId" parameterType="String" resultMap="ResourceTreeDtoMap">
+	<select id="findByOrganizationId" parameterType="Long" resultMap="ResourceTreeDtoMap">
 		SELECT
 			DISTINCT
 			r.id,
 			r.name,
 			r.description,
-			r.menu_id,
+			r.menu_code,
 			IF(rr.resource_id IS NULL,'false','true') AS checked
 		FROM sys_resource r
 		LEFT JOIN (SELECT srs.resource_id FROM sys_role_resource srs WHERE srs.type='r' AND srs.organization_id = #{0}) rr

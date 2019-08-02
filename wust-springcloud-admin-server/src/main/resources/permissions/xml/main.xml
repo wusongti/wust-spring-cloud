@@ -1,48 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <systems>
-	<subsystem id="20356848-80a5-4ecb-945e-964242c368c5" name="Wust" desc="企业基础平台管理系统">
+	<subsystem code="20356848-80a5-4ecb-945e-964242c368c5" name="Wust" desc="企业基础平台管理系统">
 		<!-- 需要忽略校验的公共模块的URL请统一放在这里  -->
-		<modulegroup id="35ce0d97-f123-4715-b4e0-cb14c0292a31" name="anon" permission="anon" desc="公共模块白名单集合">
+		<modulegroup code="35ce0d97-f123-4715-b4e0-cb14c0292a31" name="anon" permission="anon" desc="公共模块白名单集合">
 			<path path = "permissions/xml/module_anon.xml"/>
 		</modulegroup>
 
-		<modulegroup id="8972b850-804e-11e9-a68d-0050568e63cd" name="Query Management" desc="查询管理" order="11001" img="el-icon-search">
+		<modulegroup code="8972b850-804e-11e9-a68d-0050568e63cd" name="Query Management" desc="查询管理" order="11001" img="el-icon-search">
 			<path path = "permissions/xml/module_query.xml"/>
 		</modulegroup>
 
-		<modulegroup id="1a6debab-f513-4b3f-9d21-2b5249c3ec11" name="Setting" desc="系统配置" order="12001"  img="el-icon-setting">
+		<modulegroup code="1a6debab-f513-4b3f-9d21-2b5249c3ec11" name="Setting" desc="系统配置" order="12001"  img="el-icon-setting">
 			<path path = "permissions/xml/module_setting.xml"/>
 		</modulegroup>
 
-		<modulegroup id="2517bcaa-af7c-11e9-948a-00f1f3059872" name="Electricity Management" desc="电力管理" order="13001" img="el-icon-lightning">
+		<modulegroup code="2517bcaa-af7c-11e9-948a-00f1f3059872" name="Electricity Management" desc="电力管理" order="13001" img="el-icon-lightning">
 			<path path = "permissions/xml/module_query.xml"/>
 		</modulegroup>
 
-		<modulegroup id="413f2170-af7c-11e9-948a-00f1f3059872" name="Water Management" desc="水源管理" order="14001" img="el-icon-folder">
+		<modulegroup code="413f2170-af7c-11e9-948a-00f1f3059872" name="Water Management" desc="水源管理" order="14001" img="el-icon-folder">
 			<path path = "permissions/xml/module_query.xml"/>
 		</modulegroup>
 
-		<modulegroup id="484920c7-af7c-11e9-948a-00f1f3059872" name="Wisdom Car Parking Management" desc="智慧停车" order="15001" img="el-icon-truck">
+		<modulegroup code="484920c7-af7c-11e9-948a-00f1f3059872" name="Wisdom Car Parking Management" desc="智慧停车" order="15001" img="el-icon-truck">
 			<path path = "permissions/xml/module_query.xml"/>
 		</modulegroup>
 
-		<modulegroup id="4d6d7f22-af7c-11e9-948a-00f1f3059872" name="Wisdom Access Door Management" desc="智慧门禁" order="16001" img="el-icon-key">
+		<modulegroup code="4d6d7f22-af7c-11e9-948a-00f1f3059872" name="Wisdom Access Door Management" desc="智慧门禁" order="16001" img="el-icon-key">
 			<path path = "permissions/xml/module_query.xml"/>
 		</modulegroup>
 
-		<modulegroup id="52243151-af7c-11e9-948a-00f1f3059872" name="Wisdom Lift Management" desc="梯控管理" order="17001" img="el-icon-office-building">
+		<modulegroup code="52243151-af7c-11e9-948a-00f1f3059872" name="Wisdom Lift Management" desc="梯控管理" order="17001" img="el-icon-office-building">
 			<path path = "permissions/xml/module_query.xml"/>
 		</modulegroup>
 
-		<modulegroup id="578f577d-af7c-11e9-948a-00f1f3059872" name="Video Surveillance Management" desc="视频监控" order="18001" img="el-icon-video-camera">
+		<modulegroup code="578f577d-af7c-11e9-948a-00f1f3059872" name="Video Surveillance Management" desc="视频监控" order="18001" img="el-icon-video-camera">
 			<path path = "permissions/xml/module_query.xml"/>
 		</modulegroup>
 
-		<modulegroup id="5c58f656-af7c-11e9-948a-00f1f3059872" name="Security Management" desc="安防报警" order="19001" img="el-icon-bell">
+		<modulegroup code="5c58f656-af7c-11e9-948a-00f1f3059872" name="Security Management" desc="安防报警" order="19001" img="el-icon-bell">
 			<path path = "permissions/xml/module_query.xml"/>
 		</modulegroup>
 
-		<modulegroup id="607decc8-af7c-11e9-948a-00f1f3059872" name="Community  Broadcast Management" desc="公共广播" order="20001" img="el-icon-message-solid">
+		<modulegroup code="607decc8-af7c-11e9-948a-00f1f3059872" name="Community  Broadcast Management" desc="公共广播" order="20001" img="el-icon-message-solid">
 			<path path = "permissions/xml/module_query.xml"/>
 		</modulegroup>
 

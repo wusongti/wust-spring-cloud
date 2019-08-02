@@ -17,7 +17,6 @@ import org.springframework.util.CollectionUtils;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Created by WST on 2019/6/3.
@@ -47,7 +46,6 @@ public class SysOrganizationServiceImpl extends BaseServiceImpl implements SysOr
         List<SysRoleResource>  sysRoleResources = sysRoleResourceCreate.getSysRoleResources();
         List<SysRoleResource> list = new ArrayList<>();
         for(SysRoleResource sysRoleResource : sysRoleResources){
-            sysRoleResource.setId(UUID.randomUUID().toString());
             sysRoleResource.setOrganizationId(sysRoleResourceCreate.getOrganizationId());
             sysRoleResource.setCreateTime(new Date());
             list.add(sysRoleResource);
@@ -58,9 +56,8 @@ public class SysOrganizationServiceImpl extends BaseServiceImpl implements SysOr
                 if(!CollectionUtils.isEmpty(anonList)){
                     for(SysResource anonR : anonList){
                         SysRoleResource anon = new SysRoleResource();
-                        anon.setId(UUID.randomUUID().toString());
                         anon.setOrganizationId(sysRoleResourceCreate.getOrganizationId());
-                        anon.setResourceId(anonR.getId());
+                        anon.setResourceId(anonR.getCode());
                         anon.setType(ApplicationEnum.MENUT_TYPE_R.getStringValue());
                         anon.setCreateTime(new Date());
                         list.add(anon);
@@ -69,9 +66,7 @@ public class SysOrganizationServiceImpl extends BaseServiceImpl implements SysOr
             }
         }
 
-        List<String> organizationIds = new ArrayList<>(1);
-        organizationIds.add(sysRoleResourceCreate.getOrganizationId());
-        sysRoleResourceMapper.batchDeleteByOrganizationIds(organizationIds);
+        sysRoleResourceMapper.deleteByPrimaryKey(sysRoleResourceCreate.getOrganizationId());
 
         sysRoleResourceMapper.insertList(list);
         return mm;

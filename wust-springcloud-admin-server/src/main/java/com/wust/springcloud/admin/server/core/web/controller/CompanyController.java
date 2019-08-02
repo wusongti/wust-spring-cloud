@@ -67,7 +67,6 @@ public class CompanyController {
             return mm;
         }
 
-        entity.setId(UUID.randomUUID().toString());
         entity.setCode(CodeGenerator.genCompanyCode());
         entity.setCreaterId(ctx.getUserId());
         entity.setCreaterName(ctx.getLoginName());
@@ -106,7 +105,7 @@ public class CompanyController {
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_COMPANY,businessName="删除",operationType= OperationLogEnum.Delete)
     @RequestMapping(value = "/delete/{id}",method = RequestMethod.DELETE)
     public @ResponseBody
-    ResponseDto delete(@PathVariable String id){
+    ResponseDto delete(@PathVariable Long id){
         ResponseDto mm = new ResponseDto();
 
         SysOrganizationSearch sysOrganizationSearch = new SysOrganizationSearch();

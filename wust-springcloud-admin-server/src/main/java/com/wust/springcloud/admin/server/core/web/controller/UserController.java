@@ -113,7 +113,7 @@ public class UserController {
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_USER,businessName="删除",operationType= OperationLogEnum.Delete)
     @RequestMapping(value = "/delete/{id}",method = RequestMethod.DELETE)
     public @ResponseBody
-    ResponseDto delete(@PathVariable String id){
+    ResponseDto delete(@PathVariable Long id){
         ResponseDto mm = new ResponseDto();
 
         SysUserSearch sysUserSearch = new SysUserSearch();

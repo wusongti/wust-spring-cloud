@@ -2,13 +2,12 @@ package com.wust.springcloud.common.entity.sys.lookup;
 
 import com.wust.springcloud.common.entity.BaseEntity;
 
+
 /**
  * Created by WST on 2019/4/29.
  */
 public class SysLookup extends BaseEntity{
     private static final long serialVersionUID = 5377600789270890448L;
-
-    private String id;
     private String code;
     private String parentCode;
     private String rootCode;
@@ -19,14 +18,6 @@ public class SysLookup extends BaseEntity{
     private Integer sort;
     private String visible;
     private String lan;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getCode() {
         return code;
@@ -111,8 +102,7 @@ public class SysLookup extends BaseEntity{
 
     @Override
     public String toString() {
-        return "SysLookup{" +
-                "id='" + id + '\'' +
+        return super.toString() + "\nSysLookup{" +
                 ", code='" + code + '\'' +
                 ", parentCode='" + parentCode + '\'' +
                 ", rootCode='" + rootCode + '\'' +

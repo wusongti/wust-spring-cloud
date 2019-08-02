@@ -58,7 +58,6 @@ public class OperationLogAspect {
                 Object[] args = jp.getArgs();
 
                 SysOperationLog sysOperationLog = new SysOperationLog();
-                sysOperationLog.setId(UUID.randomUUID().toString());
                 sysOperationLog.setModuleName(operationLogAnnotation.moduleName().getValue());
                 sysOperationLog.setBusinessName(operationLogAnnotation.businessName());
                 sysOperationLog.setOperationType(operationLogAnnotation.operationType().getValue());

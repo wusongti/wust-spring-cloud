@@ -2,7 +2,6 @@ package com.wust.springcloud.common.entity.sys.operationlog;
 
 import com.wust.springcloud.common.entity.BaseEntity;
 
-import java.util.Date;
 
 /**
  * Created by WST on 2019/5/28.
@@ -10,7 +9,6 @@ import java.util.Date;
 public class SysOperationLog extends BaseEntity{
     private static final long serialVersionUID = 8700623348930994787L;
 
-    private String id;
     private String moduleName;
     private String businessName;
     private String operationRole;
@@ -19,13 +17,6 @@ public class SysOperationLog extends BaseEntity{
     private String operationIp;
     private String source;
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getModuleName() {
         return moduleName;
@@ -88,7 +79,6 @@ public class SysOperationLog extends BaseEntity{
     @Override
     public String toString() {
         return "SysOperationLog{" +
-                "id='" + id + '\'' +
                 ", moduleName='" + moduleName + '\'' +
                 ", businessName='" + businessName + '\'' +
                 ", operationRole='" + operationRole + '\'' +

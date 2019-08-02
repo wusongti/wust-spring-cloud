@@ -8,7 +8,6 @@ import com.wust.springcloud.common.entity.BaseEntity;
 public class SysAttachment extends BaseEntity{
     private static final long serialVersionUID = -5743315252070614027L;
 
-    private String id;
     private String relationTable;
     private String relationId;
     private String relationField;
@@ -18,13 +17,6 @@ public class SysAttachment extends BaseEntity{
     private String attachmentPath;
     private String attachmentSuffix;
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getRelationTable() {
         return relationTable;
@@ -93,7 +85,6 @@ public class SysAttachment extends BaseEntity{
     @Override
     public String toString() {
         return super.toString() + "\nSysAttachment{" +
-                "id='" + id + '\'' +
                 ", relationTable='" + relationTable + '\'' +
                 ", relationId='" + relationId + '\'' +
                 ", relationField='" + relationField + '\'' +

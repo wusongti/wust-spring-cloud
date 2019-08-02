@@ -8,32 +8,32 @@ import java.util.List;
 public class SysRoleResourceCreate {
     private static final long serialVersionUID = 2179169002800939853L;
 
-    private String pid;
-    private String roleId;
-    private String organizationId;
+    private Long pid;
+    private Long roleId;
+    private Long organizationId;
     private List<SysRoleResource> sysRoleResources;
 
-    public String getPid() {
+    public Long getPid() {
         return pid;
     }
 
-    public void setPid(String pid) {
+    public void setPid(Long pid) {
         this.pid = pid;
     }
 
-    public String getRoleId() {
+    public Long getRoleId() {
         return roleId;
     }
 
-    public void setRoleId(String roleId) {
+    public void setRoleId(Long roleId) {
         this.roleId = roleId;
     }
 
-    public String getOrganizationId() {
+    public Long getOrganizationId() {
         return organizationId;
     }
 
-    public void setOrganizationId(String organizationId) {
+    public void setOrganizationId(Long organizationId) {
         this.organizationId = organizationId;
     }
 

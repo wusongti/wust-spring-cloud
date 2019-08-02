@@ -125,7 +125,7 @@ public class SysAttachmentServiceImpl extends BaseServiceImpl implements SysAtta
         List<SysAttachmentList> sysAttachmentLists = sysAttachmentMapper.findByCondition(search);
         if(CollectionUtils.isNotEmpty(sysAttachmentLists)) {
             for (SysAttachmentList sysAttachmentList : sysAttachmentLists) {
-                List<String> ids = new ArrayList<>(1);
+                List<Long> ids = new ArrayList<>(1);
                 ids.add(sysAttachmentList.getId());
                 sysAttachmentMapper.batchDelete(ids);
 

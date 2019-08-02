@@ -85,7 +85,6 @@ public class XMLLookupResolver extends XMLDefaultResolver {
             short nodeType = node.getNodeType();
             if (nodeType == Node.ELEMENT_NODE) {
                 if (ELEMENT_RECORD.equalsIgnoreCase(node.getNodeName())) {
-                    String id = UUID.randomUUID().toString();
                     String code = ((org.w3c.dom.Element) node).getAttribute(ELEMENT_CODE);
                     String parentCode = ((org.w3c.dom.Element) node).getAttribute(ELEMENT_PARENT_CODE);
                     String rootCode = ((org.w3c.dom.Element) node).getAttribute(ELEMENT_ROOT_CODE);
@@ -104,7 +103,6 @@ public class XMLLookupResolver extends XMLDefaultResolver {
 
 
                     SysLookup lookup = new SysLookup();
-                    lookup.setId(id);
                     lookup.setCode(code);
                     lookup.setParentCode(MyStringUtils.isBlank(MyStringUtils.null2String(rootCode)) ? "0000" : parentCode);
                     lookup.setRootCode(MyStringUtils.isBlank(MyStringUtils.null2String(rootCode)) ? "0000" : rootCode);

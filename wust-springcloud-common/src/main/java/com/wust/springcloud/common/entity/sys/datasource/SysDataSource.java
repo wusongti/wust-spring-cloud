@@ -2,6 +2,8 @@ package com.wust.springcloud.common.entity.sys.datasource;
 
 import com.wust.springcloud.common.entity.BaseEntity;
 
+import javax.persistence.Id;
+
 
 /**
  * table name:  sys_data_source
@@ -9,8 +11,8 @@ import com.wust.springcloud.common.entity.BaseEntity;
  * create time: 2019-06-17 15:42:21
  */ 
 public class SysDataSource extends BaseEntity{
+	private static final long serialVersionUID = 5502135893804008206L;
 
-	private String id;
 	private String companyId;
 	private String jdbcUrl;
 	private String jdbcUsername;
@@ -18,12 +20,6 @@ public class SysDataSource extends BaseEntity{
 	private String jdbcDriver;
 	private String description;
 
-	public void setId(String id){
-		this.id=id;
-	}
-	public String getId(){
-		return id;
-	}
 	public void setCompanyId(String companyId){
 		this.companyId=companyId;
 	}

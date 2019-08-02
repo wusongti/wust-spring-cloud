@@ -1,4 +1,4 @@
-package com.wust.springcloud.sso.server.core.api.rpc;
+package com.wust.springcloud.sso.server.core.rpc.api;
 
 import com.wust.springcloud.common.annotations.OperationLogAnnotation;
 import com.wust.springcloud.common.enums.OperationLogEnum;

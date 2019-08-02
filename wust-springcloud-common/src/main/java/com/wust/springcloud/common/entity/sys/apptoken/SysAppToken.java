@@ -2,6 +2,7 @@ package com.wust.springcloud.common.entity.sys.apptoken;
 
 import com.wust.springcloud.common.entity.BaseEntity;
 
+import javax.persistence.Id;
 import java.util.Date;
 
 /**
@@ -10,7 +11,6 @@ import java.util.Date;
 public class SysAppToken extends BaseEntity{
     private static final long serialVersionUID = 949859914341793577L;
 
-    private String id;
     private String appId;
     private String loginName;
     private String password;
@@ -18,13 +18,6 @@ public class SysAppToken extends BaseEntity{
     private String token;
     private String status;
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getAppId() {
         return appId;

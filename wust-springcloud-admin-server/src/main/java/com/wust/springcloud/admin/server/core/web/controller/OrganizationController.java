@@ -70,7 +70,7 @@ public class OrganizationController {
 
             for (SysOrganizationList sysOrganizationList : sysOrganizationLists) {
                 String type = sysOrganizationList.getType();
-                String relationId = sysOrganizationList.getRelationId();
+                Long relationId = sysOrganizationList.getRelationId();
 
                 if("101101".equalsIgnoreCase(type)
                 || "101104".equalsIgnoreCase(type)
@@ -162,9 +162,9 @@ public class OrganizationController {
                 JSONObject jsonObject = new JSONObject();
 
                 String type = sysOrganizationList.getType();
-                String relationId = sysOrganizationList.getRelationId();
+                Long relationId = sysOrganizationList.getRelationId();
                 String name = "";
-                String pid = sysOrganizationList.getPid();
+                Long pid = sysOrganizationList.getPid();
 
                 if("101101".equalsIgnoreCase(type)){
                     SysCompanySearch sysCompanySearch = new SysCompanySearch();
@@ -172,7 +172,7 @@ public class OrganizationController {
                     List<SysCompanyList> sysCompanyLists = sysCompanyServiceImpl.findByCondition(sysCompanySearch);
                     if(CollectionUtils.isNotEmpty(sysCompanyLists)){
                         name = "代理商-" + sysCompanyLists.get(0).getName();
-                        pid = MyStringUtils.isBlank(pid) ? "-1" : pid;
+                        pid = pid == null ? -1 : pid;
                     }
                 }else if("101104".equalsIgnoreCase(type)){
                     SysCompanySearch sysCompanySearch = new SysCompanySearch();
@@ -270,7 +270,7 @@ public class OrganizationController {
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_ORGANIZATION,businessName="删除",operationType= OperationLogEnum.Delete)
     @RequestMapping(value = "/delete/{id}",method = RequestMethod.DELETE)
     public @ResponseBody
-    ResponseDto delete(@PathVariable String id){
+    ResponseDto delete(@PathVariable Long id){
         ResponseDto mm = new ResponseDto();
 
         SysOrganizationSearch sysOrganizationSearch = new SysOrganizationSearch();
@@ -280,9 +280,7 @@ public class OrganizationController {
             mm.setFlag(ResponseDto.INFOR_WARNING);
             mm.setMessage("您要删除的记录存在子节点，无法删除带有子节点的数据，请先删除所有子节点");
         }else{
-            List<String> ids = new ArrayList<>(1);
-            ids.add(id);
-            sysOrganizationServiceImpl.batchDelete(ids);
+            sysOrganizationServiceImpl.deleteByPrimaryKey(id);
         }
         return mm;
     }
@@ -294,7 +292,7 @@ public class OrganizationController {
      * @return
      */
     @RequestMapping(value = "/findFunctionTreeByRoleId/{pid}/{roleId}",method = RequestMethod.POST)
-    public  @ResponseBody  ResponseDto findFunctionTreeByRoleId(@PathVariable String pid,@PathVariable String roleId){
+    public  @ResponseBody  ResponseDto findFunctionTreeByRoleId(@PathVariable Long pid,@PathVariable Long roleId){
         ResponseDto messageMap = new ResponseDto();
         SysOrganizationSearch sysOrganizationSearch = new SysOrganizationSearch();
         sysOrganizationSearch.setPid(pid);

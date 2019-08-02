@@ -1,6 +1,5 @@
 package com.wust.springcloud.admin.server.config;
 
-
 import com.wust.springcloud.common.DynamicDataSource;
 import com.wust.springcloud.common.enums.ApplicationEnum;
 import org.apache.commons.logging.Log;
@@ -56,7 +55,6 @@ public class MybatisConfig implements EnvironmentAware {
         sessionFactory.setMapperLocations(resolver.getResources("classpath:mybatis/mapper/**/*Mapper.xml"));    // 扫描映射文件
         return sessionFactory;
     }
-
 
 
     @Bean

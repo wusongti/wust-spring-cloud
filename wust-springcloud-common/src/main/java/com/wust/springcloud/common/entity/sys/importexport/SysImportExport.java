@@ -1,7 +1,6 @@
 package com.wust.springcloud.common.entity.sys.importexport;
 
 import com.wust.springcloud.common.entity.BaseEntity;
-
 import java.util.Date;
 
 /**
@@ -10,8 +9,6 @@ import java.util.Date;
 public class SysImportExport extends BaseEntity{
     private static final long serialVersionUID = 8972450411783576856L;
 
-    /**  **/
-    private String id;
     /** 模块名称 **/
     private String moduleName;
     /** 描述 **/
@@ -27,14 +24,6 @@ public class SysImportExport extends BaseEntity{
     /** 结束时间 **/
     private Date endTime;
     private String msg;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getModuleName() {
         return moduleName;
@@ -103,7 +92,6 @@ public class SysImportExport extends BaseEntity{
     @Override
     public String toString() {
         return super.toString() + "\nSysImportExport{" +
-                "id='" + id + '\'' +
                 ", moduleName='" + moduleName + '\'' +
                 ", description='" + description + '\'' +
                 ", operationType='" + operationType + '\'' +

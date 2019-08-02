@@ -3,12 +3,12 @@ package com.wust.springcloud.sso.server.dsaspect;
 import com.wust.springcloud.common.annotations.OperationLogAnnotation;
 import com.wust.springcloud.common.context.DefaultBusinessContext;
 import com.wust.springcloud.common.entity.sys.operationlog.SysOperationLog;
-import com.wust.springcloud.common.enums.ApplicationEnum;
 import com.wust.springcloud.sso.server.core.service.SysOperationLogService;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 import javax.servlet.ServletRequest;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -28,8 +29,20 @@ public class OperationLogAspect {
     @Autowired
     private SysOperationLogService sysOperationLogServiceImpl;
 
+    // web前端拦截
+    @Pointcut("within(com.wust.springcloud.sso.server.core.web.controller..*)")
+    private void webapi(){}
+
+    // 异构系统开放api拦截
+    @Pointcut("within(com.wust.springcloud.sso.server.core.openapi..*)")
+    private void openapi(){}
+
+    // 同构系统内部rpc拦截
+    @Pointcut("within(com.wust.springcloud.sso.server.core.rpc.api..*)")
+    private void rpcapi(){}
+
     //环绕通知
-    @Around("execution(* com.wust.springcloud.sso.server.core.api..*.*(..))")
+    @Around("webapi() || openapi() || rpcapi()")
     public Object methodAspect(ProceedingJoinPoint jp) throws Throwable {
         Signature sig = jp.getSignature();
         if (sig instanceof MethodSignature) {
@@ -42,7 +55,6 @@ public class OperationLogAspect {
                 DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
                 Object[] args = jp.getArgs();
 
-                List<SysOperationLog> sysOperationLogs = new ArrayList<>(1);
                 SysOperationLog sysOperationLog = new SysOperationLog();
                 sysOperationLog.setModuleName(operationLogAnnotation.moduleName().getValue());
                 sysOperationLog.setBusinessName(operationLogAnnotation.businessName());
@@ -51,9 +63,8 @@ public class OperationLogAspect {
                 sysOperationLog.setOperationIp(ctx.getIp());
                 sysOperationLog.setOperationData(parseToString(args));
                 sysOperationLog.setSource("sso-server");
-                sysOperationLogs.add(sysOperationLog);
-                DefaultBusinessContext.getContext().setDataSourceId(ApplicationEnum.DEFAULT.name());
-                sysOperationLogServiceImpl.batchInsert(sysOperationLogs);
+                sysOperationLog.setCreateTime(new Date());
+                //sysOperationLogServiceImpl.insert(sysOperationLog);
             }
         }
         return jp.proceed();

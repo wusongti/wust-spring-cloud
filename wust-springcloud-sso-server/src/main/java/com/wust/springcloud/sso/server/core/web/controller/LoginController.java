@@ -1,4 +1,4 @@
-package com.wust.springcloud.sso.server.core.api.web;
+package com.wust.springcloud.sso.server.core.web.controller;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -16,7 +16,9 @@ import com.wust.springcloud.common.util.JwtHelper;
 import com.wust.springcloud.common.util.MyStringUtils;
 import com.wust.springcloud.common.util.RC4;
 import com.wust.springcloud.common.util.cache.SpringRedisTools;
-import com.wust.springcloud.sso.server.core.service.AuthenticationService;
+import com.wust.springcloud.sso.server.core.service.SysMenuService;
+import com.wust.springcloud.sso.server.core.service.SysResourceService;
+import com.wust.springcloud.sso.server.core.service.SysUserService;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -35,7 +37,13 @@ public class LoginController {
     private SpringRedisTools springRedisTools;
 
     @Autowired
-    private AuthenticationService authenticationServiceImpl;
+    private SysUserService sysUserServiceImpl;
+
+    @Autowired
+    private SysMenuService sysMenuServiceImpl;
+
+    @Autowired
+    private SysResourceService sysResourceServiceImpl;
 
 
     /**
@@ -68,7 +76,7 @@ public class LoginController {
         sysUserSearch.setLoginName(loginName);
         sysUserSearch.setPassword(passwordRC4);
         DefaultBusinessContext.getContext().setDataSourceId(ApplicationEnum.DEFAULT.name());
-        List<SysUserList> sysUserLists =  authenticationServiceImpl.findByCondition(sysUserSearch);
+        List<SysUserList> sysUserLists =  sysUserServiceImpl.findByCondition(sysUserSearch);
         if(sysUserLists != null && sysUserLists.size() > 0){
             SysUserList sysUserList = sysUserLists.get(0);
             JSONObject subJSONObject = new JSONObject();
@@ -129,7 +137,7 @@ public class LoginController {
         JSONArray menuJSONArray = null;
         List<SysMenu> menus = null;                            // 非白名单菜单
         Map<Integer,List<SysMenu>> groupMenusByLevel = null;   // 根据菜单级别分组menus
-        Map<String,List<SysMenu>> groupMenusByPid = null;      // 根据pid分组 menus
+        Map<String,List<SysMenu>> groupMenusByPcode = null;      // 根据pcode分组 menus
 
         List<SysResource> resources = null;                    // 非白名单资源
         List<SysResource> resources4anon = null;               // 白名单资源
@@ -138,31 +146,31 @@ public class LoginController {
 
         UserContextDto userContextDto = new UserContextDto();
 
-        String userId = sysUserList.getId();
+        Long userId = sysUserList.getId();
         String type = sysUserList.getType();
         if("100401".equals(type)){ // 系统管理员
             // 切换数据源，然后查找对应数据源下的菜单资源
             DefaultBusinessContext.getContext().setDataSourceId(ApplicationEnum.DEFAULT.name());
-            menus = authenticationServiceImpl.findAllMenus4SystemAdmin();
-            groupMenusByLevel = groupByLevelMenus(menus);
-            groupMenusByPid = groupByPidMenus(menus);
-            menuJSONArray = menuToJSON(groupMenusByPid,groupMenusByLevel.get(1));
+            menus = sysMenuServiceImpl.findAllMenus4SystemAdmin();
+            groupMenusByLevel = groupMenusByLevel(menus);
+            groupMenusByPcode = groupMenusByPcode(menus);
+            menuJSONArray = menuToJSON(groupMenusByPcode,groupMenusByLevel.get(1));
 
-            resources = authenticationServiceImpl.findAllResources4systemAdmin();
-            resources4anon = authenticationServiceImpl.findAllAnonResources4systemAdmin();
-            groupResourcesByMenuId = groupByMenuIdResources(resources);
+            resources = sysResourceServiceImpl.findAllResources4systemAdmin();
+            resources4anon = sysResourceServiceImpl.findAllAnonResources4systemAdmin();
+            groupResourcesByMenuId = groupResourcesByMenuCode(resources);
         }else{ // 非系统管理员
             // 切换数据源，然后查找对应数据源下的菜单资源
             DefaultBusinessContext.getContext().setDataSourceId(sysUserList.getCompanyId());
 
-            menus = authenticationServiceImpl.findMenuByUserId(userId);
-            groupMenusByLevel = groupByLevelMenus(menus);
-            groupMenusByPid = groupByPidMenus(menus);
-            menuJSONArray = menuToJSON(groupMenusByPid,groupMenusByLevel.get(1));
+            menus = sysMenuServiceImpl.findMenuByUserId(userId);
+            groupMenusByLevel = groupMenusByLevel(menus);
+            groupMenusByPcode = groupMenusByPcode(menus);
+            menuJSONArray = menuToJSON(groupMenusByPcode,groupMenusByLevel.get(1));
 
-            resources = authenticationServiceImpl.findResourcesByUserId(userId);
-            resources4anon = authenticationServiceImpl.findAnonResourcesByUserId(userId);
-            groupResourcesByMenuId = groupByMenuIdResources(resources);
+            resources = sysResourceServiceImpl.findResourcesByUserId(userId);
+            resources4anon = sysResourceServiceImpl.findAnonResourcesByUserId(userId);
+            groupResourcesByMenuId = groupResourcesByMenuCode(resources);
         }
 
         userContextDto.setUser(sysUserList);
@@ -179,7 +187,7 @@ public class LoginController {
      * @param menus
      * @return
      */
-    private Map<Integer,List<SysMenu>> groupByLevelMenus(List<SysMenu> menus){
+    private Map<Integer,List<SysMenu>> groupMenusByLevel(List<SysMenu> menus){
         Map<Integer,List<SysMenu>> integerListMap = new HashMap<>();
         if(org.apache.commons.collections.CollectionUtils.isNotEmpty(menus)){
             for (SysMenu menu : menus) {
@@ -198,15 +206,15 @@ public class LoginController {
     }
 
     /**
-     * 对菜单按父菜单id分组
+     * 对菜单按pcode分组
      * @param menus
      * @return
      */
-    private Map<String,List<SysMenu>> groupByPidMenus(List<SysMenu> menus){
+    private Map<String,List<SysMenu>> groupMenusByPcode(List<SysMenu> menus){
         Map<String,List<SysMenu>> stringListMap = new HashMap<>();
         if(org.apache.commons.collections.CollectionUtils.isNotEmpty(menus)){
             for (SysMenu menu : menus) {
-                String key = menu.getPid();
+                String key = menu.getPcode();
                 if(stringListMap.containsKey(key)){
                     stringListMap.get(key).add(menu);
                 }else{
@@ -226,16 +234,16 @@ public class LoginController {
         if(org.apache.commons.collections.CollectionUtils.isNotEmpty(current)){
             for (SysMenu menu : current) {
                 JSONObject jsonObject = new JSONObject();
-                String id = menu.getId();
-                jsonObject.put("id",id);
-                jsonObject.put("pId",menu.getPid());
+                String code = menu.getCode();
+                jsonObject.put("code",code);
+                jsonObject.put("pcode",menu.getPcode());
                 jsonObject.put("name",menu.getName());
                 jsonObject.put("description",menu.getDescription());
                 jsonObject.put("img",menu.getImg());
                 jsonObject.put("level",menu.getLevel());
 
-                if(groupByPidMenus.containsKey(id)){
-                    List<SysMenu> subList = groupByPidMenus.get(id);
+                if(groupByPidMenus.containsKey(code)){
+                    List<SysMenu> subList = groupByPidMenus.get(code);
                     jsonObject.put("children",subList);
                     menuToJSON(groupByPidMenus,subList);
                 }else {
@@ -254,11 +262,11 @@ public class LoginController {
      * @param resources
      * @return
      */
-    private Map<String,List<SysResource>> groupByMenuIdResources(List<SysResource> resources){
+    private Map<String,List<SysResource>> groupResourcesByMenuCode(List<SysResource> resources){
         Map<String,List<SysResource>> stringListHashMap = new HashMap<>();
         if(org.apache.commons.collections.CollectionUtils.isNotEmpty(resources)){
             for (SysResource resource : resources) {
-                String key = resource.getMenuId();
+                String key = resource.getCode();
                 if(stringListHashMap.containsKey(key)){
                     stringListHashMap.get(key).add(resource);
                 }else{

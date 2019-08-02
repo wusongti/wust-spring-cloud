@@ -8,27 +8,27 @@ import com.wust.springcloud.common.entity.BaseEntity;
 public class SysResource extends BaseEntity {
     private static final long serialVersionUID = 9169618756448096826L;
 
-    private String id;			    //资源id
-    private String menuId;			//菜单id
+    private String code;
+    private String menuCode;	    //菜单code
     private String name;			//资源名
     private String description;     //资源描述
     private String permission;	    //资源需要权限,如user:add
     private String url;             //资源url
 
-    public String getId() {
-        return id;
+    public String getCode() {
+        return code;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setCode(String code) {
+        this.code = code;
     }
 
-    public String getMenuId() {
-        return menuId;
+    public String getMenuCode() {
+        return menuCode;
     }
 
-    public void setMenuId(String menuId) {
-        this.menuId = menuId;
+    public void setMenuCode(String menuCode) {
+        this.menuCode = menuCode;
     }
 
     public String getName() {
@@ -66,8 +66,8 @@ public class SysResource extends BaseEntity {
     @Override
     public String toString() {
         return super.toString() + "\nSysResource{" +
-                "id='" + id + '\'' +
-                ", menuId='" + menuId + '\'' +
+                ", code='" + code + '\'' +
+                ", menuCode='" + menuCode + '\'' +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", permission='" + permission + '\'' +

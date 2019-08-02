@@ -16,4 +16,6 @@ public interface SysDataPrivilegeRulesMapper  extends IBaseMapper<SysDataPrivile
     List<SysDataPrivilegeRulesList> listPage(SysDataPrivilegeRulesSearch search) throws DataAccessException;
 
     List<SysDataPrivilegeRulesList> findByCondition(SysDataPrivilegeRulesSearch search) throws DataAccessException;
+
+    int deleteByDataPrivilegeId(Long dataPrivilegeId);
 }

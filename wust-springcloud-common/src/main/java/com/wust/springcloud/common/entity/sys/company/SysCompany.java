@@ -10,19 +10,11 @@ import com.wust.springcloud.common.entity.BaseEntity;
 public class SysCompany extends BaseEntity {
     private static final long serialVersionUID = -3098131026241415716L;
 
-    private String id;
     private String code;
     private String name;	        // 名称
     private String leader;		    // 公司负责人
     private String description;     // 描述
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getCode() {
         return code;
@@ -61,7 +53,6 @@ public class SysCompany extends BaseEntity {
     @Override
     public String toString() {
         return "SysCompany{" +
-                "id='" + id + '\'' +
                 ", code='" + code + '\'' +
                 ", name='" + name + '\'' +
                 ", leader='" + leader + '\'' +
