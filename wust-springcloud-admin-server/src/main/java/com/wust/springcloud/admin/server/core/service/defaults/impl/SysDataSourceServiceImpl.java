@@ -8,7 +8,6 @@ import com.wust.springcloud.admin.server.core.dao.SysUserMapper;
 import com.wust.springcloud.admin.server.core.service.defaults.SysDataSourceService;
 import com.wust.springcloud.admin.server.core.service.defaults.SysLookupService;
 import com.wust.springcloud.admin.server.core.service.defaults.SysMenuService;
-import com.wust.springcloud.admin.server.core.service.defaults.SysDataPrivilegeService;
 import com.wust.springcloud.common.context.DefaultBusinessContext;
 import com.wust.springcloud.common.dao.IBaseMapper;
 import com.wust.springcloud.common.dto.ResponseDto;
@@ -55,9 +54,6 @@ public class SysDataSourceServiceImpl extends BaseServiceImpl implements SysData
 
     @Autowired
     private SpringRedisTools springRedisTools;
-
-    @Autowired
-    private SysDataPrivilegeService sysDataPrivilegeServiceImpl;
 
     @Autowired
     private SysMenuService sysMenuServiceImpl;
@@ -175,7 +171,6 @@ public class SysDataSourceServiceImpl extends BaseServiceImpl implements SysData
             DefaultBusinessContext.getContext().setCompanyId(entity.getCompanyId());
             sysMenuServiceImpl.init();
             sysLookupServiceImpl.init();
-            sysDataPrivilegeServiceImpl.init();
         }catch(Exception e){
             logger.error(e);
             sysDataSourceMapper.rollbackDataBase(parametersDDL);

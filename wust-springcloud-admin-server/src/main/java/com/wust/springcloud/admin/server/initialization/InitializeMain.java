@@ -1,6 +1,6 @@
-package com.wust.springcloud.admin.server.listener;
+package com.wust.springcloud.admin.server.initialization;
 
-import com.wust.springcloud.admin.server.core.service.defaults.SysDataPrivilegeService;
+
 import com.wust.springcloud.admin.server.core.service.defaults.SysDataSourceService;
 import com.wust.springcloud.admin.server.core.service.defaults.SysLookupService;
 import com.wust.springcloud.admin.server.core.service.defaults.SysMenuService;
@@ -17,9 +17,9 @@ import org.springframework.stereotype.Component;
  * Created by WST on 2019/6/12.
  */
 @Component
-public class MyApplicationListener implements ApplicationListener<ApplicationReadyEvent> {
+public class InitializeMain implements ApplicationListener<ApplicationReadyEvent> {
     @Autowired
-    private SysDataPrivilegeService sysDataPrivilegeServiceImpl;
+    private InitializePrivilegeData initializePrivilegeData;
 
     @Autowired
     private SysMenuService sysMenuServiceImpl;
@@ -44,7 +44,7 @@ public class MyApplicationListener implements ApplicationListener<ApplicationRea
         sysMenuServiceImpl.init();
         sysLookupServiceImpl.init();
         sysDataSourceService.cacheDataSource();
-        sysDataPrivilegeServiceImpl.init();
+        initializePrivilegeData.init(applicationReadyEvent);
     }
 
 }

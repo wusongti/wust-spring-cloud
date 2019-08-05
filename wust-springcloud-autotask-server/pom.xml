@@ -37,11 +37,6 @@
         </dependency>
 
         <dependency>
-            <groupId>org.mybatis.spring.boot</groupId>
-            <artifactId>mybatis-spring-boot-starter</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
@@ -57,7 +52,6 @@
             <version>${c3p0-version}</version>
         </dependency>
     </dependencies>
-
 
     <build>
         <plugins>

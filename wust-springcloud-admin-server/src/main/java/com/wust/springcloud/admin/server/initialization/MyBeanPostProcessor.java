@@ -1,4 +1,4 @@
-package com.wust.springcloud.admin.server.listener;
+package com.wust.springcloud.admin.server.initialization;
 
 
 import com.alibaba.fastjson.JSONArray;

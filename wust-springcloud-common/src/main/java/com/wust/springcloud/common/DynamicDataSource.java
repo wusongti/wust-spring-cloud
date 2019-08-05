@@ -24,6 +24,10 @@ public class DynamicDataSource extends AbstractRoutingDataSource {
     @Override
     protected Object determineCurrentLookupKey() {
         DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
+        if(ctx.getDataSourceId() == null){
+            return  null;
+        }
+
         lookupAndCreateDataSource(ctx.getDataSourceId());
         return ctx.getDataSourceId();
     }
