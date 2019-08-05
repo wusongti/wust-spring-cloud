@@ -1,16 +1,17 @@
 package com.wust.springcloud.autotask.server.core.job;
 
-import com.alibaba.fastjson.JSONObject;
+import com.wust.springcloud.autotask.server.core.service.JobService;
 import com.wust.springcloud.common.annotations.JobAnnotation;
-import com.wust.springcloud.common.enums.ApplicationEnum;
-import com.wust.springcloud.common.enums.RedisKeyEnum;
+import com.wust.springcloud.common.context.DefaultBusinessContext;
+import com.wust.springcloud.common.entity.qrtz.jobandtrigger.QrtzJobAndTriggerList;
+import com.wust.springcloud.common.entity.qrtz.jobandtrigger.QrtzJobAndTriggerSearch;
 import com.wust.springcloud.common.util.cache.SpringRedisTools;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Set;
+import java.util.List;
 
 /**
  * Created by WST on 2019/6/13.
@@ -20,19 +21,14 @@ import java.util.Set;
 @JobAnnotation(jobName="HelloJob",jobDescription="测试工作任务",jobGroupName="system",cronExpression="0 * * * * ? *")
 public class HelloJob implements BaseJob{
     @Autowired
-    private SpringRedisTools springRedisTools;
+    private JobService jobServiceImpl;
 
     @Override
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
-       /* Object dataSourceObj = springRedisTools.getByKey(RedisKeyEnum.REDIS_TABLE_KEY_DATA_SOURCE.name());
-        if(dataSourceObj != null) {
-            JSONObject jsonObject = (JSONObject) dataSourceObj;
-            Set<String> keys = jsonObject.keySet();
-            keys.add(ApplicationEnum.DEFAULT.name());
-            for (String companyId : keys) {
-                System.out.println("执行了。。。" + companyId);
-            }
-        }*/
-
+        DefaultBusinessContext.getContext().setDataSourceId("wust-quartz");
+        QrtzJobAndTriggerSearch search = new QrtzJobAndTriggerSearch();
+        List<QrtzJobAndTriggerList> list = jobServiceImpl.listPage(search);
+        System.out.println("找到数据");
+        System.out.println(list);
     }
 }

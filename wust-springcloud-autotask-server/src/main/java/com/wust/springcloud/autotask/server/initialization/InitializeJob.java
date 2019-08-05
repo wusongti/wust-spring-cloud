@@ -54,7 +54,7 @@ public class InitializeJob {
                     boolean isTriggerExists = scheduler.checkExists(triggerKey);
 
                     // 存在则删除
-                    if(!isExists || !isTriggerExists){
+                    if(isExists || isTriggerExists){
                         scheduler.deleteJob(jobKey);
                     }
 
