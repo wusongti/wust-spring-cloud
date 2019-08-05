@@ -82,4 +82,24 @@
     <RECORD code="101113" parent_code="1011" root_code="1011" value="13" name="岗位" description="岗位" visible="N" item_order="0"/>
     <RECORD code="101115" parent_code="1011" root_code="1011" value="15" name="用户" description="用户" visible="N" item_order="0"/>
     <!-- 组织架构类别 E -->
+
+
+    <!-- 数据源 S -->
+    <RECORD code="1012" parent_code="" name="数据源" description="数据源" visible="N" sort="0"/>
+    <!-- 平台管理服务数据库 S -->
+    <RECORD code="101201" parent_code="1012" root_code="1012" value="wust" name="平台管理服务数据库" description="database" visible="N" item_order="0"/>
+    <RECORD code="101202" parent_code="101201" root_code="1012" value="com.mysql.cj.jdbc.Driver" name="driver" description="平台管理服务数据库驱动" visible="N" item_order="0"/>
+    <RECORD code="101203" parent_code="101201" root_code="1012" value="root" name="username" description="平台管理服务数据库账号" visible="N" item_order="0"/>
+    <RECORD code="101204" parent_code="101201" root_code="1012" value="123456" name="password" description="平台管理服务数据库密码" visible="N" item_order="0"/>
+    <RECORD code="101205" parent_code="101201" root_code="1012" value="jdbc:mysql://localhost:3306/wust?useSSL=false&amp;allowPublicKeyRetrieval=true&amp;allowMultiQueries=true&amp;serverTimezone=GMT%2B8" name="url" description="平台管理服务数据库URL" visible="N" item_order="0"/>
+    <!-- 平台管理服务数据库 E -->
+
+    <!-- 智慧用电数据库 S -->
+    <RECORD code="101207" parent_code="1012" root_code="1012" value="timu_electricity" name="database" description="智慧用电服务数据库" visible="N" item_order="0"/>
+    <RECORD code="101208" parent_code="101207" root_code="1012" value="com.mysql.cj.jdbc.Driver" name="driver" description="智慧用电服务数据库驱动" visible="N" item_order="0"/>
+    <RECORD code="101209" parent_code="101207" root_code="1012" value="root" name="username" description="智慧用电服务数据库账号" visible="N" item_order="0"/>
+    <RECORD code="101210" parent_code="101207" root_code="1012" value="123456" name="password" description="智慧用电服务数据库密码" visible="N" item_order="0"/>
+    <RECORD code="101211" parent_code="101207" root_code="1012" value="jdbc:mysql://localhost:3306/timu_electricity?useSSL=false&amp;allowPublicKeyRetrieval=true&amp;allowMultiQueries=true&amp;serverTimezone=GMT%2B8" name="url" description="智慧用电服务数据库URL" visible="N" item_order="0"/>
+    <!-- 智慧用电数据库 E -->
+    <!-- 数据源 E -->
 </RECORDS>

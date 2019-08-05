@@ -53,21 +53,24 @@ public class InitializeJob {
                     TriggerKey triggerKey = new TriggerKey(jobName,jobGroupName);
                     boolean isTriggerExists = scheduler.checkExists(triggerKey);
 
-                    if(!isExists && !isTriggerExists){
-                        //构建job信息
-                        JobDetail jobDetail = JobBuilder.newJob(getClass(jobClassName).getClass()).withIdentity(jobName, jobGroupName).build();
+                    // 存在则删除
+                    if(!isExists || !isTriggerExists){
+                        scheduler.deleteJob(jobKey);
+                    }
 
-                        //表达式调度构建器(即任务执行的时间)
-                        CronScheduleBuilder scheduleBuilder = CronScheduleBuilder.cronSchedule(cronExpression);
+                    //构建job信息
+                    JobDetail jobDetail = JobBuilder.newJob(getClass(jobClassName).getClass()).withIdentity(jobName, jobGroupName).build();
 
-                        //按新的cronExpression表达式构建一个新的trigger
-                        CronTrigger trigger = TriggerBuilder.newTrigger().withIdentity(jobName, jobGroupName).withSchedule(scheduleBuilder).build();
+                    //表达式调度构建器(即任务执行的时间)
+                    CronScheduleBuilder scheduleBuilder = CronScheduleBuilder.cronSchedule(cronExpression);
 
-                        scheduler.scheduleJob(jobDetail, trigger);
+                    //按新的cronExpression表达式构建一个新的trigger
+                    CronTrigger trigger = TriggerBuilder.newTrigger().withIdentity(jobName, jobGroupName).withSchedule(scheduleBuilder).build();
 
-                        if(!scheduler.isShutdown()){
-                            scheduler.start();
-                        }
+                    scheduler.scheduleJob(jobDetail, trigger);
+
+                    if(!scheduler.isShutdown()){
+                        scheduler.start();
                     }
                 } catch (SchedulerException e) {
                     logger.error("创建作业失败：" + e);

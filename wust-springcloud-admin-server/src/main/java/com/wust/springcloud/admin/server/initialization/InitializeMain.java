@@ -10,7 +10,6 @@ import com.wust.springcloud.common.util.cache.SpringRedisTools;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 /**
@@ -29,10 +28,6 @@ public class InitializeMain implements ApplicationListener<ApplicationReadyEvent
 
     @Autowired
     private SpringRedisTools springRedisTools;
-
-    @Autowired
-    private Environment env;
-
 
     @Autowired
     private SysDataSourceService sysDataSourceService;

@@ -54,7 +54,7 @@ public class LookupController {
                 jsonObject.put("pId",sysLookupList.getParentCode());
                 jsonObject.put("rootCode",sysLookupList.getRootCode());
                 jsonObject.put("lookupId",sysLookupList.getId());
-                jsonObject.put("name",sysLookupList.getName());
+                jsonObject.put("name",sysLookupList.getDescription());
                 jsonObject.put("open",false);
                 jsonArray.add(jsonObject);
             }

@@ -160,9 +160,6 @@ public class LoginController {
             resources4anon = sysResourceServiceImpl.findAllAnonResources4systemAdmin();
             groupResourcesByMenuId = groupResourcesByMenuCode(resources);
         }else{ // 非系统管理员
-            // 切换数据源，然后查找对应数据源下的菜单资源
-            DefaultBusinessContext.getContext().setDataSourceId(sysUserList.getCompanyId());
-
             menus = sysMenuServiceImpl.findMenuByUserId(userId);
             groupMenusByLevel = groupMenusByLevel(menus);
             groupMenusByPcode = groupMenusByPcode(menus);

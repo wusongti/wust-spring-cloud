@@ -39,6 +39,7 @@ import java.util.*;
 /**
  * Created by WST on 2019/6/17.
  */
+@Deprecated
 @Service("sysDataSourceServiceImpl")
 public class SysDataSourceServiceImpl extends BaseServiceImpl implements SysDataSourceService {
     static Logger logger = LogManager.getLogger(SysDataSourceServiceImpl.class);

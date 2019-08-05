@@ -86,8 +86,8 @@ public abstract class ContextHandlerAdapter {
         }
 
         DefaultBusinessContext.getContext().setSignMap(paraMap);
-        DefaultBusinessContext.getContext().setCompanyId(paraMap.get("companyId").toString());
-        DefaultBusinessContext.getContext().setDataSourceId(paraMap.get("companyId").toString());
+        DefaultBusinessContext.getContext().setDataSourceId(ApplicationEnum.DEFAULT.name());
+        DefaultBusinessContext.getContext().setCompanyId("companyId");
     }
 
 

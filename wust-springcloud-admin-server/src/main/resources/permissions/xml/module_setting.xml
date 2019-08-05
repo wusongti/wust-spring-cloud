@@ -63,16 +63,18 @@
 		<operation code="bd14e7dd-87fc-11e9-a68d-0050568e63cd" name="Update" desc="修改" url=""/>
 	</module>
 
+	<!--
 	<module code="cc6d9577-8cc1-11e9-a68d-0050568e63cd" name="Data Source" desc="数据源管理" order="1200118" page="DataSourceList" url="./DataSourceList" img="el-icon-document">
 		<operation code="d5d2bb17-9887-11e9-a68d-0050568e63cd" name="Search" desc="查询" url=""/>
 		<operation code="db53017f-9887-11e9-a68d-0050568e63cd" name="Create" desc="初始化" url=""/>
 	</module>
 
-	<!--<module code="d376619f-8732-11e9-a68d-0050568e63cd" name="App Token" desc="外部应用访问管理" order="1200120" page="AppTokenList" url="./AppTokenList" img="el-icon-document">
+	<module code="d376619f-8732-11e9-a68d-0050568e63cd" name="App Token" desc="外部应用访问管理" order="1200120" page="AppTokenList" url="./AppTokenList" img="el-icon-document">
 		<operation code="c1d74556-87fc-11e9-a68d-0050568e63cd" name="Search" desc="查询" url=""/>
 		<operation code="c65a0685-87fc-11e9-a68d-0050568e63cd" name="Export" desc="导出" url=""/>
 		<operation code="ca87fdb1-87fc-11e9-a68d-0050568e63cd" name="Create" desc="新建" url=""/>
 		<operation code="cf8bdeeb-87fc-11e9-a68d-0050568e63cd" name="Update" desc="修改" url=""/>
 		<operation code="d43b85e4-87fc-11e9-a68d-0050568e63cd" name="Delete" desc="删除" url=""/>
-	</module>-->
+	</module>
+	-->
 </modulegroup>

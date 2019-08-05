@@ -6,7 +6,11 @@ import com.wust.springcloud.common.entity.sys.datasource.SysDataSourceList;
 import com.wust.springcloud.common.entity.sys.lookup.SysLookupList;
 import com.wust.springcloud.common.enums.RedisKeyEnum;
 import com.wust.springcloud.common.util.SpringContextHolder;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Component;
+
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -104,12 +108,19 @@ public class DataDictionaryUtil {
      * @param dataSourceId
      * @return
      */
-    public static SysDataSourceList getDataSourceById(String dataSourceId){
-        Object obj = getRedisSpringBean().getByKey(RedisKeyEnum.REDIS_TABLE_KEY_DATA_SOURCE.name());
-        if(obj != null){
-            JSONObject jsonObject = JSONObject.parseObject(obj.toString());
-            SysDataSourceList sysDataSourceList = jsonObject.getObject(dataSourceId,SysDataSourceList.class);
-            return sysDataSourceList;
+    public static JSONObject getDataSourceById(String dataSourceId){
+        List<SysLookupList> sysLookupLists = getLookupListByParentCode("zh_CN","1012");
+        if(CollectionUtils.isNotEmpty(sysLookupLists)){
+            for (SysLookupList sysLookupList : sysLookupLists) {
+                if(sysLookupList.getValue().equals(dataSourceId)){
+                    JSONObject jsonObject = new JSONObject();
+                    List<SysLookupList> dataSource = getLookupListByParentCode("zh_CN",sysLookupList.getCode());
+                    for (SysLookupList lookupList : dataSource) {
+                        jsonObject.put(lookupList.getName(),lookupList.getValue());
+                    }
+                    return jsonObject;
+                }
+            }
         }
         return null;
     }
