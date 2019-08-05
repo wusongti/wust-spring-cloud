@@ -3,7 +3,6 @@ package com.wust.springcloud.admin.server.core.service.defaults.impl;
 import com.wust.springcloud.admin.server.core.dao.SysImportExportMapper;
 import com.wust.springcloud.admin.server.core.service.defaults.ExportExcelService;
 import com.wust.springcloud.admin.server.core.service.defaults.SysAttachmentService;
-import com.wust.springcloud.admin.server.core.task.ThreadPoolTask;
 import com.wust.springcloud.common.context.DefaultBusinessContext;
 import com.wust.springcloud.common.dto.ExcelDto;
 import com.wust.springcloud.common.dto.ResponseDto;
@@ -11,10 +10,8 @@ import com.wust.springcloud.common.entity.sys.attachment.SysAttachment;
 import com.wust.springcloud.common.entity.sys.importexport.SysImportExport;
 import com.wust.springcloud.common.entity.sys.importexport.SysImportExportList;
 import com.wust.springcloud.common.entity.sys.importexport.SysImportExportSearch;
-import com.wust.springcloud.common.exception.BusinessException;
 import com.wust.springcloud.common.util.FileUtil;
 import com.wust.springcloud.common.util.cache.DataDictionaryUtil;
-import com.wust.springcloud.easyexcel.ExcelParameters;
 import com.wust.springcloud.easyexcel.definition.ExcelDefinitionReader;
 import com.wust.springcloud.easyexcel.factory.DefinitionFactory;
 import com.wust.springcloud.easyexcel.factory.xml.XMLDefinitionFactory4commonExport;
@@ -45,9 +42,6 @@ public class ExportExcelServiceImpl extends POIExcelResolver4commonExport implem
     private SysImportExportMapper sysImportExportMapper;
 
     @Autowired
-    private ThreadPoolTask threadPoolTask;
-
-    @Autowired
     private SysAttachmentService sysAttachmentServiceImpl;
 
     @Autowired
@@ -57,35 +51,11 @@ public class ExportExcelServiceImpl extends POIExcelResolver4commonExport implem
     public ResponseDto export(ExcelDto excelDto) {
         ResponseDto mm = new ResponseDto();
         DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
-        /**
-         * 耗时多的业务使用异步
-         */
-        try {
-            excelParameters = new ExcelParameters();
-            excelParameters.setBatchNo(excelDto.getBatchNo());
-            excelParameters.setParameters(excelDto.getParameters());
-            excelParameters.setXmlName(excelDto.getXmlName());
-            excelParameters.setFileType(excelDto.getExcelSuffix());
-
-
-            threadPoolTask.exportExcelTask(ctx);
-        } catch (Exception e) {
-            logger.error("导出失败："+e);
-            ;
-            throw new BusinessException(messageSource.getMessage("admin.server.message2",null,ctx.getLocale()) + "：" +e.getMessage());
-        }
-        return mm;
-    }
-
-    @Override
-    public void exportCallback(DefaultBusinessContext ctx) {
-        ResponseDto mm = new ResponseDto();
-        mm.setFlag(ResponseDto.INFOR_SUCCESS);
+        BeanUtils.copyProperties(excelDto,excelParameters);
 
         SysImportExportSearch sysImportExportSearch = new SysImportExportSearch();
-        sysImportExportSearch.setBatchNo(excelParameters.getBatchNo());
+        sysImportExportSearch.setBatchNo(excelDto.getBatchNo());
         List<SysImportExportList> sysImportExportLists =  sysImportExportMapper.findByCondition(sysImportExportSearch);
-
         logger.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>开始导出，获取到的记录{}",sysImportExportLists);
 
         if(CollectionUtils.isNotEmpty(sysImportExportLists)){
@@ -147,7 +117,9 @@ public class ExportExcelServiceImpl extends POIExcelResolver4commonExport implem
         }else {
             logger.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>根据批次号查不到记录{}",excelParameters.getBatchNo());
         }
+        return mm;
     }
+
 
     @Override
     protected ExcelDefinitionReader getExcelDefinition() {

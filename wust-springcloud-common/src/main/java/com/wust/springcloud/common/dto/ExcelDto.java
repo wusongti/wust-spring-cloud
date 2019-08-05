@@ -1,5 +1,6 @@
 package com.wust.springcloud.common.dto;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -13,7 +14,7 @@ public class ExcelDto implements java.io.Serializable{
     private String xmlName;
     private String moduleName;
     private String excelName;
-    private String excelSuffix;
+    private String fileType;
     private Map parameters;
 
     public String getBatchNo() {
@@ -48,16 +49,16 @@ public class ExcelDto implements java.io.Serializable{
         this.excelName = excelName;
     }
 
-    public String getExcelSuffix() {
-        return excelSuffix;
+    public String getFileType() {
+        return fileType;
     }
 
-    public void setExcelSuffix(String excelSuffix) {
-        this.excelSuffix = excelSuffix;
+    public void setFileType(String fileType) {
+        this.fileType = fileType;
     }
 
     public Map getParameters() {
-        return parameters;
+        return parameters == null ? new HashMap() : parameters;
     }
 
     public void setParameters(Map parameters) {
@@ -66,12 +67,12 @@ public class ExcelDto implements java.io.Serializable{
 
     @Override
     public String toString() {
-        return super.toString() + "\nExcelDto{" +
+        return "ExcelDto{" +
                 "batchNo='" + batchNo + '\'' +
                 ", xmlName='" + xmlName + '\'' +
                 ", moduleName='" + moduleName + '\'' +
                 ", excelName='" + excelName + '\'' +
-                ", excelSuffix='" + excelSuffix + '\'' +
+                ", fileType='" + fileType + '\'' +
                 ", parameters=" + parameters +
                 '}';
     }

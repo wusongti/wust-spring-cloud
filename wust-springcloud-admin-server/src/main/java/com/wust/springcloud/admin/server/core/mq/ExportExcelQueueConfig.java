@@ -12,26 +12,26 @@ import org.springframework.core.env.Environment;
 /**
  * @author ：wust
  * @date ：Created in 2019/7/19 15:41
- * @description：
+ * @description：导出excel队列配置
  * @version:
  */
 @SpringBootConfiguration
-public class QueueConfig {
+public class ExportExcelQueueConfig {
     @Autowired
     private Environment env;
 
     @Bean
-    public Queue organizationQueue() {
-        return new Queue(env.getProperty("queue.organization.name"),true);
+    public Queue queue() {
+        return new Queue(env.getProperty("queue.exportexcel.name"));
     }
 
     @Bean
-    DirectExchange organizationExchange(){
-        return new DirectExchange(env.getProperty("exchange.organization.name"),true,false);
+    DirectExchange exchange(){
+        return new DirectExchange(env.getProperty("exchange.exportexcel.name"),true,true);
     }
 
     @Bean
-    Binding organizationBinding(){
-        return  BindingBuilder.bind(organizationQueue()).to(organizationExchange()).with(env.getProperty("routing.organization.key.name"));
+    Binding binding(){
+        return  BindingBuilder.bind(queue()).to(exchange()).with(env.getProperty("routing.exportexcel.key.name"));
     }
 }

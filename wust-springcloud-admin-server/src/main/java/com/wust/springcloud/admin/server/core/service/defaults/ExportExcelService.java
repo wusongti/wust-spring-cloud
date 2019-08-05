@@ -1,6 +1,6 @@
 package com.wust.springcloud.admin.server.core.service.defaults;
 
-import com.wust.springcloud.common.context.DefaultBusinessContext;
+
 import com.wust.springcloud.common.dto.ExcelDto;
 import com.wust.springcloud.common.dto.ResponseDto;
 
@@ -10,6 +10,4 @@ import com.wust.springcloud.common.dto.ResponseDto;
 public interface ExportExcelService {
 
     ResponseDto export(ExcelDto excelDto);
-
-    void exportCallback(DefaultBusinessContext ctx);
 }

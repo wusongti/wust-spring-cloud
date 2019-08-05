@@ -1,10 +1,10 @@
 exchange:
-  organization:
-    name: ${mq.env}.organization.exchange
+  exportexcel:
+    name: ${mq.env}.exportexcel.exchange
 queue:
-  organization:
-    name: ${mq.env}.organization.queue
+  exportexcel:
+    name: ${mq.env}.exportexcel.queue
 routing:
-  organization:
+  exportexcel:
     key:
-      name: ${mq.env}.organization.routing.key
+      name: ${mq.env}.exportexcel.routing.key

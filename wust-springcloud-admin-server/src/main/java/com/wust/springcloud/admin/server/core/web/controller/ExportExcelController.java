@@ -11,7 +11,10 @@ import com.wust.springcloud.common.enums.OperationLogEnum;
 import com.wust.springcloud.common.util.CodeGenerator;
 import com.wust.springcloud.common.util.MyStringUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -30,6 +33,12 @@ public class ExportExcelController {
     @Autowired
     private ExportExcelService exportExcelServiceImpl;
 
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
+
+    @Autowired
+    private Environment env;
+
 
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_COMMON,businessName="导出Excel",operationType= OperationLogEnum.Export)
     @RequestMapping(value = "/exportExcel", method = RequestMethod.POST)
@@ -44,9 +53,9 @@ public class ExportExcelController {
             mm.setFlag(ResponseDto.INFOR_WARNING);
             mm.setMessage("XML Name参数不能少噢。");
             return mm;
-        } else if (StringUtils.isBlank(MyStringUtils.null2String(excelDto.getExcelSuffix()))) {
+        } else if (StringUtils.isBlank(MyStringUtils.null2String(excelDto.getFileType()))) {
             mm.setFlag(ResponseDto.INFOR_WARNING);
-            mm.setMessage("Excel Suffix参数不能少噢。");
+            mm.setMessage("File Type参数不能少噢。");
             return mm;
         } else if (!excelDto.getModuleName().matches("[A-Za-z0-9_]+")) {
             mm.setFlag(ResponseDto.INFOR_WARNING);
@@ -65,19 +74,16 @@ public class ExportExcelController {
         tSysImportExport.setStatus("100501");
         tSysImportExport.setCreaterId(ctx.getUserId());
         tSysImportExport.setCreaterName(ctx.getLoginName());
+        tSysImportExport.setCreateTime(new Date());
         sysImportExportServiceImpl.insert(tSysImportExport);
 
 
-        Map par = excelDto.getParameters();
-        if(par == null){
-            par = new HashMap(1);
-        }
-
+        rabbitTemplate.setMessageConverter(new Jackson2JsonMessageConverter());
+        rabbitTemplate.setExchange(env.getProperty("exchange.exportexcel.name"));
+        rabbitTemplate.setRoutingKey(env.getProperty("routing.exportexcel.key.name"));
         excelDto.setBatchNo(batchNo);
-        excelDto.setParameters(par);
+        rabbitTemplate.convertAndSend(excelDto);
 
-
-        mm = exportExcelServiceImpl.export(excelDto);
         return mm;
     }
 }

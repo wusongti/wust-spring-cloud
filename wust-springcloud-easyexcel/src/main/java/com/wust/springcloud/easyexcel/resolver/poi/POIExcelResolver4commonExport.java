@@ -35,7 +35,7 @@ import java.util.Map;
  * @author wusongti@163.com
  */
 public abstract class POIExcelResolver4commonExport extends POIExcelResolver {
-    protected ExcelParameters excelParameters;
+    protected ExcelParameters excelParameters = new ExcelParameters();;
 
     @Override
     public ExcelExportResult createWorkbook() {

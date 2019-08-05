@@ -1,7 +1,6 @@
 package com.wust.springcloud.admin.server.core.task;
 
 import com.wust.springcloud.admin.server.core.service.imports.DefaultImportService;
-import com.wust.springcloud.admin.server.core.service.defaults.ExportExcelService;
 import com.wust.springcloud.common.context.DefaultBusinessContext;
 import com.wust.springcloud.common.dto.ResponseDto;
 import com.wust.springcloud.common.util.SpringContextHolder;
@@ -17,13 +16,6 @@ import org.springframework.stereotype.Component;
 public class ThreadPoolTask {
     static Logger logger = LogManager.getLogger(ThreadPoolTask.class);
 
-    @Async
-    public void exportExcelTask(DefaultBusinessContext ctx) {
-        logger.info("-----------------开始导出");
-        ExportExcelService  exportExcelService = ((ExportExcelService) SpringContextHolder.getBean("exportExcelServiceImpl"));
-        exportExcelService.exportCallback(ctx);
-        logger.info("-----------------导出完成");
-    }
 
     @Async
     public void importExcelTask(DefaultBusinessContext ctx,String serviceBeanName,String batchNo) {
