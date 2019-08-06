@@ -53,7 +53,7 @@ public class SysRoleServiceImpl extends BaseServiceImpl implements SysRoleServic
             List<MenuTreeDto> menuList =  sysMenuMapper.findByOrganizationId(organizationId);
             if(!CollectionUtils.isEmpty(menuList)){
                 for(MenuTreeDto menu : menuList){
-                    if(menu.getLevel() != null && menu.getLevel() == -1){   // 叶子节点
+                    if("100702".equals(menu.getIsParent())){   // 叶子节点
                         leafNodeSet.add(menu.getCode());
                     }
 

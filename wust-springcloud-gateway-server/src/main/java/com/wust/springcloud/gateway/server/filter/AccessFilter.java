@@ -55,7 +55,6 @@ public class AccessFilter implements GlobalFilter {
         }
 
         if (reqUrl.contains("/login")) { // 登录请求默认通过
-            System.out.println("#########是登录");
             response.setStatusCode(HttpStatus.OK);
             return gatewayFilterChain.filter(serverWebExchange);
         }else { // 非登录请求，需要校验令牌和访问资源的权限
@@ -70,7 +69,6 @@ public class AccessFilter implements GlobalFilter {
                         return response.setComplete();
                     }
                 }else{
-                    System.out.println("#########authorizeService.hasToken(token)为false");
                     response.setStatusCode(HttpStatus.NO_CONTENT);
                     return response.setComplete();
                 }

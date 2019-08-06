@@ -155,7 +155,6 @@ public class LoginController {
             groupMenusByLevel = groupMenusByLevel(menus);
             groupMenusByPcode = groupMenusByPcode(menus);
             menuJSONArray = menuToJSON(groupMenusByPcode,groupMenusByLevel.get(1));
-
             resources = sysResourceServiceImpl.findAllResources4systemAdmin();
             resources4anon = sysResourceServiceImpl.findAllAnonResources4systemAdmin();
             groupResourcesByMenuId = groupResourcesByMenuCode(resources);
@@ -238,6 +237,7 @@ public class LoginController {
                 jsonObject.put("description",menu.getDescription());
                 jsonObject.put("img",menu.getImg());
                 jsonObject.put("level",menu.getLevel());
+                jsonObject.put("isParent",menu.getIsParent());
 
                 if(groupByPidMenus.containsKey(code)){
                     List<SysMenu> subList = groupByPidMenus.get(code);

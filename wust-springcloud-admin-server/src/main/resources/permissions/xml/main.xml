@@ -6,12 +6,8 @@
 			<path path = "permissions/xml/module_anon.xml"/>
 		</modulegroup>
 
-		<modulegroup code="8972b850-804e-11e9-a68d-0050568e63cd" name="Query Management" desc="查询管理" order="11001" img="el-icon-search">
-			<path path = "permissions/xml/module_query.xml"/>
-		</modulegroup>
-
-		<modulegroup code="1a6debab-f513-4b3f-9d21-2b5249c3ec11" name="Setting" desc="系统配置" order="12001"  img="el-icon-setting">
-			<path path = "permissions/xml/module_setting.xml"/>
+		<modulegroup code="1a6debab-f513-4b3f-9d21-2b5249c3ec11" name="Setting" desc="平台管理" order="12001"  img="el-icon-user">
+			<path path = "permissions/xml/module_admin.xml"/>
 		</modulegroup>
 
 		<modulegroup code="2517bcaa-af7c-11e9-948a-00f1f3059872" name="Electricity Management" desc="电力管理" order="13001" img="el-icon-lightning">

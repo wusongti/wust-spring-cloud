@@ -10,6 +10,7 @@
 		<result column="url" property="url"/>
 		<result column="permission" property="permission"/>
 		<result column="level" property="level"/>
+		<result column="is_parent" property="isParent"/>
 		<result column="img" property="img"/>
 		<result column="type" property="type"/>
 		<result column="visible" property="visible"/>
@@ -54,6 +55,7 @@
 			sm.url,
 			sm.img,
 			sm.level,
+			sm.is_parent,
 			sm.type,
 			sm.visible
 		FROM sys_menu sm
@@ -79,6 +81,7 @@
 				sm.url,
 				sm.img,
 				sm.level,
+				sm.is_parent,
 				sm.type,
 				sm.visible,
 				sm.sort,

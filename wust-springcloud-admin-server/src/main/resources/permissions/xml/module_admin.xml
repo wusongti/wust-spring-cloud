@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- modulegroup节点从main.xml里面复制过来的，id属性值要和main里面的一样，name和desc属性必须保留，但值可以空 -->
+<modulegroup code="1a6debab-f513-4b3f-9d21-2b5249c3ec11">
+	<modulegroup code="508fba34-b7f0-11e9-9612-00f1f3059872" name="System Setting" desc="系统配置" order="1200101"  img="el-icon-setting">
+		<module code="94fcc15c-85a4-11e9-a68d-0050568e63cd" name="Company Management" desc="公司管理" order="120010101" page="CompanyList" url="./CompanyList" img="el-icon-document">
+			<operation code="ffec31aa-87fb-11e9-a68d-0050568e63cd" name="Search" desc="查询" url=""/>
+			<operation code="05f29473-87fc-11e9-a68d-0050568e63cd" name="Export" desc="导出" url=""/>
+			<operation code="0afe16b5-87fc-11e9-a68d-0050568e63cd" name="Create" desc="新建" url=""/>
+			<operation code="102c04b8-87fc-11e9-a68d-0050568e63cd" name="Update" desc="修改" url=""/>
+			<operation code="14e266b6-87fc-11e9-a68d-0050568e63cd" name="Delete" desc="删除" url=""/>
+		</module>
+		<module code="9b472b74-85a4-11e9-a68d-0050568e63cd" name="Department Management" desc="部门管理" order="120010105" page="DepartmentList" url="./DepartmentList" img="el-icon-document">
+			<operation code="1ba1d62f-87fc-11e9-a68d-0050568e63cd" name="Search" desc="查询" url=""/>
+			<operation code="20a16a14-87fc-11e9-a68d-0050568e63cd" name="Export" desc="导出" url=""/>
+			<operation code="2545f350-87fc-11e9-a68d-0050568e63cd" name="Create" desc="新建" url=""/>
+			<operation code="2b5dff8d-87fc-11e9-a68d-0050568e63cd" name="Update" desc="修改" url=""/>
+			<operation code="2f9573ad-87fc-11e9-a68d-0050568e63cd" name="Delete" desc="删除" url=""/>
+		</module>
+		<module code="b485b58c-716f-11e9-a68d-0050568e63cd" name="Role Management" desc="角色管理" order="120010107" page="RoleList" url="./RoleList" img="el-icon-document">
+			<operation code="5c7fd964-87fc-11e9-a68d-0050568e63cd" name="Search" desc="查询" url=""/>
+			<operation code="62628da1-87fc-11e9-a68d-0050568e63cd" name="Export" desc="导出" url=""/>
+			<operation code="67a72433-87fc-11e9-a68d-0050568e63cd" name="Import" desc="导入" url=""/>
+			<operation code="6ca3c101-87fc-11e9-a68d-0050568e63cd" name="Create" desc="新建" url=""/>
+			<operation code="720b2a9a-87fc-11e9-a68d-0050568e63cd" name="Update" desc="修改" url=""/>
+			<operation code="764500da-87fc-11e9-a68d-0050568e63cd" name="Delete" desc="删除" url=""/>
+		</module>
+		<module code="6c73459c-fcd6-4fc8-b606-9dedc5d87c23" name="User Management" desc="用户管理" order="120010109" page="UserList" url="./UserList" img="el-icon-document">
+			<operation code="7c4bec3d-87fc-11e9-a68d-0050568e63cd" name="Search" desc="查询" url=""/>
+			<operation code="8199c503-87fc-11e9-a68d-0050568e63cd" name="Export" desc="导出" url=""/>
+			<operation code="863fc793-87fc-11e9-a68d-0050568e63cd" name="Import" desc="导入" url=""/>
+			<operation code="8b67ce73-87fc-11e9-a68d-0050568e63cd" name="Create" desc="新建" url=""/>
+			<operation code="90436815-87fc-11e9-a68d-0050568e63cd" name="Update" desc="修改" url=""/>
+			<operation code="95a383df-87fc-11e9-a68d-0050568e63cd" name="Delete" desc="删除" url=""/>
+		</module>
+		<module code="fc773a6d-b296-11e9-a2ec-00f1f3059872" name="Project Management" desc="项目管理" order="120010111" page="ProjectList" url="./ProjectList" img="el-icon-document">
+			<operation code="0dc1ea8b-b297-11e9-a2ec-00f1f3059872" name="Search" desc="查询" url=""/>
+			<operation code="19e39dbf-b297-11e9-a2ec-00f1f3059872" name="Export" desc="导出" url=""/>
+			<operation code="226cb8f4-b297-11e9-a2ec-00f1f3059872" name="Create" desc="新建" url=""/>
+			<operation code="29bed76e-b297-11e9-a2ec-00f1f3059872" name="Update" desc="修改" url=""/>
+			<operation code="2e6fe007-b297-11e9-a2ec-00f1f3059872" name="Delete" desc="删除" url=""/>
+		</module>
+		<module code="c8c0d04e-85a7-11e9-a68d-0050568e63cd" name="Organization" desc="组织架构" order="120010113" page="OrganizationList" url="./OrganizationList" img="el-icon-document">
+			<operation code="9ac2c28e-87fc-11e9-a68d-0050568e63cd" name="AddCompany" desc="添加公司" url=""/>
+			<operation code="9f2ce4d5-87fc-11e9-a68d-0050568e63cd" name="AddDepartment" desc="添加部门" url=""/>
+			<operation code="ee0320ba-b299-11e9-a2ec-00f1f3059872" name="AddProject" desc="添加项目" url=""/>
+			<operation code="a3b5d3d6-87fc-11e9-a68d-0050568e63cd" name="AddRole" desc="添加角色" url=""/>
+			<operation code="a8aa5a7e-87fc-11e9-a68d-0050568e63cd" name="AddUser" desc="添加用户" url=""/>
+			<operation code="ad2fdb46-87fc-11e9-a68d-0050568e63cd" name="Export" desc="导出" url=""/>
+			<operation code="b18e6ece-87fc-11e9-a68d-0050568e63cd" name="Delete" desc="移除" url=""/>
+		</module>
+		<module code="ba01ce93-716f-11e9-a68d-0050568e63cd" name="Data Permission" desc="数据权限" order="120010115" page="DataPrivilegeRulesList" url="./DataPrivilegeRulesList" img="el-icon-document">
+			<operation code="ee4fe2fa-87fc-11e9-a68d-0050568e63cd" name="Search" desc="查询" url=""/>
+			<operation code="f7166026-87fc-11e9-a68d-0050568e63cd" name="Update" desc="修改" url=""/>
+		</module>
+		<module code="bfa76d77-716f-11e9-a68d-0050568e63cd" name="Lookup" desc="数据字典" order="120010117" page="LookupIndex" url="./LookupIndex" img="el-icon-document">
+			<operation code="b8cb00c4-87fc-11e9-a68d-0050568e63cd" name="Search" desc="查询" url=""/>
+			<operation code="bd14e7dd-87fc-11e9-a68d-0050568e63cd" name="Update" desc="修改" url=""/>
+		</module>
+	</modulegroup>
+
+
+	<modulegroup code="b88c5a93-b7f0-11e9-9612-00f1f3059872" name="Query Management" desc="查询管理" order="1200103"  img="el-icon-search">
+		<module code="ab849b58-2113-46bc-b805-6287715cca88" name="My Import and Export" desc="导入导出" order="120010301" page="MyImportExportList" url="./MyImportExportList" img="el-icon-document">
+			<operation code="25350db7-87fd-11e9-a68d-0050568e63cd" name="Search" desc="查询" url=""/>
+			<operation code="29a60157-87fd-11e9-a68d-0050568e63cd" name="Download" desc="下载" url=""/>
+		</module>
+		<module code="1a133ce5-8977-4c82-9973-d134a002ecd2" name="Operation Log" desc="操作日志" order="120010303" page="OperationLogList" url="./OperationLogList" img="el-icon-document">
+			<operation code="2dda74e9-87fd-11e9-a68d-0050568e63cd" name="Search" desc="查询" url=""/>
+		</module>
+		<module code="1e9a509f-8d9f-11e9-a68d-0050568e63cd" name="Job" desc="作业管理" order="120010305" page="JobList" url="./JobList" img="el-icon-document">
+			<operation code="2446df53-8d9f-11e9-a68d-0050568e63cd" name="Search" desc="查询" url=""/>
+			<operation code="fabc4560-8da3-11e9-a68d-0050568e63cd" name="Create" desc="新建" url=""/>
+			<operation code="299dceb8-8d9f-11e9-a68d-0050568e63cd" name="Update" desc="修改" url=""/>
+			<operation code="0faac691-8da1-11e9-a68d-0050568e63cd" name="Delete" desc="删除" url=""/>
+		</module>
+	</modulegroup>
+</modulegroup>

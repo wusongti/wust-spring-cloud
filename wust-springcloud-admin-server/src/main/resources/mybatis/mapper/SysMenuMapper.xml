@@ -10,6 +10,7 @@
     	<result column="url" property="url"/>
     	<result column="permission" property="permission"/>
     	<result column="level" property="level"/>
+		<result column="is_parent" property="isParent"/>
     	<result column="img" property="img"/>
 		<result column="type" property="type"/>
 		<result column="visible" property="visible"/>
@@ -28,6 +29,7 @@
 		<result column="name" property="name"/>
 		<result column="description" property="description"/>
 		<result column="level" property="level"/>
+		<result column="is_parent" property="isParent"/>
 		<result column="checked" property="checked"/>
 		<result column="nocheck" property="nocheck"/>
 	</resultMap>
@@ -41,6 +43,7 @@
 			m.name,
 			m.description,
 			m.level,
+			m.is_parent,
 		    m.sort,
 			IF(r.resource_id IS NULL,'false','true') AS checked
 		FROM sys_menu m

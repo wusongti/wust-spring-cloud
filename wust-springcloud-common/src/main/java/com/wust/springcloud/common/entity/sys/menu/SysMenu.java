@@ -19,6 +19,7 @@ public class SysMenu extends BaseEntity {
     private String img;         // 菜单图片
     private String type;        // 菜单类型
     private String visible;     // 是否可见
+    private String isParent;    // 是否父节点
 
 
     public String getCode() {
@@ -109,11 +110,18 @@ public class SysMenu extends BaseEntity {
         this.visible = visible;
     }
 
+    public String getIsParent() {
+        return isParent;
+    }
+
+    public void setIsParent(String isParent) {
+        this.isParent = isParent;
+    }
 
     @Override
     public String toString() {
-        return "SysMenu{" +
-                ", code='" + code + '\'' +
+        return super.toString() + "\nSysMenu{" +
+                "code='" + code + '\'' +
                 ", pcode='" + pcode + '\'' +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
@@ -124,6 +132,7 @@ public class SysMenu extends BaseEntity {
                 ", img='" + img + '\'' +
                 ", type='" + type + '\'' +
                 ", visible='" + visible + '\'' +
+                ", isParent='" + isParent + '\'' +
                 '}';
     }
 }

@@ -112,6 +112,7 @@ public class XMLPermissionResolver extends XMLDefaultResolver {
                             menuEntity.setSort(Integer.parseInt(order));
                             menuEntity.setPcode(null);
                             menuEntity.setType("subSystem");
+                            menuEntity.setIsParent("100701");
                             menuEntity.setCreateTime(new Date());
 
                             parseMenuList.add(menuEntity);
@@ -150,6 +151,7 @@ public class XMLPermissionResolver extends XMLDefaultResolver {
                             menuEntity.setPcode(pcode);
                             menuEntity.setType("menuGroup");
                             menuEntity.setVisible(visible);
+                            menuEntity.setIsParent("100701");
                             menuEntity.setCreateTime(new Date());
 
                             parseMenuList.add(menuEntity);
@@ -200,7 +202,7 @@ public class XMLPermissionResolver extends XMLDefaultResolver {
 
 
                             SysMenu tSysMenuParent = parseMenuMap.get(pcode) == null ? null : (SysMenu) parseMenuMap.get(pcode);
-                            Integer level = isLeaf(node) ? -1 : tSysMenuParent.getLevel() + 1;
+                            Integer level = tSysMenuParent.getLevel() + 1;
                             SysMenu menuEntity = new SysMenu();
                             menuEntity.setCode(code);
                             menuEntity.setName(name);
@@ -213,6 +215,7 @@ public class XMLPermissionResolver extends XMLDefaultResolver {
                             menuEntity.setPermission(permissionNew);
                             menuEntity.setType("menu");
                             menuEntity.setVisible(visible);
+                            menuEntity.setIsParent("100702");
                             menuEntity.setCreateTime(new Date());
 
                             parseMenuList.add(menuEntity);
@@ -297,26 +300,5 @@ public class XMLPermissionResolver extends XMLDefaultResolver {
                 doParseXML((org.w3c.dom.Element) node, db);
             }
         }
-    }
-
-
-    private boolean isLeaf(Node node){
-        boolean result = false;
-        NodeList nodeChildNodes = node.getChildNodes();
-        if(nodeChildNodes != null){
-            for (int i = 0; i < nodeChildNodes.getLength(); i++) {
-                Node child = nodeChildNodes.item(i);
-                short nodeType = child.getNodeType();
-                if (nodeType == Node.ELEMENT_NODE) {
-                    if (ELEMENT_OPERATION.equals(child.getNodeName())) {
-                        result = true;
-                        break;
-                    }
-                }
-            }
-        }else {
-            result = true;
-        }
-        return result;
     }
 }
