@@ -134,7 +134,7 @@ public class LoginController {
 
 
     private UserContextDto getUserContextDto(final SysUserList sysUserList){
-        JSONArray menuJSONArray = null;
+        final JSONArray menuJSONArray = new JSONArray(100);
         List<SysMenu> menus = null;                            // 非白名单菜单
         Map<Integer,List<SysMenu>> groupMenusByLevel = null;   // 根据菜单级别分组menus
         Map<String,List<SysMenu>> groupMenusByPcode = null;      // 根据pcode分组 menus
@@ -154,7 +154,8 @@ public class LoginController {
             menus = sysMenuServiceImpl.findAllMenus4SystemAdmin();
             groupMenusByLevel = groupMenusByLevel(menus);
             groupMenusByPcode = groupMenusByPcode(menus);
-            menuJSONArray = menuToJSON(groupMenusByPcode,groupMenusByLevel.get(1));
+            menuToJSON(menuJSONArray,groupMenusByPcode,groupMenusByLevel.get(1));
+            System.out.println(menuJSONArray);
             resources = sysResourceServiceImpl.findAllResources4systemAdmin();
             resources4anon = sysResourceServiceImpl.findAllAnonResources4systemAdmin();
             groupResourcesByMenuId = groupResourcesByMenuCode(resources);
@@ -162,7 +163,7 @@ public class LoginController {
             menus = sysMenuServiceImpl.findMenuByUserId(userId);
             groupMenusByLevel = groupMenusByLevel(menus);
             groupMenusByPcode = groupMenusByPcode(menus);
-            menuJSONArray = menuToJSON(groupMenusByPcode,groupMenusByLevel.get(1));
+            menuToJSON(menuJSONArray,groupMenusByPcode,groupMenusByLevel.get(1));
 
             resources = sysResourceServiceImpl.findResourcesByUserId(userId);
             resources4anon = sysResourceServiceImpl.findAnonResourcesByUserId(userId);
@@ -225,34 +226,37 @@ public class LoginController {
     }
 
 
-    private JSONArray menuToJSON(Map<String,List<SysMenu>> groupByPidMenus,List<SysMenu> current){
-        JSONArray jsonArray = new JSONArray();
-        if(org.apache.commons.collections.CollectionUtils.isNotEmpty(current)){
-            for (SysMenu menu : current) {
-                JSONObject jsonObject = new JSONObject();
-                String code = menu.getCode();
-                jsonObject.put("code",code);
-                jsonObject.put("pcode",menu.getPcode());
-                jsonObject.put("name",menu.getName());
-                jsonObject.put("description",menu.getDescription());
-                jsonObject.put("img",menu.getImg());
-                jsonObject.put("level",menu.getLevel());
-                jsonObject.put("isParent",menu.getIsParent());
+    /**
+     *
+     * @param jsonArray
+     * @param groupByPidMenus
+     * @param oneLevelMenus
+     * @return
+     */
+    private void menuToJSON(final JSONArray jsonArray,final Map<String,List<SysMenu>> groupByPidMenus,final List<SysMenu> oneLevelMenus){
+        if(org.apache.commons.collections.CollectionUtils.isNotEmpty(oneLevelMenus)){
+            for (SysMenu oneLevelMenu : oneLevelMenus) {
+                JSONObject oneLevelJSONObject = new JSONObject();
+                String oneLevelMenuCode = oneLevelMenu.getCode();
+                oneLevelJSONObject.put("code",oneLevelMenuCode);
+                oneLevelJSONObject.put("pcode",oneLevelMenu.getPcode());
+                oneLevelJSONObject.put("name",oneLevelMenu.getName());
+                oneLevelJSONObject.put("description",oneLevelMenu.getDescription());
+                oneLevelJSONObject.put("img",oneLevelMenu.getImg());
+                oneLevelJSONObject.put("level",oneLevelMenu.getLevel());
+                oneLevelJSONObject.put("isParent",oneLevelMenu.getIsParent());
+                oneLevelJSONObject.put("children",new JSONArray(10));
+                jsonArray.add(oneLevelJSONObject);
 
-                if(groupByPidMenus.containsKey(code)){
-                    List<SysMenu> subList = groupByPidMenus.get(code);
-                    jsonObject.put("children",subList);
-                    menuToJSON(groupByPidMenus,subList);
-                }else {
-                    jsonObject.put("children",null);
+                List<SysMenu> children = groupByPidMenus.get(oneLevelMenuCode);
+                if(CollectionUtils.isNotEmpty(children)){
+                    oneLevelJSONObject.getJSONArray("children").add(children);
+                    menuToJSON(jsonArray,groupByPidMenus,children);
                 }
-
-                jsonArray.add(jsonObject);
             }
-            return jsonArray;
         }
-        return null;
     }
+
 
     /**
      * 对资源按菜单分组
