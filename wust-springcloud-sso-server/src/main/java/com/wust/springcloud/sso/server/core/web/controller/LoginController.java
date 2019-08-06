@@ -1,5 +1,6 @@
 package com.wust.springcloud.sso.server.core.web.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.wust.springcloud.common.annotations.OperationLogAnnotation;
@@ -154,8 +155,8 @@ public class LoginController {
             menus = sysMenuServiceImpl.findAllMenus4SystemAdmin();
             groupMenusByLevel = groupMenusByLevel(menus);
             groupMenusByPcode = groupMenusByPcode(menus);
-            menuToJSON(menuJSONArray,groupMenusByPcode,groupMenusByLevel.get(1));
-            System.out.println(menuJSONArray);
+            menuJSONArray.addAll(JSONArray.parseArray(JSONObject.toJSONString(groupMenusByLevel.get(1))));
+            menuToJSON(menuJSONArray,groupMenusByPcode);
             resources = sysResourceServiceImpl.findAllResources4systemAdmin();
             resources4anon = sysResourceServiceImpl.findAllAnonResources4systemAdmin();
             groupResourcesByMenuId = groupResourcesByMenuCode(resources);
@@ -163,7 +164,8 @@ public class LoginController {
             menus = sysMenuServiceImpl.findMenuByUserId(userId);
             groupMenusByLevel = groupMenusByLevel(menus);
             groupMenusByPcode = groupMenusByPcode(menus);
-            menuToJSON(menuJSONArray,groupMenusByPcode,groupMenusByLevel.get(1));
+            menuJSONArray.addAll(JSONArray.parseArray(JSONObject.toJSONString(groupMenusByLevel.get(1))));
+            menuToJSON(menuJSONArray,groupMenusByPcode);
 
             resources = sysResourceServiceImpl.findResourcesByUserId(userId);
             resources4anon = sysResourceServiceImpl.findAnonResourcesByUserId(userId);
@@ -226,32 +228,20 @@ public class LoginController {
     }
 
 
-    /**
-     *
-     * @param jsonArray
-     * @param groupByPidMenus
-     * @param oneLevelMenus
-     * @return
-     */
-    private void menuToJSON(final JSONArray jsonArray,final Map<String,List<SysMenu>> groupByPidMenus,final List<SysMenu> oneLevelMenus){
-        if(org.apache.commons.collections.CollectionUtils.isNotEmpty(oneLevelMenus)){
-            for (SysMenu oneLevelMenu : oneLevelMenus) {
-                JSONObject oneLevelJSONObject = new JSONObject();
-                String oneLevelMenuCode = oneLevelMenu.getCode();
-                oneLevelJSONObject.put("code",oneLevelMenuCode);
-                oneLevelJSONObject.put("pcode",oneLevelMenu.getPcode());
-                oneLevelJSONObject.put("name",oneLevelMenu.getName());
-                oneLevelJSONObject.put("description",oneLevelMenu.getDescription());
-                oneLevelJSONObject.put("img",oneLevelMenu.getImg());
-                oneLevelJSONObject.put("level",oneLevelMenu.getLevel());
-                oneLevelJSONObject.put("isParent",oneLevelMenu.getIsParent());
-                oneLevelJSONObject.put("children",new JSONArray(10));
-                jsonArray.add(oneLevelJSONObject);
 
-                List<SysMenu> children = groupByPidMenus.get(oneLevelMenuCode);
+    private void menuToJSON(final JSONArray jsonArray,final Map<String,List<SysMenu>> groupByPidMenus){
+        if(jsonArray != null && jsonArray.size() > 0){
+            for (Object o : jsonArray) {
+                JSONObject jsonObject = (JSONObject)o;
+                jsonObject.put("children",new JSONArray(10));
+                String code = jsonObject.getString("code");
+
+
+                List<SysMenu> children = groupByPidMenus.get(code);
                 if(CollectionUtils.isNotEmpty(children)){
-                    oneLevelJSONObject.getJSONArray("children").add(children);
-                    menuToJSON(jsonArray,groupByPidMenus,children);
+                    JSONArray childrenJSONArray = JSONArray.parseArray(JSONObject.toJSONString(children));
+                    jsonObject.put("children",childrenJSONArray);
+                    menuToJSON(childrenJSONArray,groupByPidMenus);
                 }
             }
         }
