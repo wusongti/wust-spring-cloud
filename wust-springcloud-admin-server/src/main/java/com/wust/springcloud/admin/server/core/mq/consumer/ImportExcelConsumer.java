@@ -26,8 +26,8 @@ import java.util.List;
  */
 @Component
 @RabbitListener(queues = "${queue.importexcel.name}",containerFactory = "singleListenerContainer")
-public class RoleImportConsumer {
-    static Logger logger = LogManager.getLogger(RoleImportConsumer.class);
+public class ImportExcelConsumer {
+    static Logger logger = LogManager.getLogger(ImportExcelConsumer.class);
 
     @Autowired
     private SysImportExportService sysImportExportServiceImpl;
