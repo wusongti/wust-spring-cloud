@@ -3,6 +3,7 @@ package com.wust.springcloud.admin.server.core.mq.consumer;
 import com.alibaba.fastjson.JSONObject;
 import com.wust.springcloud.admin.server.core.service.SysImportExportService;
 import com.wust.springcloud.admin.server.core.service.SysRoleImportService;
+import com.wust.springcloud.admin.server.core.service.SysUserImportService;
 import com.wust.springcloud.common.dto.ResponseDto;
 import com.wust.springcloud.common.entity.sys.importexport.SysImportExport;
 import com.wust.springcloud.common.entity.sys.importexport.SysImportExportList;
@@ -35,26 +36,15 @@ public class ImportExcelConsumer {
     @Autowired
     private SysRoleImportService sysRoleImportServiceImpl;
 
+    @Autowired
+    private SysUserImportService sysUserImportServiceImpl;
+
     @RabbitHandler
     public void process(JSONObject jsonObject) {
-        String moduleName = jsonObject.getString("moduleName");
         ResponseDto responseDto = new ResponseDto();
         try {
             this.before(jsonObject);
-
-            if ("company".equalsIgnoreCase(moduleName)) { // 公司
-
-            } else if ("department".equalsIgnoreCase(moduleName)) { // 部门
-
-            } else if ("role".equalsIgnoreCase(moduleName)) { // 角色
-                responseDto = this.doImport(jsonObject);
-            } else if ("user".equalsIgnoreCase(moduleName)) { // 用户
-
-            } else if ("project".equalsIgnoreCase(moduleName)) { // 项目
-
-            } else {
-                logger.error("未知的导入类型：{}", moduleName);
-            }
+            responseDto = this.doImport(jsonObject);
         }catch (Exception e){
             responseDto.setCode("100504");
             if(MyStringUtils.isNotBlank(e.getMessage())){
@@ -79,7 +69,22 @@ public class ImportExcelConsumer {
      * 执行导入
      */
     private ResponseDto doImport(JSONObject jsonObject){
-        return sysRoleImportServiceImpl.importByExcel(jsonObject);
+        ResponseDto responseDto = new ResponseDto();
+        String moduleName = jsonObject.getString("moduleName");
+        if ("company".equalsIgnoreCase(moduleName)) { // 公司
+
+        } else if ("department".equalsIgnoreCase(moduleName)) { // 部门
+
+        } else if ("role".equalsIgnoreCase(moduleName)) { // 角色
+            return sysRoleImportServiceImpl.importByExcel(jsonObject);
+        } else if ("user".equalsIgnoreCase(moduleName)) { // 用户
+            return sysUserImportServiceImpl.importByExcel(jsonObject);
+        } else if ("project".equalsIgnoreCase(moduleName)) { // 项目
+
+        } else {
+            logger.error("未知的导入类型：{}", moduleName);
+        }
+        return responseDto;
     }
 
     /**
