@@ -27,6 +27,11 @@ public abstract class ContextHandlerAdapter {
 
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
         String token = MyStringUtils.null2String(httpServletRequest.getHeader(ApplicationEnum.X_AUTH_TOKEN.getStringValue()));
+
+        if(MyStringUtils.isBlank(token)){
+            token = httpServletRequest.getParameter(ApplicationEnum.X_AUTH_TOKEN.getStringValue());
+        }
+
         if(MyStringUtils.isNotBlank(token)){ // 前端网页请求
             String jsonString = getUserContextDtoByToken(token);
             if(MyStringUtils.isBlank(MyStringUtils.null2String(jsonString))){
