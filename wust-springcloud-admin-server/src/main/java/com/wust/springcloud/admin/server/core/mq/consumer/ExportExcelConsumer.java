@@ -38,6 +38,7 @@ public class ExportExcelConsumer {
         ResponseDto responseDto = new ResponseDto();
         try {
             this.before(jsonObject);
+            responseDto = this.doExport(jsonObject);
         }catch (Exception e){
             responseDto.setCode("100504");
             if(MyStringUtils.isNotBlank(e.getMessage())){
@@ -64,8 +65,8 @@ public class ExportExcelConsumer {
      * 执行导出
      * @param jsonObject
      */
-    private void doExport(JSONObject jsonObject){
-        exportExcelServiceImpl.export(jsonObject);
+    private ResponseDto doExport(JSONObject jsonObject){
+        return exportExcelServiceImpl.export(jsonObject);
     }
 
     /**
