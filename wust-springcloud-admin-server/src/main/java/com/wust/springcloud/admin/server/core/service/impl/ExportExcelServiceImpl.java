@@ -1,5 +1,6 @@
 package com.wust.springcloud.admin.server.core.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.wust.springcloud.admin.server.core.dao.SysImportExportMapper;
 import com.wust.springcloud.admin.server.core.service.ExportExcelService;
 import com.wust.springcloud.admin.server.core.service.SysAttachmentService;
@@ -7,19 +8,14 @@ import com.wust.springcloud.common.context.DefaultBusinessContext;
 import com.wust.springcloud.common.dto.ExcelDto;
 import com.wust.springcloud.common.dto.ResponseDto;
 import com.wust.springcloud.common.entity.sys.attachment.SysAttachment;
-import com.wust.springcloud.common.entity.sys.importexport.SysImportExport;
-import com.wust.springcloud.common.entity.sys.importexport.SysImportExportList;
-import com.wust.springcloud.common.entity.sys.importexport.SysImportExportSearch;
 import com.wust.springcloud.common.util.FileUtil;
+import com.wust.springcloud.common.util.MyStringUtils;
 import com.wust.springcloud.common.util.cache.DataDictionaryUtil;
 import com.wust.springcloud.easyexcel.definition.ExcelDefinitionReader;
 import com.wust.springcloud.easyexcel.factory.DefinitionFactory;
 import com.wust.springcloud.easyexcel.factory.xml.XMLDefinitionFactory4commonExport;
 import com.wust.springcloud.easyexcel.resolver.poi.POIExcelResolver4commonExport;
 import com.wust.springcloud.easyexcel.result.ExcelExportResult;
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +32,6 @@ import java.util.Map;
  */
 @Service("exportExcelServiceImpl")
 public class ExportExcelServiceImpl extends POIExcelResolver4commonExport implements ExportExcelService {
-    static Logger logger = LogManager.getLogger(ExportExcelServiceImpl.class);
 
     @Autowired
     private SysImportExportMapper sysImportExportMapper;
@@ -48,74 +43,56 @@ public class ExportExcelServiceImpl extends POIExcelResolver4commonExport implem
     private MessageSource messageSource;
 
     @Override
-    public ResponseDto export(ExcelDto excelDto) {
+    public ResponseDto export(JSONObject jsonObject) {
         ResponseDto mm = new ResponseDto();
-        DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
-        BeanUtils.copyProperties(excelDto,excelParameters);
 
-        SysImportExportSearch sysImportExportSearch = new SysImportExportSearch();
-        sysImportExportSearch.setBatchNo(excelDto.getBatchNo());
-        List<SysImportExportList> sysImportExportLists =  sysImportExportMapper.findByCondition(sysImportExportSearch);
-        logger.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>开始导出，获取到的记录{}",sysImportExportLists);
+        DefaultBusinessContext ctx = jsonObject.getObject("ctx",DefaultBusinessContext.class);
 
-        if(CollectionUtils.isNotEmpty(sysImportExportLists)){
-            final SysImportExportList sysImportExportList = sysImportExportLists.get(0);
+        ExcelDto excelDto = jsonObject.getObject("excelDto",ExcelDto.class);
 
-            File tempFile = null;
-            FileOutputStream fos = null;
-            try {
-                String fileName = sysImportExportList.getBatchNo();
-                String suffix = "." + excelParameters.getFileType();
-                tempFile = FileUtil.createTempFile(fileName,suffix);
-                logger.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>放到临时文件夹，",tempFile.getPath());
-                ExcelExportResult excelExportResult = super.createWorkbook();
-                logger.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>创建工作薄完成");
-                Workbook wb = excelExportResult.getWorkbook();
-                logger.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>得到工作薄工作薄", wb != null);
-                fos = new FileOutputStream(tempFile);
-                wb.write(fos);
-                logger.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>写入文件流");
-            } catch (Exception e) {
-                mm.setFlag(ResponseDto.INFOR_ERROR);
-                mm.setMessage(e.getMessage());
-                logger.error(e);
-            }finally {
-                if(fos != null){
-                    try {
-                        fos.flush();
-                        fos.close();
-                    } catch (IOException e) {
-                    }
-                }
+        BeanUtils.copyProperties(excelDto,super.excelParameters);
 
-                final SysImportExport sysImportExport = new SysImportExport();
-                BeanUtils.copyProperties(sysImportExportList,sysImportExport);
 
-                SysAttachment sysAttachment = new SysAttachment();
-                sysAttachment.setRelationTable("sys_import_export");
-                sysAttachment.setRelationId(sysImportExport.getBatchNo());
-                sysAttachment.setRelationField("excel");
-                sysAttachment.setCreaterId(ctx.getUserId());
-                sysAttachment.setCreaterName(ctx.getLoginName());
-                ResponseDto uploadAttachmentMessageMap = sysAttachmentServiceImpl.uploadAttachment(tempFile,sysAttachment);
-                if(ResponseDto.INFOR_SUCCESS.equals(uploadAttachmentMessageMap.getFlag())){
-                    sysImportExport.setStatus("100502");
-                }else{
-                    logger.error("上传Excel文件到文件服务器发生错误："+uploadAttachmentMessageMap.getMessage());
-                    sysImportExport.setStatus("100504");
+        File tempFile = null;
+        FileOutputStream fos = null;
+        try {
+            String fileName = excelDto.getBatchNo();
+            String suffix = "." + excelParameters.getFileType();
+            tempFile = FileUtil.createTempFile(fileName,suffix);
+            ExcelExportResult excelExportResult = super.createWorkbook();
+            Workbook wb = excelExportResult.getWorkbook();
+            fos = new FileOutputStream(tempFile);
+            wb.write(fos);
 
-                    sysAttachment.setRelationField("log");
-                    File logFile = FileUtil.createTempLogFile(excelParameters.getBatchNo(),mm.getMessage(),".txt");
-                    ResponseDto uploadLogAttachmentMessageMap = sysAttachmentServiceImpl.uploadAttachment(logFile,sysAttachment);
-                    if(!ResponseDto.INFOR_SUCCESS.equals(uploadLogAttachmentMessageMap.getFlag())){
-                        sysImportExportList.setDescription("上传文件到文件服务器失败");
-                    }
-                }
-                sysImportExportMapper.updateByPrimaryKey(sysImportExport);
-                logger.info("导出完成。。。。");
+
+            SysAttachment sysAttachment = new SysAttachment();
+            sysAttachment.setRelationTable("sys_import_export");
+            sysAttachment.setRelationId(excelDto.getBatchNo());
+            sysAttachment.setRelationField("excel");
+            sysAttachment.setCreaterId(ctx.getUserId());
+            sysAttachment.setCreaterName(ctx.getLoginName());
+            ResponseDto uploadAttachmentMessageMap = sysAttachmentServiceImpl.uploadAttachment(tempFile,sysAttachment);
+            if(ResponseDto.INFOR_SUCCESS.equals(uploadAttachmentMessageMap.getFlag())){
+                mm.setCode("100502");
+            }else{
+                mm.setCode("100504");
+                mm.setMessage("上传文件到文件服务器失败：" + uploadAttachmentMessageMap.getMessage());
             }
-        }else {
-            logger.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>根据批次号查不到记录{}",excelParameters.getBatchNo());
+        } catch (Exception e) {
+            mm.setCode("100504");
+            if(MyStringUtils.isNotBlank(e.getMessage())){
+                mm.setMessage(e.getMessage().substring(0,500));
+            }else{
+                mm.setMessage("导出失败:" + e.toString().substring(0,500));
+            }
+        }finally {
+            if(fos != null){
+                try {
+                    fos.flush();
+                    fos.close();
+                } catch (IOException e) {
+                }
+            }
         }
         return mm;
     }

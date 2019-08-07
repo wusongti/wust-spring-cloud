@@ -1,5 +1,6 @@
 package com.wust.springcloud.admin.server.core.mq.producer;
 
+import com.alibaba.fastjson.JSONObject;
 import com.wust.springcloud.common.dto.ExcelDto;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
@@ -21,10 +22,10 @@ public class ExportExcelProducer {
     @Autowired
     private Environment env;
 
-    public void send(ExcelDto excelDto){
+    public void send(JSONObject jsonObject){
         rabbitTemplate.setMessageConverter(new Jackson2JsonMessageConverter());
         rabbitTemplate.setExchange(env.getProperty("exchange.exportexcel.name"));
         rabbitTemplate.setRoutingKey(env.getProperty("routing.exportexcel.key.name"));
-        rabbitTemplate.convertAndSend(excelDto);
+        rabbitTemplate.convertAndSend(jsonObject);
     }
 }

@@ -1,5 +1,6 @@
 package com.wust.springcloud.admin.server.core.web.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.wust.springcloud.admin.server.core.mq.producer.ExportExcelProducer;
 import com.wust.springcloud.admin.server.core.service.ExportExcelService;
 import com.wust.springcloud.admin.server.core.service.SysImportExportService;
@@ -14,7 +15,6 @@ import com.wust.springcloud.common.util.MyStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.Date;
 
 /**
@@ -58,19 +58,24 @@ public class ExportExcelController {
         DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
 
         String batchNo = CodeGenerator.genImportExportCode();
-        SysImportExport tSysImportExport = new SysImportExport();
-        tSysImportExport.setBatchNo(batchNo);
-        tSysImportExport.setModuleName(excelDto.getModuleName());
-        tSysImportExport.setStartTime(new Date());
-        tSysImportExport.setOperationType("100602");
-        tSysImportExport.setStatus("100501");
-        tSysImportExport.setCreaterId(ctx.getUserId());
-        tSysImportExport.setCreaterName(ctx.getLoginName());
-        tSysImportExport.setCreateTime(new Date());
-        sysImportExportServiceImpl.insert(tSysImportExport);
+        SysImportExport sysImportExport = new SysImportExport();
+        sysImportExport.setBatchNo(batchNo);
+        sysImportExport.setModuleName(excelDto.getModuleName());
+        sysImportExport.setStartTime(new Date());
+        sysImportExport.setOperationType("100602");
+        sysImportExport.setStatus("100501");
+        sysImportExport.setCreaterId(ctx.getUserId());
+        sysImportExport.setCreaterName(ctx.getLoginName());
+        sysImportExport.setCreateTime(new Date());
+
 
         excelDto.setBatchNo(batchNo);
-        exportExcelProducer.send(excelDto);
+
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("excelDto",excelDto);
+        jsonObject.put("sysImportExport",sysImportExport);
+        jsonObject.put("ctx",DefaultBusinessContext.getContext());
+        exportExcelProducer.send(jsonObject);
 
         return mm;
     }

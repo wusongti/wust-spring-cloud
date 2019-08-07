@@ -1,7 +1,7 @@
 package com.wust.springcloud.admin.server.core.service;
 
 
-import com.wust.springcloud.common.dto.ExcelDto;
+import com.alibaba.fastjson.JSONObject;
 import com.wust.springcloud.common.dto.ResponseDto;
 
 /**
@@ -9,5 +9,5 @@ import com.wust.springcloud.common.dto.ResponseDto;
  */
 public interface ExportExcelService {
 
-    ResponseDto export(ExcelDto excelDto);
+    ResponseDto export(JSONObject jsonObject);
 }
