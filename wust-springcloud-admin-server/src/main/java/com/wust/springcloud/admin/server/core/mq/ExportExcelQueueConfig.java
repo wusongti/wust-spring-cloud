@@ -21,17 +21,17 @@ public class ExportExcelQueueConfig {
     private Environment env;
 
     @Bean
-    public Queue queue4exportExcel() {
+    public Queue exportExcelQueue() {
         return new Queue(env.getProperty("queue.exportexcel.name"));
     }
 
     @Bean
-    DirectExchange exchange4exportExcel(){
+    DirectExchange exportExcelQueueDirectExchange(){
         return new DirectExchange(env.getProperty("exchange.exportexcel.name"),true,true);
     }
 
     @Bean
-    Binding binding4exportExcel(){
-        return  BindingBuilder.bind(queue4exportExcel()).to(exchange4exportExcel()).with(env.getProperty("routing.exportexcel.key.name"));
+    Binding exportExcelBinding(){
+        return  BindingBuilder.bind(exportExcelQueue()).to(exportExcelQueueDirectExchange()).with(env.getProperty("routing.exportexcel.key.name"));
     }
 }

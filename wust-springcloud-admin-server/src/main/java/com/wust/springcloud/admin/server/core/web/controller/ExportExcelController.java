@@ -1,5 +1,6 @@
 package com.wust.springcloud.admin.server.core.web.controller;
 
+import com.wust.springcloud.admin.server.core.mq.producer.ExportExcelProducer;
 import com.wust.springcloud.admin.server.core.service.defaults.ExportExcelService;
 import com.wust.springcloud.admin.server.core.service.defaults.SysImportExportService;
 import com.wust.springcloud.common.annotations.OperationLogAnnotation;
@@ -34,11 +35,7 @@ public class ExportExcelController {
     private ExportExcelService exportExcelServiceImpl;
 
     @Autowired
-    private RabbitTemplate rabbitTemplate;
-
-    @Autowired
-    private Environment env;
-
+    private ExportExcelProducer exportExcelProducer;
 
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_COMMON,businessName="导出Excel",operationType= OperationLogEnum.Export)
     @RequestMapping(value = "/exportExcel", method = RequestMethod.POST)
@@ -77,12 +74,8 @@ public class ExportExcelController {
         tSysImportExport.setCreateTime(new Date());
         sysImportExportServiceImpl.insert(tSysImportExport);
 
-
-        rabbitTemplate.setMessageConverter(new Jackson2JsonMessageConverter());
-        rabbitTemplate.setExchange(env.getProperty("exchange.exportexcel.name"));
-        rabbitTemplate.setRoutingKey(env.getProperty("routing.exportexcel.key.name"));
         excelDto.setBatchNo(batchNo);
-        rabbitTemplate.convertAndSend(excelDto);
+        exportExcelProducer.send(excelDto);
 
         return mm;
     }

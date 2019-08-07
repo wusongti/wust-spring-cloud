@@ -25,4 +25,16 @@ public class ExportExcelConsumer {
         exportExcelServiceImpl.export(excelDto);
     }
 
+
+    private void before(){
+
+    }
+
+    private void doExport(){
+
+    }
+
+    private void after(){
+
+    }
 }

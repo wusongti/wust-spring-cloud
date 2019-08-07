@@ -21,17 +21,17 @@ public class ImportExcelQueueConfig {
     private Environment env;
 
     @Bean
-    public Queue queue4importExcel() {
+    public Queue importExcelQueue() {
         return new Queue(env.getProperty("queue.importexcel.name"));
     }
 
     @Bean
-    DirectExchange exchange4importExcel(){
+    DirectExchange importExcelQueueDirectExchange(){
         return new DirectExchange(env.getProperty("exchange.importexcel.name"),true,true);
     }
 
     @Bean
-    Binding binding4importExcel(){
-        return  BindingBuilder.bind(queue4importExcel()).to(exchange4importExcel()).with(env.getProperty("routing.importexcel.key.name"));
+    Binding importExcelBinding(){
+        return  BindingBuilder.bind(importExcelQueue()).to(importExcelQueueDirectExchange()).with(env.getProperty("routing.importexcel.key.name"));
     }
 }

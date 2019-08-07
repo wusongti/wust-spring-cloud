@@ -1,7 +1,7 @@
 exchange:
   exportexcel:
     name: ${mq.env}.exportexcel.exchange
-  roleimport:
+  importexcel:
     name: ${mq.env}.importexcel.exchange
 queue:
   exportexcel:
