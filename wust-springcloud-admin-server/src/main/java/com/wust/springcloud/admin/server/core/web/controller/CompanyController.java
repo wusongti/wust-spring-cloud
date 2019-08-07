@@ -1,7 +1,7 @@
 package com.wust.springcloud.admin.server.core.web.controller;
 
-import com.wust.springcloud.admin.server.core.service.defaults.SysCompanyService;
-import com.wust.springcloud.admin.server.core.service.defaults.SysOrganizationService;
+import com.wust.springcloud.admin.server.core.service.SysCompanyService;
+import com.wust.springcloud.admin.server.core.service.SysOrganizationService;
 import com.wust.springcloud.common.annotations.OperationLogAnnotation;
 import com.wust.springcloud.common.context.DefaultBusinessContext;
 import com.wust.springcloud.common.dto.ResponseDto;
@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Created by WST on 2019/6/3.

@@ -1,6 +1,6 @@
 package com.wust.springcloud.admin.server.core.web.controller;
 
-import com.wust.springcloud.admin.server.core.service.defaults.SysOperationLogService;
+import com.wust.springcloud.admin.server.core.service.SysOperationLogService;
 import com.wust.springcloud.common.dto.ResponseDto;
 import com.wust.springcloud.common.entity.sys.operationlog.SysOperationLogList;
 import com.wust.springcloud.common.entity.sys.operationlog.SysOperationLogSearch;

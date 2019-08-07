@@ -1,9 +1,9 @@
 package com.wust.springcloud.admin.server.initialization;
 
 
-import com.wust.springcloud.admin.server.core.service.defaults.SysDataSourceService;
-import com.wust.springcloud.admin.server.core.service.defaults.SysLookupService;
-import com.wust.springcloud.admin.server.core.service.defaults.SysMenuService;
+import com.wust.springcloud.admin.server.core.service.SysDataSourceService;
+import com.wust.springcloud.admin.server.core.service.SysLookupService;
+import com.wust.springcloud.admin.server.core.service.SysMenuService;
 import com.wust.springcloud.common.context.DefaultBusinessContext;
 import com.wust.springcloud.common.enums.ApplicationEnum;
 import com.wust.springcloud.common.util.cache.SpringRedisTools;

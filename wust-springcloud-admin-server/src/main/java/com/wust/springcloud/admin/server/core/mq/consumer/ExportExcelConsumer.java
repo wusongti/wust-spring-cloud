@@ -1,6 +1,6 @@
 package com.wust.springcloud.admin.server.core.mq.consumer;
 
-import com.wust.springcloud.admin.server.core.service.defaults.ExportExcelService;
+import com.wust.springcloud.admin.server.core.service.ExportExcelService;
 import com.wust.springcloud.common.dto.ExcelDto;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;

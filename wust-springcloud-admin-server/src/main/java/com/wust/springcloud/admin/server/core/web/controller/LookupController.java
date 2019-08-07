@@ -2,7 +2,7 @@ package com.wust.springcloud.admin.server.core.web.controller;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.wust.springcloud.admin.server.core.service.defaults.SysLookupService;
+import com.wust.springcloud.admin.server.core.service.SysLookupService;
 import com.wust.springcloud.common.annotations.OperationLogAnnotation;
 import com.wust.springcloud.common.context.DefaultBusinessContext;
 import com.wust.springcloud.common.dto.ResponseDto;

@@ -1,7 +1,7 @@
 package com.wust.springcloud.admin.server.initialization;
 
 
-import com.wust.springcloud.admin.server.core.service.defaults.SysDataPrivilegeService;
+import com.wust.springcloud.admin.server.core.service.SysDataPrivilegeService;
 import com.wust.springcloud.common.annotations.PrivilegeAnnotation;
 import com.wust.springcloud.common.entity.sys.dataprivilege.SysDataPrivilege;
 import com.wust.springcloud.common.util.cache.SpringRedisTools;

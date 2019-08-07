@@ -1,6 +1,6 @@
 package com.wust.springcloud.admin.server.core.web.controller;
 
-import com.wust.springcloud.admin.server.core.service.defaults.SysDataSourceService;
+import com.wust.springcloud.admin.server.core.service.SysDataSourceService;
 import com.wust.springcloud.common.annotations.OperationLogAnnotation;
 import com.wust.springcloud.common.context.DefaultBusinessContext;
 import com.wust.springcloud.common.dto.ResponseDto;

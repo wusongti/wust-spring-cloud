@@ -1,6 +1,6 @@
 package com.wust.springcloud.admin.server.dsaspect;
 
-import com.wust.springcloud.admin.server.core.service.defaults.SysOperationLogService;
+import com.wust.springcloud.admin.server.core.service.SysOperationLogService;
 import com.wust.springcloud.common.annotations.OperationLogAnnotation;
 import com.wust.springcloud.common.context.DefaultBusinessContext;
 import com.wust.springcloud.common.entity.sys.operationlog.SysOperationLog;
@@ -18,7 +18,6 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Created by WST on 2019/5/27.
