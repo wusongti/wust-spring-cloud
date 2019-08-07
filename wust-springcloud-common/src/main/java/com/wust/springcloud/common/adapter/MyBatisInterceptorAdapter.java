@@ -1,4 +1,4 @@
-package com.wust.springcloud.autotask.server.interceptors;
+package com.wust.springcloud.common.adapter;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -18,7 +18,9 @@ import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.mapping.ParameterMapping;
 import org.apache.ibatis.mapping.ParameterMode;
-import org.apache.ibatis.plugin.*;
+import org.apache.ibatis.plugin.Interceptor;
+import org.apache.ibatis.plugin.Invocation;
+import org.apache.ibatis.plugin.Plugin;
 import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.reflection.property.PropertyTokenizer;
 import org.apache.ibatis.scripting.xmltags.ForEachSqlNode;
@@ -41,11 +43,13 @@ import java.util.Map;
 import java.util.Properties;
 
 /**
- * Created by WST on 2019/5/9.
+ * @author ：wust
+ * @date ：Created in 2019/8/7 17:17
+ * @description：
+ * @version:
  */
 @Component
-@Intercepts({@Signature(type = StatementHandler.class, method = "prepare", args = { Connection.class, Integer.class }) })
-public class SQLInterceptor implements Interceptor {
+public class MyBatisInterceptorAdapter implements Interceptor {
     private static String dialect = "mysql";	//数据库方言
     private static String pageSqlId = "listPage"; //mapper.xml中需要拦截的ID(正则匹配)
 
@@ -118,7 +122,7 @@ public class SQLInterceptor implements Interceptor {
      * @throws SQLException
      * @throws NoSuchFieldException
      */
-    private void processPrivilege(BaseStatementHandler delegate, String dataPrivilegeId) throws SQLException, NoSuchFieldException {
+    private void processPrivilege(BaseStatementHandler delegate, String dataPrivilegeId)  {
         DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
         if("100401".equals(ctx.getUserType())){ // 管理员，不对其进行数据权限过滤
             return;
@@ -315,5 +319,3 @@ public class SQLInterceptor implements Interceptor {
         return resultMap;
     }
 }
-
-

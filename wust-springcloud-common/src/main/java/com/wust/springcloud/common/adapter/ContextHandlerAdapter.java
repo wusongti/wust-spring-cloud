@@ -1,4 +1,4 @@
-package com.wust.springcloud.common.interceptors;
+package com.wust.springcloud.common.adapter;
 
 import com.alibaba.fastjson.JSONObject;
 import com.wust.springcloud.common.context.DefaultBusinessContext;
@@ -11,6 +11,8 @@ import io.jsonwebtoken.Claims;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.servlet.HandlerInterceptor;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Locale;
@@ -19,7 +21,7 @@ import java.util.Map;
 /**
  * Created by WST on 2019/6/17.
  */
-public abstract class ContextHandlerAdapter {
+public abstract class ContextHandlerAdapter implements HandlerInterceptor {
     static Logger logger = LogManager.getLogger(ContextHandlerAdapter.class);
 
     @Autowired
