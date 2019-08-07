@@ -2,13 +2,12 @@ package com.wust.springcloud.admin.server.core.web.controller;
 
 
 import com.alibaba.fastjson.JSONObject;
+import com.wust.springcloud.admin.server.core.mq.producer.ImportExcelProducer;
 import com.wust.springcloud.admin.server.core.service.defaults.SysOrganizationService;
-import com.wust.springcloud.admin.server.core.service.imports.SysUserImportService;
 import com.wust.springcloud.admin.server.core.service.defaults.SysUserService;
 import com.wust.springcloud.common.annotations.OperationLogAnnotation;
 import com.wust.springcloud.common.context.DefaultBusinessContext;
 import com.wust.springcloud.common.dto.ResponseDto;
-import com.wust.springcloud.common.entity.sys.attachment.SysAttachment;
 import com.wust.springcloud.common.entity.sys.importexport.SysImportExport;
 import com.wust.springcloud.common.entity.sys.organization.SysOrganizationList;
 import com.wust.springcloud.common.entity.sys.organization.SysOrganizationSearch;
@@ -23,17 +22,13 @@ import com.wust.springcloud.common.util.cache.DataDictionaryUtil;
 import com.wust.springcloud.common.util.cache.SpringRedisTools;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Created by WST on 2019/5/9.
@@ -51,10 +46,7 @@ public class UserController {
     private SpringRedisTools springRedisTools;
 
     @Autowired
-    private RabbitTemplate rabbitTemplate;
-
-    @Autowired
-    private Environment env;
+    private ImportExcelProducer importExcelProducer;
 
 
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_USER,businessName="分页查询",operationType= OperationLogEnum.Search)
@@ -196,10 +188,9 @@ public class UserController {
             jsonObject.put("moduleName",moduleName);
             jsonObject.put("fileBytes",multipartFile.getBytes());
             jsonObject.put("sysImportExport",sysImportExport);
-            rabbitTemplate.setMessageConverter(new Jackson2JsonMessageConverter());
-            rabbitTemplate.setExchange(env.getProperty("exchange.importexcel.name"));
-            rabbitTemplate.setRoutingKey(env.getProperty("routing.importexcel.key.name"));
-            rabbitTemplate.convertAndSend(jsonObject);
+            jsonObject.put("ctx",DefaultBusinessContext.getContext());
+
+            importExcelProducer.send(jsonObject);
         }catch (IOException e){
             mm.setFlag(ResponseDto.INFOR_ERROR);
             mm.setMessage("导入失败，转换文件失败。");

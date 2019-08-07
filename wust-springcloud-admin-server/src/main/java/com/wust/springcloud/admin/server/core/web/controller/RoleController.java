@@ -191,6 +191,7 @@ public class RoleController {
             jsonObject.put("moduleName",moduleName);
             jsonObject.put("fileBytes",multipartFile.getBytes());
             jsonObject.put("sysImportExport",sysImportExport);
+            jsonObject.put("ctx",DefaultBusinessContext.getContext());
             importExcelProducer.send(jsonObject);
         }catch (IOException e){
             mm.setFlag(ResponseDto.INFOR_ERROR);

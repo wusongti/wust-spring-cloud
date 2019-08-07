@@ -56,7 +56,7 @@ public class SysUserImportServiceImpl extends POIExcelResolver4commonImport impl
     public ResponseDto importByExcel(JSONObject jsonObject) {
         ResponseDto mm = new ResponseDto();
 
-        DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
+        DefaultBusinessContext ctx = jsonObject.getObject("ctx",DefaultBusinessContext.class);
 
         ExcelImportResult excelImportResult = null;
         try {
