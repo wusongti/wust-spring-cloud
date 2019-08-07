@@ -23,17 +23,12 @@
 
     <select id="listPage" parameterType="SysImportExportSearch" resultMap="ListResultMap">
         SELECT
-            t1.*,
-            t2.attachment_size AS size,
-            t2.attachment_suffix AS suffix
+            t1.*
         FROM
-        sys_import_export t1,
-        sys_attachment t2
-        WHERE
-        t2.relation_table = 'sys_import_export'
-        AND t2.relation_id = t1.batch_no
+        sys_import_export t1
+        WHERE 1 = 1
         <if test="batchNo != null and batchNo !=  ''">
-            AND t.batch_no = #{batchNo}
+            AND t1.batch_no = #{batchNo}
         </if>
         <if test="status != null and status !=  ''">
             AND t1.status = #{status}
@@ -42,7 +37,7 @@
             AND t1.module_name = #{moduleName}
         </if>
         <if test="operationType != null and operationType !=  ''">
-            AND t.operation_type = #{operationType}
+            AND t1.operation_type = #{operationType}
         </if>
         <if test="createrName != null and createrName != ''">
             AND t1.creater_id = #{createrName}

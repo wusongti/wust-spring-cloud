@@ -127,6 +127,7 @@ public class SysRoleImportServiceImpl extends POIExcelResolver4commonImport impl
                     sysRolesOld.add(sysRoleImport);
                 }else{
                     sysRoleImport.setCode(CodeGenerator.genRoleCode());
+                    sysRoleImport.setStatus("100201");
                     sysRoleImport.setCreaterId(ctx.getUserId());
                     sysRoleImport.setCreaterName(ctx.getLoginName());
                     sysRoleImport.setCreateTime(new Date());

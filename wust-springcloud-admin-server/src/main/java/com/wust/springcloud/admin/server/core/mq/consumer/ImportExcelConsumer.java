@@ -40,6 +40,8 @@ public class ImportExcelConsumer {
         String moduleName = jsonObject.getString("moduleName");
         ResponseDto responseDto = new ResponseDto();
         try {
+            this.before(jsonObject);
+
             if ("company".equalsIgnoreCase(moduleName)) { // 公司
 
             } else if ("department".equalsIgnoreCase(moduleName)) { // 部门
