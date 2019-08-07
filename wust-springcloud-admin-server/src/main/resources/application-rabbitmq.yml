@@ -1,10 +1,17 @@
 exchange:
   exportexcel:
     name: ${mq.env}.exportexcel.exchange
+  roleimport:
+    name: ${mq.env}.importexcel.exchange
 queue:
   exportexcel:
     name: ${mq.env}.exportexcel.queue
+  roleimport:
+    name: ${mq.env}.importexcel.queue
 routing:
   exportexcel:
     key:
       name: ${mq.env}.exportexcel.routing.key
+  roleimport:
+    key:
+      name: ${mq.env}.importexcel.routing.key

@@ -1,6 +1,7 @@
 package com.wust.springcloud.admin.server.core.web.controller;
 
 
+import com.alibaba.fastjson.JSONObject;
 import com.wust.springcloud.admin.server.core.service.defaults.SysOrganizationService;
 import com.wust.springcloud.admin.server.core.service.imports.SysUserImportService;
 import com.wust.springcloud.admin.server.core.service.defaults.SysUserService;
@@ -22,7 +23,10 @@ import com.wust.springcloud.common.util.cache.DataDictionaryUtil;
 import com.wust.springcloud.common.util.cache.SpringRedisTools;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
@@ -41,14 +45,16 @@ public class UserController {
     private SysUserService sysUserServiceImpl;
 
     @Autowired
-    private SysUserImportService sysUserImportServiceImpl;
-
-    @Autowired
     private SysOrganizationService sysOrganizationServiceImpl;
 
     @Autowired
     private SpringRedisTools springRedisTools;
 
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
+
+    @Autowired
+    private Environment env;
 
 
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_USER,businessName="分页查询",operationType= OperationLogEnum.Search)
@@ -175,26 +181,25 @@ public class UserController {
         try {
 
             String batchNo = CodeGenerator.genImportExportCode();
-            SysImportExport tSysImportExport = new SysImportExport();
-            tSysImportExport.setBatchNo(batchNo);
-            tSysImportExport.setModuleName(moduleName);
-            tSysImportExport.setStartTime(new Date());
-            tSysImportExport.setOperationType("100601");
-            tSysImportExport.setStatus("100501");
-            tSysImportExport.setCreaterId(ctx.getUserId());
-            tSysImportExport.setCreaterName(ctx.getLoginName());
+            SysImportExport sysImportExport = new SysImportExport();
+            sysImportExport.setBatchNo(batchNo);
+            sysImportExport.setModuleName(moduleName);
+            sysImportExport.setStartTime(new Date());
+            sysImportExport.setOperationType("100601");
+            sysImportExport.setStatus("100501");
+            sysImportExport.setCreaterId(ctx.getUserId());
+            sysImportExport.setCreaterName(ctx.getLoginName());
+            sysImportExport.setCreateTime(new Date());
 
-            SysAttachment sysAttachment = new SysAttachment();
-            sysAttachment.setAttachmentKey(UUID.randomUUID().toString());
-            sysAttachment.setRelationTable("sys_import_export");
-            sysAttachment.setRelationId(batchNo);
-            sysAttachment.setAttachmentName(multipartFile.getOriginalFilename());
-            sysAttachment.setAttachmentSuffix(multipartFile.getOriginalFilename().substring(multipartFile.getOriginalFilename().indexOf(".") + 1));
-            sysAttachment.setAttachmentSize((multipartFile.getSize() / 1024)+"");
-            sysAttachment.setCreaterId(ctx.getUserId());
-            sysAttachment.setCreaterName(ctx.getLoginName());
 
-            this.sysUserImportServiceImpl.importByExcel("sysUserImportServiceImpl",tSysImportExport,multipartFile.getBytes());
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("moduleName",moduleName);
+            jsonObject.put("fileBytes",multipartFile.getBytes());
+            jsonObject.put("sysImportExport",sysImportExport);
+            rabbitTemplate.setMessageConverter(new Jackson2JsonMessageConverter());
+            rabbitTemplate.setExchange(env.getProperty("exchange.importexcel.name"));
+            rabbitTemplate.setRoutingKey(env.getProperty("routing.importexcel.key.name"));
+            rabbitTemplate.convertAndSend(jsonObject);
         }catch (IOException e){
             mm.setFlag(ResponseDto.INFOR_ERROR);
             mm.setMessage("导入失败，转换文件失败。");

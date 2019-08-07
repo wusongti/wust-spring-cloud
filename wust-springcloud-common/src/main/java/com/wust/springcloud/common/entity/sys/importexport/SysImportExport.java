@@ -20,6 +20,7 @@ public class SysImportExport extends BaseEntity {
     private String operationType;
     /** 当前状态：1，执行中；2，全部导入成功；3，部分导入成功；4，导入失败。 **/
     private String status;
+    /** 导入非成功时的错误消息 **/
     private String msg;
     /** 开始时间 **/
     private Date startTime;

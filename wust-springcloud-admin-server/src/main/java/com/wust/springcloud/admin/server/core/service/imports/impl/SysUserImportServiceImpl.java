@@ -1,11 +1,9 @@
 package com.wust.springcloud.admin.server.core.service.imports.impl;
 
-import com.wust.springcloud.admin.server.core.dao.SysAttachmentMapper;
-import com.wust.springcloud.admin.server.core.dao.SysImportExportMapper;
+
+import com.alibaba.fastjson.JSONObject;
 import com.wust.springcloud.admin.server.core.dao.SysUserMapper;
 import com.wust.springcloud.admin.server.core.service.imports.SysUserImportService;
-import com.wust.springcloud.admin.server.core.service.defaults.SysAttachmentService;
-import com.wust.springcloud.admin.server.core.task.ThreadPoolTask;
 import com.wust.springcloud.common.context.DefaultBusinessContext;
 import com.wust.springcloud.common.dto.ResponseDto;
 import com.wust.springcloud.common.entity.sys.user.SysUser;
@@ -13,38 +11,27 @@ import com.wust.springcloud.common.entity.sys.user.SysUserImport;
 import com.wust.springcloud.common.entity.sys.user.SysUserList;
 import com.wust.springcloud.common.entity.sys.user.SysUserSearch;
 import com.wust.springcloud.common.enums.ApplicationEnum;
+import com.wust.springcloud.common.util.MyStringUtils;
 import com.wust.springcloud.common.util.RC4;
+import com.wust.springcloud.common.util.cache.DataDictionaryUtil;
 import com.wust.springcloud.easyexcel.definition.ExcelDefinitionReader;
 import com.wust.springcloud.easyexcel.factory.DefinitionFactory;
 import com.wust.springcloud.easyexcel.factory.xml.XMLDefinitionFactory4commonImport;
+import com.wust.springcloud.easyexcel.resolver.poi.POIExcelResolver4commonImport;
 import com.wust.springcloud.easyexcel.result.ExcelImportResult;
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import java.io.ByteArrayInputStream;
 import java.util.*;
 
 /**
  * Created by WST on 2019/5/24.
  */
 @Service("sysUserImportServiceImpl")
-public class SysUserImportServiceImpl extends DefaultImportServiceImpl implements SysUserImportService {
-    static Logger logger = LogManager.getLogger(SysUserImportServiceImpl.class);
+public class SysUserImportServiceImpl extends POIExcelResolver4commonImport implements SysUserImportService {
 
-    @Autowired
-    private SysImportExportMapper sysImportExportMapper;
-
-    @Autowired
-    private ThreadPoolTask threadPoolTask;
-
-    @Autowired
-    private SysAttachmentMapper sysAttachmentMapper;
-
-    @Autowired
-    private SysAttachmentService sysAttachmentServiceImpl;
 
     @Autowired
     private SysUserMapper sysUserMapper;
@@ -57,13 +44,25 @@ public class SysUserImportServiceImpl extends DefaultImportServiceImpl implement
         return definitionReaderFactory.createExcelDefinitionReader();
     }
 
+    @Override
+    protected String getLookupItemCodeByName(String rootCode, String name) {
+        DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
+        return DataDictionaryUtil.getLookupCodeByRootCodeAndName(ctx.getLocale().toString(),rootCode,name);
+    }
+
 
     @Transactional(rollbackFor=Exception.class)
     @Override
-    public ResponseDto importByExcelCallback(DefaultBusinessContext ctx, String batchNo) {
+    public ResponseDto importByExcel(JSONObject jsonObject) {
         ResponseDto mm = new ResponseDto();
+
+        DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
+
         ExcelImportResult excelImportResult = null;
         try {
+            byte[] fileBytes = jsonObject.getBytes("fileBytes");
+
+            super.excelInputStream =  new ByteArrayInputStream(fileBytes);
 
             // 1.读取excel数据
             excelImportResult = super.readExcel();
@@ -94,26 +93,27 @@ public class SysUserImportServiceImpl extends DefaultImportServiceImpl implement
                 }
                 mm.setMessage(errorMsg);
             }else{
-                mm.setFlag(ResponseDto.INFOR_WARNING);
+                mm.setCode("100504");
                 mm.setMessage("这是一个空Excel");
             }
         }catch (Exception e){
-            mm.setFlag(ResponseDto.INFOR_ERROR);
-            mm.setMessage(e.getMessage());
+            mm.setCode("100504");
+            if(MyStringUtils.isNotBlank(e.getMessage())){
+                mm.setMessage(e.getMessage().substring(0,500));
+            }else{
+                mm.setMessage("导入失败:" + e.toString().substring(0,500));
+            }
         }
         return mm;
     }
 
 
-
-    // TODO 解决事务
     private Map doImport(DefaultBusinessContext ctx,List<SysUserImport> sysUserImports){
         Map map = new HashMap();
         map.put("successCount",0);
         map.put("errorCount",0);
         map.put("errorMsg","");
 
-        int commitSize = 1000;//默认每次提交数量
         int successCount = 0;
         int errorCount = 0;
         // 错误信息
@@ -150,46 +150,12 @@ public class SysUserImportServiceImpl extends DefaultImportServiceImpl implement
 
         // 新增
         if (CollectionUtils.isNotEmpty(sysUsersNew)) {
-            int size = sysUsersNew.size();
-            if (size <= commitSize) {
-                sysUserMapper.insertList(sysUsersNew);
-            } else {
-                int partSize = size / commitSize;
-                for(int i = 0; i < partSize; i++) {
-                    List<SysUser> subList = sysUsersNew.subList(0, commitSize);
-                    sysUserMapper.insertList(subList);
-                    logger.info("导入-->新增用户：分批提交" + commitSize + "条数据");
-
-                    sysUsersNew.subList(0, commitSize).clear();
-                    logger.info("导入-->新增用户：剔除已经提交的数据后还剩余" + sysUsersNew.size() + "条数据");
-                }
-                if(!sysUsersNew.isEmpty()){
-                    sysUserMapper.insertList(sysUsersNew);
-                    logger.info("导入-->新增用户：分批提交剩余" + sysUsersNew.size() + "条数据");
-                }
-            }
+            sysUserMapper.insertList(sysUsersNew);
         }
 
         // 修改
         if (CollectionUtils.isNotEmpty(sysUsersOld)) {
-            int size = sysUsersOld.size();
-            if (size <= commitSize) {
-                sysUserMapper.batchUpdate(sysUsersOld);
-            } else {
-                int partSize = size / commitSize;
-                for(int i = 0; i < partSize; i++) {
-                    List<SysUser> subList = sysUsersOld.subList(0, commitSize);
-                    sysUserMapper.batchUpdate(subList);
-                    logger.info("导入-->修改用户：分批提交" + commitSize + "条数据");
-
-                    sysUsersOld.subList(0, commitSize).clear();
-                    logger.info("导入-->修改用户：剔除已经提交的数据后还剩余" + sysUsersOld.size() + "条数据");
-                }
-                if(!sysUsersOld.isEmpty()){
-                    sysUserMapper.batchUpdate(sysUsersOld);
-                    logger.info("导入-->修改用户：分批提交剩余" + sysUsersOld.size() + "条数据");
-                }
-            }
+            sysUserMapper.batchUpdate(sysUsersOld);
         }
         return map;
     }

@@ -1,12 +1,12 @@
 package com.wust.springcloud.admin.server.core.web.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.wust.springcloud.admin.server.core.service.defaults.SysOrganizationService;
 import com.wust.springcloud.admin.server.core.service.imports.SysRoleImportService;
 import com.wust.springcloud.admin.server.core.service.defaults.SysRoleService;
 import com.wust.springcloud.common.annotations.OperationLogAnnotation;
 import com.wust.springcloud.common.context.DefaultBusinessContext;
 import com.wust.springcloud.common.dto.ResponseDto;
-import com.wust.springcloud.common.entity.sys.attachment.SysAttachment;
 import com.wust.springcloud.common.entity.sys.importexport.SysImportExport;
 import com.wust.springcloud.common.entity.sys.organization.SysOrganizationList;
 import com.wust.springcloud.common.entity.sys.organization.SysOrganizationSearch;
@@ -19,7 +19,10 @@ import com.wust.springcloud.common.util.MyStringUtils;
 import com.wust.springcloud.common.util.cache.DataDictionaryUtil;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
@@ -27,7 +30,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Created by WST on 2019/5/27.
@@ -43,6 +45,12 @@ public class RoleController {
 
     @Autowired
     private SysOrganizationService sysOrganizationServiceImpl;
+
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
+
+    @Autowired
+    private Environment env;
 
 
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_ROLE,businessName="分页查询",operationType= OperationLogEnum.Search)
@@ -172,28 +180,26 @@ public class RoleController {
 
 
         try {
-
             String batchNo = CodeGenerator.genImportExportCode();
-            SysImportExport tSysImportExport = new SysImportExport();
-            tSysImportExport.setBatchNo(batchNo);
-            tSysImportExport.setModuleName(moduleName);
-            tSysImportExport.setStartTime(new Date());
-            tSysImportExport.setOperationType("100601");
-            tSysImportExport.setStatus("100501");
-            tSysImportExport.setCreaterId(ctx.getUserId());
-            tSysImportExport.setCreaterName(ctx.getLoginName());
+            SysImportExport sysImportExport = new SysImportExport();
+            sysImportExport.setBatchNo(batchNo);
+            sysImportExport.setModuleName(moduleName);
+            sysImportExport.setStartTime(new Date());
+            sysImportExport.setOperationType("100601");
+            sysImportExport.setStatus("100501");
+            sysImportExport.setCreaterId(ctx.getUserId());
+            sysImportExport.setCreaterName(ctx.getLoginName());
+            sysImportExport.setCreateTime(new Date());
 
-            SysAttachment sysAttachment = new SysAttachment();
-            sysAttachment.setAttachmentKey(UUID.randomUUID().toString());
-            sysAttachment.setRelationTable("sys_import_export");
-            sysAttachment.setRelationId(batchNo);
-            sysAttachment.setAttachmentName(multipartFile.getOriginalFilename());
-            sysAttachment.setAttachmentSuffix(multipartFile.getOriginalFilename().substring(multipartFile.getOriginalFilename().indexOf(".") + 1));
-            sysAttachment.setAttachmentSize((multipartFile.getSize() / 1024)+"");
-            sysAttachment.setCreaterId(ctx.getUserId());
-            sysAttachment.setCreaterName(ctx.getLoginName());
 
-            this.sysRoleImportServiceImpl.importByExcel("sysRoleImportServiceImpl",tSysImportExport,multipartFile.getBytes());
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("moduleName",moduleName);
+            jsonObject.put("fileBytes",multipartFile.getBytes());
+            jsonObject.put("sysImportExport",sysImportExport);
+            rabbitTemplate.setMessageConverter(new Jackson2JsonMessageConverter());
+            rabbitTemplate.setExchange(env.getProperty("exchange.importexcel.name"));
+            rabbitTemplate.setRoutingKey(env.getProperty("routing.importexcel.key.name"));
+            rabbitTemplate.convertAndSend(jsonObject);
         }catch (IOException e){
             mm.setFlag(ResponseDto.INFOR_ERROR);
             mm.setMessage("导入失败，转换文件失败。");
