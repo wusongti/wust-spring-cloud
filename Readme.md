@@ -1,7 +1,6 @@
 TODO
 组织架构、数据权限
 restful风格，接口版本
-通用mapper生成代码工具
 URL过滤拦截
 嵌套事务
 
