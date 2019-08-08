@@ -14,9 +14,7 @@ import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.mapping.ParameterMapping;
 import org.apache.ibatis.mapping.ParameterMode;
-import org.apache.ibatis.plugin.Interceptor;
-import org.apache.ibatis.plugin.Invocation;
-import org.apache.ibatis.plugin.Plugin;
+import org.apache.ibatis.plugin.*;
 import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.reflection.property.PropertyTokenizer;
 import org.apache.ibatis.scripting.xmltags.ForEachSqlNode;
@@ -44,6 +42,7 @@ import java.util.Properties;
  * @version:
  */
 @Component
+@Intercepts({@Signature(type = StatementHandler.class, method = "prepare", args = { Connection.class, Integer.class }) })
 public class MyBatisDefaultInterceptor implements Interceptor {
     private static String dialect = "mysql";	//数据库方言
     private static String pageSqlId = "listPage"; //mapper.xml中需要拦截的ID(正则匹配)

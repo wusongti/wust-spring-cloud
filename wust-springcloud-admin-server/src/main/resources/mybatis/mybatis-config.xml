@@ -6,7 +6,7 @@
     </settings>
 
     <plugins>
-        <plugin interceptor="com.wust.springcloud.admin.server.config.MyBatisInterceptor">
+        <plugin interceptor="com.wust.springcloud.common.interceptors.MyBatisDefaultInterceptor">
             <property name="dialect" value="mysql" />
             <property name="pageSqlId" value=".*listPage.*" />
         </plugin>
