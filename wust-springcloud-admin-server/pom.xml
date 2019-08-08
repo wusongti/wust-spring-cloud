@@ -11,6 +11,23 @@
     <artifactId>wust-springcloud-admin-server</artifactId>
     <packaging>jar</packaging>
 
+    <properties>
+        <!-- ${basedir}引用工程根目录 -->
+        <!-- targetJavaProject：声明存放源码的目录位置 -->
+        <targetJavaProject>${basedir}/src/main/java</targetJavaProject>
+
+        <!-- targetMapperPackage：声明MBG生成XxxMapper接口后存放的package位置 -->
+        <targetMapperPackage>/</targetMapperPackage>
+
+        <!-- targetModelPackage：声明MBG生成实体类后存放的package位置 -->
+        <targetModelPackage>/</targetModelPackage>
+
+        <!-- targetResourcesProject：声明存放资源文件和XML配置文件的目录位置 -->
+        <targetResourcesProject>${basedir}/src/main/resources</targetResourcesProject>
+
+        <!-- targetXMLPackage：声明存放具体XxxMapper.xml文件的目录位置 -->
+        <targetXMLPackage>mybatis/mapper</targetXMLPackage>
+    </properties>
     <dependencies>
         <dependency>
             <groupId>com.wust</groupId>
@@ -50,6 +67,37 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.mybatis.generator</groupId>
+                <artifactId>mybatis-generator-maven-plugin</artifactId>
+                <version>1.3.6</version>
+
+                <!-- 配置generatorConfig.xml配置文件的路径 -->
+                <configuration>
+                    <configurationFile>${basedir}/src/main/resources/mybatis/generatorConfig.xml</configurationFile>
+                    <overwrite>true</overwrite>
+                    <verbose>true</verbose>
+                </configuration>
+
+                <!-- MBG插件的依赖信息 -->
+                <dependencies>
+                    <dependency>
+                        <groupId>mysql</groupId>
+                        <artifactId>mysql-connector-java</artifactId>
+                        <version>8.0.13</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>tk.mybatis</groupId>
+                        <artifactId>mapper</artifactId>
+                        <version>4.1.4</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>tk.mybatis</groupId>
+                        <artifactId>mapper-generator</artifactId>
+                        <version>1.1.5</version>
+                    </dependency>
+                </dependencies>
             </plugin>
         </plugins>
     </build>
