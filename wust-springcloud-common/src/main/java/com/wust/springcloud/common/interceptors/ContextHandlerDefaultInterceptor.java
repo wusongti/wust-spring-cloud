@@ -1,6 +1,6 @@
-package com.wust.springcloud.common.adapter;
+package com.wust.springcloud.common.interceptors;
 
-import com.wust.springcloud.common.adapter.context.StrategyContext;
+import com.wust.springcloud.common.interceptors.context.StrategyContext;
 import org.springframework.web.servlet.HandlerInterceptor;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Created by WST on 2019/6/17.
  */
-public abstract class ContextHandlerAdapter implements HandlerInterceptor {
+public class ContextHandlerDefaultInterceptor implements HandlerInterceptor {
 
 
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) {

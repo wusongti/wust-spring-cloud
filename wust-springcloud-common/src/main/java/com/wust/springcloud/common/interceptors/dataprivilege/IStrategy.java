@@ -1,4 +1,4 @@
-package com.wust.springcloud.common.adapter.dataprivilege;
+package com.wust.springcloud.common.interceptors.dataprivilege;
 
 import org.apache.ibatis.executor.statement.BaseStatementHandler;
 

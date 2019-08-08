@@ -1,4 +1,4 @@
-package com.wust.springcloud.common.adapter.context;
+package com.wust.springcloud.common.interceptors.context;
 
 import com.wust.springcloud.common.enums.ApplicationEnum;
 import com.wust.springcloud.common.exception.BusinessException;

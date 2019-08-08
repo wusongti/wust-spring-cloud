@@ -1,4 +1,4 @@
-package com.wust.springcloud.common.adapter.context;
+package com.wust.springcloud.common.interceptors.context;
 
 
 import javax.servlet.http.HttpServletRequest;

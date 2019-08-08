@@ -1,7 +1,7 @@
-package com.wust.springcloud.autotask.server.interceptors;
+package com.wust.springcloud.admin.server.config;
 
 
-import com.wust.springcloud.common.adapter.MyBatisInterceptorAdapter;
+import com.wust.springcloud.common.interceptors.MyBatisDefaultInterceptor;
 import org.apache.ibatis.executor.statement.StatementHandler;
 import org.apache.ibatis.plugin.*;
 import org.springframework.stereotype.Component;
@@ -12,7 +12,7 @@ import java.sql.Connection;
  */
 @Component
 @Intercepts({@Signature(type = StatementHandler.class, method = "prepare", args = { Connection.class, Integer.class }) })
-public class MyBatisInterceptor extends MyBatisInterceptorAdapter {
+public class MyBatisInterceptor extends MyBatisDefaultInterceptor {
 
 }
 

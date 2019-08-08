@@ -1,4 +1,4 @@
-package com.wust.springcloud.common.adapter.context;
+package com.wust.springcloud.common.interceptors.context;
 
 import com.alibaba.fastjson.JSONObject;
 import com.wust.springcloud.common.context.DefaultBusinessContext;

@@ -1,6 +1,6 @@
-package com.wust.springcloud.common.adapter;
+package com.wust.springcloud.common.interceptors;
 
-import com.wust.springcloud.common.adapter.dataprivilege.StrategyContext;
+import com.wust.springcloud.common.interceptors.dataprivilege.StrategyContext;
 import com.wust.springcloud.common.annotations.PrivilegeAnnotation;
 import com.wust.springcloud.common.dto.PageDto;
 import com.wust.springcloud.common.util.ReflectHelper;
@@ -44,7 +44,7 @@ import java.util.Properties;
  * @version:
  */
 @Component
-public class MyBatisInterceptorAdapter implements Interceptor {
+public class MyBatisDefaultInterceptor implements Interceptor {
     private static String dialect = "mysql";	//数据库方言
     private static String pageSqlId = "listPage"; //mapper.xml中需要拦截的ID(正则匹配)
 
