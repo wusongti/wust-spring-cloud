@@ -34,8 +34,7 @@ public class ExportExcelController {
 
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_COMMON,businessName="导出Excel",operationType= OperationLogEnum.Export)
     @RequestMapping(value = "/exportExcel", method = RequestMethod.POST)
-    public @ResponseBody
-    ResponseDto exportExcel(@RequestBody ExcelDto excelDto) {
+    public ResponseDto exportExcel(@RequestBody ExcelDto excelDto) {
         ResponseDto mm = new ResponseDto();
         if (excelDto == null) {
             mm.setFlag(ResponseDto.INFOR_WARNING);

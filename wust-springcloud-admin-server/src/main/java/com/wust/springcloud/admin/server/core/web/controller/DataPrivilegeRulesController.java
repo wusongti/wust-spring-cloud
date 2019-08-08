@@ -26,8 +26,7 @@ public class DataPrivilegeRulesController {
 
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_DATA_PRIVILEGE,businessName="分页查询",operationType= OperationLogEnum.Search)
     @RequestMapping(value = "/listPage",method = RequestMethod.POST)
-    public @ResponseBody
-    ResponseDto listPage(@RequestBody SysDataPrivilegeRulesSearch search){
+    public ResponseDto listPage(@RequestBody SysDataPrivilegeRulesSearch search){
         ResponseDto baseDto = new ResponseDto();
         DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
 
@@ -50,8 +49,7 @@ public class DataPrivilegeRulesController {
 
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_DATA_PRIVILEGE,businessName="修改",operationType= OperationLogEnum.Update)
     @RequestMapping(value = "/update/{dataPrivilegeId}/{types}",method = RequestMethod.POST)
-    public @ResponseBody
-    ResponseDto update(@PathVariable Long dataPrivilegeId,@PathVariable String types){
+    public ResponseDto update(@PathVariable Long dataPrivilegeId,@PathVariable String types){
         ResponseDto mm = sysDataPrivilegeRulesServiceImpl.update(dataPrivilegeId,types);
         return mm;
     }

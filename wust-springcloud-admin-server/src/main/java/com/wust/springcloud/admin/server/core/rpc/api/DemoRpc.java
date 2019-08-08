@@ -9,8 +9,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class DemoRpc {
     @GetMapping(value = "/test")
-    public @ResponseBody
-    ResponseDto test() {
+    public ResponseDto test() {
         ResponseDto mm = new ResponseDto();
         mm.setMessage("版本1");
         System.out.println(" 版本1");

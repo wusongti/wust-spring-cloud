@@ -29,8 +29,7 @@ public class AppTokenController {
 
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_APP_TOKEN,businessName="分页查询",operationType= OperationLogEnum.Search)
     @RequestMapping(value = "/listPage",method = RequestMethod.POST)
-    public @ResponseBody
-    ResponseDto listPage(@RequestBody SysAppTokenSearch search){
+    public ResponseDto listPage(@RequestBody SysAppTokenSearch search){
         ResponseDto baseDto = new ResponseDto();
         DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
 
@@ -48,8 +47,7 @@ public class AppTokenController {
 
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_APP_TOKEN,businessName="新建",operationType= OperationLogEnum.Insert)
     @RequestMapping(value = "/create",method = RequestMethod.POST)
-    public @ResponseBody
-    ResponseDto create(@RequestBody SysAppToken entity){
+    public ResponseDto create(@RequestBody SysAppToken entity){
         ResponseDto mm = new ResponseDto();
         DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
 
@@ -74,8 +72,7 @@ public class AppTokenController {
 
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_APP_TOKEN,businessName="修改密码",operationType= OperationLogEnum.Update)
     @RequestMapping(value = "/updatePassword",method = RequestMethod.POST)
-    public @ResponseBody
-    ResponseDto updatePassword(@RequestBody SysAppToken entity){
+    public ResponseDto updatePassword(@RequestBody SysAppToken entity){
         ResponseDto mm = new ResponseDto();
         DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
 
@@ -90,8 +87,7 @@ public class AppTokenController {
 
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_APP_TOKEN,businessName="修改状态",operationType= OperationLogEnum.Update)
     @RequestMapping(value = "/updateStatus",method = RequestMethod.POST)
-    public @ResponseBody
-    ResponseDto updateStatus(@RequestBody SysAppToken entity){
+    public ResponseDto updateStatus(@RequestBody SysAppToken entity){
         ResponseDto mm = new ResponseDto();
         DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
         entity.setCreaterId(ctx.getUserId());
@@ -110,8 +106,7 @@ public class AppTokenController {
 
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_APP_TOKEN,businessName="删除",operationType= OperationLogEnum.Delete)
     @RequestMapping(value = "/delete/{id}",method = RequestMethod.DELETE)
-    public @ResponseBody
-    ResponseDto delete(@PathVariable Long id){
+    public ResponseDto delete(@PathVariable Long id){
         ResponseDto mm = new ResponseDto();
         sysAppTokenServiceImpl.deleteByPrimaryKey(id);
         return mm;

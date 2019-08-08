@@ -36,8 +36,7 @@ public class CompanyController {
 
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_COMPANY,businessName="分页查询",operationType= OperationLogEnum.Search)
     @RequestMapping(value = "/listPage",method = RequestMethod.POST)
-    public @ResponseBody
-    ResponseDto listPage(@RequestBody SysCompanySearch search){
+    public ResponseDto listPage(@RequestBody SysCompanySearch search){
         DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
         System.out.println("国际化测试=" + messageSource.getMessage("admin.server.message1",null,ctx.getLocale()));
 
@@ -51,8 +50,7 @@ public class CompanyController {
 
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_COMPANY,businessName="新建",operationType= OperationLogEnum.Insert)
     @RequestMapping(value = "/create",method = RequestMethod.POST)
-    public @ResponseBody
-    ResponseDto create(@RequestBody SysCompany entity){
+    public ResponseDto create(@RequestBody SysCompany entity){
         ResponseDto mm = new ResponseDto();
         DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
 
@@ -77,8 +75,7 @@ public class CompanyController {
 
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_COMPANY,businessName="修改",operationType= OperationLogEnum.Update)
     @RequestMapping(value = "/update",method = RequestMethod.POST)
-    public @ResponseBody
-    ResponseDto update(@RequestBody SysCompany entity){
+    public ResponseDto update(@RequestBody SysCompany entity){
         ResponseDto mm = new ResponseDto();
         DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
 
@@ -103,8 +100,7 @@ public class CompanyController {
 
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_COMPANY,businessName="删除",operationType= OperationLogEnum.Delete)
     @RequestMapping(value = "/delete/{id}",method = RequestMethod.DELETE)
-    public @ResponseBody
-    ResponseDto delete(@PathVariable Long id){
+    public ResponseDto delete(@PathVariable Long id){
         ResponseDto mm = new ResponseDto();
 
         SysOrganizationSearch sysOrganizationSearch = new SysOrganizationSearch();

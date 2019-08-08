@@ -22,8 +22,7 @@ public class DataDictionaryController {
 
 
     @RequestMapping(value = "/getLookupListByParentCode/{parentCode}/{defaultValue}",method = RequestMethod.POST)
-    public @ResponseBody
-    ResponseDto getLookupListByParentCode(@PathVariable String parentCode, @PathVariable String defaultValue){
+    public ResponseDto getLookupListByParentCode(@PathVariable String parentCode, @PathVariable String defaultValue){
         ResponseDto baseDto = new ResponseDto();
         ResponseDto mm = new ResponseDto();
         DefaultBusinessContext ctx = DefaultBusinessContext.getContext();

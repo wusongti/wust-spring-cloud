@@ -50,8 +50,7 @@ public class RoleController {
 
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_ROLE,businessName="分页查询",operationType= OperationLogEnum.Search)
     @RequestMapping(value = "/listPage",method = RequestMethod.POST)
-    public @ResponseBody
-    ResponseDto listPage(@RequestBody SysRoleSearch sysRoleSearch){
+    public ResponseDto listPage(@RequestBody SysRoleSearch sysRoleSearch){
         ResponseDto baseDto = new ResponseDto();
         DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
         List<SysRoleList> sysRoleLists =  sysRoleServiceImpl.listPage(sysRoleSearch);
@@ -68,8 +67,7 @@ public class RoleController {
 
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_ROLE,businessName="新建",operationType= OperationLogEnum.Insert)
     @RequestMapping(value = "/create",method = RequestMethod.POST)
-    public @ResponseBody
-    ResponseDto create(@RequestBody SysRole sysRole){
+    public ResponseDto create(@RequestBody SysRole sysRole){
         ResponseDto mm = new ResponseDto();
         DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
 
@@ -88,8 +86,7 @@ public class RoleController {
 
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_ROLE,businessName="修改",operationType= OperationLogEnum.Update)
     @RequestMapping(value = "/update",method = RequestMethod.POST)
-    public @ResponseBody
-    ResponseDto update(@RequestBody SysRole sysRole){
+    public ResponseDto update(@RequestBody SysRole sysRole){
         ResponseDto mm = new ResponseDto();
         DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
 
@@ -113,8 +110,7 @@ public class RoleController {
 
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_ROLE,businessName="删除",operationType= OperationLogEnum.Delete)
     @RequestMapping(value = "/delete/{id}",method = RequestMethod.DELETE)
-    public @ResponseBody
-    ResponseDto delete(@PathVariable Long id){
+    public ResponseDto delete(@PathVariable Long id){
         ResponseDto mm = new ResponseDto();
 
         SysRoleSearch sysRoleSearch = new SysRoleSearch();
@@ -157,8 +153,7 @@ public class RoleController {
      */
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_ROLE,businessName="导入",operationType= OperationLogEnum.Import)
     @RequestMapping(value = "/importByExcel",method= RequestMethod.POST)
-    public @ResponseBody
-    ResponseDto importByExcel (HttpServletRequest request, @RequestParam(value = "file" , required = true) MultipartFile multipartFile) {
+    public ResponseDto importByExcel (HttpServletRequest request, @RequestParam(value = "file" , required = true) MultipartFile multipartFile) {
         ResponseDto mm = new ResponseDto();
         DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
 

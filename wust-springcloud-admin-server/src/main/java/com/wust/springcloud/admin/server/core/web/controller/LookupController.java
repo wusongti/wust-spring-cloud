@@ -30,8 +30,7 @@ public class LookupController {
 
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_LOOKUP,businessName="构建数据字典树",operationType= OperationLogEnum.Search)
     @RequestMapping(value = "/buildLookupTree",method = RequestMethod.POST)
-    public @ResponseBody
-    ResponseDto buildLookupTree(@RequestBody SysLookupSearch sysLookupSearch){
+    public ResponseDto buildLookupTree(@RequestBody SysLookupSearch sysLookupSearch){
         ResponseDto baseDto = new ResponseDto();
         DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
 
@@ -64,8 +63,7 @@ public class LookupController {
     }
 
     @RequestMapping(value = "/listPage",method = RequestMethod.POST)
-    public @ResponseBody
-    ResponseDto listPage(@RequestBody SysLookupSearch sysLookupSearch){
+    public ResponseDto listPage(@RequestBody SysLookupSearch sysLookupSearch){
         ResponseDto responseDto = new ResponseDto();
         DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
         sysLookupSearch.setLan(ctx.getLocale().toString());

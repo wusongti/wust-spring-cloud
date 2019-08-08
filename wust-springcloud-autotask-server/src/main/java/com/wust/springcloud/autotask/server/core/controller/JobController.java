@@ -27,8 +27,7 @@ public class JobController {
 
 
     @RequestMapping(value = "/listPage",method = RequestMethod.POST)
-    public @ResponseBody
-    ResponseDto listPage(@RequestBody QrtzJobAndTriggerSearch search){
+    public ResponseDto listPage(@RequestBody QrtzJobAndTriggerSearch search){
         ResponseDto baseDto = new ResponseDto();
         List<QrtzJobAndTriggerList> qrtzJobAndTriggerLists =  jobServiceImpl.listPage(search);
         baseDto.setPage(search.getPageDto());
@@ -38,8 +37,7 @@ public class JobController {
 
 
     @RequestMapping(value = "/create",method = RequestMethod.POST)
-    public @ResponseBody
-    ResponseDto create(@RequestBody JobAdd entity){
+    public ResponseDto create(@RequestBody JobAdd entity){
         ResponseDto mm = new ResponseDto();
 
        Scheduler scheduler = schedulerFactoryBean.getScheduler();
@@ -93,8 +91,7 @@ public class JobController {
      * @return
      */
     @RequestMapping(value = "/pause",method = RequestMethod.POST)
-    public @ResponseBody
-    ResponseDto pause(@RequestBody JobUpdate entity){
+    public ResponseDto pause(@RequestBody JobUpdate entity){
         ResponseDto mm = new ResponseDto();
         Scheduler scheduler = schedulerFactoryBean.getScheduler();
         try {
@@ -121,8 +118,7 @@ public class JobController {
      * @return
      */
     @RequestMapping(value = "/resume",method = RequestMethod.POST)
-    public @ResponseBody
-    ResponseDto resume(@RequestBody JobUpdate entity){
+    public ResponseDto resume(@RequestBody JobUpdate entity){
         ResponseDto mm = new ResponseDto();
         Scheduler scheduler = schedulerFactoryBean.getScheduler();
         try {
@@ -144,8 +140,7 @@ public class JobController {
     }
 
     @RequestMapping(value = "/update",method = RequestMethod.POST)
-    public @ResponseBody
-    ResponseDto update(@RequestBody JobUpdate entity){
+    public ResponseDto update(@RequestBody JobUpdate entity){
         ResponseDto mm = new ResponseDto();
         Scheduler scheduler = schedulerFactoryBean.getScheduler();
 
@@ -184,8 +179,7 @@ public class JobController {
 
 
     @RequestMapping(value = "/delete/{jobName}/{jobGroupName}",method = RequestMethod.DELETE)
-    public @ResponseBody
-    ResponseDto delete(@PathVariable String jobName,@PathVariable String jobGroupName){
+    public ResponseDto delete(@PathVariable String jobName,@PathVariable String jobGroupName){
         ResponseDto mm = new ResponseDto();
         Scheduler scheduler = schedulerFactoryBean.getScheduler();
 

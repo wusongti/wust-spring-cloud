@@ -55,8 +55,7 @@ public class OrganizationController {
 
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_ORGANIZATION,businessName="分页查询",operationType= OperationLogEnum.Search)
     @RequestMapping(value = "/listPage",method = RequestMethod.POST)
-    public @ResponseBody
-    ResponseDto listPage(@RequestBody SysOrganizationSearch search){
+    public ResponseDto listPage(@RequestBody SysOrganizationSearch search){
         ResponseDto baseDto = new ResponseDto();
 
         List<SysOrganizationList> sysOrganizationLists =  sysOrganizationServiceImpl.listPage(search);
@@ -141,8 +140,7 @@ public class OrganizationController {
 
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_ORGANIZATION,businessName="构件组织架构树",operationType= OperationLogEnum.Search)
     @RequestMapping(value = "/buildTree",method = RequestMethod.POST)
-    public @ResponseBody
-    ResponseDto buildTree(@RequestBody SysOrganizationSearch search){
+    public ResponseDto buildTree(@RequestBody SysOrganizationSearch search){
         ResponseDto mm = new ResponseDto();
 
         JSONArray jsonArray = new JSONArray();
@@ -234,8 +232,7 @@ public class OrganizationController {
 
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_ORGANIZATION,businessName="添加组织架构",operationType= OperationLogEnum.Insert)
     @RequestMapping(value = "/create",method = RequestMethod.POST)
-    public @ResponseBody
-    ResponseDto create(@RequestBody SysOrganization entity){
+    public ResponseDto create(@RequestBody SysOrganization entity){
         ResponseDto mm = new ResponseDto();
         DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
 
@@ -267,8 +264,7 @@ public class OrganizationController {
 
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_ORGANIZATION,businessName="删除",operationType= OperationLogEnum.Delete)
     @RequestMapping(value = "/delete/{id}",method = RequestMethod.DELETE)
-    public @ResponseBody
-    ResponseDto delete(@PathVariable Long id){
+    public ResponseDto delete(@PathVariable Long id){
         ResponseDto mm = new ResponseDto();
 
         SysOrganizationSearch sysOrganizationSearch = new SysOrganizationSearch();
@@ -290,7 +286,7 @@ public class OrganizationController {
      * @return
      */
     @RequestMapping(value = "/findFunctionTreeByRoleId/{pid}/{roleId}",method = RequestMethod.POST)
-    public  @ResponseBody  ResponseDto findFunctionTreeByRoleId(@PathVariable Long pid,@PathVariable Long roleId){
+    public  ResponseDto findFunctionTreeByRoleId(@PathVariable Long pid,@PathVariable Long roleId){
         ResponseDto messageMap = new ResponseDto();
         SysOrganizationSearch sysOrganizationSearch = new SysOrganizationSearch();
         sysOrganizationSearch.setPid(pid);
@@ -313,7 +309,7 @@ public class OrganizationController {
      * @return
      */
     @RequestMapping(value = "/setFunctionPermissions",method = RequestMethod.POST)
-    public  @ResponseBody  ResponseDto setFunctionPermissions(@RequestBody SysRoleResourceCreate sysRoleResourceAdd){
+    public  ResponseDto setFunctionPermissions(@RequestBody SysRoleResourceCreate sysRoleResourceAdd){
         ResponseDto messageMap = new ResponseDto();
         SysOrganizationSearch sysOrganizationSearch = new SysOrganizationSearch();
         sysOrganizationSearch.setPid(sysRoleResourceAdd.getPid());

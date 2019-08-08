@@ -32,8 +32,7 @@ public class DepartmentController {
 
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_DEPARTMENT,businessName="分页查询",operationType= OperationLogEnum.Search)
     @RequestMapping(value = "/listPage",method = RequestMethod.POST)
-    public @ResponseBody
-    ResponseDto listPage(@RequestBody SysDepartmentSearch search){
+    public ResponseDto listPage(@RequestBody SysDepartmentSearch search){
         ResponseDto baseDto = new ResponseDto();
         List<SysDepartmentList> sysDepartmentLists =  sysDepartmentServiceImpl.listPage(search);
         baseDto.setPage(search.getPageDto());
@@ -44,8 +43,7 @@ public class DepartmentController {
 
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_DEPARTMENT,businessName="新建",operationType= OperationLogEnum.Insert)
     @RequestMapping(value = "/create",method = RequestMethod.POST)
-    public @ResponseBody
-    ResponseDto create(@RequestBody SysDepartment entity){
+    public ResponseDto create(@RequestBody SysDepartment entity){
         ResponseDto mm = new ResponseDto();
         DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
 
@@ -71,8 +69,7 @@ public class DepartmentController {
 
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_DEPARTMENT,businessName="修改",operationType= OperationLogEnum.Update)
     @RequestMapping(value = "/update",method = RequestMethod.POST)
-    public @ResponseBody
-    ResponseDto update(@RequestBody SysDepartment entity){
+    public ResponseDto update(@RequestBody SysDepartment entity){
         ResponseDto mm = new ResponseDto();
         DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
 
@@ -97,8 +94,7 @@ public class DepartmentController {
 
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_DEPARTMENT,businessName="删除",operationType= OperationLogEnum.Delete)
     @RequestMapping(value = "/delete/{id}",method = RequestMethod.DELETE)
-    public @ResponseBody
-    ResponseDto delete(@PathVariable Long id){
+    public ResponseDto delete(@PathVariable Long id){
         ResponseDto mm = new ResponseDto();
 
         SysOrganizationSearch sysOrganizationSearch = new SysOrganizationSearch();

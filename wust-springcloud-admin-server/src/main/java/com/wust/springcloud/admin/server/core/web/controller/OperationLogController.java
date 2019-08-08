@@ -18,8 +18,7 @@ public class OperationLogController {
     private SysOperationLogService sysOperationLogServiceImpl;
 
     @RequestMapping(value = "/listPage",method = RequestMethod.POST)
-    public @ResponseBody
-    ResponseDto listPage(@RequestBody SysOperationLogSearch sysOperationLogSearch){
+    public ResponseDto listPage(@RequestBody SysOperationLogSearch sysOperationLogSearch){
         ResponseDto baseDto = new ResponseDto();
         List<SysOperationLogList> sysOperationLogLists =  sysOperationLogServiceImpl.listPage(sysOperationLogSearch);
         baseDto.setPage(sysOperationLogSearch.getPageDto());

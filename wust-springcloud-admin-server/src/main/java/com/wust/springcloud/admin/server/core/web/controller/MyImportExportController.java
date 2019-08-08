@@ -35,8 +35,7 @@ public class MyImportExportController {
 
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_IMPORT_EXPORT,businessName="分页查询导入导出列表",operationType= OperationLogEnum.Search)
     @RequestMapping(value = "/listPage",method = RequestMethod.POST)
-    public @ResponseBody
-    ResponseDto listPage(@RequestBody SysImportExportSearch sysImportExportSearch){
+    public ResponseDto listPage(@RequestBody SysImportExportSearch sysImportExportSearch){
         ResponseDto baseDto = new ResponseDto();
         DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
 
@@ -56,7 +55,7 @@ public class MyImportExportController {
 
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_IMPORT_EXPORT,businessName="下载",operationType= OperationLogEnum.Download)
     @RequestMapping(value="/downloadFile",method=RequestMethod.GET)
-    public @ResponseBody ResponseDto downloadFile(HttpServletRequest request, HttpServletResponse response){
+    public ResponseDto downloadFile(HttpServletRequest request, HttpServletResponse response){
         ResponseDto mm = new ResponseDto();
         String relationId = request.getParameter("relationId");
         String relationField = request.getParameter("relationField");

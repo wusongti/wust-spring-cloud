@@ -25,8 +25,7 @@ public class DataSourceController {
 
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_DATA_SOURCE,businessName="分页查询",operationType= OperationLogEnum.Search)
     @RequestMapping(value = "/listPage",method = RequestMethod.POST)
-    public @ResponseBody
-    ResponseDto listPage(@RequestBody SysDataSourceSearch search){
+    public ResponseDto listPage(@RequestBody SysDataSourceSearch search){
         ResponseDto baseDto = new ResponseDto();
         List<SysDataSourceList> sysDataSourceLists =  sysDataSourceService.listPage(search);
         baseDto.setPage(search.getPageDto());
@@ -37,8 +36,7 @@ public class DataSourceController {
 
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_DATA_SOURCE,businessName="初始化数据源",operationType= OperationLogEnum.Insert)
     @RequestMapping(value = "/create",method = RequestMethod.POST)
-    public @ResponseBody
-    ResponseDto create(@RequestBody SysDataSource entity){
+    public ResponseDto create(@RequestBody SysDataSource entity){
         ResponseDto mm = new ResponseDto();
         DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
 
@@ -51,8 +49,7 @@ public class DataSourceController {
 
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_DATA_SOURCE,businessName="修改",operationType= OperationLogEnum.Update)
     @RequestMapping(value = "/update",method = RequestMethod.POST)
-    public @ResponseBody
-    ResponseDto update(@RequestBody SysDataSource entity){
+    public ResponseDto update(@RequestBody SysDataSource entity){
         ResponseDto mm = new ResponseDto();
         DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
 

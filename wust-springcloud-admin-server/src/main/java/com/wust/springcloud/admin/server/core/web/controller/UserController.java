@@ -51,8 +51,7 @@ public class UserController {
 
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_USER,businessName="分页查询",operationType= OperationLogEnum.Search)
     @RequestMapping(value = "/listPage",method = RequestMethod.POST)
-    public @ResponseBody
-    ResponseDto listPage(@RequestBody SysUserSearch sysUserSearch){
+    public ResponseDto listPage(@RequestBody SysUserSearch sysUserSearch){
         ResponseDto baseDto = new ResponseDto();
         DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
         List<SysUserList> sysUserLists =  sysUserServiceImpl.listPage(sysUserSearch);
@@ -76,8 +75,7 @@ public class UserController {
 
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_USER,businessName="新增",operationType= OperationLogEnum.Insert)
     @RequestMapping(value = "/create",method = RequestMethod.POST)
-    public @ResponseBody
-    ResponseDto create(@RequestBody SysUser sysUser){
+    public ResponseDto create(@RequestBody SysUser sysUser){
         ResponseDto mm = new ResponseDto();
         DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
         sysUser.setStatus("100201");
@@ -91,8 +89,7 @@ public class UserController {
 
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_USER,businessName="更新",operationType= OperationLogEnum.Update)
     @RequestMapping(value = "/update",method = RequestMethod.POST)
-    public @ResponseBody
-    ResponseDto update(@RequestBody SysUser sysUser){
+    public ResponseDto update(@RequestBody SysUser sysUser){
         ResponseDto mm = new ResponseDto();
         DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
 
@@ -111,8 +108,7 @@ public class UserController {
 
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_USER,businessName="删除",operationType= OperationLogEnum.Delete)
     @RequestMapping(value = "/delete/{id}",method = RequestMethod.DELETE)
-    public @ResponseBody
-    ResponseDto delete(@PathVariable Long id){
+    public ResponseDto delete(@PathVariable Long id){
         ResponseDto mm = new ResponseDto();
 
         SysUserSearch sysUserSearch = new SysUserSearch();
@@ -153,8 +149,7 @@ public class UserController {
      */
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_USER,businessName="导入",operationType= OperationLogEnum.Import)
     @RequestMapping(value = "/importByExcel",method= RequestMethod.POST)
-    public @ResponseBody
-    ResponseDto importByExcel (HttpServletRequest request, @RequestParam(value = "file" , required = true) MultipartFile multipartFile) {
+    public ResponseDto importByExcel (HttpServletRequest request, @RequestParam(value = "file" , required = true) MultipartFile multipartFile) {
         ResponseDto mm = new ResponseDto();
         DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
 
