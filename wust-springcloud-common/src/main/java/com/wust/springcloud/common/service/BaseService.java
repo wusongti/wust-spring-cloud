@@ -1,6 +1,8 @@
 package com.wust.springcloud.common.service;
 
 import com.wust.springcloud.common.entity.BaseEntity;
+import tk.mybatis.mapper.entity.Example;
+
 import java.util.List;
 
 public interface BaseService<T extends BaseEntity> {
@@ -24,6 +26,13 @@ public interface BaseService<T extends BaseEntity> {
      * @return
      */
     List<T> select(T search);
+
+    /**
+     * 自定义查询
+     * @param example
+     * @return
+     */
+    List<T> selectByExample(Example example);
 
 
     /**

@@ -3,6 +3,7 @@ package com.wust.springcloud.common.service;
 import com.wust.springcloud.common.dao.IBaseMapper;
 import com.wust.springcloud.common.entity.BaseEntity;
 import org.springframework.transaction.annotation.Transactional;
+import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
 
@@ -27,6 +28,11 @@ public abstract class BaseServiceImpl implements BaseService{
     @Override
     public List select(BaseEntity search){
         return getBaseMapper().select(search);
+    }
+
+    @Override
+    public List selectByExample(Example example) {
+        return getBaseMapper().selectByExample(example);
     }
 
     @Override
