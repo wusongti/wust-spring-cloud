@@ -18,16 +18,16 @@
         <targetJavaProject>${basedir}/src/main/java</targetJavaProject>
 
         <!-- targetMapperPackage：声明MBG生成XxxMapper接口后存放的package位置 -->
-        <targetMapperPackage>com.wust.springcloud.autotask.server.core.dao</targetMapperPackage>
+        <targetMapperPackage>/</targetMapperPackage>
 
         <!-- targetModelPackage：声明MBG生成实体类后存放的package位置 -->
-        <targetModelPackage>com.wust.springcloud.common.entity</targetModelPackage>
+        <targetModelPackage>/</targetModelPackage>
 
         <!-- targetResourcesProject：声明存放资源文件和XML配置文件的目录位置 -->
         <targetResourcesProject>${basedir}/src/main/resources</targetResourcesProject>
 
         <!-- targetXMLPackage：声明存放具体XxxMapper.xml文件的目录位置 -->
-        <targetXMLPackage>${basedir}/src/main/resources/mybatis/mapper</targetXMLPackage>
+        <targetXMLPackage>mybatis/mapper</targetXMLPackage>
     </properties>
 
     <dependencies>
