@@ -28,9 +28,6 @@
 
         <!-- targetXMLPackage：声明存放具体XxxMapper.xml文件的目录位置 -->
         <targetXMLPackage>${basedir}/src/main/resources/mybatis/mapper</targetXMLPackage>
-
-        <!-- 通用Mapper的版本号 -->
-        <mapper.version>4.1.4</mapper.version>
     </properties>
 
     <dependencies>
@@ -100,7 +97,12 @@
                     <dependency>
                         <groupId>tk.mybatis</groupId>
                         <artifactId>mapper</artifactId>
-                        <version>${mapper.version}</version>
+                        <version>4.1.4</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>tk.mybatis</groupId>
+                        <artifactId>mapper-generator</artifactId>
+                        <version>1.1.5</version>
                     </dependency>
                 </dependencies>
             </plugin>

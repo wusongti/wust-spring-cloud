@@ -10,15 +10,15 @@
         <property name="endingDelimiter" value="`" />
 
         <!-- 配置通用Mapper的MBG插件相关信息 -->
-        <plugin type="${mapper.plugin}">
-            <property name="mappers" value="${mapper.Mapper}" />
+        <plugin type="tk.mybatis.mapper.generator.MapperPlugin">
+            <property name="mappers" value="com.wust.springcloud.common.dao.IBaseMapper" />
             <property name="caseSensitive" value="true"/>
         </plugin>
 
         <!-- 配置连接数据库的基本信息 -->
         <jdbcConnection
                 driverClass="com.mysql.cj.jdbc.Driver"
-                connectionURL="jdbc:mysql://localhost:3306/wust-quartz?useSSL=false&allowPublicKeyRetrieval=true&allowMultiQueries=true&serverTimezone=GMT%2B8"
+                connectionURL="jdbc:mysql://localhost:3306/wust-quartz?useSSL=false&amp;allowPublicKeyRetrieval=true&amp;allowMultiQueries=true&amp;serverTimezone=GMT%2B8"
                 userId="root"
                 password="123456">
         </jdbcConnection>
@@ -43,7 +43,7 @@
         <!-- tableName="%"表示数据库中所有表都参与逆向工程，此时使用默认规则 -->
         <!-- 默认规则：table_dept→TableDept -->
         <!-- 不符合默认规则时需要使用tableName和domainObjectName两个属性明确指定 -->
-        <table tableName="xxxx" domainObjectName="xxx">
+        <table tableName="sys_app_token" domainObjectName="SysAppToken">
             <!-- 配置主键生成策略 -->
             <generatedKey column="id" sqlStatement="Mysql" identity="true" />
         </table>
