@@ -95,10 +95,8 @@ public class ImportExcelConsumer {
 
         SysImportExportSearch condition = new SysImportExportSearch();
         condition.setBatchNo(sysImportExport.getBatchNo());
-        List<SysImportExportList> tSysImportExportListList = sysImportExportServiceImpl.findByCondition(condition);
-        if(CollectionUtils.isNotEmpty(tSysImportExportListList)){
-            SysImportExportList sysImportExportUpdate = tSysImportExportListList.get(0);
-
+        SysImportExportList sysImportExportUpdate = sysImportExportServiceImpl.selectOne(condition) == null ? null : (SysImportExportList)sysImportExportServiceImpl.selectOne(condition);
+        if(sysImportExportUpdate != null){
             sysImportExportUpdate.setStatus(responseDto.getCode());
             sysImportExportUpdate.setMsg(responseDto.getMessage());
             sysImportExportUpdate.setEndTime(new Date());

@@ -35,19 +35,4 @@
         </if>
     </select>
 
-    <select id="findByCondition" parameterType="SysAppTokenSearch" resultMap="ListResultMap">
-        SELECT * FROM sys_app_token t WHERE 1=1
-        <if test="id != null and id !=  ''">
-            AND t.id = #{id}
-        </if>
-        <if test="loginName != null and loginName !=  ''">
-            AND t.login_name = #{loginName}
-        </if>
-        <if test="password != null and password != ''">
-            AND t.password = #{password}
-        </if>
-        <if test="status != null and status != ''">
-            AND t.status = #{status}
-        </if>
-    </select>
 </mapper>

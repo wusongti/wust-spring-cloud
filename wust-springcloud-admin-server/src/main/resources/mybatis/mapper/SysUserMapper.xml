@@ -38,19 +38,6 @@
         </if>
     </select>
 
-    <select id="findByCondition" parameterType="SysUserSearch" resultMap="ListResultMap">
-        SELECT * FROM sys_user t WHERE 1=1
-        <if test="id != null and id !=  ''">
-            AND t.id = #{id}
-        </if>
-        <if test="loginName != null and loginName !=  ''">
-            AND t.login_name = #{loginName}
-        </if>
-        <if test="password != null and password != ''">
-            AND t.password = #{password}
-        </if>
-    </select>
-
     <select id="getDefaultLoginName" resultType="String">
         SELECT concat(floor(MAX(u.login_name) + 1),'') FROM sys_user u WHERE u.login_name LIKE '1000%'
     </select>

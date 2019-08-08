@@ -31,21 +31,6 @@
 			AND t.code = #{code}
 		</if>
   	</select>
-  
-  	<select id="findByCondition" parameterType="SysDepartmentSearch" resultMap="ListResultMap">
-		SELECT t.* FROM sys_department t WHERE 1=1
-		<if test="id != null and id !=  ''">
-			AND t.id = #{id}
-		</if>
-		<if test="code != null and code !=  ''">
-			AND t.code = #{code}
-		</if>
-		<if test="name != null and name !=  ''">
-			AND t.name = #{name}
-		</if>
-  	</select>
-
-
 
 	<update id="batchUpdate" parameterType="java.util.List">
 		<foreach collection="list" separator=";" index="index" item="item">

@@ -17,15 +17,6 @@ public interface IBaseMapper<T extends BaseEntity>  extends Mapper<T>, MySqlMapp
 
 
     /**
-     * 根据指定的条件查询
-     * @param search
-     * @return
-     * @throws DataAccessException
-     */
-    List<T> findByCondition(T search) throws DataAccessException;
-
-
-    /**
      * 批量更新
      * @param entities
      * @return

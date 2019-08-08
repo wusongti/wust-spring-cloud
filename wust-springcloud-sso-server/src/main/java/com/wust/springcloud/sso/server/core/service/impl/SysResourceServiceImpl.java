@@ -7,7 +7,6 @@ import com.wust.springcloud.sso.server.core.dao.SysResourceMapper;
 import com.wust.springcloud.sso.server.core.service.SysResourceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 /**
@@ -44,15 +43,5 @@ public class SysResourceServiceImpl extends BaseServiceImpl implements SysResour
     @Override
     public List<SysResource> findAnonResourcesByUserId(Long userId) {
         return sysResourceMapper.findAnonResourcesByUserId(userId);
-    }
-
-    @Override
-    public List<SysResource> findAnonResourcesByMenuId(String menuCode) {
-        return sysResourceMapper.findAnonResourcesByMenuId(menuCode);
-    }
-
-    @Override
-    public List<SysResource> findCommonAnonResources() {
-        return sysResourceMapper.findCommonAnonResources();
     }
 }

@@ -3,20 +3,16 @@ package com.wust.springcloud.admin.server.core.mq.consumer;
 import com.alibaba.fastjson.JSONObject;
 import com.wust.springcloud.admin.server.core.service.ExportExcelService;
 import com.wust.springcloud.admin.server.core.service.SysImportExportService;
-import com.wust.springcloud.common.dto.ExcelDto;
 import com.wust.springcloud.common.dto.ResponseDto;
 import com.wust.springcloud.common.entity.sys.importexport.SysImportExport;
 import com.wust.springcloud.common.entity.sys.importexport.SysImportExportList;
 import com.wust.springcloud.common.entity.sys.importexport.SysImportExportSearch;
 import com.wust.springcloud.common.util.MyStringUtils;
-import org.apache.commons.collections.CollectionUtils;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 import java.util.Date;
-import java.util.List;
 
 /**
  * @author ：wust
@@ -79,12 +75,9 @@ public class ExportExcelConsumer {
 
         SysImportExportSearch condition = new SysImportExportSearch();
         condition.setBatchNo(sysImportExport.getBatchNo());
-        List<SysImportExportList> tSysImportExportListList = sysImportExportServiceImpl.findByCondition(condition);
-        if(CollectionUtils.isNotEmpty(tSysImportExportListList)){
-            SysImportExportList sysImportExportUpdate = tSysImportExportListList.get(0);
-
+        SysImportExportList sysImportExportUpdate = sysImportExportServiceImpl.selectOne(condition) == null ? null : (SysImportExportList)sysImportExportServiceImpl.selectOne(condition);
+        if(sysImportExportUpdate != null){
             sysImportExportUpdate.setStatus(responseDto.getCode());
-            sysImportExportUpdate.setMsg(responseDto.getMessage());
             sysImportExportUpdate.setEndTime(new Date());
             sysImportExportUpdate.setModifyTime(new Date());
             sysImportExportServiceImpl.updateByPrimaryKey(sysImportExportUpdate);

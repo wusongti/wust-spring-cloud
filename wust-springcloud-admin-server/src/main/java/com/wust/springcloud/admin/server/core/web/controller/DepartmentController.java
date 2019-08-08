@@ -50,7 +50,7 @@ public class DepartmentController {
 
         SysDepartmentSearch sysDepartmentSearch = new SysDepartmentSearch();
         sysDepartmentSearch.setName(entity.getName());
-        List<SysDepartmentList> sysDepartmentLists = sysDepartmentServiceImpl.findByCondition(sysDepartmentSearch);
+        List<SysDepartmentList> sysDepartmentLists = sysDepartmentServiceImpl.select(sysDepartmentSearch);
         if(CollectionUtils.isNotEmpty(sysDepartmentLists)){
             mm.setFlag(ResponseDto.INFOR_WARNING);
             mm.setMessage("您输入的部门名称已经存在");
@@ -75,7 +75,7 @@ public class DepartmentController {
 
         SysDepartmentSearch sysDepartmentSearch = new SysDepartmentSearch();
         sysDepartmentSearch.setName(entity.getName());
-        List<SysDepartmentList> departmentLists = sysDepartmentServiceImpl.findByCondition(sysDepartmentSearch);
+        List<SysDepartmentList> departmentLists = sysDepartmentServiceImpl.select(sysDepartmentSearch);
         if(CollectionUtils.isNotEmpty(departmentLists)){
             if(!departmentLists.get(0).getCode().equals(entity.getCode())){
                 mm.setFlag(ResponseDto.INFOR_WARNING);
@@ -99,7 +99,7 @@ public class DepartmentController {
 
         SysOrganizationSearch sysOrganizationSearch = new SysOrganizationSearch();
         sysOrganizationSearch.setRelationId(id);
-        List<SysOrganizationList> sysOrganizationLists = sysOrganizationServiceImpl.findByCondition(sysOrganizationSearch);
+        List<SysOrganizationList> sysOrganizationLists = sysOrganizationServiceImpl.select(sysOrganizationSearch);
         if(CollectionUtils.isNotEmpty(sysOrganizationLists)){
             mm.setFlag(ResponseDto.INFOR_WARNING);
             mm.setMessage("您要删除的数据存在组织架构关系中，不允许删除");

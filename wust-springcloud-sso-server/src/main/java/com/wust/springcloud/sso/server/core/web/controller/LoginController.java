@@ -76,7 +76,8 @@ public class LoginController {
         sysUserSearch.setLoginName(loginName);
         sysUserSearch.setPassword(passwordRC4);
         DefaultBusinessContext.getContext().setDataSourceId(ApplicationEnum.DEFAULT.name());
-        List<SysUserList> sysUserLists =  sysUserServiceImpl.findByCondition(sysUserSearch);
+
+        List<SysUserList> sysUserLists =  sysUserServiceImpl.select(sysUserSearch);
         if(sysUserLists != null && sysUserLists.size() > 0){
             SysUserList sysUserList = sysUserLists.get(0);
             JSONObject subJSONObject = new JSONObject();

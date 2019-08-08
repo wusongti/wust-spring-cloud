@@ -11,13 +11,19 @@ public interface BaseService<T extends BaseEntity> {
      */
     List<T> listPage(T search);
 
+    /**
+     * 获取一个记录
+     * @param search
+     * @return
+     */
+    Object selectOne(T search);
 
     /**
      * 根据指定的条件查询
      * @param search
      * @return
      */
-    List<T> findByCondition(T search);
+    List<T> select(T search);
 
 
     /**

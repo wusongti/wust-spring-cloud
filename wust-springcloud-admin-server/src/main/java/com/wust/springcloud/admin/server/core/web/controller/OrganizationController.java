@@ -75,35 +75,35 @@ public class OrganizationController {
                 || "101107".equalsIgnoreCase(type)){ // 代理商、总公司、分公司
                     SysCompanySearch sysCompanySearch = new SysCompanySearch();
                     sysCompanySearch.setId(relationId);
-                    List<SysCompanyList> sysCompanyServiceImplByCondition = sysCompanyServiceImpl.findByCondition(sysCompanySearch);
+                    List<SysCompanyList> sysCompanyServiceImplByCondition = sysCompanyServiceImpl.select(sysCompanySearch);
                     if(CollectionUtils.isNotEmpty(sysCompanyServiceImplByCondition)){
                         sysCompanyLists.add(sysCompanyServiceImplByCondition.get(0));
                     }
                 }else if("101109".equalsIgnoreCase(type)){ // 项目
                     SysProjectSearch sysProjectSearch = new SysProjectSearch();
                     sysProjectSearch.setId(relationId);
-                    List<SysProjectList> list = sysProjectServiceImpl.findByCondition(sysProjectSearch);
+                    List<SysProjectList> list = sysProjectServiceImpl.select(sysProjectSearch);
                     if(CollectionUtils.isNotEmpty(list)){
                         sysProjectLists.add(list.get(0));
                     }
                 }else if("101111".equalsIgnoreCase(type)){ // 部门
                     SysDepartmentSearch sysDepartmentSearch = new SysDepartmentSearch();
                     sysDepartmentSearch.setId(relationId);
-                    List<SysDepartmentList> sysDepartmentServiceImplByCondition = sysDepartmentServiceImpl.findByCondition(sysDepartmentSearch);
+                    List<SysDepartmentList> sysDepartmentServiceImplByCondition = sysDepartmentServiceImpl.select(sysDepartmentSearch);
                     if(CollectionUtils.isNotEmpty(sysDepartmentServiceImplByCondition)){
                         sysDepartmentLists.add(sysDepartmentServiceImplByCondition.get(0));
                     }
                 }else if("101113".equalsIgnoreCase(type)){ // 角色
                     SysRoleSearch sysRoleSearch = new SysRoleSearch();
                     sysRoleSearch.setId(relationId);
-                    List<SysRoleList> sysRoleServiceImplByCondition = sysRoleServiceImpl.findByCondition(sysRoleSearch);
+                    List<SysRoleList> sysRoleServiceImplByCondition = sysRoleServiceImpl.select(sysRoleSearch);
                     if(CollectionUtils.isNotEmpty(sysRoleServiceImplByCondition)){
                         sysRoleLists.add(sysRoleServiceImplByCondition.get(0));
                     }
                 }else if("101115".equalsIgnoreCase(type)){ // 用户
                     SysUserSearch sysUserSearch = new SysUserSearch();
                     sysUserSearch.setId(relationId);
-                    List<SysUserList> sysUserServiceImplByCondition = sysUserServiceImpl.findByCondition(sysUserSearch);
+                    List<SysUserList> sysUserServiceImplByCondition = sysUserServiceImpl.select(sysUserSearch);
                     if(CollectionUtils.isNotEmpty(sysUserServiceImplByCondition)){
                         sysUserLists.add(sysUserServiceImplByCondition.get(0));
                     }
@@ -153,7 +153,7 @@ public class OrganizationController {
         rootJSONObject.put("relationId",null);
         rootJSONObject.put("open",true);
         SysOrganizationSearch sysOrganizationSearch = new SysOrganizationSearch();
-        List<SysOrganizationList> sysOrganizationLists = sysOrganizationServiceImpl.findByCondition(sysOrganizationSearch);
+        List<SysOrganizationList> sysOrganizationLists = sysOrganizationServiceImpl.select(sysOrganizationSearch);
         if(CollectionUtils.isNotEmpty(sysOrganizationLists)){
             for (SysOrganizationList sysOrganizationList : sysOrganizationLists) {
                 JSONObject jsonObject = new JSONObject();
@@ -166,7 +166,7 @@ public class OrganizationController {
                 if("101101".equalsIgnoreCase(type)){
                     SysCompanySearch sysCompanySearch = new SysCompanySearch();
                     sysCompanySearch.setId(relationId);
-                    List<SysCompanyList> sysCompanyLists = sysCompanyServiceImpl.findByCondition(sysCompanySearch);
+                    List<SysCompanyList> sysCompanyLists = sysCompanyServiceImpl.select(sysCompanySearch);
                     if(CollectionUtils.isNotEmpty(sysCompanyLists)){
                         name = "代理商-" + sysCompanyLists.get(0).getName();
                         pid = pid == null ? -1 : pid;
@@ -174,42 +174,42 @@ public class OrganizationController {
                 }else if("101104".equalsIgnoreCase(type)){
                     SysCompanySearch sysCompanySearch = new SysCompanySearch();
                     sysCompanySearch.setId(relationId);
-                    List<SysCompanyList> sysCompanyLists = sysCompanyServiceImpl.findByCondition(sysCompanySearch);
+                    List<SysCompanyList> sysCompanyLists = sysCompanyServiceImpl.select(sysCompanySearch);
                     if(CollectionUtils.isNotEmpty(sysCompanyLists)){
                         name = "总公司-" + sysCompanyLists.get(0).getName();
                     }
                 }else if("101107".equalsIgnoreCase(type)){
                     SysCompanySearch sysCompanySearch = new SysCompanySearch();
                     sysCompanySearch.setId(relationId);
-                    List<SysCompanyList> sysCompanyLists = sysCompanyServiceImpl.findByCondition(sysCompanySearch);
+                    List<SysCompanyList> sysCompanyLists = sysCompanyServiceImpl.select(sysCompanySearch);
                     if(CollectionUtils.isNotEmpty(sysCompanyLists)){
                         name = "分公司-" + sysCompanyLists.get(0).getName();
                     }
                 }else if("101109".equalsIgnoreCase(type)){
                     SysProjectSearch sysProjectSearch = new SysProjectSearch();
                     sysProjectSearch.setId(relationId);
-                    List<SysProjectList> sysProjectLists = sysProjectServiceImpl.findByCondition(sysProjectSearch);
+                    List<SysProjectList> sysProjectLists = sysProjectServiceImpl.select(sysProjectSearch);
                     if(CollectionUtils.isNotEmpty(sysProjectLists)){
                         name = "项目-" + sysProjectLists.get(0).getName();
                     }
                 }else if("101111".equalsIgnoreCase(type)){
                     SysDepartmentSearch sysDepartmentSearch = new SysDepartmentSearch();
                     sysDepartmentSearch.setId(relationId);
-                    List<SysDepartmentList> sysDepartmentLists = sysDepartmentServiceImpl.findByCondition(sysDepartmentSearch);
+                    List<SysDepartmentList> sysDepartmentLists = sysDepartmentServiceImpl.select(sysDepartmentSearch);
                     if(CollectionUtils.isNotEmpty(sysDepartmentLists)){
                         name = "部门-" + sysDepartmentLists.get(0).getName();
                     }
                 }else if("101113".equalsIgnoreCase(type)){
                     SysRoleSearch sysRoleSearch = new SysRoleSearch();
                     sysRoleSearch.setId(relationId);
-                    List<SysRoleList> sysRoleLists = sysRoleServiceImpl.findByCondition(sysRoleSearch);
+                    List<SysRoleList> sysRoleLists = sysRoleServiceImpl.select(sysRoleSearch);
                     if(CollectionUtils.isNotEmpty(sysRoleLists)){
                         name = "角色-" + sysRoleLists.get(0).getName();
                     }
                 }else if("101115".equalsIgnoreCase(type)){
                     SysUserSearch sysUserSearch = new SysUserSearch();
                     sysUserSearch.setId(relationId);
-                    List<SysUserList> sysUserLists = sysUserServiceImpl.findByCondition(sysUserSearch);
+                    List<SysUserList> sysUserLists = sysUserServiceImpl.select(sysUserSearch);
                     if(CollectionUtils.isNotEmpty(sysUserLists)){
                         name = "用户-" + sysUserLists.get(0).getRealName() + "(" + sysUserLists.get(0).getLoginName() + ")";
                     }
@@ -246,7 +246,7 @@ public class OrganizationController {
             sysOrganizationSearch.setPid(entity.getPid());
         }
         sysOrganizationSearch.setRelationId(entity.getRelationId());
-        List<SysOrganizationList> sysOrganizationLists = sysOrganizationServiceImpl.findByCondition(sysOrganizationSearch);
+        List<SysOrganizationList> sysOrganizationLists = sysOrganizationServiceImpl.select(sysOrganizationSearch);
         if(CollectionUtils.isNotEmpty(sysOrganizationLists)){
             mm.setFlag(ResponseDto.INFOR_WARNING);
             mm.setMessage("在组织架构中已经存在该条记录，不允许重复添加");
@@ -269,7 +269,7 @@ public class OrganizationController {
 
         SysOrganizationSearch sysOrganizationSearch = new SysOrganizationSearch();
         sysOrganizationSearch.setPid(id);
-        List<SysOrganizationList> sysOrganizationLists = sysOrganizationServiceImpl.findByCondition(sysOrganizationSearch);
+        List<SysOrganizationList> sysOrganizationLists = sysOrganizationServiceImpl.select(sysOrganizationSearch);
         if(CollectionUtils.isNotEmpty(sysOrganizationLists)){
             mm.setFlag(ResponseDto.INFOR_WARNING);
             mm.setMessage("您要删除的记录存在子节点，无法删除带有子节点的数据，请先删除所有子节点");
@@ -291,7 +291,7 @@ public class OrganizationController {
         SysOrganizationSearch sysOrganizationSearch = new SysOrganizationSearch();
         sysOrganizationSearch.setPid(pid);
         sysOrganizationSearch.setRelationId(roleId);
-        List<SysOrganizationList> sysOrganizationLists = this.sysOrganizationServiceImpl.findByCondition(sysOrganizationSearch);
+        List<SysOrganizationList> sysOrganizationLists = this.sysOrganizationServiceImpl.select(sysOrganizationSearch);
         if(CollectionUtils.isNotEmpty(sysOrganizationLists)){
             messageMap = sysRoleServiceImpl.findFunctionTreeByOrganizationId(sysOrganizationLists.get(0).getId());
         }else{
@@ -314,7 +314,7 @@ public class OrganizationController {
         SysOrganizationSearch sysOrganizationSearch = new SysOrganizationSearch();
         sysOrganizationSearch.setPid(sysRoleResourceAdd.getPid());
         sysOrganizationSearch.setRelationId(sysRoleResourceAdd.getRoleId());
-        List<SysOrganizationList> sysOrganizationLists = this.sysOrganizationServiceImpl.findByCondition(sysOrganizationSearch);
+        List<SysOrganizationList> sysOrganizationLists = this.sysOrganizationServiceImpl.select(sysOrganizationSearch);
         if(CollectionUtils.isNotEmpty(sysOrganizationLists)){
             sysRoleResourceAdd.setOrganizationId(sysOrganizationLists.get(0).getId());
             messageMap = sysOrganizationServiceImpl.setFunctionPermissions(sysRoleResourceAdd);

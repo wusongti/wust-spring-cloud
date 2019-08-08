@@ -63,23 +63,7 @@
 		ORDER BY t.pid,t.id
   	</select>
   
-  	<select id="findByCondition" parameterType="SysOrganizationSearch" resultMap="ListResultMap">
-		SELECT t.* FROM sys_organization t WHERE 1=1
-		<if test="id != null and id !=  ''">
-			AND t.id = #{id}
-		</if>
-		<if test="pid != null and pid !=  ''">
-			AND t.pid = #{pid}
-		</if>
-		<if test="type != null and type !=  ''">
-			AND t.type = #{type}
-		</if>
-		<if test="relationId != null and relationId !=  ''">
-			AND t.relation_id = #{relationId}
-		</if>
-		ORDER BY t.pid,t.id
-  	</select>
-  
+
 	<delete id="batchDelete" parameterType="java.util.List">
 		<![CDATA[  
 	       delete from sys_organization where id in

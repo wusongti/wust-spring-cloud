@@ -45,25 +45,6 @@
         ORDER BY start_time DESC
     </select>
 
-    <select id="findByCondition" parameterType="SysImportExportSearch" resultMap="ListResultMap">
-        SELECT * FROM sys_import_export t WHERE 1=1
-        <if test="batchNo != null and batchNo !=  ''">
-            AND t.batch_no = #{batchNo}
-        </if>
-        <if test="status != null and status !=  ''">
-            AND t.status = #{status}
-        </if>
-        <if test="moduleName != null and moduleName !=  ''">
-            AND t.module_name = #{moduleName}
-        </if>
-        <if test="operationType != null and operationType !=  ''">
-            AND t.operation_type = #{operationType}
-        </if>
-        <if test="createrName != null and createrName != ''">
-            AND t.creater_id = #{createrName}
-        </if>
-    </select>
-
     <select id="findBySql" parameterType="java.util.Map" resultType="java.util.Map">
         ${sql}
     </select>

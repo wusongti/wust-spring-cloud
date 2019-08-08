@@ -19,31 +19,6 @@
     </resultMap>
 
 
-    <select id="findByCondition" parameterType="SysAttachmentSearch" resultMap="ListResultMap">
-        SELECT * FROM sys_attachment t WHERE 1=1
-        <if test="id != null and id !=  ''">
-            AND t.id = #{id}
-        </if>
-        <if test="relationTable != null and relationTable !=  ''">
-            AND t.relation_table = #{relationTable}
-        </if>
-        <if test="relationId != null and relationId != ''">
-            AND t.relation_id = #{relationId}
-        </if>
-        <if test="relationField != null and relationField != ''">
-            AND t.relation_field = #{relationField}
-        </if>
-        <if test="attachmentKey != null and attachmentKey != ''">
-            AND t.attachment_key = #{attachmentKey}
-        </if>
-        <if test="attachmentName != null and attachmentName != ''">
-            AND t.attachment_name = #{attachmentName}
-        </if>
-        <if test="attachmentSuffix != null and attachmentSuffix != ''">
-            AND t.attachment_suffix = #{attachmentSuffix}
-        </if>
-    </select>
-
 
     <delete id="batchDelete" parameterType="java.util.List">
         DELETE FROM sys_attachment WHERE id IN

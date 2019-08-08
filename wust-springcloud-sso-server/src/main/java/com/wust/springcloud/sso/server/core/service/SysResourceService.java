@@ -2,7 +2,6 @@ package com.wust.springcloud.sso.server.core.service;
 
 import com.wust.springcloud.common.entity.sys.resource.SysResource;
 import com.wust.springcloud.common.service.BaseService;
-
 import java.util.List;
 
 public interface SysResourceService extends BaseService {
@@ -33,17 +32,4 @@ public interface SysResourceService extends BaseService {
      * @return
      */
     List<SysResource> findAnonResourcesByUserId(Long userId);
-
-    /**
-     * 根据菜单获取其下面的资源集合
-     * @param menuId
-     * @return
-     */
-    List<SysResource> findAnonResourcesByMenuId(String menuId);
-
-    /**
-     * 获取公共白名单集合
-     * @return
-     */
-    List<SysResource> findCommonAnonResources();
 }

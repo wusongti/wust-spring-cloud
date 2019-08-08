@@ -45,7 +45,7 @@ public class LookupController {
         rootJSONObject.put("open",true);
 
         sysLookupSearch.setLan(ctx.getLocale().toString());
-        List<SysLookupList> sysLookupLists =  sysLookupServiceImpl.findByCondition(sysLookupSearch);
+        List<SysLookupList> sysLookupLists =  sysLookupServiceImpl.select(sysLookupSearch);
         if(CollectionUtils.isNotEmpty(sysLookupLists)){
             for (SysLookupList sysLookupList : sysLookupLists) {
                 JSONObject jsonObject = new JSONObject();

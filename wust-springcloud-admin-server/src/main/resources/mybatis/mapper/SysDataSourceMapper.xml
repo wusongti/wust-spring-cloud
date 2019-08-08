@@ -47,24 +47,6 @@
 			AND t2.name = #{companyName}
 		</if>
   	</select>
-  
-  	<select id="findByCondition" parameterType="SysDataSourceSearch" resultMap="ListResultMap">
-		SELECT
-			t1.`name` AS company_name,
-			t2.*
-		FROM
-			sys_company t1
-		LEFT JOIN sys_data_source t2 ON t1.id = t2.company_id
-		WHERE
-		1 = 1
-		<if test="id != null and id !=  ''">
-			AND t1.id = #{id}
-		</if>
-		<if test="companyId != null and companyId !=  ''">
-			AND t1.company_id = #{companyId}
-		</if>
-  	</select>
-
 
 	<update id="batchUpdate" parameterType="java.util.List">
 		<foreach collection="list" separator=";" index="index" item="item">

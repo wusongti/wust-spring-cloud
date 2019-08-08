@@ -53,7 +53,7 @@ public class AppTokenController {
 
         SysAppTokenSearch sysAppTokenSearch = new SysAppTokenSearch();
         sysAppTokenSearch.setLoginName(entity.getLoginName());
-        List<SysAppTokenList> sysAppTokenLists = sysAppTokenServiceImpl.findByCondition(sysAppTokenSearch);
+        List<SysAppTokenList> sysAppTokenLists = sysAppTokenServiceImpl.select(sysAppTokenSearch);
         if(CollectionUtils.isNotEmpty(sysAppTokenLists)){
             mm.setFlag(ResponseDto.INFOR_WARNING);
             mm.setMessage("该账号已经存在");

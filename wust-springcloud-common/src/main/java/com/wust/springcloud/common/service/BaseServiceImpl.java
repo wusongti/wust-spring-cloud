@@ -20,8 +20,13 @@ public abstract class BaseServiceImpl implements BaseService{
     }
 
     @Override
-    public List findByCondition(BaseEntity search){
-        return getBaseMapper().findByCondition(search);
+    public Object selectOne(BaseEntity search) {
+        return getBaseMapper().selectOne(search);
+    }
+
+    @Override
+    public List select(BaseEntity search){
+        return getBaseMapper().select(search);
     }
 
     @Override

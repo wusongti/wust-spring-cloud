@@ -17,31 +17,4 @@
     </resultMap>
     <resultMap id="ListResultMap" extends="BaseResultMap" type="SysAppTokenList">
     </resultMap>
-
-    <select id="findByCondition" parameterType="SysAppTokenSearch" resultMap="ListResultMap">
-        SELECT * FROM sys_app_token t WHERE 1=1
-        <if test="id != null and id !=  ''">
-            AND t.id = #{id}
-        </if>
-        <if test="loginName != null and loginName !=  ''">
-            AND t.login_name = #{loginName}
-        </if>
-        <if test="password != null and password != ''">
-            AND t.password = #{password}
-        </if>
-    </select>
-
-
-    <update id="update" parameterType="SysAppToken">
-        UPDATE sys_app_token
-        <set>
-            password = #{password},
-            expire_time = #{expireTime},
-            token = #{token},
-            modify_id = #{modifyId},
-            modify_name = #{modifyName},
-            modify_time = sysdate()
-        </set>
-        WHERE id = #{id}
-    </update>
 </mapper>

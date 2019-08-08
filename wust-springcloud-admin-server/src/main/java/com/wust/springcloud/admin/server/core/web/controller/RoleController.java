@@ -115,7 +115,7 @@ public class RoleController {
 
         SysRoleSearch sysRoleSearch = new SysRoleSearch();
         sysRoleSearch.setId(id);
-        List<SysRoleList> sysRoleLists = sysRoleServiceImpl.findByCondition(sysRoleSearch);
+        List<SysRoleList> sysRoleLists = sysRoleServiceImpl.select(sysRoleSearch);
         if(CollectionUtils.isNotEmpty(sysRoleLists)){
             SysRoleList sysRoleList = sysRoleLists.get(0);
             if(sysRoleList.getName().toLowerCase().contains("admin")){
@@ -126,7 +126,7 @@ public class RoleController {
 
             SysOrganizationSearch sysOrganizationSearch = new SysOrganizationSearch();
             sysOrganizationSearch.setRelationId(id);
-            List<SysOrganizationList> sysOrganizationLists = sysOrganizationServiceImpl.findByCondition(sysOrganizationSearch);
+            List<SysOrganizationList> sysOrganizationLists = sysOrganizationServiceImpl.select(sysOrganizationSearch);
             if(CollectionUtils.isNotEmpty(sysOrganizationLists)){
                 mm.setFlag(ResponseDto.INFOR_WARNING);
                 mm.setMessage("您要删除的数据存在组织架构关系中，不允许删除");

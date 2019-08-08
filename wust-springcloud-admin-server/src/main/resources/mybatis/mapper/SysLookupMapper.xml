@@ -52,33 +52,6 @@
         </if>
     </select>
 
-    <select id="findByCondition" parameterType="SysLookupSearch" resultMap="ListMap">
-        SELECT * FROM sys_lookup t WHERE 1 = 1
-        <if test="id != null and id !=  ''">
-            AND t.id = #{id}
-        </if>
-        <if test="lan != null and lan !=  ''">
-            AND t.lan = #{lan}
-        </if>
-        <if test="code != null and code !=  ''">
-            AND t.code = #{code}
-        </if>
-        <if test="parentCode != null and parentCode !=  ''">
-            AND t.parent_code  = #{parentCode}
-        </if>
-        <if test="rootCode != null and rootCode !=  ''">
-            AND t.root_code  = #{rootCode}
-        </if>
-        <if test="name != null and name != ''">
-            AND t.name  LIKE CONCAT('%',#{name},'%')
-        </if>
-        <if test="status != null and status != ''">
-            AND t.status = #{status}
-        </if>
-        <if test="visible != null and visible != ''">
-            AND t.visible = #{visible}
-        </if>
-    </select>
 
     <delete id="deleteAll">
         delete from sys_lookup

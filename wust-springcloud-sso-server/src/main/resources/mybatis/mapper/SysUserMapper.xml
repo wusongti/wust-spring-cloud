@@ -21,17 +21,4 @@
     </resultMap>
     <resultMap id="ListResultMap" extends="BaseResultMap" type="SysUserList">
     </resultMap>
-
-    <select id="findByCondition" parameterType="SysUserSearch" resultMap="ListResultMap">
-        SELECT * FROM sys_user t WHERE 1=1
-        <if test="id != null and id !=  ''">
-            AND t.id = #{id}
-        </if>
-        <if test="loginName != null and loginName !=  ''">
-            AND t.login_name = #{loginName}
-        </if>
-        <if test="password != null and password != ''">
-            AND t.password = #{password}
-        </if>
-    </select>
 </mapper>

@@ -106,7 +106,7 @@ public class UserController {
 
         SysUserSearch sysUserSearch = new SysUserSearch();
         sysUserSearch.setId(id);
-        List<SysUserList> sysUserLists = sysUserServiceImpl.findByCondition(sysUserSearch);
+        List<SysUserList> sysUserLists = sysUserServiceImpl.select(sysUserSearch);
         if(CollectionUtils.isNotEmpty(sysUserLists)){
             SysUserList sysUserList = sysUserLists.get(0);
             if("100401".equals(sysUserList.getType())){
@@ -117,7 +117,7 @@ public class UserController {
 
             SysOrganizationSearch sysOrganizationSearch = new SysOrganizationSearch();
             sysOrganizationSearch.setRelationId(id);
-            List<SysOrganizationList> sysOrganizationLists = sysOrganizationServiceImpl.findByCondition(sysOrganizationSearch);
+            List<SysOrganizationList> sysOrganizationLists = sysOrganizationServiceImpl.select(sysOrganizationSearch);
             if(CollectionUtils.isNotEmpty(sysOrganizationLists)){
                 mm.setFlag(ResponseDto.INFOR_WARNING);
                 mm.setMessage("您要删除的数据存在组织架构关系中，不允许删除");

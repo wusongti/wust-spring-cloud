@@ -22,26 +22,6 @@
 		<result property="modifyTime" column="modify_time"/>
   	</resultMap>
 
-	<select id="findByCondition" parameterType="SysMenuSearch" resultMap="BaseResultMap">
-		SELECT * FROM sys_menu sm
-		WHERE 1=1
-		<if test="id != null and id !=  ''">
-			AND sm.id = #{id}
-		</if>
-		<if test="code != null and code !=  ''">
-			AND sm.code = #{code}
-		</if>
-		<if test="pcode != null and pcode !=  ''">
-			AND sm.pcode = #{pcode}
-		</if>
-		<if test="level != null and level !=  ''">
-			AND sm.level = #{level}
-		</if>
-		<if test="type != null and type !=  ''">
-			AND sm.type = #{type}
-		</if>
-		order by sm.sort ASC
-	</select>
 
 	<!-- 超级管理员：非白名单菜单集合 -->
 	<select id="findAllMenus4SystemAdmin" resultMap="BaseResultMap">

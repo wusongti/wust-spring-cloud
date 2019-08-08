@@ -54,7 +54,7 @@ public class ProjectController {
 
         SysProjectSearch sysProjectSearch = new SysProjectSearch();
         sysProjectSearch.setName(entity.getName());
-        List<SysProjectList> sysDepartmentLists = sysProjectServiceImpl.findByCondition(sysProjectSearch);
+        List<SysProjectList> sysDepartmentLists = sysProjectServiceImpl.select(sysProjectSearch);
         if(CollectionUtils.isNotEmpty(sysDepartmentLists)){
             mm.setFlag(ResponseDto.INFOR_WARNING);
             mm.setMessage("您输入的名称已经存在");
@@ -78,7 +78,7 @@ public class ProjectController {
 
         SysProjectSearch sysProjectSearch = new SysProjectSearch();
         sysProjectSearch.setName(entity.getName());
-        List<SysProjectList> sysProjectLists = sysProjectServiceImpl.findByCondition(sysProjectSearch);
+        List<SysProjectList> sysProjectLists = sysProjectServiceImpl.select(sysProjectSearch);
         if(CollectionUtils.isNotEmpty(sysProjectLists)){
             if(!sysProjectLists.get(0).getCode().equals(entity.getCode())){
                 mm.setFlag(ResponseDto.INFOR_WARNING);
@@ -102,7 +102,7 @@ public class ProjectController {
 
         SysOrganizationSearch sysOrganizationSearch = new SysOrganizationSearch();
         sysOrganizationSearch.setRelationId(id);
-        List<SysOrganizationList> sysOrganizationLists = sysOrganizationServiceImpl.findByCondition(sysOrganizationSearch);
+        List<SysOrganizationList> sysOrganizationLists = sysOrganizationServiceImpl.select(sysOrganizationSearch);
         if(CollectionUtils.isNotEmpty(sysOrganizationLists)){
             mm.setFlag(ResponseDto.INFOR_WARNING);
             mm.setMessage("您要删除的数据存在组织架构关系中，不允许删除");
