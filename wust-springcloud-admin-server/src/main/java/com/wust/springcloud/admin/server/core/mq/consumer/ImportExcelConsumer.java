@@ -6,10 +6,8 @@ import com.wust.springcloud.admin.server.core.service.SysRoleImportService;
 import com.wust.springcloud.admin.server.core.service.SysUserImportService;
 import com.wust.springcloud.common.dto.ResponseDto;
 import com.wust.springcloud.common.entity.sys.importexport.SysImportExport;
-import com.wust.springcloud.common.entity.sys.importexport.SysImportExportList;
 import com.wust.springcloud.common.entity.sys.importexport.SysImportExportSearch;
 import com.wust.springcloud.common.util.MyStringUtils;
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
@@ -17,7 +15,6 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import java.util.Date;
-import java.util.List;
 
 /**
  * @author ：wust
@@ -95,7 +92,7 @@ public class ImportExcelConsumer {
 
         SysImportExportSearch condition = new SysImportExportSearch();
         condition.setBatchNo(sysImportExport.getBatchNo());
-        SysImportExport sysImportExportUpdate = sysImportExportServiceImpl.selectOne(condition) == null ? null : (SysImportExportList)sysImportExportServiceImpl.selectOne(condition);
+        SysImportExport sysImportExportUpdate = sysImportExportServiceImpl.selectOne(condition) == null ? null : (SysImportExport)sysImportExportServiceImpl.selectOne(condition);
         if(sysImportExportUpdate != null){
             sysImportExportUpdate.setStatus(responseDto.getCode());
             sysImportExportUpdate.setMsg(responseDto.getMessage());

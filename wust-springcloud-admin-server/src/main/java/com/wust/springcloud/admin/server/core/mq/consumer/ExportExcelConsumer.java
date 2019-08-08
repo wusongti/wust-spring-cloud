@@ -5,7 +5,6 @@ import com.wust.springcloud.admin.server.core.service.ExportExcelService;
 import com.wust.springcloud.admin.server.core.service.SysImportExportService;
 import com.wust.springcloud.common.dto.ResponseDto;
 import com.wust.springcloud.common.entity.sys.importexport.SysImportExport;
-import com.wust.springcloud.common.entity.sys.importexport.SysImportExportList;
 import com.wust.springcloud.common.entity.sys.importexport.SysImportExportSearch;
 import com.wust.springcloud.common.util.MyStringUtils;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
@@ -75,7 +74,7 @@ public class ExportExcelConsumer {
 
         SysImportExportSearch condition = new SysImportExportSearch();
         condition.setBatchNo(sysImportExport.getBatchNo());
-        SysImportExport sysImportExportUpdate = sysImportExportServiceImpl.selectOne(condition) == null ? null : (SysImportExportList)sysImportExportServiceImpl.selectOne(condition);
+        SysImportExport sysImportExportUpdate = sysImportExportServiceImpl.selectOne(condition) == null ? null : (SysImportExport)sysImportExportServiceImpl.selectOne(condition);
         if(sysImportExportUpdate != null){
             sysImportExportUpdate.setStatus(responseDto.getCode());
             sysImportExportUpdate.setEndTime(new Date());
