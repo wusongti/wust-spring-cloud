@@ -249,10 +249,10 @@ public class SysDataSourceServiceImpl extends BaseServiceImpl implements SysData
     @Override
     public void cacheDataSource() {
         SysDataSourceSearch sysDataSourceSearch = new SysDataSourceSearch();
-        List<SysDataSourceList> sysDataSourceLists = sysDataSourceMapper.findByCondition(sysDataSourceSearch);
+        List<SysDataSource> sysDataSourceLists = sysDataSourceMapper.select(sysDataSourceSearch);
         if(CollectionUtils.isNotEmpty(sysDataSourceLists)){
             JSONObject jsonObject = new JSONObject();
-            for (SysDataSourceList sysDataSourceList : sysDataSourceLists) {
+            for (SysDataSource sysDataSourceList : sysDataSourceLists) {
                 jsonObject.put(sysDataSourceList.getCompanyId(),sysDataSourceList);
             }
             if(springRedisTools.hasKey(RedisKeyEnum.REDIS_TABLE_KEY_DATA_SOURCE.name())){
