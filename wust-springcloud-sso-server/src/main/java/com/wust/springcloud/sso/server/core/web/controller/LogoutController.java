@@ -26,15 +26,15 @@ public class LogoutController {
 
     /**
      * 登出
-     * @param loginName
+     * @param xAuthToken
      * @return
      */
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_COMMON,businessName="登出",operationType= OperationLogEnum.Logout)
-    @RequestMapping(value = "/logout/{loginName}",method = RequestMethod.POST)
-    public ResponseDto logout(@PathVariable String loginName) {
+    @RequestMapping(value = "/logout/{xAuthToken}",method = RequestMethod.POST)
+    public ResponseDto logout(@PathVariable String xAuthToken) {
         ResponseDto messageMap = new ResponseDto();
 
-        String key = String.format(ApplicationEnum.WEB_LOGIN_KEY.getStringValue(),loginName);
+        String key = String.format(ApplicationEnum.WEB_LOGIN_KEY.getStringValue(),xAuthToken);
         if(springRedisTools.hasKey(key)){
             springRedisTools.deleteByKey(key);
         }

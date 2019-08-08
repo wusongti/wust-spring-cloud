@@ -1,6 +1,5 @@
 package com.wust.springcloud.sso.server.core.web.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.wust.springcloud.common.annotations.OperationLogAnnotation;
@@ -95,7 +94,7 @@ public class LoginController {
                 /**
                  * 将用户登录相关信息存储到缓存，以便解析作为上下文
                  */
-                String key = String.format(ApplicationEnum.WEB_LOGIN_KEY.getStringValue(),loginName);
+                String key = String.format(ApplicationEnum.WEB_LOGIN_KEY.getStringValue(),token);
                 springRedisTools.addData(key,  JSONObject.toJSONString(userContextDto), ApplicationEnum.X_AUTH_TOKEN_EXPIRE_TIME.getIntValue(), TimeUnit.MINUTES);
 
                 /**

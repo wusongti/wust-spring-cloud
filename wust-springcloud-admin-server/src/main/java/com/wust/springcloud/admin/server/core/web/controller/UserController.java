@@ -14,7 +14,6 @@ import com.wust.springcloud.common.entity.sys.organization.SysOrganizationSearch
 import com.wust.springcloud.common.entity.sys.user.SysUser;
 import com.wust.springcloud.common.entity.sys.user.SysUserList;
 import com.wust.springcloud.common.entity.sys.user.SysUserSearch;
-import com.wust.springcloud.common.enums.ApplicationEnum;
 import com.wust.springcloud.common.enums.OperationLogEnum;
 import com.wust.springcloud.common.util.CodeGenerator;
 import com.wust.springcloud.common.util.MyStringUtils;
@@ -60,12 +59,6 @@ public class UserController {
                 sysUserList.setSexLabel(DataDictionaryUtil.getLookupNameByCode(ctx.getLocale().toString(),sysUserList.getSex()));
                 sysUserList.setStatusLabel(DataDictionaryUtil.getLookupNameByCode(ctx.getLocale().toString(),sysUserList.getStatus()));
                 sysUserList.setTypeLabel(DataDictionaryUtil.getLookupNameByCode(ctx.getLocale().toString(),sysUserList.getType()));
-
-                if(springRedisTools.hasKey(String.format(ApplicationEnum.WEB_LOGIN_KEY.getStringValue(),sysUserList.getLoginName()))){
-                    sysUserList.setOnlineStatusLabel(DataDictionaryUtil.getLookupNameByCode(ctx.getLocale().toString(),"101001"));
-                }else{
-                    sysUserList.setOnlineStatusLabel(DataDictionaryUtil.getLookupNameByCode(ctx.getLocale().toString(),"101002"));
-                }
             }
         }
         baseDto.setPage(sysUserSearch.getPageDto());
