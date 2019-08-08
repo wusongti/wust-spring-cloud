@@ -75,7 +75,7 @@ public class ExportExcelConsumer {
 
         SysImportExportSearch condition = new SysImportExportSearch();
         condition.setBatchNo(sysImportExport.getBatchNo());
-        SysImportExportList sysImportExportUpdate = sysImportExportServiceImpl.selectOne(condition) == null ? null : (SysImportExportList)sysImportExportServiceImpl.selectOne(condition);
+        SysImportExport sysImportExportUpdate = sysImportExportServiceImpl.selectOne(condition) == null ? null : (SysImportExportList)sysImportExportServiceImpl.selectOne(condition);
         if(sysImportExportUpdate != null){
             sysImportExportUpdate.setStatus(responseDto.getCode());
             sysImportExportUpdate.setEndTime(new Date());
