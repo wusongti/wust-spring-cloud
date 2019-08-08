@@ -1,14 +1,10 @@
 package com.wust.springcloud.common.adapter;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
+import com.wust.springcloud.common.adapter.dataprivilege.StrategyContext;
 import com.wust.springcloud.common.annotations.PrivilegeAnnotation;
-import com.wust.springcloud.common.context.DefaultBusinessContext;
 import com.wust.springcloud.common.dto.PageDto;
-import com.wust.springcloud.common.util.MyStringUtils;
 import com.wust.springcloud.common.util.ReflectHelper;
 import com.wust.springcloud.common.util.cache.SpringRedisTools;
-import org.apache.commons.collections.map.HashedMap;
 import org.apache.ibatis.executor.ErrorContext;
 import org.apache.ibatis.executor.ExecutorException;
 import org.apache.ibatis.executor.statement.BaseStatementHandler;
@@ -39,7 +35,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Map;
 import java.util.Properties;
 
 /**
@@ -69,11 +64,9 @@ public class MyBatisInterceptorAdapter implements Interceptor {
             /**
              * 数据权限处理
              */
-            Map annotationMap = findPrivilegeAnnotation(mappedStatement);
-            boolean openPrivilegeFilter = (boolean)annotationMap.get("openPrivilegeFilter");
-            if(openPrivilegeFilter){
-                String dataPrivilegeId = annotationMap.get("dataPrivilegeId").toString();
-                processPrivilege(delegate,dataPrivilegeId);
+            boolean isPrivilegeAnnotation = isPrivilegeAnnotation(mappedStatement);
+            if(isPrivilegeAnnotation){
+                processPrivilege(delegate);
             }
 
 
@@ -122,49 +115,8 @@ public class MyBatisInterceptorAdapter implements Interceptor {
      * @throws SQLException
      * @throws NoSuchFieldException
      */
-    private void processPrivilege(BaseStatementHandler delegate, String dataPrivilegeId)  {
-        DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
-        if("100401".equals(ctx.getUserType())){ // 管理员，不对其进行数据权限过滤
-            return;
-        }
-        BoundSql boundSql = delegate.getBoundSql();
-        String sql = boundSql.getSql();
-        StringBuffer privilegeSqlStringBuffer = new StringBuffer("SELECT privilege_tmp.* FROM (" + sql + ") privilege_tmp");
-
-        String key = "dataPrivilege_" + ctx.getCompanyId() ;
-        Object obj = springRedisTools.getByKey(key);
-        if(obj != null){
-            JSONObject jsonObject = JSONObject.parseObject(obj.toString());
-            JSONArray jsonArray = jsonObject.getJSONArray(dataPrivilegeId);
-            if(jsonArray != null && jsonArray.size() > 0){
-                StringBuffer expressionStringBuffer = new StringBuffer();
-                for (Object jsonObj : jsonArray) {
-                    JSONObject j = (JSONObject)jsonObj;
-                    String expression = j.getString("expression");
-                    if(MyStringUtils.isNotBlank(expression)){
-                        if(expressionStringBuffer.toString().toUpperCase().contains("WHERE")){
-                            expression = expression.replace("#currentUserId","'" + ctx.getUserId() + "'").replace("#currentCompanyId","'" + ctx.getCompanyId() + "'");
-                            expressionStringBuffer.append(" OR ");
-                            expressionStringBuffer.append(expression);
-                        }else{
-                            expression = expression.replace("#currentUserId","'" + ctx.getUserId() + "'").replace("#currentCompanyId","'" + ctx.getCompanyId() + "'");
-                            expressionStringBuffer.append(" WHERE ");
-                            expressionStringBuffer.append(expression);
-                        }
-                    }else{
-                        if(!expressionStringBuffer.toString().toUpperCase().contains("WHERE")){
-                            // 已经开启数据权限，但是没有配置规则，则默认只能看自己的数据
-                            expressionStringBuffer.append(" WHERE creater_id = '" + ctx.getUserId() + "'");
-                        }
-                    }
-                }
-                privilegeSqlStringBuffer.append(expressionStringBuffer);
-            }
-        }else{
-            // 已经开启数据权限，但是没有配置规则，则默认只能看自己的数据
-            privilegeSqlStringBuffer.append(" WHERE creater_id = '" + ctx.getUserId() + "'");
-        }
-        ReflectHelper.setValueByFieldName(boundSql, "sql", privilegeSqlStringBuffer.toString());
+    private void processPrivilege(BaseStatementHandler delegate)  {
+        StrategyContext.getInstance().bindSql(delegate);
     }
 
     /**
@@ -291,16 +243,12 @@ public class MyBatisInterceptorAdapter implements Interceptor {
 
 
     /**
-     * 获取数据权限注解
+     * 是否开启数据权限过滤
      * @param mappedStatement
      * @return
      * @throws ClassNotFoundException
      */
-    private Map findPrivilegeAnnotation(MappedStatement mappedStatement) throws ClassNotFoundException {
-        Map<String,Object> resultMap = new HashedMap();
-        resultMap.put("openPrivilegeFilter",false);
-        resultMap.put("dataPrivilegeUuid","");
-
+    private boolean isPrivilegeAnnotation(MappedStatement mappedStatement) throws ClassNotFoundException {
         String namespace = mappedStatement.getId();
         String methodName = namespace.substring(namespace.lastIndexOf('.') + 1,namespace.length());
         String className = namespace.substring(0,namespace.lastIndexOf("."));
@@ -309,13 +257,11 @@ public class MyBatisInterceptorAdapter implements Interceptor {
             if(m.getName().equals(methodName)){
                 Annotation annotation = m.getAnnotation(PrivilegeAnnotation.class);
                 if(annotation != null){
-                    PrivilegeAnnotation privilegeAnnotation = (PrivilegeAnnotation)annotation;
-                    resultMap.put("openPrivilegeFilter",true);
-                    resultMap.put("dataPrivilegeUuid",privilegeAnnotation.uuid());
+                    return true;
                 }
                 break;
             }
         }
-        return resultMap;
+        return false;
     }
 }

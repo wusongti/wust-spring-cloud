@@ -12,6 +12,6 @@ import java.util.List;
  * Created by WST on 2019/5/28.
  */
 public interface SysOperationLogMapper  extends IBaseMapper<SysOperationLog> {
-    //@PrivilegeAnnotation(uuid = "ae5c122c-8cb5-11e9-a68d-0050568e63cd",businessName = "操作日志")
+    @PrivilegeAnnotation()
     List<SysOperationLogList> listPage(SysOperationLogSearch search) throws DataAccessException;
 }

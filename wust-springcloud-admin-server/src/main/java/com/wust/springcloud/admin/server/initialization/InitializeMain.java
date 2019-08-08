@@ -17,8 +17,6 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class InitializeMain implements ApplicationListener<ApplicationReadyEvent> {
-    @Autowired
-    private InitializePrivilegeData initializePrivilegeData;
 
     @Autowired
     private SysMenuService sysMenuServiceImpl;
@@ -39,7 +37,6 @@ public class InitializeMain implements ApplicationListener<ApplicationReadyEvent
         sysMenuServiceImpl.init();
         sysLookupServiceImpl.init();
         sysDataSourceService.cacheDataSource();
-        initializePrivilegeData.init(applicationReadyEvent);
     }
 
 }
