@@ -5,6 +5,7 @@ import com.wust.springcloud.admin.server.core.service.SysProjectService;
 import com.wust.springcloud.common.annotations.OperationLogAnnotation;
 import com.wust.springcloud.common.context.DefaultBusinessContext;
 import com.wust.springcloud.common.dto.ResponseDto;
+import com.wust.springcloud.common.entity.sys.organization.SysOrganization;
 import com.wust.springcloud.common.entity.sys.organization.SysOrganizationList;
 import com.wust.springcloud.common.entity.sys.organization.SysOrganizationSearch;
 import com.wust.springcloud.common.entity.sys.project.SysProject;
@@ -54,7 +55,7 @@ public class ProjectController {
 
         SysProjectSearch sysProjectSearch = new SysProjectSearch();
         sysProjectSearch.setName(entity.getName());
-        List<SysProjectList> sysDepartmentLists = sysProjectServiceImpl.select(sysProjectSearch);
+        List<SysProject> sysDepartmentLists = sysProjectServiceImpl.select(sysProjectSearch);
         if(CollectionUtils.isNotEmpty(sysDepartmentLists)){
             mm.setFlag(ResponseDto.INFOR_WARNING);
             mm.setMessage("您输入的名称已经存在");
@@ -78,7 +79,7 @@ public class ProjectController {
 
         SysProjectSearch sysProjectSearch = new SysProjectSearch();
         sysProjectSearch.setName(entity.getName());
-        List<SysProjectList> sysProjectLists = sysProjectServiceImpl.select(sysProjectSearch);
+        List<SysProject> sysProjectLists = sysProjectServiceImpl.select(sysProjectSearch);
         if(CollectionUtils.isNotEmpty(sysProjectLists)){
             if(!sysProjectLists.get(0).getCode().equals(entity.getCode())){
                 mm.setFlag(ResponseDto.INFOR_WARNING);
@@ -102,7 +103,7 @@ public class ProjectController {
 
         SysOrganizationSearch sysOrganizationSearch = new SysOrganizationSearch();
         sysOrganizationSearch.setRelationId(id);
-        List<SysOrganizationList> sysOrganizationLists = sysOrganizationServiceImpl.select(sysOrganizationSearch);
+        List<SysOrganization> sysOrganizationLists = sysOrganizationServiceImpl.select(sysOrganizationSearch);
         if(CollectionUtils.isNotEmpty(sysOrganizationLists)){
             mm.setFlag(ResponseDto.INFOR_WARNING);
             mm.setMessage("您要删除的数据存在组织架构关系中，不允许删除");

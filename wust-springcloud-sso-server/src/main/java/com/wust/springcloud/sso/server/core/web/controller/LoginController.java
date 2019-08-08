@@ -8,6 +8,7 @@ import com.wust.springcloud.common.dto.ResponseDto;
 import com.wust.springcloud.common.dto.UserContextDto;
 import com.wust.springcloud.common.entity.sys.menu.SysMenu;
 import com.wust.springcloud.common.entity.sys.resource.SysResource;
+import com.wust.springcloud.common.entity.sys.user.SysUser;
 import com.wust.springcloud.common.entity.sys.user.SysUserList;
 import com.wust.springcloud.common.entity.sys.user.SysUserSearch;
 import com.wust.springcloud.common.enums.ApplicationEnum;
@@ -77,9 +78,9 @@ public class LoginController {
         sysUserSearch.setPassword(passwordRC4);
         DefaultBusinessContext.getContext().setDataSourceId(ApplicationEnum.DEFAULT.name());
 
-        List<SysUserList> sysUserLists =  sysUserServiceImpl.select(sysUserSearch);
+        List<SysUser> sysUserLists =  sysUserServiceImpl.select(sysUserSearch);
         if(sysUserLists != null && sysUserLists.size() > 0){
-            SysUserList sysUserList = sysUserLists.get(0);
+            SysUser sysUserList = sysUserLists.get(0);
             JSONObject subJSONObject = new JSONObject();
             subJSONObject.put("loginName",loginName);
             String token = createJWT(subJSONObject.toJSONString());
@@ -134,7 +135,7 @@ public class LoginController {
 
 
 
-    private UserContextDto getUserContextDto(final SysUserList sysUserList){
+    private UserContextDto getUserContextDto(final SysUser sysUser){
         final JSONArray menuJSONArray = new JSONArray(100);
         List<SysMenu> menus = null;                            // 非白名单菜单
         Map<Integer,List<SysMenu>> groupMenusByLevel = null;   // 根据菜单级别分组menus
@@ -147,8 +148,8 @@ public class LoginController {
 
         UserContextDto userContextDto = new UserContextDto();
 
-        Long userId = sysUserList.getId();
-        String type = sysUserList.getType();
+        Long userId = sysUser.getId();
+        String type = sysUser.getType();
         if("100401".equals(type)){ // 系统管理员
             // 切换数据源，然后查找对应数据源下的菜单资源
             DefaultBusinessContext.getContext().setDataSourceId(ApplicationEnum.DEFAULT.name());
@@ -172,7 +173,7 @@ public class LoginController {
             groupResourcesByMenuId = groupResourcesByMenuCode(resources);
         }
 
-        userContextDto.setUser(sysUserList);
+        userContextDto.setUser(sysUser);
         userContextDto.setMenuJSONArray(menuJSONArray);
         userContextDto.setResources(resources);
         userContextDto.setAnonResources(resources4anon);

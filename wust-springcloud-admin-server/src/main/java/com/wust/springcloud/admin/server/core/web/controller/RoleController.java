@@ -9,6 +9,7 @@ import com.wust.springcloud.common.annotations.OperationLogAnnotation;
 import com.wust.springcloud.common.context.DefaultBusinessContext;
 import com.wust.springcloud.common.dto.ResponseDto;
 import com.wust.springcloud.common.entity.sys.importexport.SysImportExport;
+import com.wust.springcloud.common.entity.sys.organization.SysOrganization;
 import com.wust.springcloud.common.entity.sys.organization.SysOrganizationList;
 import com.wust.springcloud.common.entity.sys.organization.SysOrganizationSearch;
 import com.wust.springcloud.common.entity.sys.role.SysRole;
@@ -115,10 +116,10 @@ public class RoleController {
 
         SysRoleSearch sysRoleSearch = new SysRoleSearch();
         sysRoleSearch.setId(id);
-        List<SysRoleList> sysRoleLists = sysRoleServiceImpl.select(sysRoleSearch);
+        List<SysRole> sysRoleLists = sysRoleServiceImpl.select(sysRoleSearch);
         if(CollectionUtils.isNotEmpty(sysRoleLists)){
-            SysRoleList sysRoleList = sysRoleLists.get(0);
-            if(sysRoleList.getName().toLowerCase().contains("admin")){
+            SysRole sysRole = sysRoleLists.get(0);
+            if(sysRole.getName().toLowerCase().contains("admin")){
                 mm.setFlag(ResponseDto.INFOR_WARNING);
                 mm.setMessage("不能删除管理角色");
                 return mm;
@@ -126,7 +127,7 @@ public class RoleController {
 
             SysOrganizationSearch sysOrganizationSearch = new SysOrganizationSearch();
             sysOrganizationSearch.setRelationId(id);
-            List<SysOrganizationList> sysOrganizationLists = sysOrganizationServiceImpl.select(sysOrganizationSearch);
+            List<SysOrganization> sysOrganizationLists = sysOrganizationServiceImpl.select(sysOrganizationSearch);
             if(CollectionUtils.isNotEmpty(sysOrganizationLists)){
                 mm.setFlag(ResponseDto.INFOR_WARNING);
                 mm.setMessage("您要删除的数据存在组织架构关系中，不允许删除");

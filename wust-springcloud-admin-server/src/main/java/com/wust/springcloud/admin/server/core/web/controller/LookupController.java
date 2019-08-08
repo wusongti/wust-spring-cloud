@@ -6,6 +6,7 @@ import com.wust.springcloud.admin.server.core.service.SysLookupService;
 import com.wust.springcloud.common.annotations.OperationLogAnnotation;
 import com.wust.springcloud.common.context.DefaultBusinessContext;
 import com.wust.springcloud.common.dto.ResponseDto;
+import com.wust.springcloud.common.entity.sys.lookup.SysLookup;
 import com.wust.springcloud.common.entity.sys.lookup.SysLookupList;
 import com.wust.springcloud.common.entity.sys.lookup.SysLookupSearch;
 import com.wust.springcloud.common.enums.OperationLogEnum;
@@ -45,15 +46,15 @@ public class LookupController {
         rootJSONObject.put("open",true);
 
         sysLookupSearch.setLan(ctx.getLocale().toString());
-        List<SysLookupList> sysLookupLists =  sysLookupServiceImpl.select(sysLookupSearch);
+        List<SysLookup> sysLookupLists =  sysLookupServiceImpl.select(sysLookupSearch);
         if(CollectionUtils.isNotEmpty(sysLookupLists)){
-            for (SysLookupList sysLookupList : sysLookupLists) {
+            for (SysLookup sysLookup : sysLookupLists) {
                 JSONObject jsonObject = new JSONObject();
-                jsonObject.put("id",sysLookupList.getCode());
-                jsonObject.put("pId",sysLookupList.getParentCode());
-                jsonObject.put("rootCode",sysLookupList.getRootCode());
-                jsonObject.put("lookupId",sysLookupList.getId());
-                jsonObject.put("name",sysLookupList.getDescription());
+                jsonObject.put("id",sysLookup.getCode());
+                jsonObject.put("pId",sysLookup.getParentCode());
+                jsonObject.put("rootCode",sysLookup.getRootCode());
+                jsonObject.put("lookupId",sysLookup.getId());
+                jsonObject.put("name",sysLookup.getDescription());
                 jsonObject.put("open",false);
                 jsonArray.add(jsonObject);
             }
