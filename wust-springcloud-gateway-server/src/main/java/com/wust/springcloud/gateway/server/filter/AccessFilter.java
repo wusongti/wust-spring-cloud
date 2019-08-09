@@ -6,6 +6,7 @@ package com.wust.springcloud.gateway.server.filter;
 import com.wust.springcloud.common.enums.ApplicationEnum;
 import com.wust.springcloud.common.util.MyStringUtils;
 import com.wust.springcloud.gateway.server.core.service.AuthorizeService;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
@@ -53,6 +54,7 @@ public class AccessFilter implements GlobalFilter {
                 token = request.getQueryParams().getFirst(ApplicationEnum.X_AUTH_TOKEN.getStringValue());
             }
         }
+        System.out.println("时间=" + DateTime.now().toString("yyyy-MM-dd HH:mm:ss") + "   token=" + token);
 
         if (reqUrl.contains("/login")) { // 登录请求默认通过
             response.setStatusCode(HttpStatus.OK);
@@ -73,6 +75,7 @@ public class AccessFilter implements GlobalFilter {
                     return response.setComplete();
                 }
             }else{
+                System.out.println("认证不通过，时间=" + DateTime.now().toString("yyyy-MM-dd HH:mm:ss") + "   token=" + token);
                 response.setStatusCode(HttpStatus.NO_CONTENT);
                 return response.setComplete();
             }

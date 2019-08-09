@@ -26,10 +26,8 @@ import com.wust.springcloud.common.enums.OperationLogEnum;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
+import java.util.*;
 
 /**
  * Created by WST on 2019/6/3.
@@ -260,9 +258,10 @@ public class OrganizationController {
 
         entity.setCreaterId(ctx.getUserId());
         entity.setCreaterName(ctx.getLoginName());
+        entity.setCreateTime(new Date());
         sysOrganizationServiceImpl.insert(entity);
 
-        updateUserOrganizationProducer.send(null);
+        updateUserOrganizationProducer.send(new JSONObject());
         mm.setObj(entity.getId());
         return mm;
     }
@@ -281,7 +280,7 @@ public class OrganizationController {
             mm.setMessage("您要删除的记录存在子节点，无法删除带有子节点的数据，请先删除所有子节点");
         }else{
             sysOrganizationServiceImpl.deleteByPrimaryKey(id);
-            updateUserOrganizationProducer.send(null);
+            updateUserOrganizationProducer.send(new JSONObject());
         }
         return mm;
     }
@@ -325,7 +324,7 @@ public class OrganizationController {
         if(CollectionUtils.isNotEmpty(sysOrganizationLists)){
             sysRoleResourceAdd.setOrganizationId(sysOrganizationLists.get(0).getId());
             messageMap = sysOrganizationServiceImpl.setFunctionPermissions(sysRoleResourceAdd);
-            updateUserOrganizationProducer.send(null);
+            updateUserOrganizationProducer.send(new JSONObject());
         }else{
             messageMap.setFlag(ResponseDto.INFOR_WARNING);
             messageMap.setMessage("组织架构里面已经没有这个数据，刚刚可能是被其他用户删除了");
