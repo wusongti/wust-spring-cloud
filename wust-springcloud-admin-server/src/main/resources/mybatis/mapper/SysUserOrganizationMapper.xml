@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wust.springcloud.admin.server.core.dao.SysUserOrganizationMapper">
+  <resultMap id="BaseResultMap" type="SysUserOrganization">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="role_id" jdbcType="BIGINT" property="roleId" />
+    <result column="department_id" jdbcType="BIGINT" property="departmentId" />
+    <result column="project_id" jdbcType="BIGINT" property="projectId" />
+    <result column="branch_company_id" jdbcType="BIGINT" property="branchCompanyId" />
+    <result column="parent_company_id" jdbcType="BIGINT" property="parentCompanyId" />
+    <result column="agent_id" jdbcType="BIGINT" property="agentId" />
+    <result column="creater_id" jdbcType="BIGINT" property="createrId" />
+    <result column="creater_name" jdbcType="VARCHAR" property="createrName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modify_id" jdbcType="BIGINT" property="modifyId" />
+    <result column="modify_name" jdbcType="VARCHAR" property="modifyName" />
+    <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
+  </resultMap>
+</mapper>

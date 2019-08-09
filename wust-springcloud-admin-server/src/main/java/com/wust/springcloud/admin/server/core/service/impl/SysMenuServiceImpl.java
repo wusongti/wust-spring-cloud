@@ -108,7 +108,7 @@ public class SysMenuServiceImpl  extends BaseServiceImpl implements SysMenuServi
         /**
          * 重新为所有角色分配拥有菜单的白名单
          */
-        List<SysRoleResourceList> sysRoleResourceLists = sysRoleResourceMapper.groupByOrganizationId(ApplicationEnum.MENUT_TYPE_M.getStringValue());
+        List<SysRoleResourceList> sysRoleResourceLists = sysRoleResourceMapper.groupByOrganizationId(ApplicationEnum.MENU_TYPE_M.getStringValue());
         if(!CollectionUtils.isEmpty(sysRoleResourceLists)){
             for (SysRoleResourceList sysRoleResourceList : sysRoleResourceLists) {
                 Long organizationId = sysRoleResourceList.getOrganizationId();
@@ -125,7 +125,7 @@ public class SysMenuServiceImpl  extends BaseServiceImpl implements SysMenuServi
                         SysRoleResource anon = new SysRoleResource();
                         anon.setOrganizationId(organizationId);
                         anon.setResourceId(sysResource.getCode());
-                        anon.setType(ApplicationEnum.MENUT_TYPE_R.getStringValue());
+                        anon.setType(ApplicationEnum.MENU_TYPE_R.getStringValue());
                         anon.setCreateTime(new Date());
                         anonList.add(anon);
                         annonResourceIdList.add(sysResource.getId());

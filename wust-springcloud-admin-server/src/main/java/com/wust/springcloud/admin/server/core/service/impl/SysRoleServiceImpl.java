@@ -61,7 +61,7 @@ public class SysRoleServiceImpl extends BaseServiceImpl implements SysRoleServic
                     jsonObject.put("id",menu.getCode());
                     jsonObject.put("pId",menu.getPcode());
                     jsonObject.put("name",menu.getDescription());
-                    jsonObject.put("type",ApplicationEnum.MENUT_TYPE_M.getStringValue());
+                    jsonObject.put("type",ApplicationEnum.MENU_TYPE_M.getStringValue());
                     jsonObject.put("checked",menu.getChecked());
                     if(MyStringUtils.isBlank(MyStringUtils.null2String(menu.getPcode()))){
                         jsonObject.put("open",true);
@@ -86,7 +86,7 @@ public class SysRoleServiceImpl extends BaseServiceImpl implements SysRoleServic
                             jsonObject.put("code",resource.getCode());
                             jsonObject.put("pId",menuCode);
                             jsonObject.put("name",resource.getDescription());
-                            jsonObject.put("type",ApplicationEnum.MENUT_TYPE_R.getStringValue());
+                            jsonObject.put("type",ApplicationEnum.MENU_TYPE_R.getStringValue());
                             jsonObject.put("checked",resource.getChecked());
                             jsonArray.add(jsonObject);
                         }

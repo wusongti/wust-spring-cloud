@@ -7,24 +7,20 @@ import com.wust.springcloud.common.annotations.OperationLogAnnotation;
 import com.wust.springcloud.common.context.DefaultBusinessContext;
 import com.wust.springcloud.common.dto.ResponseDto;
 import com.wust.springcloud.common.entity.sys.company.SysCompany;
-import com.wust.springcloud.common.entity.sys.company.SysCompanyList;
 import com.wust.springcloud.common.entity.sys.company.SysCompanySearch;
 import com.wust.springcloud.common.entity.sys.department.SysDepartment;
-import com.wust.springcloud.common.entity.sys.department.SysDepartmentList;
 import com.wust.springcloud.common.entity.sys.department.SysDepartmentSearch;
 import com.wust.springcloud.common.entity.sys.organization.SysOrganization;
 import com.wust.springcloud.common.entity.sys.organization.SysOrganizationList;
 import com.wust.springcloud.common.entity.sys.organization.SysOrganizationSearch;
 import com.wust.springcloud.common.entity.sys.project.SysProject;
-import com.wust.springcloud.common.entity.sys.project.SysProjectList;
 import com.wust.springcloud.common.entity.sys.project.SysProjectSearch;
 import com.wust.springcloud.common.entity.sys.role.SysRole;
-import com.wust.springcloud.common.entity.sys.role.SysRoleList;
 import com.wust.springcloud.common.entity.sys.role.SysRoleSearch;
 import com.wust.springcloud.common.entity.sys.role.resource.SysRoleResourceCreate;
 import com.wust.springcloud.common.entity.sys.user.SysUser;
-import com.wust.springcloud.common.entity.sys.user.SysUserList;
 import com.wust.springcloud.common.entity.sys.user.SysUserSearch;
+import com.wust.springcloud.common.enums.DataDictionaryEnum;
 import com.wust.springcloud.common.enums.OperationLogEnum;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,37 +71,37 @@ public class OrganizationController {
                 String type = sysOrganizationList.getType();
                 Long relationId = sysOrganizationList.getRelationId();
 
-                if("101101".equalsIgnoreCase(type)
-                || "101104".equalsIgnoreCase(type)
-                || "101107".equalsIgnoreCase(type)){ // 代理商、总公司、分公司
+                if(DataDictionaryEnum.ORGANIZATION_TYPE_AGENT.getStringValue().equalsIgnoreCase(type)
+                || DataDictionaryEnum.ORGANIZATION_TYPE_PARENT_COMPANY.getStringValue().equalsIgnoreCase(type)
+                || DataDictionaryEnum.ORGANIZATION_TYPE_BRANCH_COMPANY.getStringValue().equalsIgnoreCase(type)){ // 代理商、总公司、分公司
                     SysCompanySearch sysCompanySearch = new SysCompanySearch();
                     sysCompanySearch.setId(relationId);
                     SysCompany sysCompany = sysCompanyServiceImpl.selectOne(sysCompanySearch) == null ? null : (SysCompany)sysCompanyServiceImpl.selectOne(sysCompanySearch);
                     if(sysCompany != null){
                         sysCompanyLists.add(sysCompany);
                     }
-                }else if("101109".equalsIgnoreCase(type)){ // 项目
+                }else if(DataDictionaryEnum.ORGANIZATION_TYPE_PROJECT.getStringValue().equalsIgnoreCase(type)){ // 项目
                     SysProjectSearch sysProjectSearch = new SysProjectSearch();
                     sysProjectSearch.setId(relationId);
                     SysProject sysProject = sysProjectServiceImpl.selectOne(sysProjectSearch) == null ? null : (SysProject)sysProjectServiceImpl.selectOne(sysProjectSearch);
                     if(sysProject != null){
                         sysProjectLists.add(sysProject);
                     }
-                }else if("101111".equalsIgnoreCase(type)){ // 部门
+                }else if(DataDictionaryEnum.ORGANIZATION_TYPE_DEPARTMENT.getStringValue().equalsIgnoreCase(type)){ // 部门
                     SysDepartmentSearch sysDepartmentSearch = new SysDepartmentSearch();
                     sysDepartmentSearch.setId(relationId);
                     SysDepartment sysDepartment = sysDepartmentServiceImpl.selectOne(sysDepartmentSearch) == null ? null : (SysDepartment)sysDepartmentServiceImpl.selectOne(sysDepartmentSearch);
                     if(sysDepartment != null){
                         sysDepartmentLists.add(sysDepartment);
                     }
-                }else if("101113".equalsIgnoreCase(type)){ // 角色
+                }else if(DataDictionaryEnum.ORGANIZATION_TYPE_ROLE.getStringValue().equalsIgnoreCase(type)){ // 角色
                     SysRoleSearch sysRoleSearch = new SysRoleSearch();
                     sysRoleSearch.setId(relationId);
                     SysRole sysRole = sysRoleServiceImpl.selectOne(sysRoleSearch) == null ? null : (SysRole)sysRoleServiceImpl.selectOne(sysRoleSearch);
                     if(sysRole != null){
                         sysRoleLists.add(sysRole);
                     }
-                }else if("101115".equalsIgnoreCase(type)){ // 用户
+                }else if(DataDictionaryEnum.ORGANIZATION_TYPE_USER.getStringValue().equalsIgnoreCase(type)){ // 用户
                     SysUserSearch sysUserSearch = new SysUserSearch();
                     sysUserSearch.setId(relationId);
                     SysUser sysUser = sysUserServiceImpl.selectOne(sysUserSearch) == null ? null : (SysUser)sysUserServiceImpl.selectOne(sysUserSearch);
@@ -168,7 +164,7 @@ public class OrganizationController {
                 String name = "";
                 Long pid = sysOrganizationList.getPid();
 
-                if("101101".equalsIgnoreCase(type)){
+                if(DataDictionaryEnum.ORGANIZATION_TYPE_AGENT.getStringValue().equalsIgnoreCase(type)){
                     SysCompanySearch sysCompanySearch = new SysCompanySearch();
                     sysCompanySearch.setId(relationId);
                     SysCompany sysCompany = sysCompanyServiceImpl.selectOne(sysCompanySearch) == null ? null : (SysCompany)sysCompanyServiceImpl.selectOne(sysCompanySearch);
@@ -176,42 +172,42 @@ public class OrganizationController {
                         name = "代理商-" + sysCompany.getName();
                         pid = pid == null ? -1 : pid;
                     }
-                }else if("101104".equalsIgnoreCase(type)){
+                }else if(DataDictionaryEnum.ORGANIZATION_TYPE_PARENT_COMPANY.getStringValue().equalsIgnoreCase(type)){
                     SysCompanySearch sysCompanySearch = new SysCompanySearch();
                     sysCompanySearch.setId(relationId);
                     SysCompany sysCompany = sysCompanyServiceImpl.selectOne(sysCompanySearch) == null ? null : (SysCompany)sysCompanyServiceImpl.selectOne(sysCompanySearch);
                     if(sysCompany != null){
                         name = "总公司-" + sysCompany.getName();
                     }
-                }else if("101107".equalsIgnoreCase(type)){
+                }else if(DataDictionaryEnum.ORGANIZATION_TYPE_BRANCH_COMPANY.getStringValue().equalsIgnoreCase(type)){
                     SysCompanySearch sysCompanySearch = new SysCompanySearch();
                     sysCompanySearch.setId(relationId);
                     SysCompany sysCompany = sysCompanyServiceImpl.selectOne(sysCompanySearch) == null ? null : (SysCompany)sysCompanyServiceImpl.selectOne(sysCompanySearch);
                     if(sysCompany != null){
                         name = "分公司-" + sysCompany.getName();
                     }
-                }else if("101109".equalsIgnoreCase(type)){
+                }else if(DataDictionaryEnum.ORGANIZATION_TYPE_PROJECT.getStringValue().equalsIgnoreCase(type)){
                     SysProjectSearch sysProjectSearch = new SysProjectSearch();
                     sysProjectSearch.setId(relationId);
                     SysProject sysProject = sysProjectServiceImpl.selectOne(sysProjectSearch) == null ? null : (SysProject)sysProjectServiceImpl.selectOne(sysProjectSearch);
                     if(sysProject != null){
                         name = "项目-" + sysProject.getName();
                     }
-                }else if("101111".equalsIgnoreCase(type)){
+                }else if(DataDictionaryEnum.ORGANIZATION_TYPE_DEPARTMENT.getStringValue().equalsIgnoreCase(type)){
                     SysDepartmentSearch sysDepartmentSearch = new SysDepartmentSearch();
                     sysDepartmentSearch.setId(relationId);
                     SysDepartment sysDepartment = sysDepartmentServiceImpl.selectOne(sysDepartmentSearch) == null ? null : (SysDepartment)sysDepartmentServiceImpl.selectOne(sysDepartmentSearch);
                     if(sysDepartment != null){
                         name = "部门-" + sysDepartment.getName();
                     }
-                }else if("101113".equalsIgnoreCase(type)){
+                }else if(DataDictionaryEnum.ORGANIZATION_TYPE_ROLE.getStringValue().equalsIgnoreCase(type)){
                     SysRoleSearch sysRoleSearch = new SysRoleSearch();
                     sysRoleSearch.setId(relationId);
                     SysRole sysRole = sysRoleServiceImpl.selectOne(sysRoleSearch) == null ? null : (SysRole)sysRoleServiceImpl.selectOne(sysRoleSearch);
                     if(sysRole != null){
                         name = "角色-" + sysRole.getName();
                     }
-                }else if("101115".equalsIgnoreCase(type)){
+                }else if(DataDictionaryEnum.ORGANIZATION_TYPE_USER.getStringValue().equalsIgnoreCase(type)){
                     SysUserSearch sysUserSearch = new SysUserSearch();
                     sysUserSearch.setId(relationId);
                     SysUser sysUser = sysUserServiceImpl.selectOne(sysUserSearch) == null ? null : (SysUser)sysUserServiceImpl.selectOne(sysUserSearch);
@@ -245,9 +241,9 @@ public class OrganizationController {
         sysOrganizationSearch.setType(entity.getType());
 
         // 同一个部门、角色和用户可以在不同节点下面出现
-        if("101111".equals(entity.getType())
-                || "101113".equals(entity.getType())
-                || "101115".equals(entity.getType())){
+        if(DataDictionaryEnum.ORGANIZATION_TYPE_DEPARTMENT.getStringValue().equals(entity.getType())
+                || DataDictionaryEnum.ORGANIZATION_TYPE_ROLE.getStringValue().equals(entity.getType())
+                || DataDictionaryEnum.ORGANIZATION_TYPE_USER.getStringValue().equals(entity.getType())){
             sysOrganizationSearch.setPid(entity.getPid());
         }
         sysOrganizationSearch.setRelationId(entity.getRelationId());

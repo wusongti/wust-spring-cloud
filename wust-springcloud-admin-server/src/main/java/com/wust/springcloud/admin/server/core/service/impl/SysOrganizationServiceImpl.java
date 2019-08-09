@@ -51,14 +51,14 @@ public class SysOrganizationServiceImpl extends BaseServiceImpl implements SysOr
             list.add(sysRoleResource);
 
             // 将所勾选的菜单下面的所有私有白名单权限也自动授予角色
-            if(ApplicationEnum.MENUT_TYPE_M.getStringValue().equalsIgnoreCase(sysRoleResource.getType())){
+            if(ApplicationEnum.MENU_TYPE_M.getStringValue().equalsIgnoreCase(sysRoleResource.getType())){
                 List<SysResource> anonList = sysResourceMapper.findAnonResourcesByMenuId(sysRoleResource.getResourceId());
                 if(!CollectionUtils.isEmpty(anonList)){
                     for(SysResource anonR : anonList){
                         SysRoleResource anon = new SysRoleResource();
                         anon.setOrganizationId(sysRoleResourceCreate.getOrganizationId());
                         anon.setResourceId(anonR.getCode());
-                        anon.setType(ApplicationEnum.MENUT_TYPE_R.getStringValue());
+                        anon.setType(ApplicationEnum.MENU_TYPE_R.getStringValue());
                         anon.setCreateTime(new Date());
                         list.add(anon);
                     }

@@ -13,14 +13,15 @@
 
     <properties>
         <!-- ${basedir}引用工程根目录 -->
+
         <!-- targetJavaProject：声明存放源码的目录位置 -->
         <targetJavaProject>${basedir}/src/main/java</targetJavaProject>
 
         <!-- targetMapperPackage：声明MBG生成XxxMapper接口后存放的package位置 -->
-        <targetMapperPackage>/</targetMapperPackage>
+        <targetMapperPackage>com.wust.springcloud.admin.server.core.dao</targetMapperPackage>
 
         <!-- targetModelPackage：声明MBG生成实体类后存放的package位置 -->
-        <targetModelPackage>/</targetModelPackage>
+        <targetModelPackage>com.wust.springcloud.admin.server.core.dao</targetModelPackage>
 
         <!-- targetResourcesProject：声明存放资源文件和XML配置文件的目录位置 -->
         <targetResourcesProject>${basedir}/src/main/resources</targetResourcesProject>
