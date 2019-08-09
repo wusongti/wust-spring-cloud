@@ -31,7 +31,7 @@ public class LookupController {
 
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_LOOKUP,businessName="构建数据字典树",operationType= OperationLogEnum.Search)
     @RequestMapping(value = "/buildLookupTree",method = RequestMethod.POST)
-    public ResponseDto buildLookupTree(@RequestBody SysLookupSearch sysLookupSearch){
+    public ResponseDto buildLookupTree(){
         ResponseDto baseDto = new ResponseDto();
         DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
 
@@ -45,6 +45,7 @@ public class LookupController {
         rootJSONObject.put("name","数据字典");
         rootJSONObject.put("open",true);
 
+        SysLookupSearch sysLookupSearch = new SysLookupSearch();
         sysLookupSearch.setLan(ctx.getLocale().toString());
         List<SysLookup> sysLookupLists =  sysLookupServiceImpl.select(sysLookupSearch);
         if(CollectionUtils.isNotEmpty(sysLookupLists)){
