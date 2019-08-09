@@ -114,11 +114,11 @@ public class OrganizationController {
             }
 
             Map<String,List> map = new HashMap<>(5);
-            map.put("companyList",null);
-            map.put("departmentList",null);
-            map.put("projectList",null);
-            map.put("roleList",null);
-            map.put("userList",null);
+            map.put("companyList",new ArrayList(0));
+            map.put("departmentList",new ArrayList(0));
+            map.put("projectList",new ArrayList(0));
+            map.put("roleList",new ArrayList(0));
+            map.put("userList",new ArrayList(0));
             if(CollectionUtils.isNotEmpty(sysCompanyLists)){
                 map.put("companyList",sysCompanyLists);
             }
@@ -297,9 +297,9 @@ public class OrganizationController {
         SysOrganizationSearch sysOrganizationSearch = new SysOrganizationSearch();
         sysOrganizationSearch.setPid(pid);
         sysOrganizationSearch.setRelationId(roleId);
-        List<SysOrganization> sysOrganizationLists = this.sysOrganizationServiceImpl.select(sysOrganizationSearch);
-        if(CollectionUtils.isNotEmpty(sysOrganizationLists)){
-            messageMap = sysRoleServiceImpl.findFunctionTreeByOrganizationId(sysOrganizationLists.get(0).getId());
+        List<SysOrganization> sysOrganizations = this.sysOrganizationServiceImpl.select(sysOrganizationSearch);
+        if(CollectionUtils.isNotEmpty(sysOrganizations)){
+            messageMap = sysRoleServiceImpl.findFunctionTreeByOrganizationId(sysOrganizations.get(0).getId());
         }else{
             messageMap.setFlag(ResponseDto.INFOR_WARNING);
             messageMap.setMessage("组织架构里面已经没有这个数据，刚刚可能是被其他用户删除了");

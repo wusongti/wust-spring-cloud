@@ -38,6 +38,7 @@
 	<select id="findAnonResourcesByMenuId" parameterType="String" resultMap="BaseResultMap">
 		SELECT
 			sr.id,
+			sr.code,
 			sr.name,
 			sr.description,
 			sr.permission,
@@ -51,6 +52,7 @@
 		SELECT
 			DISTINCT
 			r.id,
+		    r.code,
 			r.name,
 			r.description,
 			r.menu_code,

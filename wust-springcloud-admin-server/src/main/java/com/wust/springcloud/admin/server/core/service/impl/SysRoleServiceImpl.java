@@ -41,7 +41,7 @@ public class SysRoleServiceImpl extends BaseServiceImpl implements SysRoleServic
     @Override
     public ResponseDto findFunctionTreeByOrganizationId(Long organizationId) {
         ResponseDto messageMap = new ResponseDto();
-        if(MyStringUtils.isBlank(MyStringUtils.null2String(organizationId))){
+        if(organizationId == null){
             messageMap.setFlag(ResponseDto.INFOR_WARNING);
             messageMap.setMessage("请选择角色");
             return messageMap;
@@ -83,7 +83,7 @@ public class SysRoleServiceImpl extends BaseServiceImpl implements SysRoleServic
                         }
                         for(ResourceTreeDto resource : resourceList){
                             JSONObject jsonObject = new JSONObject();
-                            jsonObject.put("code",resource.getCode());
+                            jsonObject.put("id",resource.getCode());
                             jsonObject.put("pId",menuCode);
                             jsonObject.put("name",resource.getDescription());
                             jsonObject.put("type",ApplicationEnum.MENU_TYPE_R.getStringValue());

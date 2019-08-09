@@ -63,6 +63,11 @@ public abstract class BaseServiceImpl implements BaseService{
     }
 
     @Override
+    public int delete(BaseEntity entity) {
+        return getBaseMapper().delete(entity);
+    }
+
+    @Override
     public int deleteByPrimaryKey(Long key){
         return getBaseMapper().deleteByPrimaryKey(key);
     }
