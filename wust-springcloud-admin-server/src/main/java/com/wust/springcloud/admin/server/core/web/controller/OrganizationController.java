@@ -2,6 +2,7 @@ package com.wust.springcloud.admin.server.core.web.controller;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.wust.springcloud.admin.server.core.mq.producer.UpdateUserOrganizationProducer;
 import com.wust.springcloud.admin.server.core.service.*;
 import com.wust.springcloud.common.annotations.OperationLogAnnotation;
 import com.wust.springcloud.common.context.DefaultBusinessContext;
@@ -53,6 +54,9 @@ public class OrganizationController {
 
     @Autowired
     private SysProjectService sysProjectServiceImpl;
+
+    @Autowired
+    private UpdateUserOrganizationProducer updateUserOrganizationProducer;
 
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_ORGANIZATION,businessName="分页查询",operationType= OperationLogEnum.Search)
     @RequestMapping(value = "/listPage",method = RequestMethod.POST)
@@ -258,6 +262,7 @@ public class OrganizationController {
         entity.setCreaterName(ctx.getLoginName());
         sysOrganizationServiceImpl.insert(entity);
 
+        updateUserOrganizationProducer.send(null);
         mm.setObj(entity.getId());
         return mm;
     }
@@ -276,6 +281,7 @@ public class OrganizationController {
             mm.setMessage("您要删除的记录存在子节点，无法删除带有子节点的数据，请先删除所有子节点");
         }else{
             sysOrganizationServiceImpl.deleteByPrimaryKey(id);
+            updateUserOrganizationProducer.send(null);
         }
         return mm;
     }
@@ -319,6 +325,7 @@ public class OrganizationController {
         if(CollectionUtils.isNotEmpty(sysOrganizationLists)){
             sysRoleResourceAdd.setOrganizationId(sysOrganizationLists.get(0).getId());
             messageMap = sysOrganizationServiceImpl.setFunctionPermissions(sysRoleResourceAdd);
+            updateUserOrganizationProducer.send(null);
         }else{
             messageMap.setFlag(ResponseDto.INFOR_WARNING);
             messageMap.setMessage("组织架构里面已经没有这个数据，刚刚可能是被其他用户删除了");

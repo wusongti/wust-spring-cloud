@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 /**
  * @author ：wust
  * @date ：Created in 2019/8/9 10:12
- * @description：
+ * @description：更新用户组织关系生产者
  * @version:
  */
 @Component

@@ -16,6 +16,6 @@ import org.springframework.stereotype.Component;
 public class UpdateUserOrganizationConsumer {
     @RabbitHandler
     public void process(JSONObject jsonObject) {
-        System.out.println(jsonObject);
+        System.out.println("见听到了"+jsonObject);
     }
 }
