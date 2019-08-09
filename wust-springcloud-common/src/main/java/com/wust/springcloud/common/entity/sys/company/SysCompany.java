@@ -14,6 +14,7 @@ public class SysCompany extends BaseEntity {
     private String name;	        // 名称
     private String leader;		    // 公司负责人
     private String description;     // 描述
+    private String type;            // 类型：代理商、总公司、分公司
 
 
     public String getCode() {
@@ -48,21 +49,22 @@ public class SysCompany extends BaseEntity {
         this.description = description;
     }
 
+    public String getType() {
+        return type;
+    }
 
+    public void setType(String type) {
+        this.type = type;
+    }
 
     @Override
     public String toString() {
-        return "SysCompany{" +
-                ", code='" + code + '\'' +
+        return super.toString() + "\nSysCompany{" +
+                "code='" + code + '\'' +
                 ", name='" + name + '\'' +
                 ", leader='" + leader + '\'' +
                 ", description='" + description + '\'' +
-                ", createrId='" + createrId + '\'' +
-                ", createrName='" + createrName + '\'' +
-                ", createTime=" + createTime +
-                ", modifyId='" + modifyId + '\'' +
-                ", modifyName='" + modifyName + '\'' +
-                ", modifyTime=" + modifyTime +
+                ", type='" + type + '\'' +
                 '}';
     }
 }

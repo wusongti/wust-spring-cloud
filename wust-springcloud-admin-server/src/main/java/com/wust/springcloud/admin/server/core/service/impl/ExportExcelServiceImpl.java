@@ -100,7 +100,7 @@ public class ExportExcelServiceImpl extends POIExcelResolver4commonExport implem
 
     @Override
     protected ExcelDefinitionReader getExcelDefinition() {
-        DefinitionFactory definitionReaderFactory = new XMLDefinitionFactory4commonExport("importExport/export/xml/" + excelParameters.getXmlName() + ".xml");
+        DefinitionFactory definitionReaderFactory = new XMLDefinitionFactory4commonExport("easyexcel/export/xml/" + excelParameters.getXmlName() + ".xml");
         return definitionReaderFactory.createExcelDefinitionReader();
     }
 

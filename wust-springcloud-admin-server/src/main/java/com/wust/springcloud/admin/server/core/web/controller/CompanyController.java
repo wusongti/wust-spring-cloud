@@ -11,6 +11,7 @@ import com.wust.springcloud.common.entity.sys.organization.SysOrganizationList;
 import com.wust.springcloud.common.entity.sys.organization.SysOrganizationSearch;
 import com.wust.springcloud.common.enums.OperationLogEnum;
 import com.wust.springcloud.common.util.CodeGenerator;
+import com.wust.springcloud.common.util.cache.DataDictionaryUtil;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -43,6 +44,9 @@ public class CompanyController {
 
         ResponseDto baseDto = new ResponseDto();
         List<SysCompanyList> sysCompanyLists =  sysCompanyServiceImpl.listPage(search);
+        for (SysCompanyList sysCompanyList : sysCompanyLists) {
+            sysCompanyList.setTypeLabel(DataDictionaryUtil.getLookupNameByCode(ctx.getLocale().toString(),sysCompanyList.getType()));
+        }
         baseDto.setPage(search.getPageDto());
         baseDto.setLstDto(sysCompanyLists);
         return baseDto;
@@ -57,6 +61,7 @@ public class CompanyController {
 
 
         SysCompanySearch sysCompanySearch = new SysCompanySearch();
+        sysCompanySearch.setType(entity.getType());
         sysCompanySearch.setName(entity.getName());
         List<SysCompany> companyLists = sysCompanyServiceImpl.select(sysCompanySearch);
         if(CollectionUtils.isNotEmpty(companyLists)){
@@ -81,6 +86,7 @@ public class CompanyController {
         DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
 
         SysCompanySearch sysCompanySearch = new SysCompanySearch();
+        sysCompanySearch.setType(entity.getType());
         sysCompanySearch.setName(entity.getName());
         List<SysCompany> companyLists = sysCompanyServiceImpl.select(sysCompanySearch);
         if(CollectionUtils.isNotEmpty(companyLists)){

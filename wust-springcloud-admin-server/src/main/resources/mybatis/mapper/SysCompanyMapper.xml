@@ -7,6 +7,7 @@
 	    <result column="name" property="name"/>
 		<result column="leader" property="leader"/>
 	    <result column="description" property="description"/>
+		<result column="type" property="type"/>
 		<result property="createrId" column="creater_id"/>
 		<result property="createrName" column="creater_name"/>
 		<result property="createTime" column="create_time"/>
@@ -40,6 +41,7 @@
 			name = #{item.name},
 			description = #{item.description},
 			leader = #{item.leader},
+			type = #{item.type},
 			modify_id = #{item.modifyId},
 			modify_time = sysdate()
 			where id = #{item.id}

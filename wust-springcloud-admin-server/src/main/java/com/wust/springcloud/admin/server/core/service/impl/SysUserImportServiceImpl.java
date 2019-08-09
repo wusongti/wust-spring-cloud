@@ -39,7 +39,7 @@ public class SysUserImportServiceImpl extends POIExcelResolver4commonImport impl
 
     @Override
     protected ExcelDefinitionReader getExcelDefinition() {
-        String xmlFullPath = "importExport/import/xml/admin_user.xml";
+        String xmlFullPath = "easyexcel/import/xml/admin_user.xml";
         DefinitionFactory definitionReaderFactory = new XMLDefinitionFactory4commonImport(xmlFullPath);
         return definitionReaderFactory.createExcelDefinitionReader();
     }
