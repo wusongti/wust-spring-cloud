@@ -5,6 +5,7 @@ import com.wust.springcloud.admin.server.core.dao.SysOrganizationMapper;
 import com.wust.springcloud.admin.server.core.dao.SysUserMapper;
 import com.wust.springcloud.admin.server.core.dao.SysUserOrganizationMapper;
 import com.wust.springcloud.admin.server.core.service.SysUserOrganizationService;
+import com.wust.springcloud.common.context.DefaultBusinessContext;
 import com.wust.springcloud.common.dao.IBaseMapper;
 import com.wust.springcloud.common.entity.sys.organization.SysOrganization;
 import com.wust.springcloud.common.entity.sys.user.SysUser;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -42,6 +44,8 @@ public class SysUserOrganizationServiceImpl extends BaseServiceImpl implements S
     @Transactional(rollbackFor=Exception.class)
     @Override
     public void init() {
+        DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
+
         sysUserOrganizationMapper.deleteAll();
 
         SysUser sysUser = new SysUser();
@@ -63,6 +67,8 @@ public class SysUserOrganizationServiceImpl extends BaseServiceImpl implements S
                         for (SysOrganization sysOrganization : sysOrganizations) {
                             SysUserOrganization sysUserOrganization = new SysUserOrganization();
                             sysUserOrganization.setUserId(id);
+                            sysUserOrganization.setCreaterId(ctx.getUserId());
+                            sysUserOrganization.setCreateTime(new Date());
                             sysUserOrganizations.add(sysUserOrganization);
 
                             lookupByAgentUser(sysOrganization.getPid(),sysUserOrganization,sysUserOrganizations);
@@ -118,6 +124,7 @@ public class SysUserOrganizationServiceImpl extends BaseServiceImpl implements S
      * @param sysUserOrganizations
      */
     private void lookupParentCompany(Long parentOrganizationId,List<SysUserOrganization> sysUserOrganizations){
+        DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
         SysOrganization sysOrganizationSearch = new SysOrganization();
         sysOrganizationSearch.setPid(parentOrganizationId);
         List<SysOrganization> sysOrganizations = sysOrganizationMapper.select(sysOrganizationSearch);
@@ -135,6 +142,8 @@ public class SysUserOrganizationServiceImpl extends BaseServiceImpl implements S
                         SysUserOrganization sysUserOrganization = new SysUserOrganization();
                         BeanUtils.copyProperties(sysUserOrganizations.get(0),sysUserOrganization);
                         sysUserOrganization.setParentCompanyId(sysOrganization.getRelationId());
+                        sysUserOrganization.setCreaterId(ctx.getUserId());
+                        sysUserOrganization.setCreateTime(new Date());
                         sysUserOrganizations.add(sysUserOrganization);
                     }
                 }
@@ -150,6 +159,7 @@ public class SysUserOrganizationServiceImpl extends BaseServiceImpl implements S
      * @param sysUserOrganizations
      */
     private void lookupBranchCompany(Long parentOrganizationId,List<SysUserOrganization> sysUserOrganizations){
+        DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
         SysOrganization sysOrganizationSearch = new SysOrganization();
         sysOrganizationSearch.setPid(parentOrganizationId);
         List<SysOrganization> sysOrganizations = sysOrganizationMapper.select(sysOrganizationSearch);
@@ -167,6 +177,8 @@ public class SysUserOrganizationServiceImpl extends BaseServiceImpl implements S
                         SysUserOrganization sysUserOrganization = new SysUserOrganization();
                         BeanUtils.copyProperties(sysUserOrganizations.get(0),sysUserOrganization);
                         sysUserOrganization.setBranchCompanyId(sysOrganization.getRelationId());
+                        sysUserOrganization.setCreaterId(ctx.getUserId());
+                        sysUserOrganization.setCreateTime(new Date());
                         sysUserOrganizations.add(sysUserOrganization);
                     }
                 }else{
