@@ -12,6 +12,4 @@ import java.util.List;
  */
 public interface SysAttachmentMapper extends IBaseMapper<SysAttachment> {
     List<SysAttachmentList> listPage(SysAttachmentSearch search) throws DataAccessException;
-
-    List<SysAttachmentList> findByCondition(SysAttachmentSearch search) throws DataAccessException;
 }

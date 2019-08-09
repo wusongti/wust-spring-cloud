@@ -102,15 +102,15 @@ public class SysAttachmentServiceImpl extends BaseServiceImpl implements SysAtta
     @Override
     public ResponseDto downloadAttachment(SysAttachmentSearch sysAttachmentSearch) {
         ResponseDto messageMap = new ResponseDto();
-        List<SysAttachmentList> sysAttachmentLists = sysAttachmentMapper.findByCondition(sysAttachmentSearch);
-        if(CollectionUtils.isNotEmpty(sysAttachmentLists)) {
-            SysAttachmentList sysAttachmentList = sysAttachmentLists.get(0);
-            String path = sysAttachmentList.getAttachmentPath();
+        List<SysAttachment> sysAttachments = sysAttachmentMapper.select(sysAttachmentSearch);
+        if(CollectionUtils.isNotEmpty(sysAttachments)) {
+            SysAttachment sysAttachment = sysAttachments.get(0);
+            String path = sysAttachment.getAttachmentPath();
             byte[] result = FastDFSManager.download(path);
 
             Map map = new HashMap<>();
             map.put("fileByte",result);
-            map.put("fileName",sysAttachmentList.getAttachmentName());
+            map.put("fileName",sysAttachment.getAttachmentName());
             messageMap.setMapMessage(map);
         }else{
             messageMap.setFlag(ResponseDto.INFOR_WARNING);
@@ -122,14 +122,14 @@ public class SysAttachmentServiceImpl extends BaseServiceImpl implements SysAtta
     @Override
     public ResponseDto deleteAttachment(SysAttachmentSearch search) {
         ResponseDto messageMap = new ResponseDto();
-        List<SysAttachmentList> sysAttachmentLists = sysAttachmentMapper.findByCondition(search);
-        if(CollectionUtils.isNotEmpty(sysAttachmentLists)) {
-            for (SysAttachmentList sysAttachmentList : sysAttachmentLists) {
+        List<SysAttachment> sysAttachments = sysAttachmentMapper.select(search);
+        if(CollectionUtils.isNotEmpty(sysAttachments)) {
+            for (SysAttachment sysAttachment : sysAttachments) {
                 List<Long> ids = new ArrayList<>(1);
-                ids.add(sysAttachmentList.getId());
+                ids.add(sysAttachment.getId());
                 sysAttachmentMapper.batchDelete(ids);
 
-                String path = sysAttachmentList.getAttachmentPath();
+                String path = sysAttachment.getAttachmentPath();
                 try {
                     FastDFSManager.delete(path);
                 } catch (IOException e) {

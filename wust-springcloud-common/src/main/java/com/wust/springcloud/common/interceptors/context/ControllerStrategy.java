@@ -46,7 +46,8 @@ public class ControllerStrategy implements IStrategy{
             token = request.getParameter(ApplicationEnum.X_AUTH_TOKEN.getStringValue());
         }
 
-        String objStr = getRedisSpringBean().getByKey(token) + "";
+        String key = String.format(ApplicationEnum.WEB_LOGIN_KEY.getStringValue(),token);
+        String objStr = getRedisSpringBean().getByKey(key) + "";
         UserContextDto userContextDto = JSONObject.parseObject(objStr, UserContextDto.class);
         if(userContextDto != null){
             DefaultBusinessContext.getContext().setUserId(userContextDto.getUser().getId());
