@@ -33,6 +33,9 @@
 		<if test="name != null and name !=  ''">
 			AND t.name = #{name}
 		</if>
+		<if test="type != null and type !=  ''">
+			AND t.type = #{type}
+		</if>
   	</select>
 
 	<update id="batchUpdate" parameterType="java.util.List">
