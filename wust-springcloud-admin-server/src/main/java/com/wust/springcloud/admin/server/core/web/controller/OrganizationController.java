@@ -259,7 +259,7 @@ public class OrganizationController {
         entity.setCreaterId(ctx.getUserId());
         entity.setCreaterName(ctx.getLoginName());
         entity.setCreateTime(new Date());
-        sysOrganizationServiceImpl.insert(entity);
+        sysOrganizationServiceImpl.insertUseGeneratedKeys(entity);
 
         updateUserOrganizationProducer.send(new JSONObject());
         mm.setObj(entity.getId());

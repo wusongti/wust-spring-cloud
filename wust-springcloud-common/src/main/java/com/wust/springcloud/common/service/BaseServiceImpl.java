@@ -41,6 +41,11 @@ public abstract class BaseServiceImpl implements BaseService{
     }
 
     @Override
+    public int insertUseGeneratedKeys(BaseEntity entity) {
+        return getBaseMapper().insertUseGeneratedKeys(entity);
+    }
+
+    @Override
     public int updateByPrimaryKey(BaseEntity entity) {
         return getBaseMapper().updateByPrimaryKey(entity);
     }

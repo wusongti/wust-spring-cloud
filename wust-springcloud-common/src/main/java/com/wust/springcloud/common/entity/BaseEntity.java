@@ -43,7 +43,6 @@ public class BaseEntity implements java.io.Serializable {
      **/
     protected Date modifyTime;
 
-
     public Long getId() {
         return id;
     }
