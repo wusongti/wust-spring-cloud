@@ -42,6 +42,8 @@ public class SysUserOrganizationServiceImpl extends BaseServiceImpl implements S
     @Transactional(rollbackFor=Exception.class)
     @Override
     public void init() {
+        sysUserOrganizationMapper.deleteAll();
+
         SysUser sysUser = new SysUser();
         List<SysUser> sysUserList = sysUserMapper.select(sysUser);
         if(CollectionUtils.isNotEmpty(sysUserList)){
@@ -54,9 +56,9 @@ public class SysUserOrganizationServiceImpl extends BaseServiceImpl implements S
                 sysOrganizationSearch.setType(DataDictionaryEnum.ORGANIZATION_TYPE_USER.getStringValue());
                 List<SysOrganization> sysOrganizations =  sysOrganizationMapper.select(sysOrganizationSearch);
                 if(CollectionUtils.isNotEmpty(sysOrganizations)) {
-                    if (DataDictionaryEnum.USER_TYPE_PLATFORM_ADMIN.getStringValue().equals(type)) {
-                    } else if (DataDictionaryEnum.USER_TYPE_PLATFORM_USER.getStringValue().equals(type)) {
-                    } else if (DataDictionaryEnum.USER_TYPE_BUSINESS_ADMIN.getStringValue().equals(type)) {
+                    if (DataDictionaryEnum.USER_TYPE_PLATFORM_ADMIN.getStringValue().equals(type)) { // 平台管理员
+                    } else if (DataDictionaryEnum.USER_TYPE_PLATFORM_USER.getStringValue().equals(type)) { // 平台普通用户
+                    } else if (DataDictionaryEnum.USER_TYPE_BUSINESS_ADMIN.getStringValue().equals(type)) { // 运营管理员
                         List<SysUserOrganization> sysUserOrganizations = new ArrayList<>(10);
                         for (SysOrganization sysOrganization : sysOrganizations) {
                             SysUserOrganization sysUserOrganization = new SysUserOrganization();
@@ -66,7 +68,7 @@ public class SysUserOrganizationServiceImpl extends BaseServiceImpl implements S
                             lookupByAgentUser(sysOrganization.getPid(),sysUserOrganization,sysUserOrganizations);
                         }
                         sysUserOrganizationMapper.insertList(sysUserOrganizations);
-                    } else if (DataDictionaryEnum.USER_TYPE_PROJECT_USER.getStringValue().equals(type)) {
+                    } else if (DataDictionaryEnum.USER_TYPE_PROJECT_USER.getStringValue().equals(type)) { // 业务操作员
                     }
                 }
             }
@@ -74,7 +76,10 @@ public class SysUserOrganizationServiceImpl extends BaseServiceImpl implements S
     }
 
     /**
-     * 搜寻代理商的组织架构比较特殊，先从底部向上递归搜寻到代理商端（此时可以搜索到该账号的角色、部门和代理商信息），然后再从代理商向下搜寻到其所有的分公司
+     *  运营方账号有三种：代理商的账号、总公司的账号、分公司的账号。分三种情况搜寻：
+     *  1.代理商账号搜寻方式：先向上递归搜寻到代理商，再向下递归搜寻到分公司；
+     *  2.总公司账号搜寻方式：先向上递归搜寻到代理商，再向下递归搜寻到分公司；
+     *  3.分公司账号搜寻方式：直接向上递归搜寻到代理商，结束。
      * @param organizationId
      * @param sysUserOrganization
      */
@@ -88,6 +93,12 @@ public class SysUserOrganizationServiceImpl extends BaseServiceImpl implements S
                 lookupByAgentUser(sysOrganization.getPid(),sysUserOrganization,sysUserOrganizations);
             }else if(DataDictionaryEnum.ORGANIZATION_TYPE_DEPARTMENT.getStringValue().equals(sysOrganization.getType())){
                 sysUserOrganization.setDepartmentId(sysOrganization.getRelationId());
+                lookupByAgentUser(sysOrganization.getPid(),sysUserOrganization,sysUserOrganizations);
+            }else if(DataDictionaryEnum.ORGANIZATION_TYPE_BRANCH_COMPANY.getStringValue().equals(sysOrganization.getType())){
+                sysUserOrganization.setBranchCompanyId(sysOrganization.getRelationId());
+                lookupByAgentUser(sysOrganization.getPid(),sysUserOrganization,sysUserOrganizations);
+            }else if(DataDictionaryEnum.ORGANIZATION_TYPE_PARENT_COMPANY.getStringValue().equals(sysOrganization.getType())){
+                sysUserOrganization.setParentCompanyId(sysOrganization.getRelationId());
                 lookupByAgentUser(sysOrganization.getPid(),sysUserOrganization,sysUserOrganizations);
             }else if(DataDictionaryEnum.ORGANIZATION_TYPE_AGENT.getStringValue().equals(sysOrganization.getType())){
                 sysUserOrganization.setAgentId(sysOrganization.getRelationId());
@@ -113,7 +124,7 @@ public class SysUserOrganizationServiceImpl extends BaseServiceImpl implements S
         if(CollectionUtils.isNotEmpty(sysOrganizations)){
             int count = 0; // 只有一个总公司吗？
             for (SysOrganization sysOrganization : sysOrganizations) {
-                if (DataDictionaryEnum.ORGANIZATION_TYPE_PARENT_COMPANY.getStringValue() == sysOrganization.getType()) { // 总公司
+                if (DataDictionaryEnum.ORGANIZATION_TYPE_PARENT_COMPANY.getStringValue().equals(sysOrganization.getType())) { // 总公司
                     count ++;
 
                     for (SysUserOrganization userOrganization : sysUserOrganizations) {
@@ -145,7 +156,7 @@ public class SysUserOrganizationServiceImpl extends BaseServiceImpl implements S
         if(CollectionUtils.isNotEmpty(sysOrganizations)){
             int count = 0; // 只有一个分公司吗？
             for (SysOrganization sysOrganization : sysOrganizations) {
-                if (DataDictionaryEnum.ORGANIZATION_TYPE_BRANCH_COMPANY.getStringValue() == sysOrganization.getType()) { // 总公司
+                if (DataDictionaryEnum.ORGANIZATION_TYPE_BRANCH_COMPANY.getStringValue().equals(sysOrganization.getType())) { // 总公司
                     count ++;
 
                     for (SysUserOrganization userOrganization : sysUserOrganizations) {

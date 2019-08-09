@@ -20,4 +20,8 @@
     <result column="modify_name" jdbcType="VARCHAR" property="modifyName" />
     <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
   </resultMap>
+
+  <delete id="deleteAll">
+    DELETE FROM sys_user_organization
+  </delete>
 </mapper>
