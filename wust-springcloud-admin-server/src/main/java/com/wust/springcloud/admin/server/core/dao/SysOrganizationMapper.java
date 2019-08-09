@@ -13,6 +13,4 @@ import java.util.List;
  */
 public interface SysOrganizationMapper  extends IBaseMapper<SysOrganization> {
     List<SysOrganizationList> listPage(SysOrganizationSearch search) throws DataAccessException;
-
-    List<SysOrganizationList> findByCondition(SysOrganizationSearch search) throws DataAccessException;
 }

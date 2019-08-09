@@ -13,7 +13,5 @@ import java.util.List;
 public interface SysLookupMapper extends IBaseMapper<SysLookup> {
     List<SysLookupList> listPage(SysLookupSearch search) throws DataAccessException;
 
-    List<SysLookupList> findByCondition(SysLookupSearch search) throws DataAccessException;
-
     int deleteAll() throws DataAccessException;
 }

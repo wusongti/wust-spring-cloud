@@ -119,9 +119,9 @@ public class SysRoleImportServiceImpl extends POIExcelResolver4commonImport impl
         List<SysRole> sysRolesOld = new ArrayList();
         for (SysRoleImport sysRoleImport : sysRoleImports) {
             if(sysRoleImport.getSuccessFlag()){
-                SysRoleSearch sysRoleSearch = new SysRoleSearch();
+                SysRole sysRoleSearch = new SysRole();
                 sysRoleSearch.setName(sysRoleImport.getName());
-                List<SysRoleList> sysRoleLists = sysRoleMapper.findByCondition(sysRoleSearch);
+                List<SysRole> sysRoleLists = sysRoleMapper.select(sysRoleSearch);
                 if(CollectionUtils.isNotEmpty(sysRoleLists)){
                     sysRoleImport.setModifyTime(new Date());
                     sysRolesOld.add(sysRoleImport);

@@ -27,12 +27,6 @@
 		<result column="nocheck" property="nocheck"/>
 	</resultMap>
 
-	<select id="findByCondition" parameterType="SysResourceSearch" resultMap="BaseResultMap">
-		SELECT * FROM sys_resource sr WHERE 1=1
-		<if test="url != null and url != ''">
-			<![CDATA[ AND sr.url LIKE CONCAT('%',#{url},'%')]]>
-		</if>
-	</select>
 
 	<!-- 获取指定菜单下面的白名单集合 -->
 	<select id="findAnonResourcesByMenuId" parameterType="String" resultMap="BaseResultMap">

@@ -1,6 +1,7 @@
 package com.wust.springcloud.common.interceptors.dataprivilege;
 
 import com.wust.springcloud.common.context.DefaultBusinessContext;
+import com.wust.springcloud.common.enums.DataDictionaryEnum;
 import org.apache.ibatis.executor.statement.BaseStatementHandler;
 
 /**
@@ -18,13 +19,13 @@ public class StrategyContext {
 
     public void bindSql(BaseStatementHandler delegate) {
         DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
-        if("100401".equals(ctx.getUserType()) || "100402".equals(ctx.getUserType())){ // 平台管理员，不对其进行数据权限过滤
+        if(DataDictionaryEnum.USER_TYPE_PLATFORM_ADMIN.getStringValue().equals(ctx.getUserType()) || DataDictionaryEnum.USER_TYPE_PLATFORM_USER.getStringValue().equals(ctx.getUserType())){ // 平台管理员，不对其进行数据权限过滤
             IStrategy iStrategy = new PlatformAdminStrategy();
             iStrategy.bindSql(delegate);
-        }else if("100403".equals(ctx.getUserType())){ // 运营方账号
+        }else if(DataDictionaryEnum.USER_TYPE_BUSINESS_ADMIN.getStringValue().equals(ctx.getUserType())){ // 运营方账号
             IStrategy iStrategy = new BusinessAdminStrategy();
             iStrategy.bindSql(delegate);
-        }else if("100404".equals(ctx.getUserType())){ // 操作方账号
+        }else if(DataDictionaryEnum.USER_TYPE_PROJECT_USER.getStringValue().equals(ctx.getUserType())){ // 操作方账号
             IStrategy iStrategy = new BusinessUserStrategy();
             iStrategy.bindSql(delegate);
         }

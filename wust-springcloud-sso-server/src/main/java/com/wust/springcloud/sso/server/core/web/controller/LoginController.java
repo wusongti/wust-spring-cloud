@@ -12,6 +12,7 @@ import com.wust.springcloud.common.entity.sys.user.SysUser;
 import com.wust.springcloud.common.entity.sys.user.SysUserList;
 import com.wust.springcloud.common.entity.sys.user.SysUserSearch;
 import com.wust.springcloud.common.enums.ApplicationEnum;
+import com.wust.springcloud.common.enums.DataDictionaryEnum;
 import com.wust.springcloud.common.enums.OperationLogEnum;
 import com.wust.springcloud.common.util.JwtHelper;
 import com.wust.springcloud.common.util.MyStringUtils;
@@ -150,7 +151,7 @@ public class LoginController {
 
         Long userId = sysUser.getId();
         String type = sysUser.getType();
-        if("100401".equals(type)){ // 系统管理员
+        if(DataDictionaryEnum.USER_TYPE_PLATFORM_ADMIN.getStringValue().equals(type)){ // 系统管理员
             // 切换数据源，然后查找对应数据源下的菜单资源
             DefaultBusinessContext.getContext().setDataSourceId(ApplicationEnum.DEFAULT.name());
             menus = sysMenuServiceImpl.findAllMenus4SystemAdmin();

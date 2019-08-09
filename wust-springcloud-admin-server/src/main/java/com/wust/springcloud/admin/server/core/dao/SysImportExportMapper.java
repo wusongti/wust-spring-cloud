@@ -16,7 +16,5 @@ public interface SysImportExportMapper  extends IBaseMapper<SysImportExport> {
     @PrivilegeAnnotation()
     List<SysImportExportList> listPage(SysImportExportSearch search) throws DataAccessException;
 
-    List<SysImportExportList> findByCondition(SysImportExportSearch search) throws DataAccessException;
-
     List<Map<String, Object>> findBySql(Map<String,Object> parameters) throws DataAccessException;
 }

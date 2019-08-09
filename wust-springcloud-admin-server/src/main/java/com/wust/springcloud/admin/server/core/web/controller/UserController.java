@@ -15,6 +15,7 @@ import com.wust.springcloud.common.entity.sys.organization.SysOrganizationSearch
 import com.wust.springcloud.common.entity.sys.user.SysUser;
 import com.wust.springcloud.common.entity.sys.user.SysUserList;
 import com.wust.springcloud.common.entity.sys.user.SysUserSearch;
+import com.wust.springcloud.common.enums.DataDictionaryEnum;
 import com.wust.springcloud.common.enums.OperationLogEnum;
 import com.wust.springcloud.common.util.CodeGenerator;
 import com.wust.springcloud.common.util.MyStringUtils;
@@ -110,7 +111,7 @@ public class UserController {
         List<SysUser> sysUserLists = sysUserServiceImpl.select(sysUserSearch);
         if(CollectionUtils.isNotEmpty(sysUserLists)){
             SysUser sysUser = sysUserLists.get(0);
-            if("100401".equals(sysUser.getType())){
+            if(DataDictionaryEnum.USER_TYPE_PLATFORM_ADMIN.getStringValue().equals(sysUser.getType())){
                 mm.setFlag(ResponseDto.INFOR_WARNING);
                 mm.setMessage("不允许删除管理员账号");
                 return mm;

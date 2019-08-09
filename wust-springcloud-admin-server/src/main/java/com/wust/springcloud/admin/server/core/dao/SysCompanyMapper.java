@@ -13,6 +13,4 @@ import java.util.List;
  */
 public interface SysCompanyMapper extends IBaseMapper<SysCompany> {
     List<SysCompanyList> listPage(SysCompanySearch search) throws DataAccessException;
-
-    List<SysCompanyList> findByCondition(SysCompanySearch search) throws DataAccessException;
 }

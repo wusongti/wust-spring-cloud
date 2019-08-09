@@ -13,6 +13,4 @@ import java.util.List;
  */
 public interface SysDepartmentMapper  extends IBaseMapper<SysDepartment> {
     List<SysDepartmentList> listPage(SysDepartmentSearch search) throws DataAccessException;
-
-    List<SysDepartmentList> findByCondition(SysDepartmentSearch search) throws DataAccessException;
 }

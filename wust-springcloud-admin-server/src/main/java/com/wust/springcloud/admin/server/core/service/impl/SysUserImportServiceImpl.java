@@ -123,9 +123,9 @@ public class SysUserImportServiceImpl extends POIExcelResolver4commonImport impl
         List<SysUser> sysUsersOld = new ArrayList();
         for (SysUserImport sysUserImport : sysUserImports) {
             if(sysUserImport.getSuccessFlag()){
-                SysUserSearch sysUserSearch = new SysUserSearch();
+                SysUser sysUserSearch = new SysUser();
                 sysUserSearch.setLoginName(sysUserImport.getLoginName());
-                List<SysUserList> sysUserLists = sysUserMapper.findByCondition(sysUserSearch);
+                List<SysUser> sysUserLists = sysUserMapper.select(sysUserSearch);
                 if(CollectionUtils.isNotEmpty(sysUserLists)){
                     sysUserImport.setModifyTime(new Date());
                     sysUsersOld.add(sysUserImport);

@@ -18,6 +18,7 @@ import com.wust.springcloud.common.entity.sys.datasource.SysDataSource;
 import com.wust.springcloud.common.entity.sys.datasource.SysDataSourceList;
 import com.wust.springcloud.common.entity.sys.datasource.SysDataSourceSearch;
 import com.wust.springcloud.common.entity.sys.user.SysUser;
+import com.wust.springcloud.common.enums.DataDictionaryEnum;
 import com.wust.springcloud.common.enums.RedisKeyEnum;
 import com.wust.springcloud.common.exception.BusinessException;
 import com.wust.springcloud.common.service.BaseServiceImpl;
@@ -83,8 +84,8 @@ public class SysDataSourceServiceImpl extends BaseServiceImpl implements SysData
         ResponseDto messageMap = new ResponseDto();
         DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
 
-        SysCompanySearch sysCompanySearch = new SysCompanySearch();
-        List<SysCompanyList> sysCompanyLists = sysCompanyMapper.findByCondition(sysCompanySearch);
+        SysCompany sysCompanySearch = new SysCompany();
+        List<SysCompany> sysCompanyLists = sysCompanyMapper.select(sysCompanySearch);
         SysCompany sysCompany = sysCompanyLists.get(0);
 
         String databaseName = PLATFORM_DATABASE_NAME + "_" +PinYin4jUtil.converterToFirstSpell(sysCompany.getName()) + "_" + UUID.randomUUID().toString().substring(0, 5);
@@ -154,7 +155,7 @@ public class SysDataSourceServiceImpl extends BaseServiceImpl implements SysData
             user.setLoginName(loginName);
             user.setRealName(sysCompany.getName() + "运营方管理员账号");
             user.setStatus("100201");
-            user.setType("100403");
+            user.setType(DataDictionaryEnum.USER_TYPE_BUSINESS_ADMIN.getStringValue());
             user.setPassword("NDU3YzhjMWE0MWQ2");
             user.setCreateTime(new Date());
             sysUsers.add(user);

@@ -12,6 +12,4 @@ import java.util.List;
 public interface SysRoleMapper   extends IBaseMapper<SysRole> {
 
     List<SysRoleList> listPage(SysRoleSearch search) throws DataAccessException;
-
-    List<SysRoleList> findByCondition(SysRoleSearch search) throws DataAccessException;
 }

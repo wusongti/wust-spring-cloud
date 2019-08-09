@@ -13,7 +13,5 @@ import java.util.List;
 public interface SysUserMapper   extends IBaseMapper<SysUser> {
     List<SysUserList> listPage(SysUserSearch search) throws DataAccessException;
 
-    List<SysUserList> findByCondition(SysUserSearch search) throws DataAccessException;
-
     String getDefaultLoginName() throws DataAccessException;
 }

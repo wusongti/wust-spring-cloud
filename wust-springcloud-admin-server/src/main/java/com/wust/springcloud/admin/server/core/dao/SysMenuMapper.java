@@ -12,8 +12,6 @@ import java.util.List;
 public interface SysMenuMapper  extends IBaseMapper<SysMenu> {
 	List<SysMenuList> listPage(SysMenuSearch search) throws DataAccessException;
 
-	List<SysMenuList> findByCondition(SysMenuSearch search) throws DataAccessException;
-
 	/**
 	 * 根据组织id（也就是角色对应的组织id）获取菜单集合
 	 * @param organizationId

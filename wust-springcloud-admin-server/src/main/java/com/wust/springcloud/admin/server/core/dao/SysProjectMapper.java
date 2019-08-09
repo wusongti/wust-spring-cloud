@@ -9,6 +9,4 @@ import java.util.List;
 
 public interface SysProjectMapper extends IBaseMapper<SysProject> {
     List<SysProjectList> listPage(SysProjectSearch search) throws DataAccessException;
-
-    List<SysProjectList> findByCondition(SysProjectSearch search) throws DataAccessException;
 }

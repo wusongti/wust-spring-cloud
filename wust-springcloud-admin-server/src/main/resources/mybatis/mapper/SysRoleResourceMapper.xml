@@ -11,19 +11,6 @@
 	<resultMap id="ListResultMap" type="SysRoleResourceList" extends="BaseResultMap">
 	</resultMap>
 
-  	<select id="findByCondition" resultMap="ListResultMap" parameterType="SysRoleResource">
-	  SELECT * FROM sys_role_resource t WHERE 1=1
-	  <if test="type != null and type != ''">
-		  AND type = #{type}
-	  </if>
-	  <if test="organizationId != null and organizationId != ''">
-		  AND organization_id = #{organizationId}
-	  </if>
-	  <if test="resourceId != null and resourceId != ''">
-		  AND resource_id = #{resourceId}
-	  </if>
-  	</select>
-
 
 	<select id="groupByOrganizationId" resultMap="ListResultMap" parameterType="java.lang.String">
 		SELECT rs.organization_id,max(rs.resource_id) AS resource_id FROM sys_role_resource rs WHERE rs.type = #{0} GROUP BY rs.organization_id

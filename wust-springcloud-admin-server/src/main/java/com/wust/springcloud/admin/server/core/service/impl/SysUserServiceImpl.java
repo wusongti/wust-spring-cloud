@@ -7,6 +7,7 @@ import com.wust.springcloud.admin.server.core.service.SysUserImportService;
 import com.wust.springcloud.admin.server.core.service.SysAttachmentService;
 import com.wust.springcloud.admin.server.core.service.SysUserService;
 import com.wust.springcloud.common.dao.IBaseMapper;
+import com.wust.springcloud.common.entity.BaseEntity;
 import com.wust.springcloud.common.entity.sys.user.SysUser;
 import com.wust.springcloud.common.enums.ApplicationEnum;
 import com.wust.springcloud.common.service.BaseServiceImpl;
@@ -40,10 +41,11 @@ public class SysUserServiceImpl extends BaseServiceImpl implements SysUserServic
 
 
     @Override
-    public int insert(SysUser entity) {
+    public int insert(BaseEntity entity) {
+        SysUser sysUser = (SysUser)entity;
         String passwordRC4 = org.apache.commons.codec.binary.Base64.encodeBase64String(RC4.encry_RC4_string("123456", ApplicationEnum.RC4_LOGIN_PASSWORD.getStringValue()).getBytes());
-        entity.setPassword(passwordRC4);
-        entity.setCreateTime(new Date());
-        return sysUserMapper.insert(entity);
+        sysUser.setPassword(passwordRC4);
+        sysUser.setCreateTime(new Date());
+        return sysUserMapper.insert(sysUser);
     }
 }

@@ -1,9 +1,12 @@
 package com.wust.springcloud.admin.server.core.mq.consumer;
 
 import com.alibaba.fastjson.JSONObject;
+import com.wust.springcloud.admin.server.core.service.SysUserOrganizationService;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
 
 /**
  * @author ：wust
@@ -14,8 +17,12 @@ import org.springframework.stereotype.Component;
 @Component
 @RabbitListener(queues = "${queue.updateUserOrganization.name}",containerFactory = "singleListenerContainer")
 public class UpdateUserOrganizationConsumer {
+
+    @Autowired
+    private SysUserOrganizationService sysUserOrganizationServiceImpl;
+
     @RabbitHandler
     public void process(JSONObject jsonObject) {
-        System.out.println("见听到了"+jsonObject);
+        sysUserOrganizationServiceImpl.init();
     }
 }
