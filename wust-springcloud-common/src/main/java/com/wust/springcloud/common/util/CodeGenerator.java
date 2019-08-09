@@ -42,7 +42,7 @@ public class CodeGenerator {
 
         String key = CODE_TYPE_IMPORT_EXPORT_CODE + dateStr;
 
-        long newValue = getNewValueByKey(key,1,1,TimeUnit.DAYS,"Import Export BatchNo");
+        long newValue = getNewValueByKey(key,1,"Import Export BatchNo");
 
         batchNo = dateStr + StringUtils.leftPad(newValue + "",codeLength,"0");
 
@@ -58,7 +58,7 @@ public class CodeGenerator {
 
         String key =  CODE_TYPE_COMPANY_CODE;
 
-        long newValue = getNewValueByKey(key,1,1,TimeUnit.DAYS,"Company Code");
+        long newValue = getNewValueByKey(key,1,"Company Code");
 
         code = StringUtils.leftPad(newValue + "",codeLength,"0");
 
@@ -72,7 +72,7 @@ public class CodeGenerator {
 
         String key =  CODE_TYPE_DEPARTMENT_CODE;
 
-        long newValue = getNewValueByKey(key,1,1,TimeUnit.DAYS,"Department Code");
+        long newValue = getNewValueByKey(key,1,"Department Code");
 
         code = StringUtils.leftPad(newValue + "",codeLength,"0");
 
@@ -86,7 +86,7 @@ public class CodeGenerator {
 
         String key =  CODE_TYPE_PROJECT_CODE;
 
-        long newValue = getNewValueByKey(key,1,1,TimeUnit.DAYS,"Project Code");
+        long newValue = getNewValueByKey(key,1,"Project Code");
 
         code = StringUtils.leftPad(newValue + "",codeLength,"0");
 
@@ -101,7 +101,7 @@ public class CodeGenerator {
 
         String key =  CODE_TYPE_ROLE_CODE;
 
-        long newValue = getNewValueByKey(key,1,1,TimeUnit.DAYS,"Role Code");
+        long newValue = getNewValueByKey(key,1,"Role Code");
 
         code = StringUtils.leftPad(newValue + "",codeLength,"0");
 
@@ -115,7 +115,7 @@ public class CodeGenerator {
 
         String key =  CODE_TYPE_USER_CODE;
 
-        long newValue = getNewValueByKey(key,1,1,TimeUnit.DAYS,"User Code");
+        long newValue = getNewValueByKey(key,1,"User Code");
 
         userCode = StringUtils.leftPad(newValue + "",codeLength,"0");
 
@@ -127,12 +127,10 @@ public class CodeGenerator {
      * 原子自增方法，失败时默认重试5次
      * @param key redis的key
      * @param value 自增值
-     * @param timeout 超时阀
-     * @param timeUnit 超时阀单位
      * @param desc 用于打印日志的描述
      * @return 自增value值后的值
      */
-    private static long getNewValueByKey(String key,long value,long timeout,TimeUnit timeUnit,String desc){
+    private static long getNewValueByKey(String key,long value,String desc){
         SpringRedisTools springRedisTools = SpringContextHolder.getBean("springRedisTools");
 
         long newValue = 0;
@@ -140,7 +138,7 @@ public class CodeGenerator {
         int tryCount = 5;
 
         do {
-            newValue = springRedisTools.incrementForLong(key, value, timeout, timeUnit);
+            newValue = springRedisTools.incrementForLong(key, value, 0, TimeUnit.DAYS);
             if(newValue < 1 && tryCount > 0){
                 try {
                     Thread.sleep(500);
