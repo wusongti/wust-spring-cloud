@@ -155,23 +155,27 @@ public class LoginController {
             // 切换数据源，然后查找对应数据源下的菜单资源
             DefaultBusinessContext.getContext().setDataSourceId(ApplicationEnum.DEFAULT.name());
             menus = sysMenuServiceImpl.findAllMenus4SystemAdmin();
-            groupMenusByLevel = groupMenusByLevel(menus);
-            groupMenusByPcode = groupMenusByPcode(menus);
-            menuJSONArray.addAll(JSONArray.parseArray(JSONObject.toJSONString(groupMenusByLevel.get(1))));
-            menuToJSON(menuJSONArray,groupMenusByPcode);
-            resources = sysResourceServiceImpl.findAllResources4systemAdmin();
-            resources4anon = sysResourceServiceImpl.findAllAnonResources4systemAdmin();
-            groupResourcesByMenuId = groupResourcesByMenuCode(resources);
+            if(menus != null && menus.size() > 0){
+                groupMenusByLevel = groupMenusByLevel(menus);
+                groupMenusByPcode = groupMenusByPcode(menus);
+                menuJSONArray.addAll(JSONArray.parseArray(JSONObject.toJSONString(groupMenusByLevel.get(1))));
+                menuToJSON(menuJSONArray,groupMenusByPcode);
+                resources = sysResourceServiceImpl.findAllResources4systemAdmin();
+                resources4anon = sysResourceServiceImpl.findAllAnonResources4systemAdmin();
+                groupResourcesByMenuId = groupResourcesByMenuCode(resources);
+            }
         }else{ // 非系统管理员
             menus = sysMenuServiceImpl.findMenuByUserId(userId);
-            groupMenusByLevel = groupMenusByLevel(menus);
-            groupMenusByPcode = groupMenusByPcode(menus);
-            menuJSONArray.addAll(JSONArray.parseArray(JSONObject.toJSONString(groupMenusByLevel.get(1))));
-            menuToJSON(menuJSONArray,groupMenusByPcode);
+            if(menus != null && menus.size() > 0){
+                groupMenusByLevel = groupMenusByLevel(menus);
+                groupMenusByPcode = groupMenusByPcode(menus);
+                menuJSONArray.addAll(JSONArray.parseArray(JSONObject.toJSONString(groupMenusByLevel.get(1))));
+                menuToJSON(menuJSONArray,groupMenusByPcode);
 
-            resources = sysResourceServiceImpl.findResourcesByUserId(userId);
-            resources4anon = sysResourceServiceImpl.findAnonResourcesByUserId(userId);
-            groupResourcesByMenuId = groupResourcesByMenuCode(resources);
+                resources = sysResourceServiceImpl.findResourcesByUserId(userId);
+                resources4anon = sysResourceServiceImpl.findAnonResourcesByUserId(userId);
+                groupResourcesByMenuId = groupResourcesByMenuCode(resources);
+            }
         }
 
         userContextDto.setUser(sysUser);

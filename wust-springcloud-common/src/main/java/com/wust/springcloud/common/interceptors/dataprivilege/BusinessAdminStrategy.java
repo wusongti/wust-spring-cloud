@@ -3,9 +3,11 @@ package com.wust.springcloud.common.interceptors.dataprivilege;
 import com.alibaba.fastjson.JSONArray;
 import com.wust.springcloud.common.context.DefaultBusinessContext;
 import com.wust.springcloud.common.enums.RedisKeyEnum;
+import com.wust.springcloud.common.util.MyStringUtils;
 import com.wust.springcloud.common.util.ReflectHelper;
 import com.wust.springcloud.common.util.SpringContextHolder;
 import com.wust.springcloud.common.util.cache.SpringRedisTools;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.ibatis.executor.statement.BaseStatementHandler;
 import org.apache.ibatis.mapping.BoundSql;
 
@@ -39,9 +41,21 @@ public class BusinessAdminStrategy implements IStrategy {
         Object obj = getRedisSpringBean().getByKey(String.format(RedisKeyEnum.REDIS_TABLE_KEY_CURRENT_USER_BRANCH_COMPANY_ID.getStringValue(),ctx.getUserId()));
         if(obj != null){
             List<String> list = JSONArray.parseArray(obj.toString(),String.class);
-            privilegeSqlStringBuffer.append(" WHERE company_id IN ("+list.toString()+")");
+            if(CollectionUtils.isNotEmpty(list)){
+                String companyIds = "";
+                for (String s : list) {
+                    if(MyStringUtils.isBlank(MyStringUtils.null2String(s))){
+                        continue;
+                    }
+                    if(MyStringUtils.isNotBlank(companyIds)){
+                        companyIds += "," + s;
+                    }else{
+                        companyIds +=  s;
+                    }
+                }
+                privilegeSqlStringBuffer.append(" WHERE company_id IN (" + companyIds + ")");
+            }
         }
-
 
         ReflectHelper.setValueByFieldName(boundSql, "sql", privilegeSqlStringBuffer.toString());
     }
