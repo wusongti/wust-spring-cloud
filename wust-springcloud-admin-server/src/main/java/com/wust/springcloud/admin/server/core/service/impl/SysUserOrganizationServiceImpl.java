@@ -9,7 +9,6 @@ import com.wust.springcloud.admin.server.core.service.SysUserOrganizationService
 import com.wust.springcloud.common.context.DefaultBusinessContext;
 import com.wust.springcloud.common.dao.IBaseMapper;
 import com.wust.springcloud.common.entity.sys.organization.SysOrganization;
-import com.wust.springcloud.common.entity.sys.organization.SysOrganizationSearch;
 import com.wust.springcloud.common.entity.sys.user.SysUser;
 import com.wust.springcloud.common.entity.sys.userorganization.SysUserOrganization;
 import com.wust.springcloud.common.enums.DataDictionaryEnum;
@@ -19,7 +18,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -80,6 +78,17 @@ public class SysUserOrganizationServiceImpl extends BaseServiceImpl implements S
                         }
                         sysUserOrganizationMapper.insertList(sysUserOrganizations);
                     } else if (DataDictionaryEnum.USER_TYPE_BUSINESS_USER.getStringValue().equals(type)) { // 业务操作员
+                        List<SysUserOrganization> sysUserOrganizations = new ArrayList<>(10);
+                        for (SysOrganization sysOrganization : sysOrganizations) {
+                            SysUserOrganization sysUserOrganization = new SysUserOrganization();
+                            sysUserOrganization.setUserId(userId);
+                            sysUserOrganization.setCreaterId(ctx.getUserId());
+                            sysUserOrganization.setCreateTime(new Date());
+                            sysUserOrganizations.add(sysUserOrganization);
+
+                            lookupByBusinessUser(sysOrganization.getPid(),sysUserOrganization,sysUserOrganizations);
+                        }
+                        sysUserOrganizationMapper.insertList(sysUserOrganizations);
                     }
                 }
             }
@@ -126,6 +135,39 @@ public class SysUserOrganizationServiceImpl extends BaseServiceImpl implements S
                 if(sysUserOrganization.getBranchCompanyId() == null){
                     lookupBranchCompany(sysUserOrganizations);
                 }
+            }
+        }
+    }
+
+
+    /**
+     *  业务操作方账号搜寻路径：账号->角色->部门->项目->分公司->总公司->代理商
+     *
+     * @param organizationId
+     * @param sysUserOrganization
+     */
+    private void lookupByBusinessUser(Long organizationId,final SysUserOrganization sysUserOrganization,final List<SysUserOrganization> sysUserOrganizations){
+        SysOrganization sysOrganizationSearch = new SysOrganization();
+        sysOrganizationSearch.setId(organizationId);
+        SysOrganization sysOrganization = sysOrganizationMapper.selectOne(sysOrganizationSearch);
+        if(sysOrganization != null){
+            if(DataDictionaryEnum.ORGANIZATION_TYPE_ROLE.getStringValue().equals(sysOrganization.getType())){
+                sysUserOrganization.setRoleId(sysOrganization.getRelationId());
+                lookupByBusinessUser(sysOrganization.getPid(),sysUserOrganization,sysUserOrganizations);
+            }else if(DataDictionaryEnum.ORGANIZATION_TYPE_DEPARTMENT.getStringValue().equals(sysOrganization.getType())){
+                sysUserOrganization.setDepartmentId(sysOrganization.getRelationId());
+                lookupByBusinessUser(sysOrganization.getPid(),sysUserOrganization,sysUserOrganizations);
+            }else if(DataDictionaryEnum.ORGANIZATION_TYPE_PROJECT.getStringValue().equals(sysOrganization.getType())){
+                sysUserOrganization.setProjectId(sysOrganization.getRelationId());
+                lookupByBusinessUser(sysOrganization.getPid(),sysUserOrganization,sysUserOrganizations);
+            }else if(DataDictionaryEnum.ORGANIZATION_TYPE_BRANCH_COMPANY.getStringValue().equals(sysOrganization.getType())){
+                sysUserOrganization.setBranchCompanyId(sysOrganization.getRelationId());
+                lookupByBusinessUser(sysOrganization.getPid(),sysUserOrganization,sysUserOrganizations);
+            }else if(DataDictionaryEnum.ORGANIZATION_TYPE_PARENT_COMPANY.getStringValue().equals(sysOrganization.getType())){
+                sysUserOrganization.setParentCompanyId(sysOrganization.getRelationId());
+                lookupByBusinessUser(sysOrganization.getPid(),sysUserOrganization,sysUserOrganizations);
+            }else if(DataDictionaryEnum.ORGANIZATION_TYPE_AGENT.getStringValue().equals(sysOrganization.getType())){
+                sysUserOrganization.setAgentId(sysOrganization.getRelationId());
             }
         }
     }
