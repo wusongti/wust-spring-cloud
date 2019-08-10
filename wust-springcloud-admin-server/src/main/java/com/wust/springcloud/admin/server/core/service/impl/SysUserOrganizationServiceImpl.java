@@ -1,6 +1,7 @@
 package com.wust.springcloud.admin.server.core.service.impl;
 
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.wust.springcloud.admin.server.core.dao.SysOrganizationMapper;
 import com.wust.springcloud.admin.server.core.dao.SysUserMapper;
@@ -12,16 +13,17 @@ import com.wust.springcloud.common.entity.sys.organization.SysOrganization;
 import com.wust.springcloud.common.entity.sys.user.SysUser;
 import com.wust.springcloud.common.entity.sys.userorganization.SysUserOrganization;
 import com.wust.springcloud.common.enums.DataDictionaryEnum;
+import com.wust.springcloud.common.enums.RedisKeyEnum;
 import com.wust.springcloud.common.service.BaseServiceImpl;
+import com.wust.springcloud.common.util.cache.SpringRedisTools;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import tk.mybatis.mapper.entity.Example;
+
+import java.util.*;
 
 /**
  * Created by WST on 2019/4/18.
@@ -36,6 +38,9 @@ public class SysUserOrganizationServiceImpl extends BaseServiceImpl implements S
 
     @Autowired
     private SysOrganizationMapper sysOrganizationMapper;
+
+    @Autowired
+    private SpringRedisTools springRedisTools;
 
     @Override
     protected IBaseMapper getBaseMapper() {
@@ -91,6 +96,18 @@ public class SysUserOrganizationServiceImpl extends BaseServiceImpl implements S
                         sysUserOrganizationMapper.insertList(sysUserOrganizations);
                     }
                 }
+            }
+        }
+
+
+        SysUserOrganization sysUserOrganization = new SysUserOrganization();
+        List<SysUserOrganization> sysUserOrganizations = sysUserOrganizationMapper.select(sysUserOrganization);
+        Map<Long,JSONArray> map = groupUserOrganizationByUserId(sysUserOrganizations);
+        if(map != null && map.size() > 0){
+            Set<Long> keySet = map.keySet();
+            for (Long key : keySet) {
+                JSONArray jsonArray = map.get(key);
+                springRedisTools.addData(String.format(RedisKeyEnum.REDIS_TABLE_KEY_CURRENT_USER_BRANCH_COMPANY_ID.getStringValue(),key),jsonArray);
             }
         }
     }
@@ -246,5 +263,23 @@ public class SysUserOrganizationServiceImpl extends BaseServiceImpl implements S
                 }
             }
         }
+    }
+
+    private Map<Long, JSONArray> groupUserOrganizationByUserId(List<SysUserOrganization> sysUserOrganizations){
+        Map<Long, JSONArray> map = new HashMap<>();
+        if(CollectionUtils.isNotEmpty(sysUserOrganizations)){
+            for (SysUserOrganization sysUserOrganization : sysUserOrganizations) {
+                long userId = sysUserOrganization.getUserId();
+                if(map.containsKey(userId)){
+                    JSONArray jsonArray = map.get(userId);
+                    jsonArray.add(sysUserOrganization.getBranchCompanyId());
+                }else{
+                    JSONArray jsonArray = new JSONArray();
+                    jsonArray.add(sysUserOrganization.getBranchCompanyId());
+                    map.put(userId,jsonArray);
+                }
+            }
+        }
+        return map;
     }
 }
