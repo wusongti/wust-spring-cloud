@@ -1,6 +1,7 @@
 package com.wust.springcloud.admin.server.core.service.impl;
 
 
+import com.alibaba.fastjson.JSONObject;
 import com.wust.springcloud.admin.server.core.dao.SysOrganizationMapper;
 import com.wust.springcloud.admin.server.core.dao.SysUserMapper;
 import com.wust.springcloud.admin.server.core.dao.SysUserOrganizationMapper;
@@ -8,6 +9,7 @@ import com.wust.springcloud.admin.server.core.service.SysUserOrganizationService
 import com.wust.springcloud.common.context.DefaultBusinessContext;
 import com.wust.springcloud.common.dao.IBaseMapper;
 import com.wust.springcloud.common.entity.sys.organization.SysOrganization;
+import com.wust.springcloud.common.entity.sys.organization.SysOrganizationSearch;
 import com.wust.springcloud.common.entity.sys.user.SysUser;
 import com.wust.springcloud.common.entity.sys.userorganization.SysUserOrganization;
 import com.wust.springcloud.common.enums.DataDictionaryEnum;
@@ -19,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -41,10 +44,12 @@ public class SysUserOrganizationServiceImpl extends BaseServiceImpl implements S
         return sysUserOrganizationMapper;
     }
 
+    private DefaultBusinessContext ctx;
+
     @Transactional(rollbackFor=Exception.class)
     @Override
-    public void init() {
-        DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
+    public void init(JSONObject jsonObject) {
+        this.ctx = jsonObject.getObject("ctx",DefaultBusinessContext.class);
 
         sysUserOrganizationMapper.deleteAll();
 
@@ -53,10 +58,10 @@ public class SysUserOrganizationServiceImpl extends BaseServiceImpl implements S
         if(CollectionUtils.isNotEmpty(sysUserList)){
             for (SysUser user : sysUserList) {
                 String type = user.getType();
-                Long id = user.getId();
+                Long userId = user.getId();
 
                 SysOrganization sysOrganizationSearch = new SysOrganization();
-                sysOrganizationSearch.setRelationId(id);
+                sysOrganizationSearch.setRelationId(userId);
                 sysOrganizationSearch.setType(DataDictionaryEnum.ORGANIZATION_TYPE_USER.getStringValue());
                 List<SysOrganization> sysOrganizations =  sysOrganizationMapper.select(sysOrganizationSearch);
                 if(CollectionUtils.isNotEmpty(sysOrganizations)) {
@@ -66,15 +71,15 @@ public class SysUserOrganizationServiceImpl extends BaseServiceImpl implements S
                         List<SysUserOrganization> sysUserOrganizations = new ArrayList<>(10);
                         for (SysOrganization sysOrganization : sysOrganizations) {
                             SysUserOrganization sysUserOrganization = new SysUserOrganization();
-                            sysUserOrganization.setUserId(id);
+                            sysUserOrganization.setUserId(userId);
                             sysUserOrganization.setCreaterId(ctx.getUserId());
                             sysUserOrganization.setCreateTime(new Date());
                             sysUserOrganizations.add(sysUserOrganization);
 
-                            lookupByAgentUser(sysOrganization.getPid(),sysUserOrganization,sysUserOrganizations);
+                            lookupByBusinessAdmin(sysOrganization.getPid(),sysUserOrganization,sysUserOrganizations);
                         }
                         sysUserOrganizationMapper.insertList(sysUserOrganizations);
-                    } else if (DataDictionaryEnum.USER_TYPE_PROJECT_USER.getStringValue().equals(type)) { // 业务操作员
+                    } else if (DataDictionaryEnum.USER_TYPE_BUSINESS_USER.getStringValue().equals(type)) { // 业务操作员
                     }
                 }
             }
@@ -83,106 +88,119 @@ public class SysUserOrganizationServiceImpl extends BaseServiceImpl implements S
 
     /**
      *  运营方账号有三种：代理商的账号、总公司的账号、分公司的账号。分三种情况搜寻：
-     *  1.代理商账号搜寻方式：先向上递归搜寻到代理商，再向下递归搜寻到分公司；
-     *  2.总公司账号搜寻方式：先向上递归搜寻到代理商，再向下递归搜寻到分公司；
-     *  3.分公司账号搜寻方式：直接向上递归搜寻到代理商，结束。
+     *  1.代理商账号搜寻方式：先向上递归搜寻到代理商，再向下递归搜寻到分公司(搜寻路径：账号->角色->部门->代理商)；
+     *  2.总公司账号搜寻方式：先向上递归搜寻到代理商，再向下递归搜寻到分公司(搜寻路径：账号->角色->部门->总公司->代理商)；
+     *  3.分公司账号搜寻方式：直接向上递归搜寻到代理商(搜寻路径：账号->角色->部门->分公司->总公司->代理商)。
+     *
+     *  递归到顶层即代理层后，需要分情况判断是否需要向下递归扎到总公司或者分公司。1路径需要向下递归找到总公司和分公司，2需要向下递归找到分公司。
      * @param organizationId
      * @param sysUserOrganization
      */
-    private void lookupByAgentUser(Long organizationId,SysUserOrganization sysUserOrganization,List<SysUserOrganization> sysUserOrganizations){
+    private void lookupByBusinessAdmin(Long organizationId,final SysUserOrganization sysUserOrganization,final List<SysUserOrganization> sysUserOrganizations){
         SysOrganization sysOrganizationSearch = new SysOrganization();
         sysOrganizationSearch.setId(organizationId);
         SysOrganization sysOrganization = sysOrganizationMapper.selectOne(sysOrganizationSearch);
         if(sysOrganization != null){
             if(DataDictionaryEnum.ORGANIZATION_TYPE_ROLE.getStringValue().equals(sysOrganization.getType())){
                 sysUserOrganization.setRoleId(sysOrganization.getRelationId());
-                lookupByAgentUser(sysOrganization.getPid(),sysUserOrganization,sysUserOrganizations);
+                lookupByBusinessAdmin(sysOrganization.getPid(),sysUserOrganization,sysUserOrganizations);
             }else if(DataDictionaryEnum.ORGANIZATION_TYPE_DEPARTMENT.getStringValue().equals(sysOrganization.getType())){
                 sysUserOrganization.setDepartmentId(sysOrganization.getRelationId());
-                lookupByAgentUser(sysOrganization.getPid(),sysUserOrganization,sysUserOrganizations);
+                lookupByBusinessAdmin(sysOrganization.getPid(),sysUserOrganization,sysUserOrganizations);
             }else if(DataDictionaryEnum.ORGANIZATION_TYPE_BRANCH_COMPANY.getStringValue().equals(sysOrganization.getType())){
                 sysUserOrganization.setBranchCompanyId(sysOrganization.getRelationId());
-                lookupByAgentUser(sysOrganization.getPid(),sysUserOrganization,sysUserOrganizations);
+                lookupByBusinessAdmin(sysOrganization.getPid(),sysUserOrganization,sysUserOrganizations);
             }else if(DataDictionaryEnum.ORGANIZATION_TYPE_PARENT_COMPANY.getStringValue().equals(sysOrganization.getType())){
                 sysUserOrganization.setParentCompanyId(sysOrganization.getRelationId());
-                lookupByAgentUser(sysOrganization.getPid(),sysUserOrganization,sysUserOrganizations);
+                lookupByBusinessAdmin(sysOrganization.getPid(),sysUserOrganization,sysUserOrganizations);
             }else if(DataDictionaryEnum.ORGANIZATION_TYPE_AGENT.getStringValue().equals(sysOrganization.getType())){
                 sysUserOrganization.setAgentId(sysOrganization.getRelationId());
 
-                // 向上递归到次结束，不再调用lookupByAgentUser。继续向下递归找到所有总公司
-                lookupParentCompany(sysOrganization.getId(),sysUserOrganizations);
+                // 向上递归到次结束，开始向下递归找到所有总公司
+                if(sysUserOrganization.getParentCompanyId() == null){
+                    lookupParentCompany(sysUserOrganizations);
+                }
 
-                // 继续向下找到所有分公司
-                lookupBranchCompany(sysOrganization.getId(),sysUserOrganizations);
+
+                // 找到总公司后，开始向下找到所有分公司
+                if(sysUserOrganization.getBranchCompanyId() == null){
+                    lookupBranchCompany(sysUserOrganizations);
+                }
             }
         }
     }
 
     /**
      * 从上往下找总公司
-     * @param parentOrganizationId
-     * @param sysUserOrganizations
+     * @param parentCompanyNullList
      */
-    private void lookupParentCompany(Long parentOrganizationId,List<SysUserOrganization> sysUserOrganizations){
-        DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
-        SysOrganization sysOrganizationSearch = new SysOrganization();
-        sysOrganizationSearch.setPid(parentOrganizationId);
-        List<SysOrganization> sysOrganizations = sysOrganizationMapper.select(sysOrganizationSearch);
-        if(CollectionUtils.isNotEmpty(sysOrganizations)){
-            int count = 0; // 只有一个总公司吗？
-            for (SysOrganization sysOrganization : sysOrganizations) {
-                if (DataDictionaryEnum.ORGANIZATION_TYPE_PARENT_COMPANY.getStringValue().equals(sysOrganization.getType())) { // 总公司
-                    count ++;
+    private void lookupParentCompany(List<SysUserOrganization> parentCompanyNullList){
+        List<SysUserOrganization> newList = new ArrayList<>();
+        CollectionUtils.addAll(newList, new Object[parentCompanyNullList.size()]);
+        Collections.copy(newList, parentCompanyNullList);
+        for (SysUserOrganization temp : newList) {
+            if(temp.getParentCompanyId() == null){
+                SysOrganization sysOrganizationSearch = new SysOrganization();
+                sysOrganizationSearch.setType(DataDictionaryEnum.ORGANIZATION_TYPE_AGENT.getStringValue());
+                sysOrganizationSearch.setRelationId(temp.getAgentId());
+                SysOrganization sysOrganization = sysOrganizationMapper.selectOne(sysOrganizationSearch);
 
-                    for (SysUserOrganization userOrganization : sysUserOrganizations) {
-                        userOrganization.setParentCompanyId(sysOrganization.getRelationId());
-                    }
+                sysOrganizationSearch = new SysOrganization();
+                sysOrganizationSearch.setPid(sysOrganization.getId());
+                sysOrganizationSearch.setType(DataDictionaryEnum.ORGANIZATION_TYPE_PARENT_COMPANY.getStringValue());
+                List<SysOrganization> sysOrganizations = sysOrganizationMapper.select(sysOrganizationSearch);
+                if(CollectionUtils.isNotEmpty(sysOrganizations)){
+                    temp.setParentCompanyId(sysOrganizations.get(0).getRelationId());
 
-                    if(count > 1){
-                        SysUserOrganization sysUserOrganization = new SysUserOrganization();
-                        BeanUtils.copyProperties(sysUserOrganizations.get(0),sysUserOrganization);
-                        sysUserOrganization.setParentCompanyId(sysOrganization.getRelationId());
-                        sysUserOrganization.setCreaterId(ctx.getUserId());
-                        sysUserOrganization.setCreateTime(new Date());
-                        sysUserOrganizations.add(sysUserOrganization);
+                    if(sysOrganizations.size() > 1){
+                        for(int i=1;i<sysOrganizations.size();i++){
+                            SysOrganization sysOrganizationParentCompany = sysOrganizations.get(i);
+                            SysUserOrganization sysUserOrganizationNew = new SysUserOrganization();
+                            BeanUtils.copyProperties(temp,sysUserOrganizationNew);
+                            sysUserOrganizationNew.setParentCompanyId(sysOrganizationParentCompany.getRelationId());
+                            parentCompanyNullList.add(sysUserOrganizationNew);
+                        }
                     }
                 }
             }
-
         }
     }
 
 
     /**
      * 从上往下找分公司
-     * @param parentOrganizationId
-     * @param sysUserOrganizations
+     * @param branchCompanyNullList
      */
-    private void lookupBranchCompany(Long parentOrganizationId,List<SysUserOrganization> sysUserOrganizations){
-        DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
-        SysOrganization sysOrganizationSearch = new SysOrganization();
-        sysOrganizationSearch.setPid(parentOrganizationId);
-        List<SysOrganization> sysOrganizations = sysOrganizationMapper.select(sysOrganizationSearch);
-        if(CollectionUtils.isNotEmpty(sysOrganizations)){
-            int count = 0; // 只有一个分公司吗？
-            for (SysOrganization sysOrganization : sysOrganizations) {
-                if (DataDictionaryEnum.ORGANIZATION_TYPE_BRANCH_COMPANY.getStringValue().equals(sysOrganization.getType())) { // 总公司
-                    count ++;
+    private void lookupBranchCompany(List<SysUserOrganization> branchCompanyNullList){
+        List<SysUserOrganization> newList = new ArrayList<>();
+        CollectionUtils.addAll(newList, new Object[branchCompanyNullList.size()]);
+        Collections.copy(newList, branchCompanyNullList);
+        for (SysUserOrganization temp : newList) {
+            if(temp.getBranchCompanyId() == null){
+                SysOrganization sysOrganizationSearch = new SysOrganization();
+                sysOrganizationSearch.setType(DataDictionaryEnum.ORGANIZATION_TYPE_PARENT_COMPANY.getStringValue());
+                sysOrganizationSearch.setRelationId(temp.getParentCompanyId());
+                SysOrganization sysOrganization = sysOrganizationMapper.selectOne(sysOrganizationSearch);
 
-                    for (SysUserOrganization userOrganization : sysUserOrganizations) {
-                        userOrganization.setBranchCompanyId(sysOrganization.getRelationId());
-                    }
+                sysOrganizationSearch = new SysOrganization();
+                sysOrganizationSearch.setPid(sysOrganization.getId());
+                sysOrganizationSearch.setType(DataDictionaryEnum.ORGANIZATION_TYPE_BRANCH_COMPANY.getStringValue());
+                List<SysOrganization> sysOrganizations = sysOrganizationMapper.select(sysOrganizationSearch);
+                if(CollectionUtils.isNotEmpty(sysOrganizations)){
+                    temp.setBranchCompanyId(sysOrganizations.get(0).getRelationId());
 
-                    if(count > 1){
-                        SysUserOrganization sysUserOrganization = new SysUserOrganization();
-                        BeanUtils.copyProperties(sysUserOrganizations.get(0),sysUserOrganization);
-                        sysUserOrganization.setBranchCompanyId(sysOrganization.getRelationId());
-                        sysUserOrganization.setCreaterId(ctx.getUserId());
-                        sysUserOrganization.setCreateTime(new Date());
-                        sysUserOrganizations.add(sysUserOrganization);
+                    /**
+                     * 有多个分公司，则复制对应的记录
+                     */
+                    if(sysOrganizations.size() > 1){
+                        for(int i=1;i<sysOrganizations.size();i++){
+                            SysOrganization sysOrganizationBranchCompany = sysOrganizations.get(i);
+                            SysUserOrganization sysUserOrganizationNew = new SysUserOrganization();
+                            BeanUtils.copyProperties(temp,sysUserOrganizationNew);
+                            sysUserOrganizationNew.setBranchCompanyId(sysOrganizationBranchCompany.getRelationId());
+                            branchCompanyNullList.add(sysUserOrganizationNew);
+                        }
                     }
-                }else{
-                    lookupBranchCompany(sysOrganization.getId(),sysUserOrganizations);
                 }
             }
         }

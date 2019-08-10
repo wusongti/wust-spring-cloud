@@ -16,7 +16,7 @@ public enum DataDictionaryEnum {
     USER_TYPE_PLATFORM_ADMIN("100401"), // 用户类型：平台超级管理员
     USER_TYPE_PLATFORM_USER("100402"), // 用户类型：平台普通管理员
     USER_TYPE_BUSINESS_ADMIN("100403"), // 用户类型：运营方管理账号
-    USER_TYPE_PROJECT_USER("100404"); // 用户类型：项目账号
+    USER_TYPE_BUSINESS_USER("100404"); // 用户类型： 业务员账号
 
     private String stringValue;
 

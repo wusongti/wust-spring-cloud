@@ -23,6 +23,6 @@ public class UpdateUserOrganizationConsumer {
 
     @RabbitHandler
     public void process(JSONObject jsonObject) {
-        sysUserOrganizationServiceImpl.init();
+        sysUserOrganizationServiceImpl.init(jsonObject);
     }
 }

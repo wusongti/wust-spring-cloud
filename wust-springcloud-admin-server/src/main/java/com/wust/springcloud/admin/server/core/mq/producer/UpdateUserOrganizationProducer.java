@@ -1,6 +1,7 @@
 package com.wust.springcloud.admin.server.core.mq.producer;
 
 import com.alibaba.fastjson.JSONObject;
+import com.wust.springcloud.common.context.DefaultBusinessContext;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,8 @@ public class UpdateUserOrganizationProducer {
 
 
     public void send(JSONObject jsonObject){
+        DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
+        jsonObject.put("ctx",ctx);
         rabbitTemplate.setMessageConverter(new Jackson2JsonMessageConverter());
         rabbitTemplate.setExchange(env.getProperty("exchange.updateUserOrganization.name"));
         rabbitTemplate.setRoutingKey(env.getProperty("routing.updateUserOrganization.key.name"));

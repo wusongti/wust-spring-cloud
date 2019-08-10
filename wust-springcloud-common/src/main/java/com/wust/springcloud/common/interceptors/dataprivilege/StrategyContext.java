@@ -25,7 +25,7 @@ public class StrategyContext {
         }else if(DataDictionaryEnum.USER_TYPE_BUSINESS_ADMIN.getStringValue().equals(ctx.getUserType())){ // 运营方账号
             IStrategy iStrategy = new BusinessAdminStrategy();
             iStrategy.bindSql(delegate);
-        }else if(DataDictionaryEnum.USER_TYPE_PROJECT_USER.getStringValue().equals(ctx.getUserType())){ // 操作方账号
+        }else if(DataDictionaryEnum.USER_TYPE_BUSINESS_USER.getStringValue().equals(ctx.getUserType())){ // 操作方账号
             IStrategy iStrategy = new BusinessUserStrategy();
             iStrategy.bindSql(delegate);
         }
