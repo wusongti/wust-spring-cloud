@@ -107,7 +107,7 @@ public class SysUserOrganizationServiceImpl extends BaseServiceImpl implements S
             Set<Long> keySet = map.keySet();
             for (Long key : keySet) {
                 JSONArray jsonArray = map.get(key);
-                springRedisTools.addData(String.format(RedisKeyEnum.REDIS_TABLE_KEY_CURRENT_USER_BRANCH_COMPANY_ID.getStringValue(),key),jsonArray);
+                springRedisTools.addData(String.format(RedisKeyEnum.REDIS_TABLE_KEY_CURRENT_USER_BRANCH_COMPANY_ID.getStringValue(),key),jsonArray.toJSONString());
             }
         }
     }

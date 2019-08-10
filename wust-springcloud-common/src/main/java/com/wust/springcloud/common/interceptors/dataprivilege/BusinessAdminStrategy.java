@@ -1,9 +1,15 @@
 package com.wust.springcloud.common.interceptors.dataprivilege;
 
+import com.alibaba.fastjson.JSONArray;
 import com.wust.springcloud.common.context.DefaultBusinessContext;
+import com.wust.springcloud.common.enums.RedisKeyEnum;
 import com.wust.springcloud.common.util.ReflectHelper;
+import com.wust.springcloud.common.util.SpringContextHolder;
+import com.wust.springcloud.common.util.cache.SpringRedisTools;
 import org.apache.ibatis.executor.statement.BaseStatementHandler;
 import org.apache.ibatis.mapping.BoundSql;
+
+import java.util.List;
 
 /**
  * @author ：wust
@@ -12,6 +18,14 @@ import org.apache.ibatis.mapping.BoundSql;
  * @version:
  */
 public class BusinessAdminStrategy implements IStrategy {
+    private static SpringRedisTools springRedisTools;
+    private static SpringRedisTools getRedisSpringBean(){
+        if(springRedisTools == null){
+            springRedisTools = SpringContextHolder.getBean("springRedisTools");
+        }
+        return springRedisTools;
+    }
+
     @Override
     public void bindSql(BaseStatementHandler delegate) {
         DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
@@ -22,7 +36,12 @@ public class BusinessAdminStrategy implements IStrategy {
 
         StringBuffer privilegeSqlStringBuffer = new StringBuffer("SELECT privilege_tmp.* FROM (" + sql + ") privilege_tmp");
 
-        privilegeSqlStringBuffer.append(" WHERE company_id IN (所有下属公司的id)");
+        Object obj = getRedisSpringBean().getByKey(String.format(RedisKeyEnum.REDIS_TABLE_KEY_CURRENT_USER_BRANCH_COMPANY_ID.getStringValue(),ctx.getUserId()));
+        if(obj != null){
+            List<String> list = JSONArray.parseArray(obj.toString(),String.class);
+            privilegeSqlStringBuffer.append(" WHERE company_id IN ("+list.toString()+")");
+        }
+
 
         ReflectHelper.setValueByFieldName(boundSql, "sql", privilegeSqlStringBuffer.toString());
     }
