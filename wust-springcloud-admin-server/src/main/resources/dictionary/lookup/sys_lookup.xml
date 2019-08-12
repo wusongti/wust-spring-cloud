@@ -26,8 +26,10 @@
     <RECORD code="1004" parent_code="" name="用户类型" description="用户类型" sort="0"/>
     <RECORD code="100401" parent_code="1004" root_code="1004" value="0" name="平台超级管理员" visible="N" description="平台超级管理员" item_order="0"/>
     <RECORD code="100402" parent_code="1004" root_code="1004" value="1" name="平台普通管理员" description="平台普通管理员" item_order="0"/>
-    <RECORD code="100403" parent_code="1004" root_code="1004" value="2" name="运营方管理账号" description="运营方管理账号" item_order="0"/>
-    <RECORD code="100404" parent_code="1004" root_code="1004" value="3" name="项目账号" description="项目账号" item_order="0"/>
+    <RECORD code="100403" parent_code="1004" root_code="1004" value="2" name="代理商管理账号" description="代理商管理账号" item_order="0"/>
+    <RECORD code="100406" parent_code="1004" root_code="1004" value="3" name="总公司管理账号" description="总公司管理账号" item_order="0"/>
+    <RECORD code="100409" parent_code="1004" root_code="1004" value="3" name="分公司管理账号" description="分公司管理账号" item_order="0"/>
+    <RECORD code="100411" parent_code="1004" root_code="1004" value="3" name="业务员层账号" description="业务员层账号" item_order="0"/>
     <!-- 用户类型 E -->
 
     <!-- 我的导入导出状态 S -->

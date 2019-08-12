@@ -155,7 +155,7 @@ public class SysDataSourceServiceImpl extends BaseServiceImpl implements SysData
             user.setLoginName(loginName);
             user.setRealName(sysCompany.getName() + "运营方管理员账号");
             user.setStatus("100201");
-            user.setType(DataDictionaryEnum.USER_TYPE_BUSINESS_ADMIN.getStringValue());
+           // user.setType(DataDictionaryEnum.USER_TYPE_BUSINESS_ADMIN.getStringValue());
             user.setPassword("NDU3YzhjMWE0MWQ2");
             user.setCreateTime(new Date());
             sysUsers.add(user);

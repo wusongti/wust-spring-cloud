@@ -15,8 +15,10 @@ public enum DataDictionaryEnum {
 
     USER_TYPE_PLATFORM_ADMIN("100401"), // 用户类型：平台超级管理员
     USER_TYPE_PLATFORM_USER("100402"), // 用户类型：平台普通管理员
-    USER_TYPE_BUSINESS_ADMIN("100403"), // 用户类型：运营方管理账号
-    USER_TYPE_BUSINESS_USER("100404"); // 用户类型： 业务员账号
+    USER_TYPE_AGENT("100403"), // 用户类型：代理商管理账号
+    USER_TYPE_PARENT_COMPANY("100406"), // 用户类型： 总公司管理账号
+    USER_TYPE_BRANCH_COMPANY("100409"), // 用户类型： 分公司管理账号
+    USER_TYPE_BUSINESS("100411"); // 用户类型： 业务员账号
 
 
 

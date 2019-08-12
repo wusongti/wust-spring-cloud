@@ -22,13 +22,15 @@ public class StrategyContext {
         if(DataDictionaryEnum.USER_TYPE_PLATFORM_ADMIN.getStringValue().equals(ctx.getUserType())){ // 平台管理员
             IStrategy iStrategy = new PlatformAdminStrategy();
             iStrategy.bindSql(delegate);
-        }else if(DataDictionaryEnum.USER_TYPE_BUSINESS_USER.getStringValue().equals(ctx.getUserType())){ // 平台普通用户
-            IStrategy iStrategy = new BusinessUserStrategy();
+        }else if(DataDictionaryEnum.USER_TYPE_PLATFORM_USER.getStringValue().equals(ctx.getUserType())){ // 平台普通用户
+            IStrategy iStrategy = new PlatformUserStrategy();
             iStrategy.bindSql(delegate);
-        }else if(DataDictionaryEnum.USER_TYPE_BUSINESS_ADMIN.getStringValue().equals(ctx.getUserType())){ // 运营方账号
+        }else if(DataDictionaryEnum.USER_TYPE_AGENT.getStringValue().equals(ctx.getUserType())
+                || DataDictionaryEnum.USER_TYPE_PARENT_COMPANY.getStringValue().equals(ctx.getUserType())
+                || DataDictionaryEnum.USER_TYPE_BRANCH_COMPANY.getStringValue().equals(ctx.getUserType())){ // 运营方账号
             IStrategy iStrategy = new BusinessAdminStrategy();
             iStrategy.bindSql(delegate);
-        }else if(DataDictionaryEnum.USER_TYPE_BUSINESS_USER.getStringValue().equals(ctx.getUserType())){ // 操作方账号
+        }else if(DataDictionaryEnum.USER_TYPE_BUSINESS.getStringValue().equals(ctx.getUserType())){ // 操作方账号
             IStrategy iStrategy = new BusinessUserStrategy();
             iStrategy.bindSql(delegate);
         }

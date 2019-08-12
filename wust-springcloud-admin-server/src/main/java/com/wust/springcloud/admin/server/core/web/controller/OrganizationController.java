@@ -1,6 +1,5 @@
 package com.wust.springcloud.admin.server.core.web.controller;
 
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.wust.springcloud.admin.server.core.mq.producer.UpdateUserOrganizationProducer;
 import com.wust.springcloud.admin.server.core.service.*;
@@ -144,91 +143,7 @@ public class OrganizationController {
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_ADMIN_ORGANIZATION,businessName="构件组织架构树",operationType= OperationLogEnum.Search)
     @RequestMapping(value = "/buildTree",method = RequestMethod.POST)
     public ResponseDto buildTree(@RequestBody SysOrganizationSearch search){
-        ResponseDto mm = new ResponseDto();
-
-        JSONArray jsonArray = new JSONArray();
-        JSONObject rootJSONObject = new JSONObject();
-        jsonArray.add(rootJSONObject);
-        rootJSONObject.put("id","-1");
-        rootJSONObject.put("pId",null);
-        rootJSONObject.put("name","企业基础平台组织架构");
-        rootJSONObject.put("type","");
-        rootJSONObject.put("relationId",null);
-        rootJSONObject.put("open",true);
-        SysOrganizationSearch sysOrganizationSearch = new SysOrganizationSearch();
-        List<SysOrganization> sysOrganizationLists = sysOrganizationServiceImpl.select(sysOrganizationSearch);
-        if(CollectionUtils.isNotEmpty(sysOrganizationLists)){
-            for (SysOrganization sysOrganizationList : sysOrganizationLists) {
-                JSONObject jsonObject = new JSONObject();
-
-                String type = sysOrganizationList.getType();
-                Long relationId = sysOrganizationList.getRelationId();
-                String name = "";
-                Long pid = sysOrganizationList.getPid();
-
-                if(DataDictionaryEnum.ORGANIZATION_TYPE_AGENT.getStringValue().equalsIgnoreCase(type)){
-                    SysCompanySearch sysCompanySearch = new SysCompanySearch();
-                    sysCompanySearch.setId(relationId);
-                    SysCompany sysCompany = sysCompanyServiceImpl.selectOne(sysCompanySearch) == null ? null : (SysCompany)sysCompanyServiceImpl.selectOne(sysCompanySearch);
-                    if(sysCompany != null){
-                        name = "代理商-" + sysCompany.getName();
-                        pid = pid == null ? -1 : pid;
-                    }
-                }else if(DataDictionaryEnum.ORGANIZATION_TYPE_PARENT_COMPANY.getStringValue().equalsIgnoreCase(type)){
-                    SysCompanySearch sysCompanySearch = new SysCompanySearch();
-                    sysCompanySearch.setId(relationId);
-                    SysCompany sysCompany = sysCompanyServiceImpl.selectOne(sysCompanySearch) == null ? null : (SysCompany)sysCompanyServiceImpl.selectOne(sysCompanySearch);
-                    if(sysCompany != null){
-                        name = "总公司-" + sysCompany.getName();
-                    }
-                }else if(DataDictionaryEnum.ORGANIZATION_TYPE_BRANCH_COMPANY.getStringValue().equalsIgnoreCase(type)){
-                    SysCompanySearch sysCompanySearch = new SysCompanySearch();
-                    sysCompanySearch.setId(relationId);
-                    SysCompany sysCompany = sysCompanyServiceImpl.selectOne(sysCompanySearch) == null ? null : (SysCompany)sysCompanyServiceImpl.selectOne(sysCompanySearch);
-                    if(sysCompany != null){
-                        name = "分公司-" + sysCompany.getName();
-                    }
-                }else if(DataDictionaryEnum.ORGANIZATION_TYPE_PROJECT.getStringValue().equalsIgnoreCase(type)){
-                    SysProjectSearch sysProjectSearch = new SysProjectSearch();
-                    sysProjectSearch.setId(relationId);
-                    SysProject sysProject = sysProjectServiceImpl.selectOne(sysProjectSearch) == null ? null : (SysProject)sysProjectServiceImpl.selectOne(sysProjectSearch);
-                    if(sysProject != null){
-                        name = "项目-" + sysProject.getName();
-                    }
-                }else if(DataDictionaryEnum.ORGANIZATION_TYPE_DEPARTMENT.getStringValue().equalsIgnoreCase(type)){
-                    SysDepartmentSearch sysDepartmentSearch = new SysDepartmentSearch();
-                    sysDepartmentSearch.setId(relationId);
-                    SysDepartment sysDepartment = sysDepartmentServiceImpl.selectOne(sysDepartmentSearch) == null ? null : (SysDepartment)sysDepartmentServiceImpl.selectOne(sysDepartmentSearch);
-                    if(sysDepartment != null){
-                        name = "部门-" + sysDepartment.getName();
-                    }
-                }else if(DataDictionaryEnum.ORGANIZATION_TYPE_ROLE.getStringValue().equalsIgnoreCase(type)){
-                    SysRoleSearch sysRoleSearch = new SysRoleSearch();
-                    sysRoleSearch.setId(relationId);
-                    SysRole sysRole = sysRoleServiceImpl.selectOne(sysRoleSearch) == null ? null : (SysRole)sysRoleServiceImpl.selectOne(sysRoleSearch);
-                    if(sysRole != null){
-                        name = "角色-" + sysRole.getName();
-                    }
-                }else if(DataDictionaryEnum.ORGANIZATION_TYPE_USER.getStringValue().equalsIgnoreCase(type)){
-                    SysUserSearch sysUserSearch = new SysUserSearch();
-                    sysUserSearch.setId(relationId);
-                    SysUser sysUser = sysUserServiceImpl.selectOne(sysUserSearch) == null ? null : (SysUser)sysUserServiceImpl.selectOne(sysUserSearch);
-                    if(sysUser != null){
-                        name = "用户-" + sysUser.getRealName() + "(" + sysUser.getLoginName() + ")";
-                    }
-                }
-
-                jsonObject.put("id",sysOrganizationList.getId());
-                jsonObject.put("pId",pid);
-                jsonObject.put("name",name);
-                jsonObject.put("type",type);
-                jsonObject.put("relationId",relationId);
-                jsonObject.put("open",name);
-                jsonArray.add(jsonObject);
-            }
-        }
-
-        mm.setObj(jsonArray.toJSONString());
+        ResponseDto mm = this.sysOrganizationServiceImpl.buildOrganizationTree(search);
         return mm;
     }
 

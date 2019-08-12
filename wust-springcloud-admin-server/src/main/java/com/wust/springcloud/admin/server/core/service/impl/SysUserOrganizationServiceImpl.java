@@ -21,8 +21,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import tk.mybatis.mapper.entity.Example;
-
 import java.util.*;
 
 /**
@@ -70,7 +68,9 @@ public class SysUserOrganizationServiceImpl extends BaseServiceImpl implements S
                 if(CollectionUtils.isNotEmpty(sysOrganizations)) {
                     if (DataDictionaryEnum.USER_TYPE_PLATFORM_ADMIN.getStringValue().equals(type)) { // 平台管理员
                     } else if (DataDictionaryEnum.USER_TYPE_PLATFORM_USER.getStringValue().equals(type)) { // 平台普通用户
-                    } else if (DataDictionaryEnum.USER_TYPE_BUSINESS_ADMIN.getStringValue().equals(type)) { // 运营管理员
+                    } else if (DataDictionaryEnum.USER_TYPE_AGENT.getStringValue().equals(type)
+                            || DataDictionaryEnum.USER_TYPE_PARENT_COMPANY.getStringValue().equals(type)
+                            || DataDictionaryEnum.USER_TYPE_BRANCH_COMPANY.getStringValue().equals(type)) { // 运营管理员
                         List<SysUserOrganization> sysUserOrganizations = new ArrayList<>(10);
                         for (SysOrganization sysOrganization : sysOrganizations) {
                             SysUserOrganization sysUserOrganization = new SysUserOrganization();
@@ -82,7 +82,7 @@ public class SysUserOrganizationServiceImpl extends BaseServiceImpl implements S
                             lookupByBusinessAdmin(sysOrganization.getPid(),sysUserOrganization,sysUserOrganizations);
                         }
                         sysUserOrganizationMapper.insertList(sysUserOrganizations);
-                    } else if (DataDictionaryEnum.USER_TYPE_BUSINESS_USER.getStringValue().equals(type)) { // 业务操作员
+                    } else if (DataDictionaryEnum.USER_TYPE_BUSINESS.getStringValue().equals(type)) { // 业务操作员
                         List<SysUserOrganization> sysUserOrganizations = new ArrayList<>(10);
                         for (SysOrganization sysOrganization : sysOrganizations) {
                             SysUserOrganization sysUserOrganization = new SysUserOrganization();
