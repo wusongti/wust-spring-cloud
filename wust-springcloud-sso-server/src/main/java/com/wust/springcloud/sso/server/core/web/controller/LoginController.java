@@ -9,7 +9,6 @@ import com.wust.springcloud.common.dto.UserContextDto;
 import com.wust.springcloud.common.entity.sys.menu.SysMenu;
 import com.wust.springcloud.common.entity.sys.resource.SysResource;
 import com.wust.springcloud.common.entity.sys.user.SysUser;
-import com.wust.springcloud.common.entity.sys.user.SysUserList;
 import com.wust.springcloud.common.entity.sys.user.SysUserSearch;
 import com.wust.springcloud.common.enums.ApplicationEnum;
 import com.wust.springcloud.common.enums.DataDictionaryEnum;
