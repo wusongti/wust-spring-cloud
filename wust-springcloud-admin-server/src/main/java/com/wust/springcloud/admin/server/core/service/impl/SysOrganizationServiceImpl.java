@@ -100,7 +100,8 @@ public class SysOrganizationServiceImpl extends BaseServiceImpl implements SysOr
                 /**
                  * 根据当前代理商用户向上递归获取代理商对应的组织架构id
                  */
-                Long organizationId4agent = lookupOrganizationIdByType(result,sysOrganization.getId(),DataDictionaryEnum.ORGANIZATION_TYPE_AGENT.getStringValue());
+                JSONObject organizationId4agent = new JSONObject();
+                lookupOrganizationIdByType(result,sysOrganization,DataDictionaryEnum.ORGANIZATION_TYPE_AGENT.getStringValue(),organizationId4agent);
 
 
                 /**
@@ -109,7 +110,7 @@ public class SysOrganizationServiceImpl extends BaseServiceImpl implements SysOr
                 final List<SysOrganization> organizations4agent = new ArrayList<>(100);
                 SysOrganization organization4agent = sysOrganizationMapper.selectByPrimaryKey(organizationId4agent);
                 organizations4agent.add(organization4agent);
-                lookupOrganizationByPid(groupByPidMap,organizationId4agent,organizations4agent);
+                lookupOrganizationByPid(groupByPidMap,organizationId4agent.getLong("id"),organizations4agent);
 
 
                 /**
@@ -135,7 +136,8 @@ public class SysOrganizationServiceImpl extends BaseServiceImpl implements SysOr
                 /**
                  * 根据当前总公司用户向上递归获取总公司对应的组织架构id
                  */
-                Long organizationId4parentCompany = lookupOrganizationIdByType(result,sysOrganization.getId(),DataDictionaryEnum.ORGANIZATION_TYPE_PARENT_COMPANY.getStringValue());
+                JSONObject organizationId4parentCompany = new JSONObject();
+                lookupOrganizationIdByType(result,sysOrganization,DataDictionaryEnum.ORGANIZATION_TYPE_PARENT_COMPANY.getStringValue(),organizationId4parentCompany);
 
 
                 /**
@@ -144,7 +146,7 @@ public class SysOrganizationServiceImpl extends BaseServiceImpl implements SysOr
                 final List<SysOrganization> organizations4parentCompany = new ArrayList<>(100);
                 SysOrganization organization4parentCompany = sysOrganizationMapper.selectByPrimaryKey(organizationId4parentCompany);
                 organizations4parentCompany.add(organization4parentCompany);
-                lookupOrganizationByPid(groupByPidMap,organizationId4parentCompany,organizations4parentCompany);
+                lookupOrganizationByPid(groupByPidMap,organizationId4parentCompany.getLong("id"),organizations4parentCompany);
 
 
                 /**
@@ -170,7 +172,8 @@ public class SysOrganizationServiceImpl extends BaseServiceImpl implements SysOr
                 /**
                  * 根据当前分公司用户向上递归获取分公司对应的组织架构id
                  */
-                Long organizationId4branchCompany = lookupOrganizationIdByType(result,sysOrganization.getId(),DataDictionaryEnum.ORGANIZATION_TYPE_BRANCH_COMPANY.getStringValue());
+                JSONObject organizationId4branchCompany = new JSONObject();
+                lookupOrganizationIdByType(result,sysOrganization,DataDictionaryEnum.ORGANIZATION_TYPE_BRANCH_COMPANY.getStringValue(),organizationId4branchCompany);
 
 
                 /**
@@ -179,7 +182,7 @@ public class SysOrganizationServiceImpl extends BaseServiceImpl implements SysOr
                 final List<SysOrganization> organizations4branchCompany = new ArrayList<>(100);
                 SysOrganization organization4branchCompany = sysOrganizationMapper.selectByPrimaryKey(organizationId4branchCompany);
                 organizations4branchCompany.add(organization4branchCompany);
-                lookupOrganizationByPid(groupByPidMap,organizationId4branchCompany,organizations4branchCompany);
+                lookupOrganizationByPid(groupByPidMap,organizationId4branchCompany.getLong("id"),organizations4branchCompany);
 
 
                 /**
@@ -205,7 +208,8 @@ public class SysOrganizationServiceImpl extends BaseServiceImpl implements SysOr
                 /**
                  * 根据当前分公司用户向上递归获取分公司对应的组织架构id
                  */
-                Long organizationId4branchCompany = lookupOrganizationIdByType(result,sysOrganization.getId(),DataDictionaryEnum.ORGANIZATION_TYPE_BRANCH_COMPANY.getStringValue());
+                JSONObject organizationId4branchCompany = new JSONObject();
+                lookupOrganizationIdByType(result,sysOrganization,DataDictionaryEnum.ORGANIZATION_TYPE_BRANCH_COMPANY.getStringValue(),organizationId4branchCompany);
 
 
                 /**
@@ -214,7 +218,7 @@ public class SysOrganizationServiceImpl extends BaseServiceImpl implements SysOr
                 final List<SysOrganization> organizations4branchCompany = new ArrayList<>(100);
                 SysOrganization organization4branchCompany = sysOrganizationMapper.selectByPrimaryKey(organizationId4branchCompany);
                 organizations4branchCompany.add(organization4branchCompany);
-                lookupOrganizationByPid(groupByPidMap,organizationId4branchCompany,organizations4branchCompany);
+                lookupOrganizationByPid(groupByPidMap,organizationId4branchCompany.getLong("id"),organizations4branchCompany);
 
 
                 /**
@@ -230,6 +234,7 @@ public class SysOrganizationServiceImpl extends BaseServiceImpl implements SysOr
     @Override
     public ResponseDto setFunctionPermissions(JSONObject jsonObject) {
         ResponseDto mm = new ResponseDto();
+        DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
         Long organizationId = jsonObject.getLong("organizationId");
 
         JSONArray  jsonArray = jsonObject.getJSONArray("sysRoleResources");
@@ -240,6 +245,8 @@ public class SysOrganizationServiceImpl extends BaseServiceImpl implements SysOr
             sysRoleResource.setOrganizationId(organizationId);
             sysRoleResource.setResourceId(j.getString("resourceId"));
             sysRoleResource.setType(j.getString("type"));
+            sysRoleResource.setCreaterId(ctx.getUserId());
+            sysRoleResource.setCreaterName(ctx.getRealName());
             sysRoleResource.setCreateTime(new Date());
             list.add(sysRoleResource);
 
@@ -375,19 +382,20 @@ public class SysOrganizationServiceImpl extends BaseServiceImpl implements SysOr
     /**
      * 向上递归，获取指定类型的组织架构id
      * @param map
-     * @param currentId
+     * @param current
      * @param type
      * @return
      */
-    private Long lookupOrganizationIdByType(Map<Long,SysOrganization> map,Long currentId,String type){
-        if(map.containsKey(currentId)){
-            SysOrganization current = map.get(currentId);
-            if(type.equals(current.getType())){
-                return current.getId();
-            }
-            lookupOrganizationIdByType(map,current.getId(),type);
+    private void lookupOrganizationIdByType(Map<Long,SysOrganization> map,SysOrganization current,String type,JSONObject result){
+        if(type.equals(current.getType())){
+            result.put("id",current.getId());
+            return;
         }
-        return null;
+
+        if(map.containsKey(current.getPid())){
+            SysOrganization c = map.get(current.getPid());
+            lookupOrganizationIdByType(map,c,type,result);
+        }
     }
 
 
