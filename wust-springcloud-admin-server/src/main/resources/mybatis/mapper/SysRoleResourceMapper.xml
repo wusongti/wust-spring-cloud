@@ -24,11 +24,11 @@
 	</delete>
 
 	<delete id="deleteDirtyMenu">
-		DELETE FROM sys_role_resource  WHERE type = 'm' AND resource_id NOT IN(SELECT id FROM sys_menu)
+		DELETE FROM sys_role_resource  WHERE type = 'm' AND resource_id NOT IN(SELECT code FROM sys_menu)
 	</delete>
 
 	<delete id="deleteDirtyResource">
-		DELETE FROM sys_role_resource  WHERE type = 'r' AND resource_id NOT IN(SELECT id FROM sys_resource)
+		DELETE FROM sys_role_resource  WHERE type = 'r' AND resource_id NOT IN(SELECT code FROM sys_resource)
 	</delete>
   
   	<delete id="batchDeleteByOrganizationIds" parameterType="java.util.List">

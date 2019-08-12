@@ -15,6 +15,4 @@ public interface SysRoleResourceMapper   extends IBaseMapper<SysRoleResource> {
     int deleteDirtyMenu()throws DataAccessException;
 
 	int deleteDirtyResource()throws DataAccessException;
-
-	int batchDeleteByOrganizationIds(List<String> organizationIds) throws DataAccessException;
 }
