@@ -1,5 +1,6 @@
 package com.wust.springcloud.admin.server.core.service;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.wust.springcloud.common.dto.ResponseDto;
 import com.wust.springcloud.common.entity.sys.organization.SysOrganizationSearch;
@@ -15,7 +16,7 @@ public interface SysOrganizationService extends BaseService {
      * @param search
      * @return
      */
-    ResponseDto buildOrganizationTree(SysOrganizationSearch search);
+    ResponseDto buildLeftTree(SysOrganizationSearch search);
 
     /**
      * 为角色设置功能权限

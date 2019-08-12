@@ -60,11 +60,13 @@ public class SysOrganizationServiceImpl extends BaseServiceImpl implements SysOr
     }
 
     @Override
-    public ResponseDto buildOrganizationTree(SysOrganizationSearch search) {
+    public ResponseDto buildLeftTree(SysOrganizationSearch search) {
         ResponseDto responseDto = new ResponseDto();
+        JSONObject jsonObjectResult = new JSONObject();
         DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
 
         final JSONArray jsonArray = new JSONArray();
+
 
         SysOrganization sysOrganizationSearch = new SysOrganization();
         List<SysOrganization> sysOrganizationLists = sysOrganizationMapper.select(sysOrganizationSearch);
@@ -72,6 +74,11 @@ public class SysOrganizationServiceImpl extends BaseServiceImpl implements SysOr
             Map<Long,SysOrganization> result = groupById(sysOrganizationLists);
             if(DataDictionaryEnum.USER_TYPE_PLATFORM_ADMIN.getStringValue().equals(ctx.getUserType())
                     || DataDictionaryEnum.USER_TYPE_PLATFORM_USER.getStringValue().equals(ctx.getUserType())){
+                /**
+                 * 按照pid分组组织架构
+                 */
+                Map<Long,List<SysOrganization>> groupByPidMap = groupByPid(sysOrganizationLists);
+
                 JSONObject rootJSONObject = new JSONObject();
                 jsonArray.add(rootJSONObject);
                 rootJSONObject.put("id","-1");
@@ -81,6 +88,15 @@ public class SysOrganizationServiceImpl extends BaseServiceImpl implements SysOr
                 rootJSONObject.put("relationId",null);
                 rootJSONObject.put("open",true);
                 setRelationName(jsonArray,sysOrganizationLists);
+
+                /**
+                 * 构建右树
+                 */
+                sysOrganizationSearch = new SysOrganization();
+                sysOrganizationSearch.setPid((long)-1);
+                SysOrganization sysOrganization = this.sysOrganizationMapper.selectOne(sysOrganizationSearch);
+                String rightTreeJson = buildRightTree(groupByPidMap,sysOrganization.getId());
+                jsonObjectResult.put("rightTree",rightTreeJson);
             }else if(DataDictionaryEnum.USER_TYPE_AGENT.getStringValue().equals(ctx.getUserType())){
                 /**
                  * 按照pid分组组织架构
@@ -117,6 +133,13 @@ public class SysOrganizationServiceImpl extends BaseServiceImpl implements SysOr
                  * 设置组织架构节点名称
                  */
                 setRelationName(jsonArray,organizations4agent);
+
+
+                /**
+                 * 构建右树
+                 */
+                String rightTreeJson = buildRightTree(groupByPidMap,organizationId4agent.getLong("id"));
+                jsonObjectResult.put("rightTree",rightTreeJson);
             }else if(DataDictionaryEnum.USER_TYPE_PARENT_COMPANY.getStringValue().equals(ctx.getUserType())){
                 /**
                  * 按照pid分组组织架构
@@ -153,6 +176,13 @@ public class SysOrganizationServiceImpl extends BaseServiceImpl implements SysOr
                  * 设置组织架构节点名称
                  */
                 setRelationName(jsonArray,organizations4parentCompany);
+
+
+                /**
+                 * 构建右树
+                 */
+                String rightTreeJson = buildRightTree(groupByPidMap,organizationId4parentCompany.getLong("id"));
+                jsonObjectResult.put("rightTree",rightTreeJson);
             }else if(DataDictionaryEnum.USER_TYPE_BRANCH_COMPANY.getStringValue().equals(ctx.getUserType())){
                 /**
                  * 按照pid分组组织架构
@@ -189,6 +219,13 @@ public class SysOrganizationServiceImpl extends BaseServiceImpl implements SysOr
                  * 设置组织架构节点名称
                  */
                 setRelationName(jsonArray,organizations4branchCompany);
+
+
+                /**
+                 * 构建右树
+                 */
+                String rightTreeJson = buildRightTree(groupByPidMap,organizationId4branchCompany.getLong("id"));
+                jsonObjectResult.put("rightTree",rightTreeJson);
             }else if(DataDictionaryEnum.USER_TYPE_BUSINESS.getStringValue().equals(ctx.getUserType())){
                 /**
                  * 按照pid分组组织架构
@@ -225,10 +262,74 @@ public class SysOrganizationServiceImpl extends BaseServiceImpl implements SysOr
                  * 设置组织架构节点名称
                  */
                 setRelationName(jsonArray,organizations4branchCompany);
+
+
+
+                /**
+                 * 构建右树
+                 */
+                String rightTreeJson = buildRightTree(groupByPidMap,organizationId4branchCompany.getLong("id"));
+                jsonObjectResult.put("rightTree",rightTreeJson);
             }
         }
-        responseDto.setObj(jsonArray.toJSONString());
+        jsonObjectResult.put("leftTree",jsonArray.toJSONString());
+        responseDto.setObj(jsonObjectResult);
         return responseDto;
+    }
+
+
+    /**
+     * 构建右树
+     * @param groupByPidMap 根据pid分组的组织架构数据
+     * @param topId 该用户可见的顶层组织id
+     * @return
+     */
+    private String buildRightTree(final Map<Long,List<SysOrganization>> groupByPidMap,Long topId) {
+        JSONObject jsonObject = new JSONObject();
+
+        SysOrganization top = this.sysOrganizationMapper.selectByPrimaryKey(topId);
+        SysCompany sysCompany = this.sysCompanyMapper.selectByPrimaryKey(top.getRelationId());
+        jsonObject.put("id",topId);
+        jsonObject.put("name",sysCompany.getName());
+        jsonObject.put("title",sysCompany.getName());
+
+        buildChildren4rightTree(groupByPidMap,jsonObject);
+
+        return jsonObject.toJSONString();
+    }
+
+    private void buildChildren4rightTree(final Map<Long,List<SysOrganization>> groupByPidMap,final JSONObject jsonObject){
+        Long pid = jsonObject.getLong("id");
+        if(groupByPidMap.containsKey(pid)){
+            List<SysOrganization> children = groupByPidMap.get(pid);
+            if(org.apache.commons.collections.CollectionUtils.isNotEmpty(children)){
+                jsonObject.put("children",new JSONArray());
+                for (SysOrganization child : children) {
+                    String name = "";
+                    if(DataDictionaryEnum.ORGANIZATION_TYPE_PARENT_COMPANY.getStringValue().equalsIgnoreCase(child.getType())){
+                        name = this.sysCompanyMapper.selectByPrimaryKey(child.getRelationId()).getName();
+                    }else if(DataDictionaryEnum.ORGANIZATION_TYPE_BRANCH_COMPANY.getStringValue().equalsIgnoreCase(child.getType())){
+                        name = this.sysCompanyMapper.selectByPrimaryKey(child.getRelationId()).getName();
+                    }else if(DataDictionaryEnum.ORGANIZATION_TYPE_PROJECT.getStringValue().equalsIgnoreCase(child.getType())){
+                        name = this.sysProjectMapper.selectByPrimaryKey(child.getRelationId()).getName();
+                    }else if(DataDictionaryEnum.ORGANIZATION_TYPE_DEPARTMENT.getStringValue().equalsIgnoreCase(child.getType())){
+                        name = this.sysDepartmentMapper.selectByPrimaryKey(child.getRelationId()).getName();
+                    }else if(DataDictionaryEnum.ORGANIZATION_TYPE_ROLE.getStringValue().equalsIgnoreCase(child.getType())){
+                        name = this.sysRoleMapper.selectByPrimaryKey(child.getRelationId()).getName();
+                    }else if(DataDictionaryEnum.ORGANIZATION_TYPE_USER.getStringValue().equalsIgnoreCase(child.getType())){
+                        SysUser sysUser = this.sysUserMapper.selectByPrimaryKey(child.getRelationId());
+                        name = sysUser.getRealName() + "(" + sysUser.getLoginName() + ")";
+                    }
+                    JSONObject jsonObjectChild = new JSONObject();
+                    jsonObjectChild.put("id",child.getId());
+                    jsonObjectChild.put("name",name);
+                    jsonObjectChild.put("title",name);
+                    jsonObject.getJSONArray("children").add(jsonObjectChild);
+
+                    buildChildren4rightTree(groupByPidMap,jsonObjectChild);
+                }
+            }
+        }
     }
 
     @Override
