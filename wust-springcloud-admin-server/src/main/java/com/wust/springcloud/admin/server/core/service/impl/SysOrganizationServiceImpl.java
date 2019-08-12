@@ -393,7 +393,7 @@ public class SysOrganizationServiceImpl extends BaseServiceImpl implements SysOr
                     sysCompanySearch.setId(relationId);
                     SysCompany sysCompany = sysCompanyMapper.selectOne(sysCompanySearch);
                     if(sysCompany != null){
-                        name = "代理商-" + sysCompany.getName();
+                        name = sysCompany.getName();
                         pid = pid == null ? -1 : pid;
                     }
                 }else if(DataDictionaryEnum.ORGANIZATION_TYPE_PARENT_COMPANY.getStringValue().equalsIgnoreCase(type)){
@@ -401,42 +401,42 @@ public class SysOrganizationServiceImpl extends BaseServiceImpl implements SysOr
                     sysCompanySearch.setId(relationId);
                     SysCompany sysCompany = sysCompanyMapper.selectOne(sysCompanySearch);
                     if(sysCompany != null){
-                        name = "总公司-" + sysCompany.getName();
+                        name = sysCompany.getName();
                     }
                 }else if(DataDictionaryEnum.ORGANIZATION_TYPE_BRANCH_COMPANY.getStringValue().equalsIgnoreCase(type)){
                     SysCompany sysCompanySearch = new SysCompany();
                     sysCompanySearch.setId(relationId);
                     SysCompany sysCompany = sysCompanyMapper.selectOne(sysCompanySearch);
                     if(sysCompany != null){
-                        name = "分公司-" + sysCompany.getName();
+                        name = sysCompany.getName();
                     }
                 }else if(DataDictionaryEnum.ORGANIZATION_TYPE_PROJECT.getStringValue().equalsIgnoreCase(type)){
                     SysProject sysProjectSearch = new SysProject();
                     sysProjectSearch.setId(relationId);
                     SysProject sysProject = sysProjectMapper.selectOne(sysProjectSearch);
                     if(sysProject != null){
-                        name = "项目-" + sysProject.getName();
+                        name = sysProject.getName();
                     }
                 }else if(DataDictionaryEnum.ORGANIZATION_TYPE_DEPARTMENT.getStringValue().equalsIgnoreCase(type)){
                     SysDepartment sysDepartmentSearch = new SysDepartment();
                     sysDepartmentSearch.setId(relationId);
                     SysDepartment sysDepartment =  sysDepartmentMapper.selectOne(sysDepartmentSearch);
                     if(sysDepartment != null){
-                        name = "部门-" + sysDepartment.getName();
+                        name = sysDepartment.getName();
                     }
                 }else if(DataDictionaryEnum.ORGANIZATION_TYPE_ROLE.getStringValue().equalsIgnoreCase(type)){
                     SysRole sysRoleSearch = new SysRole();
                     sysRoleSearch.setId(relationId);
                     SysRole sysRole = sysRoleMapper.selectOne(sysRoleSearch);
                     if(sysRole != null){
-                        name = "角色-" + sysRole.getName();
+                        name = sysRole.getName();
                     }
                 }else if(DataDictionaryEnum.ORGANIZATION_TYPE_USER.getStringValue().equalsIgnoreCase(type)){
                     SysUser sysUserSearch = new SysUser();
                     sysUserSearch.setId(relationId);
                     SysUser sysUser = sysUserMapper.selectOne(sysUserSearch);
                     if(sysUser != null){
-                        name = "用户-" + sysUser.getRealName() + "(" + sysUser.getLoginName() + ")";
+                        name = sysUser.getRealName() + "(" + sysUser.getLoginName() + ")";
                     }
                 }
 

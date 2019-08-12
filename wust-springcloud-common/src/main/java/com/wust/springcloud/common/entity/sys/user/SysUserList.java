@@ -10,6 +10,7 @@ public class SysUserList extends SysUser{
     private String statusLabel;
     private String typeLabel;
     private String onlineStatusLabel;
+    private String assigned; // 是否已经被分配到组织架构
 
     public String getSexLabel() {
         return sexLabel;
@@ -41,5 +42,13 @@ public class SysUserList extends SysUser{
 
     public void setOnlineStatusLabel(String onlineStatusLabel) {
         this.onlineStatusLabel = onlineStatusLabel;
+    }
+
+    public String getAssigned() {
+        return assigned;
+    }
+
+    public void setAssigned(String assigned) {
+        this.assigned = assigned;
     }
 }

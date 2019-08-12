@@ -20,12 +20,22 @@
         <result property="modifyTime" column="modify_time"/>
     </resultMap>
     <resultMap id="ListResultMap" extends="BaseResultMap" type="SysUserList">
+        <result column="assigned" property="assigned"/>
     </resultMap>
 
     <select id="listPage" parameterType="SysUserSearch" resultMap="ListResultMap">
-        SELECT * FROM sys_user t WHERE 1=1
+        SELECT
+            t.*, t1.id AS assigned
+        FROM
+            sys_user t
+        LEFT JOIN sys_user_organization t1 ON t.id = t1.user_id
+        WHERE
+        1 = 1
         <if test="id != null and id !=  ''">
             AND t.id = #{id}
+        </if>
+        <if test="type != null and type !=  ''">
+            AND t.type = #{type}
         </if>
         <if test="loginName != null and loginName !=  ''">
             AND t.login_name = #{loginName}

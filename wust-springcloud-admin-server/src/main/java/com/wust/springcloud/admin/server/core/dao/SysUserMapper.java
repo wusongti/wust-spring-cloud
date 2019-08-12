@@ -11,7 +11,5 @@ import java.util.List;
  * Created by WST on 2019/4/18.
  */
 public interface SysUserMapper   extends IBaseMapper<SysUser> {
-    List<SysUserList> listPage(SysUserSearch search) throws DataAccessException;
-
     String getDefaultLoginName() throws DataAccessException;
 }
