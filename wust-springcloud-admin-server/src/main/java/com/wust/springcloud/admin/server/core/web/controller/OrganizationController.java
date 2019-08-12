@@ -17,7 +17,6 @@ import com.wust.springcloud.common.entity.sys.project.SysProject;
 import com.wust.springcloud.common.entity.sys.project.SysProjectSearch;
 import com.wust.springcloud.common.entity.sys.role.SysRole;
 import com.wust.springcloud.common.entity.sys.role.SysRoleSearch;
-import com.wust.springcloud.common.entity.sys.role.resource.SysRoleResourceCreate;
 import com.wust.springcloud.common.entity.sys.user.SysUser;
 import com.wust.springcloud.common.entity.sys.user.SysUserSearch;
 import com.wust.springcloud.common.enums.DataDictionaryEnum;
@@ -25,7 +24,6 @@ import com.wust.springcloud.common.enums.OperationLogEnum;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.*;
 
 /**
@@ -202,48 +200,25 @@ public class OrganizationController {
 
 
     /**
-     * 获取当前角色的功能权限树
-     * @param roleId
+     * 获取当前选定角色的功能权限树
      * @return
      */
-    @RequestMapping(value = "/findFunctionTreeByRoleId/{pid}/{roleId}",method = RequestMethod.POST)
-    public  ResponseDto findFunctionTreeByRoleId(@PathVariable Long pid,@PathVariable Long roleId){
-        ResponseDto messageMap = new ResponseDto();
-        SysOrganizationSearch sysOrganizationSearch = new SysOrganizationSearch();
-        sysOrganizationSearch.setPid(pid);
-        sysOrganizationSearch.setRelationId(roleId);
-        List<SysOrganization> sysOrganizations = this.sysOrganizationServiceImpl.select(sysOrganizationSearch);
-        if(CollectionUtils.isNotEmpty(sysOrganizations)){
-            messageMap = sysRoleServiceImpl.findFunctionTreeByOrganizationId(sysOrganizations.get(0).getId());
-        }else{
-            messageMap.setFlag(ResponseDto.INFOR_WARNING);
-            messageMap.setMessage("组织架构里面已经没有这个数据，刚刚可能是被其他用户删除了");
-        }
+    @RequestMapping(value = "/findFunctionTreeByRoleId/{organizationId}",method = RequestMethod.POST)
+    public  ResponseDto findFunctionTreeByRoleId(@PathVariable Long organizationId){
+        ResponseDto messageMap = sysRoleServiceImpl.findFunctionTreeByOrganizationId(organizationId);
         return messageMap;
     }
 
 
 
     /**
-     * 获取当前角色的功能权限树
-     * @param sysRoleResourceAdd
+     * 设置功能权限
+     * @param jsonObject
      * @return
      */
     @RequestMapping(value = "/setFunctionPermissions",method = RequestMethod.POST)
-    public  ResponseDto setFunctionPermissions(@RequestBody SysRoleResourceCreate sysRoleResourceAdd){
-        ResponseDto messageMap = new ResponseDto();
-        SysOrganizationSearch sysOrganizationSearch = new SysOrganizationSearch();
-        sysOrganizationSearch.setPid(sysRoleResourceAdd.getPid());
-        sysOrganizationSearch.setRelationId(sysRoleResourceAdd.getRoleId());
-        List<SysOrganization> sysOrganizationLists = this.sysOrganizationServiceImpl.select(sysOrganizationSearch);
-        if(CollectionUtils.isNotEmpty(sysOrganizationLists)){
-            sysRoleResourceAdd.setOrganizationId(sysOrganizationLists.get(0).getId());
-            messageMap = sysOrganizationServiceImpl.setFunctionPermissions(sysRoleResourceAdd);
-            updateUserOrganizationProducer.send(new JSONObject());
-        }else{
-            messageMap.setFlag(ResponseDto.INFOR_WARNING);
-            messageMap.setMessage("组织架构里面已经没有这个数据，刚刚可能是被其他用户删除了");
-        }
-        return messageMap;
+    public  ResponseDto setFunctionPermissions(@RequestBody JSONObject jsonObject){
+        ResponseDto responseDto = sysOrganizationServiceImpl.setFunctionPermissions(jsonObject);
+        return responseDto;
     }
 }

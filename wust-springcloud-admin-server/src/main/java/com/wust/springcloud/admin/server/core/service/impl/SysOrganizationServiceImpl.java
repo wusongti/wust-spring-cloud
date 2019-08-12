@@ -15,7 +15,6 @@ import com.wust.springcloud.common.entity.sys.project.SysProject;
 import com.wust.springcloud.common.entity.sys.resource.SysResource;
 import com.wust.springcloud.common.entity.sys.role.SysRole;
 import com.wust.springcloud.common.entity.sys.role.resource.SysRoleResource;
-import com.wust.springcloud.common.entity.sys.role.resource.SysRoleResourceCreate;
 import com.wust.springcloud.common.entity.sys.user.SysUser;
 import com.wust.springcloud.common.enums.ApplicationEnum;
 import com.wust.springcloud.common.enums.DataDictionaryEnum;
@@ -229,13 +228,18 @@ public class SysOrganizationServiceImpl extends BaseServiceImpl implements SysOr
     }
 
     @Override
-    public ResponseDto setFunctionPermissions(SysRoleResourceCreate sysRoleResourceCreate) {
+    public ResponseDto setFunctionPermissions(JSONObject jsonObject) {
         ResponseDto mm = new ResponseDto();
+        Long organizationId = jsonObject.getLong("organizationId");
 
-        List<SysRoleResource>  sysRoleResources = sysRoleResourceCreate.getSysRoleResources();
+        JSONArray  jsonArray = jsonObject.getJSONArray("sysRoleResources");
         List<SysRoleResource> list = new ArrayList<>();
-        for(SysRoleResource sysRoleResource : sysRoleResources){
-            sysRoleResource.setOrganizationId(sysRoleResourceCreate.getOrganizationId());
+        for (Object object : jsonArray) {
+            JSONObject j = (JSONObject)object;
+            SysRoleResource sysRoleResource = new SysRoleResource();
+            sysRoleResource.setOrganizationId(organizationId);
+            sysRoleResource.setResourceId(j.getString("resourceId"));
+            sysRoleResource.setType(j.getString("type"));
             sysRoleResource.setCreateTime(new Date());
             list.add(sysRoleResource);
 
@@ -245,7 +249,7 @@ public class SysOrganizationServiceImpl extends BaseServiceImpl implements SysOr
                 if(!CollectionUtils.isEmpty(anonList)){
                     for(SysResource anonR : anonList){
                         SysRoleResource anon = new SysRoleResource();
-                        anon.setOrganizationId(sysRoleResourceCreate.getOrganizationId());
+                        anon.setOrganizationId(organizationId);
                         anon.setResourceId(anonR.getCode());
                         anon.setType(ApplicationEnum.MENU_TYPE_R.getStringValue());
                         anon.setCreateTime(new Date());
@@ -255,7 +259,7 @@ public class SysOrganizationServiceImpl extends BaseServiceImpl implements SysOr
             }
         }
 
-        sysRoleResourceMapper.deleteByPrimaryKey(sysRoleResourceCreate.getOrganizationId());
+        sysRoleResourceMapper.deleteByPrimaryKey(organizationId);
 
         sysRoleResourceMapper.insertList(list);
         return mm;

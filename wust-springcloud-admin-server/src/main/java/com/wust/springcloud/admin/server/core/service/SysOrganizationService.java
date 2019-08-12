@@ -1,8 +1,8 @@
 package com.wust.springcloud.admin.server.core.service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.wust.springcloud.common.dto.ResponseDto;
 import com.wust.springcloud.common.entity.sys.organization.SysOrganizationSearch;
-import com.wust.springcloud.common.entity.sys.role.resource.SysRoleResourceCreate;
 import com.wust.springcloud.common.service.BaseService;
 
 /**
@@ -19,8 +19,8 @@ public interface SysOrganizationService extends BaseService {
 
     /**
      * 为角色设置功能权限
-     * @param sysRoleResourceCreate
+     * @param jsonObject
      * @return
      */
-    ResponseDto setFunctionPermissions(SysRoleResourceCreate sysRoleResourceCreate);
+    ResponseDto setFunctionPermissions(JSONObject jsonObject);
 }
