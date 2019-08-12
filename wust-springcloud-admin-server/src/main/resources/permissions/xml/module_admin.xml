@@ -48,6 +48,7 @@
 			<operation code="a8aa5a7e-87fc-11e9-a68d-0050568e63cd" name="AddUser" desc="添加用户" url=""/>
 			<operation code="ad2fdb46-87fc-11e9-a68d-0050568e63cd" name="Export" desc="导出" url=""/>
 			<operation code="b18e6ece-87fc-11e9-a68d-0050568e63cd" name="Delete" desc="移除" url=""/>
+			<operation code="ebec4b16-bcac-11e9-b637-00f1f3059872" name="SetFunctionPermissions" desc="设置功能权限" url=""/>
 		</module>
 		<module code="bfa76d77-716f-11e9-a68d-0050568e63cd" name="Lookup" desc="数据字典" order="120010117" page="LookupIndex" url="./LookupIndex" img="el-icon-document">
 			<operation code="b8cb00c4-87fc-11e9-a68d-0050568e63cd" name="Search" desc="查询" url=""/>
