@@ -65,14 +65,6 @@ public class SysOrganizationServiceImpl extends BaseServiceImpl implements SysOr
         DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
 
         final JSONArray jsonArray = new JSONArray();
-        JSONObject rootJSONObject = new JSONObject();
-        jsonArray.add(rootJSONObject);
-        rootJSONObject.put("id","-1");
-        rootJSONObject.put("pId",null);
-        rootJSONObject.put("name","企业基础平台组织架构");
-        rootJSONObject.put("type","");
-        rootJSONObject.put("relationId",null);
-        rootJSONObject.put("open",true);
 
         SysOrganization sysOrganizationSearch = new SysOrganization();
         List<SysOrganization> sysOrganizationLists = sysOrganizationMapper.select(sysOrganizationSearch);
@@ -80,6 +72,14 @@ public class SysOrganizationServiceImpl extends BaseServiceImpl implements SysOr
             Map<Long,SysOrganization> result = groupById(sysOrganizationLists);
             if(DataDictionaryEnum.USER_TYPE_PLATFORM_ADMIN.getStringValue().equals(ctx.getUserType())
                     || DataDictionaryEnum.USER_TYPE_PLATFORM_USER.getStringValue().equals(ctx.getUserType())){
+                JSONObject rootJSONObject = new JSONObject();
+                jsonArray.add(rootJSONObject);
+                rootJSONObject.put("id","-1");
+                rootJSONObject.put("pId",null);
+                rootJSONObject.put("name","企业基础平台组织架构");
+                rootJSONObject.put("type","");
+                rootJSONObject.put("relationId",null);
+                rootJSONObject.put("open",true);
                 setRelationName(jsonArray,sysOrganizationLists);
             }else if(DataDictionaryEnum.USER_TYPE_AGENT.getStringValue().equals(ctx.getUserType())){
                 /**
