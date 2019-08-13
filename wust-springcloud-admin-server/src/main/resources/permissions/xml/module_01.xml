@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- modulegroup节点从main.xml里面复制过来的，id属性值要和main里面的一样，name和desc属性必须保留，但值可以空 -->
+<!-- modulegroup节点从main.xml里面复制过来的，code属性值要和main里面的一致 -->
 <modulegroup code="1a6debab-f513-4b3f-9d21-2b5249c3ec11">
 	<modulegroup code="508fba34-b7f0-11e9-9612-00f1f3059872" name="System Setting" desc="系统配置" order="1200101"  img="el-icon-setting">
 		<module code="94fcc15c-85a4-11e9-a68d-0050568e63cd" name="Company Management" desc="公司管理" order="120010101" page="CompanyList" url="./CompanyList" img="el-icon-document">

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- modulegroup节点从main.xml里面复制过来的，code属性值要和main里面的一致 -->
+<modulegroup code="4d6d7f22-af7c-11e9-948a-00f1f3059872">
+	<module code="c2dbe58b-bd8d-11e9-b637-00f1f3059872" name="Response Undone" desc="临时菜单" order="1600101" page="ResponseUndone4" url="./ResponseUndone" img="el-icon-document">
+	</module>
+</modulegroup>

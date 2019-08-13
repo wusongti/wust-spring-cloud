@@ -7,39 +7,39 @@
 		</modulegroup>
 
 		<modulegroup code="1a6debab-f513-4b3f-9d21-2b5249c3ec11" name="Setting" desc="平台管理" order="12001"  img="el-icon-user">
-			<path path = "permissions/xml/module_admin.xml"/>
+			<path path = "permissions/xml/module_01.xml"/>
 		</modulegroup>
 
 		<modulegroup code="2517bcaa-af7c-11e9-948a-00f1f3059872" name="Electricity Management" desc="电力管理" order="13001" img="el-icon-lightning">
-			<path path = "permissions/xml/module_query.xml"/>
+			<path path = "permissions/xml/module_02.xml"/>
 		</modulegroup>
 
 		<modulegroup code="413f2170-af7c-11e9-948a-00f1f3059872" name="Water Management" desc="水源管理" order="14001" img="el-icon-folder">
-			<path path = "permissions/xml/module_query.xml"/>
+			<path path = "permissions/xml/module_03.xml"/>
 		</modulegroup>
 
 		<modulegroup code="484920c7-af7c-11e9-948a-00f1f3059872" name="Wisdom Car Parking Management" desc="智慧停车" order="15001" img="el-icon-truck">
-			<path path = "permissions/xml/module_query.xml"/>
+			<path path = "permissions/xml/module_04.xml"/>
 		</modulegroup>
 
 		<modulegroup code="4d6d7f22-af7c-11e9-948a-00f1f3059872" name="Wisdom Access Door Management" desc="智慧门禁" order="16001" img="el-icon-key">
-			<path path = "permissions/xml/module_query.xml"/>
+			<path path = "permissions/xml/module_05.xml"/>
 		</modulegroup>
 
 		<modulegroup code="52243151-af7c-11e9-948a-00f1f3059872" name="Wisdom Lift Management" desc="梯控管理" order="17001" img="el-icon-office-building">
-			<path path = "permissions/xml/module_query.xml"/>
+			<path path = "permissions/xml/module_06.xml"/>
 		</modulegroup>
 
 		<modulegroup code="578f577d-af7c-11e9-948a-00f1f3059872" name="Video Surveillance Management" desc="视频监控" order="18001" img="el-icon-video-camera">
-			<path path = "permissions/xml/module_query.xml"/>
+			<path path = "permissions/xml/module_07.xml"/>
 		</modulegroup>
 
 		<modulegroup code="5c58f656-af7c-11e9-948a-00f1f3059872" name="Security Management" desc="安防报警" order="19001" img="el-icon-bell">
-			<path path = "permissions/xml/module_query.xml"/>
+			<path path = "permissions/xml/module_08.xml"/>
 		</modulegroup>
 
 		<modulegroup code="607decc8-af7c-11e9-948a-00f1f3059872" name="Community  Broadcast Management" desc="公共广播" order="20001" img="el-icon-message-solid">
-			<path path = "permissions/xml/module_query.xml"/>
+			<path path = "permissions/xml/module_09.xml"/>
 		</modulegroup>
 
 	</subsystem>
