@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
  * @version:
  */
 @FeignClient(value = "api-sso-server")
-public interface VerifyApiService {
-    @GetMapping(value = "/VerifyApiRpc/hasSign/{sign}")
+public interface SsoService {
+    @GetMapping(value = "/VerifyApiRpc/v1/hasSign/{sign}")
     boolean hasSign(@PathVariable String sign);
 }

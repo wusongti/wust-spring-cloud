@@ -9,6 +9,6 @@ import org.springframework.web.bind.annotation.PathVariable;
  */
 @FeignClient(value = "api-sso-server")
 public interface SsoService {
-    @GetMapping(value = "/AuthenticationRpc/hasToken/{token}")
+    @GetMapping(value = "/AuthenticationRpc/v1/hasToken/{token}")
     boolean hasToken(@PathVariable("token") String token);
 }

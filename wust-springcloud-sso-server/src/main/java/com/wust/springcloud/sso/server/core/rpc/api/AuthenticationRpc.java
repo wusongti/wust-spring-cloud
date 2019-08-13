@@ -26,7 +26,7 @@ public class AuthenticationRpc {
      * @return
      */
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_COMMON,businessName="查询是否存在token",operationType= OperationLogEnum.Search)
-    @RequestMapping(value = "/hasToken/{token}")
+    @RequestMapping(value = "/v1/hasToken/{token}")
     public boolean hasToken(@PathVariable String token) {
         String key = String.format(ApplicationEnum.WEB_LOGIN_KEY.getStringValue(),token);
         if(springRedisTools.hasKey(key)){ // 刷新缓存时间和token时间

@@ -28,7 +28,7 @@ public class VerifyApiRpc {
      * @return
      */
     @OperationLogAnnotation(moduleName= OperationLogEnum.MODULE_COMMON,businessName="查询缓存是否已经存在该API签名",operationType= OperationLogEnum.Search)
-    @RequestMapping(value = "/hasSign/{sign}")
+    @RequestMapping(value = "/v1/hasSign/{sign}")
     public boolean hasSign(@PathVariable String sign) {
         if(springRedisTools.hasKey(sign)){
             return true;

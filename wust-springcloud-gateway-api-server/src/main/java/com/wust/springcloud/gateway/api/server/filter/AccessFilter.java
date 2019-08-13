@@ -5,7 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.wust.springcloud.common.enums.ApplicationEnum;
 import com.wust.springcloud.common.util.MyStringUtils;
 import com.wust.springcloud.common.util.SignUtil;
-import com.wust.springcloud.gateway.api.server.core.service.VerifyApiService;
+import com.wust.springcloud.gateway.api.server.core.service.SsoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +28,7 @@ public class AccessFilter implements GlobalFilter {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
-    private VerifyApiService verifyApiService;
+    private SsoService ssoService;
 
 
     @Override
@@ -41,7 +41,7 @@ public class AccessFilter implements GlobalFilter {
             if(verifyParameter(map)){
                 boolean flag = SignUtil.verify(map); // 验证签名是否合法，防止篡改请求参数
                 if(flag){
-                    if(verifyApiService.hasSign(map.get("sign").toString())){ // 防止重复的请求，如有则拦截掉
+                    if(ssoService.hasSign(map.get("sign").toString())){ // 防止重复的请求，如有则拦截掉
                         logger.error("重复的请求，已经被网关拦截");
                         response.setStatusCode(HttpStatus.UNAUTHORIZED);
                         return response.setComplete();
