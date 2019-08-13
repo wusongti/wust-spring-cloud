@@ -5,7 +5,7 @@ package com.wust.springcloud.gateway.server.filter;
 
 import com.wust.springcloud.common.enums.ApplicationEnum;
 import com.wust.springcloud.common.util.MyStringUtils;
-import com.wust.springcloud.gateway.server.core.service.AuthorizeService;
+import com.wust.springcloud.gateway.server.core.service.SsoService;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
@@ -28,7 +28,7 @@ import reactor.core.publisher.Mono;
 @Component
 public class AccessFilter implements GlobalFilter {
     @Autowired
-    private AuthorizeService authorizeService;
+    private SsoService ssoService;
 
     @Override
     public Mono<Void> filter(ServerWebExchange serverWebExchange, GatewayFilterChain gatewayFilterChain) {
@@ -61,7 +61,7 @@ public class AccessFilter implements GlobalFilter {
             return gatewayFilterChain.filter(serverWebExchange);
         }else { // 非登录请求，需要校验令牌和访问资源的权限
             if(MyStringUtils.isNoneBlank(MyStringUtils.null2String(token))){
-                if(authorizeService.hasToken(token)){
+                if(ssoService.hasToken(token)){
                     // TODO 需要判断该用户是否有权限访问资源
                     if(true){ // 授权成功，通过访问
                         response.setStatusCode(HttpStatus.OK);

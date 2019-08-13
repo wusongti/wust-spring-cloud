@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
  * Created by WST on 2019/4/18.
  */
 @FeignClient(value = "api-sso-server")
-public interface AuthorizeService {
+public interface SsoService {
     @GetMapping(value = "/AuthenticationRpc/hasToken/{token}")
     boolean hasToken(@PathVariable("token") String token);
 }
