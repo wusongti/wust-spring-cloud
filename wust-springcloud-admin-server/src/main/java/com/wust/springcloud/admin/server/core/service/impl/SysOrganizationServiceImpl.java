@@ -83,7 +83,6 @@ public class SysOrganizationServiceImpl extends BaseServiceImpl implements SysOr
                 Map<Long,List<SysOrganization>> groupByPidMap = groupByPid(sysOrganizationLists);
 
                 JSONObject rootJSONObject = new JSONObject();
-                jsonArray.add(rootJSONObject);
                 rootJSONObject.put("id","-1");
                 rootJSONObject.put("pId",null);
                 rootJSONObject.put("name","企业基础平台组织架构");
@@ -287,7 +286,6 @@ public class SysOrganizationServiceImpl extends BaseServiceImpl implements SysOr
 
         if(jsonArray.size() == 0){
             JSONObject rootJSONObject = new JSONObject();
-            jsonArray.add(rootJSONObject);
             rootJSONObject.put("id","-1");
             rootJSONObject.put("pId",null);
             rootJSONObject.put("name","企业基础平台组织架构");
