@@ -117,6 +117,7 @@ public class SysUserOrganizationServiceImpl extends BaseServiceImpl implements S
                     this.sysUserMapper.updateByPrimaryKey(user);
                 }else{ // 非业务员账号，则缓存其有权看到的公司id
                     JSONArray jsonArray = map.get(userId);
+                    springRedisTools.deleteByKey(String.format(RedisKeyEnum.REDIS_TABLE_KEY_CURRENT_USER_BRANCH_COMPANY_ID.getStringValue(),userId));
                     springRedisTools.addData(String.format(RedisKeyEnum.REDIS_TABLE_KEY_CURRENT_USER_BRANCH_COMPANY_ID.getStringValue(),userId),jsonArray.toJSONString());
                 }
             }
