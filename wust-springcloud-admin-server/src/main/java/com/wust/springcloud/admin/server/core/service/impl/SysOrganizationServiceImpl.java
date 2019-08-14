@@ -96,19 +96,19 @@ public class SysOrganizationServiceImpl extends BaseServiceImpl implements SysOr
                 /**
                  * 构建右树
                  */
-                JSONObject rithtRootJSONObject = new JSONObject();
-                rithtRootJSONObject.put("id","-1");
-                rithtRootJSONObject.put("name","企业基础平台组织架构");
-                rithtRootJSONObject.put("title","企业基础平台组织架构");
-                rithtRootJSONObject.put("children",new JSONArray());
+                JSONObject rightRootJSONObject = new JSONObject();
+                rightRootJSONObject.put("id","-1");
+                rightRootJSONObject.put("name","企业基础平台组织架构");
+                rightRootJSONObject.put("title","企业基础平台组织架构");
+                rightRootJSONObject.put("children",new JSONArray());
                 sysOrganizationSearch = new SysOrganization();
                 sysOrganizationSearch.setPid((long)-1);
                 List<SysOrganization> sysOrganizations = this.sysOrganizationMapper.select(sysOrganizationSearch);
                 for (SysOrganization sysOrganization : sysOrganizations) {
                     JSONObject jsonObjectRightTree = buildRightTree(groupByPidMap,sysOrganization.getId());
-                    rithtRootJSONObject.getJSONArray("children").add(jsonObjectRightTree);
+                    rightRootJSONObject.getJSONArray("children").add(jsonObjectRightTree);
                 }
-                jsonObjectResult.put("rightTree",rootJSONObject.toJSONString());
+                jsonObjectResult.put("rightTree",rightRootJSONObject.toJSONString());
             }else if(DataDictionaryEnum.USER_TYPE_AGENT.getStringValue().equals(ctx.getUserType())){
                 /**
                  * 按照pid分组组织架构
