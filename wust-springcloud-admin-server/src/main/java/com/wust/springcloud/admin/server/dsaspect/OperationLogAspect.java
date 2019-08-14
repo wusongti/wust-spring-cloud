@@ -64,6 +64,9 @@ public class OperationLogAspect {
                 sysOperationLog.setOperationIp(ctx.getIp());
                 sysOperationLog.setOperationData(parseToString(args));
                 sysOperationLog.setSource("admin-server");
+                sysOperationLog.setCompanyId(ctx.getCompanyId());
+                sysOperationLog.setCreaterId(ctx.getUserId());
+                sysOperationLog.setCreaterName(ctx.getRealName());
                 sysOperationLog.setCreateTime(new Date());
                 sysOperationLogServiceImpl.insert(sysOperationLog);
             }

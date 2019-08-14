@@ -63,6 +63,7 @@ public class ExportExcelController {
         sysImportExport.setStartTime(new Date());
         sysImportExport.setOperationType("100602");
         sysImportExport.setStatus("100501");
+        sysImportExport.setCompanyId(ctx.getCompanyId());
         sysImportExport.setCreaterId(ctx.getUserId());
         sysImportExport.setCreaterName(ctx.getLoginName());
         sysImportExport.setCreateTime(new Date());

@@ -53,7 +53,7 @@ public class BusinessAdminStrategy implements IStrategy {
                         companyIds +=  s;
                     }
                 }
-                privilegeSqlStringBuffer.append(" WHERE company_id IN (" + companyIds + ")");
+                privilegeSqlStringBuffer.append(" WHERE company_id IN (" + companyIds + ") OR creater_id = " + ctx.getUserId());
             }
         }
 

@@ -41,7 +41,7 @@ public class BusinessUserStrategy implements IStrategy {
         if(obj != null){
             List<String> list = JSONArray.parseArray(obj.toString(),String.class);
             if(CollectionUtils.isNotEmpty(list)){
-                privilegeSqlStringBuffer.append(" WHERE company_id = '" + list.get(0) + "'");
+                privilegeSqlStringBuffer.append(" WHERE company_id = " + list.get(0));
             }
         }
 
