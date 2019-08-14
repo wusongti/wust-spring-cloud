@@ -18,7 +18,7 @@ public class SysUser extends BaseEntity{
     private String mobile;
     private String status;
     private String type;
-    private String companyId;
+    private Long companyId;
 
 
     public String getLoginName() {
@@ -85,11 +85,11 @@ public class SysUser extends BaseEntity{
         this.type = type;
     }
 
-    public String getCompanyId() {
+    public Long getCompanyId() {
         return companyId;
     }
 
-    public void setCompanyId(String companyId) {
+    public void setCompanyId(Long companyId) {
         this.companyId = companyId;
     }
 }

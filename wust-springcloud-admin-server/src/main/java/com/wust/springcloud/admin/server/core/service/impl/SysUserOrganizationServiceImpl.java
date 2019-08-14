@@ -3,6 +3,7 @@ package com.wust.springcloud.admin.server.core.service.impl;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.wust.springcloud.admin.server.core.dao.SysCompanyMapper;
 import com.wust.springcloud.admin.server.core.dao.SysOrganizationMapper;
 import com.wust.springcloud.admin.server.core.dao.SysUserMapper;
 import com.wust.springcloud.admin.server.core.dao.SysUserOrganizationMapper;
@@ -36,6 +37,9 @@ public class SysUserOrganizationServiceImpl extends BaseServiceImpl implements S
 
     @Autowired
     private SysOrganizationMapper sysOrganizationMapper;
+
+    @Autowired
+    private SysCompanyMapper sysCompanyMapper;
 
     @Autowired
     private SpringRedisTools springRedisTools;
@@ -105,9 +109,16 @@ public class SysUserOrganizationServiceImpl extends BaseServiceImpl implements S
         Map<Long,JSONArray> map = groupUserOrganizationByUserId(sysUserOrganizations);
         if(map != null && map.size() > 0){
             Set<Long> keySet = map.keySet();
-            for (Long key : keySet) {
-                JSONArray jsonArray = map.get(key);
-                springRedisTools.addData(String.format(RedisKeyEnum.REDIS_TABLE_KEY_CURRENT_USER_BRANCH_COMPANY_ID.getStringValue(),key),jsonArray.toJSONString());
+            for (Long userId : keySet) {
+                SysUser user = this.sysUserMapper.selectByPrimaryKey(userId);
+                if(DataDictionaryEnum.USER_TYPE_BUSINESS.getStringValue().equals(user.getType())){ // 业务员账号
+                    JSONArray jsonArray = map.get(userId);
+                    user.setCompanyId(jsonArray.getLong(0));
+                    this.sysUserMapper.updateByPrimaryKey(user);
+                }else{ // 非业务员账号，则缓存其有权看到的公司id
+                    JSONArray jsonArray = map.get(userId);
+                    springRedisTools.addData(String.format(RedisKeyEnum.REDIS_TABLE_KEY_CURRENT_USER_BRANCH_COMPANY_ID.getStringValue(),userId),jsonArray.toJSONString());
+                }
             }
         }
     }

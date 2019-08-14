@@ -30,6 +30,6 @@ public class OpenApiStrategy implements IStrategy{
 
         DefaultBusinessContext.getContext().setSignMap(paraMap);
         DefaultBusinessContext.getContext().setDataSourceId(ApplicationEnum.DEFAULT.name());
-        DefaultBusinessContext.getContext().setCompanyId(paraMap.get("companyId")+"");
+        DefaultBusinessContext.getContext().setCompanyId(Long.parseLong(paraMap.get("companyId") + ""));
     }
 }

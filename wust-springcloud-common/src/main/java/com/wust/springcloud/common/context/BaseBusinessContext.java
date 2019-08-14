@@ -7,15 +7,15 @@ import java.util.Locale;
  */
 public class BaseBusinessContext implements java.io.Serializable{
 
-    protected String companyId;
+    protected Long companyId;
     protected Locale locale;
     protected String dataSourceId;
 
-    public String getCompanyId() {
+    public Long getCompanyId() {
         return companyId;
     }
 
-    public void setCompanyId(String companyId) {
+    public void setCompanyId(Long companyId) {
         this.companyId = companyId;
     }
 
