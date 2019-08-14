@@ -63,10 +63,20 @@ public class SysOrganizationServiceImpl extends BaseServiceImpl implements SysOr
     public ResponseDto buildLeftTree(SysOrganizationSearch search) {
         ResponseDto responseDto = new ResponseDto();
         JSONObject jsonObjectResult = new JSONObject();
+        jsonObjectResult.put("leftTree",null);
+        jsonObjectResult.put("rightTree",null);
+
         DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
 
         final JSONArray jsonArray = new JSONArray();
-
+        JSONObject rootJSONObject = new JSONObject();
+        jsonArray.add(rootJSONObject);
+        rootJSONObject.put("id","-1");
+        rootJSONObject.put("pId",null);
+        rootJSONObject.put("name","企业基础平台组织架构");
+        rootJSONObject.put("type","");
+        rootJSONObject.put("relationId",null);
+        rootJSONObject.put("open",true);
 
         SysOrganization sysOrganizationSearch = new SysOrganization();
         List<SysOrganization> sysOrganizationLists = sysOrganizationMapper.select(sysOrganizationSearch);
@@ -79,24 +89,20 @@ public class SysOrganizationServiceImpl extends BaseServiceImpl implements SysOr
                  */
                 Map<Long,List<SysOrganization>> groupByPidMap = groupByPid(sysOrganizationLists);
 
-                JSONObject rootJSONObject = new JSONObject();
-                jsonArray.add(rootJSONObject);
-                rootJSONObject.put("id","-1");
-                rootJSONObject.put("pId",null);
-                rootJSONObject.put("name","企业基础平台组织架构");
-                rootJSONObject.put("type","");
-                rootJSONObject.put("relationId",null);
-                rootJSONObject.put("open",true);
                 setRelationName(jsonArray,sysOrganizationLists);
 
                 /**
                  * 构建右树
                  */
+                JSONArray jsonArrayRightTree = new JSONArray();
                 sysOrganizationSearch = new SysOrganization();
                 sysOrganizationSearch.setPid((long)-1);
-                SysOrganization sysOrganization = this.sysOrganizationMapper.selectOne(sysOrganizationSearch);
-                String rightTreeJson = buildRightTree(groupByPidMap,sysOrganization.getId());
-                jsonObjectResult.put("rightTree",rightTreeJson);
+                List<SysOrganization> sysOrganizations = this.sysOrganizationMapper.select(sysOrganizationSearch);
+                for (SysOrganization sysOrganization : sysOrganizations) {
+                    JSONObject jsonObjectRightTree = buildRightTree(groupByPidMap,sysOrganization.getId());
+                    jsonArrayRightTree.add(jsonObjectRightTree);
+                }
+                jsonObjectResult.put("rightTree",jsonArrayRightTree.toJSONString());
             }else if(DataDictionaryEnum.USER_TYPE_AGENT.getStringValue().equals(ctx.getUserType())){
                 /**
                  * 按照pid分组组织架构
@@ -138,8 +144,8 @@ public class SysOrganizationServiceImpl extends BaseServiceImpl implements SysOr
                 /**
                  * 构建右树
                  */
-                String rightTreeJson = buildRightTree(groupByPidMap,organizationId4agent.getLong("id"));
-                jsonObjectResult.put("rightTree",rightTreeJson);
+                JSONObject rightTreeJson = buildRightTree(groupByPidMap,organizationId4agent.getLong("id"));
+                jsonObjectResult.put("rightTree",rightTreeJson.toJSONString());
             }else if(DataDictionaryEnum.USER_TYPE_PARENT_COMPANY.getStringValue().equals(ctx.getUserType())){
                 /**
                  * 按照pid分组组织架构
@@ -181,8 +187,8 @@ public class SysOrganizationServiceImpl extends BaseServiceImpl implements SysOr
                 /**
                  * 构建右树
                  */
-                String rightTreeJson = buildRightTree(groupByPidMap,organizationId4parentCompany.getLong("id"));
-                jsonObjectResult.put("rightTree",rightTreeJson);
+                JSONObject rightTreeJson = buildRightTree(groupByPidMap,organizationId4parentCompany.getLong("id"));
+                jsonObjectResult.put("rightTree",rightTreeJson.toJSONString());
             }else if(DataDictionaryEnum.USER_TYPE_BRANCH_COMPANY.getStringValue().equals(ctx.getUserType())){
                 /**
                  * 按照pid分组组织架构
@@ -224,8 +230,8 @@ public class SysOrganizationServiceImpl extends BaseServiceImpl implements SysOr
                 /**
                  * 构建右树
                  */
-                String rightTreeJson = buildRightTree(groupByPidMap,organizationId4branchCompany.getLong("id"));
-                jsonObjectResult.put("rightTree",rightTreeJson);
+                JSONObject rightTreeJson = buildRightTree(groupByPidMap,organizationId4branchCompany.getLong("id"));
+                jsonObjectResult.put("rightTree",rightTreeJson.toJSONString());
             }else if(DataDictionaryEnum.USER_TYPE_BUSINESS.getStringValue().equals(ctx.getUserType())){
                 /**
                  * 按照pid分组组织架构
@@ -268,8 +274,8 @@ public class SysOrganizationServiceImpl extends BaseServiceImpl implements SysOr
                 /**
                  * 构建右树
                  */
-                String rightTreeJson = buildRightTree(groupByPidMap,organizationId4branchCompany.getLong("id"));
-                jsonObjectResult.put("rightTree",rightTreeJson);
+                JSONObject rightTreeJson = buildRightTree(groupByPidMap,organizationId4branchCompany.getLong("id"));
+                jsonObjectResult.put("rightTree",rightTreeJson.toJSONString());
             }
         }
         jsonObjectResult.put("leftTree",jsonArray.toJSONString());
@@ -284,7 +290,7 @@ public class SysOrganizationServiceImpl extends BaseServiceImpl implements SysOr
      * @param topId 该用户可见的顶层组织id
      * @return
      */
-    private String buildRightTree(final Map<Long,List<SysOrganization>> groupByPidMap,Long topId) {
+    private JSONObject buildRightTree(final Map<Long,List<SysOrganization>> groupByPidMap,Long topId) {
         JSONObject jsonObject = new JSONObject();
 
         SysOrganization top = this.sysOrganizationMapper.selectByPrimaryKey(topId);
@@ -295,7 +301,7 @@ public class SysOrganizationServiceImpl extends BaseServiceImpl implements SysOr
 
         buildChildren4rightTree(groupByPidMap,jsonObject);
 
-        return jsonObject.toJSONString();
+        return jsonObject;
     }
 
     private void buildChildren4rightTree(final Map<Long,List<SysOrganization>> groupByPidMap,final JSONObject jsonObject){

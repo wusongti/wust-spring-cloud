@@ -13,48 +13,68 @@ import javax.persistence.Id;
 public class SysDataSource extends BaseEntity{
 	private static final long serialVersionUID = 5502135893804008206L;
 
-	private String companyId;
+	private String name;
+	private String groupName;
 	private String jdbcUrl;
 	private String jdbcUsername;
 	private String jdbcPassword;
 	private String jdbcDriver;
 	private String description;
 
-	public void setCompanyId(String companyId){
-		this.companyId=companyId;
+	public String getName() {
+		return name;
 	}
-	public String getCompanyId(){
-		return companyId;
+
+	public void setName(String name) {
+		this.name = name;
 	}
-	public void setJdbcUrl(String jdbcUrl){
-		this.jdbcUrl=jdbcUrl;
+
+	public String getGroupName() {
+		return groupName;
 	}
-	public String getJdbcUrl(){
+
+	public void setGroupName(String groupName) {
+		this.groupName = groupName;
+	}
+
+	public String getJdbcUrl() {
 		return jdbcUrl;
 	}
-	public void setJdbcUsername(String jdbcUsername){
-		this.jdbcUsername=jdbcUsername;
+
+	public void setJdbcUrl(String jdbcUrl) {
+		this.jdbcUrl = jdbcUrl;
 	}
-	public String getJdbcUsername(){
+
+	public String getJdbcUsername() {
 		return jdbcUsername;
 	}
-	public void setJdbcPassword(String jdbcPassword){
-		this.jdbcPassword=jdbcPassword;
+
+	public void setJdbcUsername(String jdbcUsername) {
+		this.jdbcUsername = jdbcUsername;
 	}
-	public String getJdbcPassword(){
+
+	public String getJdbcPassword() {
 		return jdbcPassword;
 	}
-	public void setJdbcDriver(String jdbcDriver){
-		this.jdbcDriver=jdbcDriver;
+
+	public void setJdbcPassword(String jdbcPassword) {
+		this.jdbcPassword = jdbcPassword;
 	}
-	public String getJdbcDriver(){
+
+	public String getJdbcDriver() {
 		return jdbcDriver;
 	}
-	public void setDescription(String description){
-		this.description=description;
+
+	public void setJdbcDriver(String jdbcDriver) {
+		this.jdbcDriver = jdbcDriver;
 	}
-	public String getDescription(){
+
+	public String getDescription() {
 		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 }
 

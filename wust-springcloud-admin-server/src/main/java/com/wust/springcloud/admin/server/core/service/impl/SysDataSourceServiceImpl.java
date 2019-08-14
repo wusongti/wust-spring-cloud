@@ -166,13 +166,6 @@ public class SysDataSourceServiceImpl extends BaseServiceImpl implements SysData
              */
             sysDataSourceService.cacheDataSource();
 
-            /**
-             * 为新数据源初始化数据
-             */
-            DefaultBusinessContext.getContext().setDataSourceId(entity.getCompanyId());
-            DefaultBusinessContext.getContext().setCompanyId(entity.getCompanyId());
-            sysMenuServiceImpl.init();
-            sysLookupServiceImpl.init();
         }catch(Exception e){
             logger.error(e);
             sysDataSourceMapper.rollbackDataBase(parametersDDL);
@@ -249,7 +242,7 @@ public class SysDataSourceServiceImpl extends BaseServiceImpl implements SysData
 
     @Override
     public void cacheDataSource() {
-        SysDataSourceSearch sysDataSourceSearch = new SysDataSourceSearch();
+       /* SysDataSourceSearch sysDataSourceSearch = new SysDataSourceSearch();
         List<SysDataSource> sysDataSourceLists = sysDataSourceMapper.select(sysDataSourceSearch);
         if(CollectionUtils.isNotEmpty(sysDataSourceLists)){
             JSONObject jsonObject = new JSONObject();
@@ -260,6 +253,6 @@ public class SysDataSourceServiceImpl extends BaseServiceImpl implements SysData
                 springRedisTools.deleteByKey(RedisKeyEnum.REDIS_TABLE_KEY_DATA_SOURCE.name());
             }
             springRedisTools.addData(RedisKeyEnum.REDIS_TABLE_KEY_DATA_SOURCE.name(),jsonObject.toJSONString());
-        }
+        }*/
     }
 }
