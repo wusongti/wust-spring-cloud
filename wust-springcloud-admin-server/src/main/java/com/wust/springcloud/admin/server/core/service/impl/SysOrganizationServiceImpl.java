@@ -69,14 +69,7 @@ public class SysOrganizationServiceImpl extends BaseServiceImpl implements SysOr
         DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
 
         final JSONArray jsonArray = new JSONArray();
-        JSONObject rootJSONObject = new JSONObject();
-        jsonArray.add(rootJSONObject);
-        rootJSONObject.put("id","-1");
-        rootJSONObject.put("pId",null);
-        rootJSONObject.put("name","企业基础平台组织架构");
-        rootJSONObject.put("type","");
-        rootJSONObject.put("relationId",null);
-        rootJSONObject.put("open",true);
+
 
         SysOrganization sysOrganizationSearch = new SysOrganization();
         List<SysOrganization> sysOrganizationLists = sysOrganizationMapper.select(sysOrganizationSearch);
@@ -94,15 +87,19 @@ public class SysOrganizationServiceImpl extends BaseServiceImpl implements SysOr
                 /**
                  * 构建右树
                  */
-                JSONArray jsonArrayRightTree = new JSONArray();
+                JSONObject rootJSONObject = new JSONObject();
+                rootJSONObject.put("id","-1");
+                rootJSONObject.put("name","企业基础平台组织架构");
+                rootJSONObject.put("title","企业基础平台组织架构");
+                rootJSONObject.put("children",new JSONArray());
                 sysOrganizationSearch = new SysOrganization();
                 sysOrganizationSearch.setPid((long)-1);
                 List<SysOrganization> sysOrganizations = this.sysOrganizationMapper.select(sysOrganizationSearch);
                 for (SysOrganization sysOrganization : sysOrganizations) {
                     JSONObject jsonObjectRightTree = buildRightTree(groupByPidMap,sysOrganization.getId());
-                    jsonArrayRightTree.add(jsonObjectRightTree);
+                    rootJSONObject.getJSONArray("children").add(jsonObjectRightTree);
                 }
-                jsonObjectResult.put("rightTree",jsonArrayRightTree.toJSONString());
+                jsonObjectResult.put("rightTree",rootJSONObject.toJSONString());
             }else if(DataDictionaryEnum.USER_TYPE_AGENT.getStringValue().equals(ctx.getUserType())){
                 /**
                  * 按照pid分组组织架构
