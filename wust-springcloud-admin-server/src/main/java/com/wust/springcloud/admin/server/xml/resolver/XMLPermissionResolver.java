@@ -72,7 +72,7 @@ public class XMLPermissionResolver extends XMLDefaultResolver {
         String mainXSDPath = "permissions" + File.separator + "xsd" + File.separator + "main.xsd";
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 
-        //validateXML(mainXSDPath, mainXMLPath);
+        validateXML(mainXSDPath, mainXMLPath);
 
         try{
             ClassPathResource resource = new ClassPathResource(mainXMLPath);
@@ -290,7 +290,7 @@ public class XMLPermissionResolver extends XMLDefaultResolver {
                     if (!StringUtils.isBlank(path) && !"*".equals(path)) {// 星号表示可以忽略的节点
                         String XMLPath = path;
                         String XSDPath = "permissions" + File.separator + "xsd" + File.separator + "module.xsd";
-                        //super.validateXML(XSDPath, XMLPath);
+                        super.validateXML(XSDPath, XMLPath);
                         org.w3c.dom.Document doc = db.parse(new ClassPathResource(XMLPath).getInputStream());
                         org.w3c.dom.Element subElement = doc.getDocumentElement();
                         doParseXML(subElement, db);

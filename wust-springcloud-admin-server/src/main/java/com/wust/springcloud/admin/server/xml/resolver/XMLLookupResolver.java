@@ -7,10 +7,8 @@ import com.wust.springcloud.common.util.MyStringUtils;
 import com.wust.springcloud.common.xml.XMLDefaultResolver;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
-import org.springframework.util.ResourceUtils;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
@@ -52,10 +50,8 @@ public class XMLLookupResolver extends XMLDefaultResolver {
     @Override
     public void parseXML() throws BusinessException {
         String[] mainXMLPaths = {"dictionary" + File.separator + "lookup" + File.separator + "sys_lookup.xml","dictionary" + File.separator + "lookup" + File.separator + "sys_lookup_en_US.xml"};
-        String mainXSDPath = "dictionary" + File.separator + "lookup" + File.separator + "sys_lookup.xsd";
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 
-        //validateXML(mainXSDPath, mainXMLPath);
         try{
             DocumentBuilder db = dbf.newDocumentBuilder();
             for (String mainXMLPath : mainXMLPaths) {
