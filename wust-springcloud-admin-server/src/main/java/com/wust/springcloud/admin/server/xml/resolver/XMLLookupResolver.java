@@ -1,10 +1,12 @@
-package com.wust.springcloud.common.xml.resolver;
+package com.wust.springcloud.admin.server.xml.resolver;
 
 
 import com.wust.springcloud.common.entity.sys.lookup.SysLookup;
 import com.wust.springcloud.common.exception.BusinessException;
 import com.wust.springcloud.common.util.MyStringUtils;
 import com.wust.springcloud.common.xml.XMLDefaultResolver;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.stereotype.Component;
 import org.springframework.util.ResourceUtils;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -21,6 +23,7 @@ import java.util.*;
  * Date:2018/6/27
  * @author wusongti@163.com
  */
+@Component
 public class XMLLookupResolver extends XMLDefaultResolver {
 
     /**
@@ -62,7 +65,7 @@ public class XMLLookupResolver extends XMLDefaultResolver {
                 }
                 sysLookups = new ArrayList<>();
                 map.put(lan,sysLookups);
-                org.w3c.dom.Document doc = db.parse(ResourceUtils.getFile("classpath:" + mainXMLPath));
+                org.w3c.dom.Document doc = db.parse(new ClassPathResource(mainXMLPath).getInputStream());
                 org.w3c.dom.Element element = doc.getDocumentElement();
                 doParseXML(element,lan);
             }

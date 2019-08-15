@@ -1,4 +1,4 @@
-package com.wust.springcloud.common.xml.resolver;
+package com.wust.springcloud.admin.server.xml.resolver;
 
 
 import com.wust.springcloud.common.entity.sys.menu.SysMenu;
@@ -9,7 +9,8 @@ import com.wust.springcloud.common.xml.XMLDefaultResolver;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.util.ResourceUtils;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.stereotype.Component;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import javax.xml.parsers.DocumentBuilder;
@@ -17,7 +18,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
 import java.util.*;
 
-
+@Component
 public class XMLPermissionResolver extends XMLDefaultResolver {
     static Logger logger = LogManager.getLogger(XMLPermissionResolver.class);
 
@@ -71,11 +72,13 @@ public class XMLPermissionResolver extends XMLDefaultResolver {
         String mainXSDPath = "permissions" + File.separator + "xsd" + File.separator + "main.xsd";
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 
-        validateXML(mainXSDPath, mainXMLPath);
+        //validateXML(mainXSDPath, mainXMLPath);
 
         try{
+            ClassPathResource resource = new ClassPathResource(mainXMLPath);
+
             DocumentBuilder db = dbf.newDocumentBuilder();
-            org.w3c.dom.Document doc = db.parse(ResourceUtils.getFile("classpath:" + mainXMLPath));
+            org.w3c.dom.Document doc = db.parse(resource.getInputStream());
             org.w3c.dom.Element element = doc.getDocumentElement();
             doParseXML(element, db);
         }catch (Exception e){
@@ -287,8 +290,8 @@ public class XMLPermissionResolver extends XMLDefaultResolver {
                     if (!StringUtils.isBlank(path) && !"*".equals(path)) {// 星号表示可以忽略的节点
                         String XMLPath = path;
                         String XSDPath = "permissions" + File.separator + "xsd" + File.separator + "module.xsd";
-                        super.validateXML(XSDPath, XMLPath);
-                        org.w3c.dom.Document doc = db.parse(ResourceUtils.getFile("classpath:" + XMLPath));
+                        //super.validateXML(XSDPath, XMLPath);
+                        org.w3c.dom.Document doc = db.parse(new ClassPathResource(XMLPath).getInputStream());
                         org.w3c.dom.Element subElement = doc.getDocumentElement();
                         doParseXML(subElement, db);
                     } else {
