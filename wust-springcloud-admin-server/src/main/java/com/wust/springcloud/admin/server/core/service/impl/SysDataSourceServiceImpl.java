@@ -40,7 +40,6 @@ import java.util.*;
 /**
  * Created by WST on 2019/6/17.
  */
-@Deprecated
 @Service("sysDataSourceServiceImpl")
 public class SysDataSourceServiceImpl extends BaseServiceImpl implements SysDataSourceService {
     static Logger logger = LogManager.getLogger(SysDataSourceServiceImpl.class);
@@ -130,42 +129,6 @@ public class SysDataSourceServiceImpl extends BaseServiceImpl implements SysData
             executeSQL(databaseInitDDLSql,parametersDDL);
             executeSQL(databaseInitProdSql,parametersDDL);
             executeSQL(databaseInitDMLSql,parametersDML);
-
-
-            /**
-             * 平台新增数据源记录
-             */
-            entity.setJdbcDriver("com.mysql.cj.jdbc.Driver");
-            entity.setJdbcUrl("jdbc:mysql://10.1.20.11:3306/" + databaseName + "?useSSL=false&allowPublicKeyRetrieval=true&allowMultiQueries=true");
-            entity.setJdbcUsername(username);
-            entity.setJdbcPassword(password);
-            entity.setDescription(sysCompany.getName() + "的数据源");
-            entity.setCreateTime(new Date());
-            List<SysDataSource> entities = new ArrayList<>(1);
-            entities.add(entity);
-            sysDataSourceMapper.insertList(entities);
-
-
-
-            /**
-             * 平台也记录该用户
-             */
-            List<SysUser> sysUsers = new ArrayList<>(1);
-            SysUser user = new SysUser();
-            user.setLoginName(loginName);
-            user.setRealName(sysCompany.getName() + "运营方管理员账号");
-            user.setStatus("100201");
-           // user.setType(DataDictionaryEnum.USER_TYPE_BUSINESS_ADMIN.getStringValue());
-            user.setPassword("NDU3YzhjMWE0MWQ2");
-            user.setCreateTime(new Date());
-            sysUsers.add(user);
-            sysUserMapper.insertList(sysUsers);
-
-            /**
-             * 重新缓存所有数据源（因为新增了数据源）
-             */
-            sysDataSourceService.cacheDataSource();
-
         }catch(Exception e){
             logger.error(e);
             sysDataSourceMapper.rollbackDataBase(parametersDDL);
@@ -242,17 +205,17 @@ public class SysDataSourceServiceImpl extends BaseServiceImpl implements SysData
 
     @Override
     public void cacheDataSource() {
-       /* SysDataSourceSearch sysDataSourceSearch = new SysDataSourceSearch();
+        SysDataSourceSearch sysDataSourceSearch = new SysDataSourceSearch();
         List<SysDataSource> sysDataSourceLists = sysDataSourceMapper.select(sysDataSourceSearch);
         if(CollectionUtils.isNotEmpty(sysDataSourceLists)){
             JSONObject jsonObject = new JSONObject();
             for (SysDataSource sysDataSourceList : sysDataSourceLists) {
-                jsonObject.put(sysDataSourceList.getCompanyId(),sysDataSourceList);
+                jsonObject.put(sysDataSourceList.getName(),sysDataSourceList);
             }
             if(springRedisTools.hasKey(RedisKeyEnum.REDIS_TABLE_KEY_DATA_SOURCE.name())){
                 springRedisTools.deleteByKey(RedisKeyEnum.REDIS_TABLE_KEY_DATA_SOURCE.name());
             }
             springRedisTools.addData(RedisKeyEnum.REDIS_TABLE_KEY_DATA_SOURCE.name(),jsonObject.toJSONString());
-        }*/
+        }
     }
 }

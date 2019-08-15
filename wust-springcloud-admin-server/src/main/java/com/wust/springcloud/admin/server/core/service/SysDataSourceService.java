@@ -10,6 +10,8 @@ import com.wust.springcloud.common.service.BaseService;
  * Created by WST on 2019/6/17.
  */
 public interface SysDataSourceService extends BaseService {
+    @Deprecated
     ResponseDto insert(SysDataSource entity);
+
     void cacheDataSource();
 }

@@ -2,6 +2,7 @@ package com.wust.springcloud.common.util.cache;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.wust.springcloud.common.entity.sys.datasource.SysDataSource;
 import com.wust.springcloud.common.entity.sys.datasource.SysDataSourceList;
 import com.wust.springcloud.common.entity.sys.lookup.SysLookupList;
 import com.wust.springcloud.common.enums.RedisKeyEnum;
@@ -108,21 +109,14 @@ public class DataDictionaryUtil {
      * @param dataSourceId
      * @return
      */
-    public static JSONObject getDataSourceById(String dataSourceId){
-        List<SysLookupList> sysLookupLists = getLookupListByParentCode("zh_CN","1012");
-        if(CollectionUtils.isNotEmpty(sysLookupLists)){
-            for (SysLookupList sysLookupList : sysLookupLists) {
-                if(sysLookupList.getValue().equals(dataSourceId)){
-                    JSONObject jsonObject = new JSONObject();
-                    List<SysLookupList> dataSource = getLookupListByParentCode("zh_CN",sysLookupList.getCode());
-                    for (SysLookupList lookupList : dataSource) {
-                        jsonObject.put(lookupList.getName(),lookupList.getValue());
-                    }
-                    return jsonObject;
-                }
-            }
+    public static SysDataSource getDataSourceById(String dataSourceId){
+        SysDataSource sysDataSource = new SysDataSource();
+        Object obj = getRedisSpringBean().getByKey(RedisKeyEnum.REDIS_TABLE_KEY_DATA_SOURCE.name());
+        if(obj != null){
+            JSONObject jsonObject = (JSONObject)obj;
+            sysDataSource = jsonObject.getObject(dataSourceId, SysDataSource.class);
         }
-        return null;
+        return sysDataSource;
     }
 
 

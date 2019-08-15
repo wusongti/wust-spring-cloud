@@ -1,9 +1,8 @@
 package com.wust.springcloud.common;
 
 
-import com.alibaba.fastjson.JSONObject;
 import com.wust.springcloud.common.context.DefaultBusinessContext;
-import com.wust.springcloud.common.entity.sys.datasource.SysDataSourceList;
+import com.wust.springcloud.common.entity.sys.datasource.SysDataSource;
 import com.wust.springcloud.common.exception.BusinessException;
 import com.wust.springcloud.common.util.cache.DataDictionaryUtil;
 import org.apache.commons.logging.Log;
@@ -35,9 +34,9 @@ public class DynamicDataSource extends AbstractRoutingDataSource {
 
     private void lookupAndCreateDataSource(String dataSourceId) {
         if(!dataSourceMap.containsKey(dataSourceId)){
-            JSONObject jsonObject =  DataDictionaryUtil.getDataSourceById(dataSourceId);
-            if(jsonObject != null){
-                createDataSource(dataSourceId,jsonObject.getString("url"),jsonObject.getString("username"),jsonObject.getString("password"),jsonObject.getString("driver"));
+            SysDataSource sysDataSource =  DataDictionaryUtil.getDataSourceById(dataSourceId);
+            if(sysDataSource != null){
+                createDataSource(dataSourceId,sysDataSource.getJdbcUrl(),sysDataSource.getJdbcUsername(),sysDataSource.getJdbcPassword(),sysDataSource.getJdbcDriver());
             }else{
                 logger.error("创建数据源失败，缓存里面没有发现数据源，数据源ID["+dataSourceId+"]");
                 throw new BusinessException("创建数据源失败，缓存里面没有发现数据源，数据源ID["+dataSourceId+"]");
