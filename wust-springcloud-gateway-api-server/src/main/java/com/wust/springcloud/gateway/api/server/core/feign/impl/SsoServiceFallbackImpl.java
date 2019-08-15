@@ -1,7 +1,7 @@
-package com.wust.springcloud.gateway.api.server.core.service.impl;
+package com.wust.springcloud.gateway.api.server.core.feign.impl;
 
 
-import com.wust.springcloud.gateway.api.server.core.service.SsoService;
+import com.wust.springcloud.gateway.api.server.core.feign.SsoService;
 
 /**
  * @author ：wust

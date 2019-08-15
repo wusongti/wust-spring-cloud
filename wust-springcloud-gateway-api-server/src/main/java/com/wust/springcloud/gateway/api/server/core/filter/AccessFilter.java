@@ -1,11 +1,11 @@
-package com.wust.springcloud.gateway.api.server.filter;
+package com.wust.springcloud.gateway.api.server.core.filter;
 
 
 import com.alibaba.fastjson.JSONObject;
 import com.wust.springcloud.common.enums.ApplicationEnum;
 import com.wust.springcloud.common.util.MyStringUtils;
 import com.wust.springcloud.common.util.SignUtil;
-import com.wust.springcloud.gateway.api.server.core.service.SsoService;
+import com.wust.springcloud.gateway.api.server.core.feign.SsoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

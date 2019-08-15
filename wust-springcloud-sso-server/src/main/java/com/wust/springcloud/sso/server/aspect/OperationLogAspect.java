@@ -1,9 +1,10 @@
-package com.wust.springcloud.admin.server.dsaspect;
+package com.wust.springcloud.sso.server.aspect;
 
-import com.wust.springcloud.admin.server.core.service.SysOperationLogService;
 import com.wust.springcloud.common.annotations.OperationLogAnnotation;
 import com.wust.springcloud.common.context.DefaultBusinessContext;
 import com.wust.springcloud.common.entity.sys.operationlog.SysOperationLog;
+import com.wust.springcloud.common.enums.ApplicationEnum;
+import com.wust.springcloud.sso.server.core.service.SysOperationLogService;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.Around;
@@ -29,21 +30,20 @@ public class OperationLogAspect {
     @Autowired
     private SysOperationLogService sysOperationLogServiceImpl;
 
-    // web前端拦截
+    // controller拦截
     @Pointcut("within(com.wust.springcloud.admin.server.core.web.controller..*)")
-    private void webapi(){}
+    private void controller(){}
 
     // 异构系统开放api拦截
     @Pointcut("within(com.wust.springcloud.admin.server.core.openapi..*)")
     private void openapi(){}
 
-    // 同构系统内部rpc拦截
-    @Pointcut("within(com.wust.springcloud.admin.server.core.rpc.api..*)")
-    private void rpcapi(){}
-
+    // 同构系统内部api拦截
+    @Pointcut("within(com.wust.springcloud.admin.server.core.api..*)")
+    private void api(){}
 
     //环绕通知
-    @Around("webapi() || openapi() || rpcapi()")
+    @Around("controller() || openapi() || api()")
     public Object methodAspect(ProceedingJoinPoint jp) throws Throwable {
         Signature sig = jp.getSignature();
         if (sig instanceof MethodSignature) {
@@ -63,11 +63,12 @@ public class OperationLogAspect {
                 sysOperationLog.setCreaterId(ctx.getUserId());
                 sysOperationLog.setOperationIp(ctx.getIp());
                 sysOperationLog.setOperationData(parseToString(args));
-                sysOperationLog.setSource("admin-server");
+                sysOperationLog.setSource("sso-server");
                 sysOperationLog.setCompanyId(ctx.getCompanyId());
                 sysOperationLog.setCreaterId(ctx.getUserId());
                 sysOperationLog.setCreaterName(ctx.getRealName());
                 sysOperationLog.setCreateTime(new Date());
+                DefaultBusinessContext.getContext().setDataSourceId(ApplicationEnum.DEFAULT.name());
                 sysOperationLogServiceImpl.insert(sysOperationLog);
             }
         }

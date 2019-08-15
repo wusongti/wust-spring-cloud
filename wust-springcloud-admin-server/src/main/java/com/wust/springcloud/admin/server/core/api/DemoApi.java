@@ -1,13 +1,13 @@
-package com.wust.springcloud.admin.server.core.rpc.api;
+package com.wust.springcloud.admin.server.core.api;
 
 
 
 import com.wust.springcloud.common.dto.ResponseDto;
 import org.springframework.web.bind.annotation.*;
 
-@RequestMapping("/DemoRpc")
+@RequestMapping("/DemoApi")
 @RestController
-public class DemoRpc {
+public class DemoApi {
     @GetMapping(value = "/v1/test")
     public ResponseDto test() {
         ResponseDto mm = new ResponseDto();

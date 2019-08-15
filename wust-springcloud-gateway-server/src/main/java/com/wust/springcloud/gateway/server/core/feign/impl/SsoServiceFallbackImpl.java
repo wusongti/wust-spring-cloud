@@ -1,6 +1,6 @@
-package com.wust.springcloud.gateway.server.core.service.impl;
+package com.wust.springcloud.gateway.server.core.feign.impl;
 
-import com.wust.springcloud.gateway.server.core.service.SsoService;
+import com.wust.springcloud.gateway.server.core.feign.SsoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;

@@ -1,11 +1,11 @@
-package com.wust.springcloud.gateway.server.filter;
+package com.wust.springcloud.gateway.server.core.filter;
 
 
 
 
 import com.wust.springcloud.common.enums.ApplicationEnum;
 import com.wust.springcloud.common.util.MyStringUtils;
-import com.wust.springcloud.gateway.server.core.service.SsoService;
+import com.wust.springcloud.gateway.server.core.feign.SsoService;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;

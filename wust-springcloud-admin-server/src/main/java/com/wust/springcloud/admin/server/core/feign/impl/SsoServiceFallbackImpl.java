@@ -1,6 +1,6 @@
-package com.wust.springcloud.admin.server.core.rpc.service.impl;
+package com.wust.springcloud.admin.server.core.feign.impl;
 
-import com.wust.springcloud.admin.server.core.rpc.service.SsoService;
+import com.wust.springcloud.admin.server.core.feign.SsoService;
 import org.springframework.stereotype.Service;
 
 /**

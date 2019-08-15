@@ -1,4 +1,4 @@
-package com.wust.springcloud.gateway.api.server.core.service;
+package com.wust.springcloud.gateway.api.server.core.feign;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +12,6 @@ import org.springframework.web.bind.annotation.PathVariable;
  */
 @FeignClient(value = "api-sso-server")
 public interface SsoService {
-    @GetMapping(value = "/VerifyApiRpc/v1/hasSign/{sign}")
+    @GetMapping(value = "/SsoAuthenticationApi/v1/hasSign/{sign}")
     boolean hasSign(@PathVariable String sign);
 }

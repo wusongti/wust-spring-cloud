@@ -5,11 +5,11 @@ import com.wust.springcloud.common.dto.ResponseDto;
 import org.springframework.web.bind.annotation.*;
 
 
-@RequestMapping("/DemoApi")
+@RequestMapping("/DemoOpenApi")
 @RestController
-public class DemoApi {
+public class DemoOpenApi {
 
-    @RequestMapping(value = "/test",method = RequestMethod.GET)
+    @RequestMapping(value = "/v1/test",method = RequestMethod.GET)
     public @ResponseBody
     ResponseDto test() {
         ResponseDto mm = new ResponseDto();
