@@ -48,7 +48,7 @@
 			IF(r.resource_id IS NULL,'false','true') AS checked
 		FROM sys_menu m
 		LEFT JOIN (SELECT srs.resource_id FROM sys_role_resource srs WHERE srs.type='m' AND srs.organization_id = #{0}) r
-		ON m.id = r.resource_id
+		ON m.code = r.resource_id
 		WHERE m.permission != 'anon'
 		ORDER BY m.sort ASC
 	</select>

@@ -108,32 +108,4 @@
 		)t2
 		WHERE t1.organization_id = t2.id
 	</select>
-
-
-	<!-- 获取指定菜单下面的白名单集合 -->
-  	<select id="findAnonResourcesByMenuId" parameterType="String" resultMap="BaseResultMap">
-  		SELECT
-			sr.id,
-			sr.code,
-			sr.name,
-			sr.description,
-			sr.permission,
-			sr.url,
-			sr.menu_code
-		FROM sys_resource sr
-		WHERE sr.permission = 'anon' AND sr.menu_code = #{0}
-  	</select>
-
-
-	<!-- 获取全局白名资源单集合 -->
-	<select id="findCommonAnonResources" resultMap="BaseResultMap">
-		SELECT
-			sr.id,
-			sr.name,
-			sr.description,
-			sr.permission,
-			sr.url,
-			sr.menu_code
-		FROM sys_resource sr,sys_menu m WHERE sr.menu_code = m.code AND m.permission = 'anon'
-	</select>
 </mapper>

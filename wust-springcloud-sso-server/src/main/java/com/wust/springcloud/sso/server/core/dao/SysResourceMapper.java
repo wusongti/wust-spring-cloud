@@ -35,17 +35,4 @@ public interface SysResourceMapper extends IBaseMapper<SysResource> {
 	 * @return
 	 */
 	List<SysResource> findResourcesByUserId(Long useId) throws DataAccessException;
-
-	/**
-	 * 根据菜单获取其下面的资源集合
-	 * @param menuCode
-	 * @return
-	 */
-	List<SysResource> findAnonResourcesByMenuId(String menuCode) throws DataAccessException;
-
-	/**
-	 * 获取公共白名单集合
-	 * @return
-	 */
-	List<SysResource> findCommonAnonResources() throws DataAccessException;
 }

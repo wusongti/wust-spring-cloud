@@ -14,9 +14,9 @@ public class BaseWebExceptionHandler {
             result.setFlag(ResponseDto.INFOR_ERROR);
             result.setMessage(e.getMessage());
         }else{
-            logger.error("【系统异常】:{}"+e.getMessage());
+            logger.error("【系统异常】:{}"+e);
             result.setFlag(ResponseDto.INFOR_ERROR);
-            result.setMessage(e.getMessage());
+            result.setMessage("操作失败，请联系管理员");
         }
         return result;
     }
