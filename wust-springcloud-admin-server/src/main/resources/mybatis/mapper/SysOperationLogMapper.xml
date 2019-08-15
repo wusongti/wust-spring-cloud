@@ -15,19 +15,15 @@
         <result property="createTime" column="create_time"/>
     </resultMap>
     <resultMap id="ListResultMap" extends="BaseResultMap" type="SysOperationLogList">
-        <result column="user_real_name" property="userRealName"/>
-        <result column="role_name" property="roleName"/>
     </resultMap>
 
     <select id="listPage" parameterType="SysOperationLogSearch" resultMap="ListResultMap">
         SELECT
-            t.*,
-            t1.real_name AS user_real_name
+            t.*
         FROM
-            sys_operation_log t,
-            sys_user t1
+            sys_operation_log t
         WHERE
-        t.creater_id = t1.id
+        1=1
         <if test="moduleName != null and moduleName !=  ''">
             AND t.module_name = #{moduleName}
         </if>
@@ -40,8 +36,11 @@
         <if test="operationType != null and operationType !=  ''">
             AND t.operation_type = #{operationType}
         </if>
-        <if test="createTime != null and createTime !=  ''">
-            AND t.create_time = #{createTime}
+        <if test="beginOperationDate != null and beginOperationDate !=  ''">
+            AND t.create_time &gt;= DATE_FORMAT(#{beginOperationDate} , '%Y-%m-%d')
+        </if>
+        <if test="endOperationDate != null and endOperationDate !=  ''">
+            AND t.create_time &lt;= DATE_FORMAT(#{endOperationDate} , '%Y-%m-%d')
         </if>
         ORDER BY create_time DESC
     </select>
