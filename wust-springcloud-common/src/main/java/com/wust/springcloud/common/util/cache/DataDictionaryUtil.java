@@ -113,7 +113,7 @@ public class DataDictionaryUtil {
         SysDataSource sysDataSource = new SysDataSource();
         Object obj = getRedisSpringBean().getByKey(RedisKeyEnum.REDIS_TABLE_KEY_DATA_SOURCE.name());
         if(obj != null){
-            JSONObject jsonObject = (JSONObject)obj;
+            JSONObject jsonObject = JSONObject.parseObject(obj.toString());
             sysDataSource = jsonObject.getObject(dataSourceId, SysDataSource.class);
         }
         return sysDataSource;
