@@ -7,6 +7,8 @@ server:
 spring:
   application:
     name: api-config-server
+  profiles:
+    active: master
   redis:
     host: 127.0.0.1
     port: 6379
@@ -20,8 +22,8 @@ spring:
     config:
       server:
         git:
-          uri: https://github.com/roncoo-eshop/roncoo-eshop-config
-          searchPaths: config-file
+          uri: https://github.com/wusongti/config.git
+          default-label: ${spring.profiles.active}   #解决监控down
+          searchPaths: /
           username: wusongti@163.com
-          password: songti.wu123
-      label: master
+          password:
