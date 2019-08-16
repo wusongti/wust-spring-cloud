@@ -7,8 +7,6 @@ server:
 spring:
     application:
         name: api-config-server
-    profiles:
-        active: master
     redis:
         host: 127.0.0.1
         port: 6379
@@ -23,7 +21,7 @@ spring:
             server:
                 git:
                     uri: https://github.com/wusongti/config.git
-                    default-label: ${spring.profiles.active}   #解决监控down
-                    searchPaths: /
+                    search-paths: /**
                     username: wusongti@163.com
                     password:
+            label: master
