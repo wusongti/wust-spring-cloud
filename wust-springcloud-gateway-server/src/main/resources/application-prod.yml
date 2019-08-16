@@ -17,6 +17,10 @@ spring:
       max-wait: 100000
     timeout: 0
   cloud:
+    config:
+      uri: http://localhost:8765/
+      profile: prod
+      label: prod
     gateway:
       routes:
         - id: adminServer

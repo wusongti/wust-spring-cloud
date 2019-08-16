@@ -24,4 +24,5 @@ spring:
           search-paths: /**
           username: wusongti@163.com
           password:
-      label: master
+      profile: test
+      label: test

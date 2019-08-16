@@ -32,6 +32,11 @@ spring:
       concurrency: 10
       max-concurrency: 20
       prefetch: 5
+  cloud:
+    config:
+        uri: http://localhost:8765/
+        profile: prod
+        label: prod
 mybatis:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
