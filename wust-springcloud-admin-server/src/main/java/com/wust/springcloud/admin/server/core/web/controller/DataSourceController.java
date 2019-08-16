@@ -10,7 +10,6 @@ import com.wust.springcloud.common.entity.sys.datasource.SysDataSourceSearch;
 import com.wust.springcloud.common.enums.OperationLogEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.Date;
 import java.util.List;
 
@@ -40,8 +39,8 @@ public class DataSourceController {
         ResponseDto mm = new ResponseDto();
         DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
 
-        entity.setCreaterId(ctx.getUserId());
-        entity.setCreaterName(ctx.getLoginName());
+        entity.setCreaterId(ctx.getUser().getId());
+        entity.setCreaterName(ctx.getUser().getRealName());
         mm = sysDataSourceService.insert(entity);
         return mm;
     }
@@ -53,8 +52,8 @@ public class DataSourceController {
         ResponseDto mm = new ResponseDto();
         DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
 
-        entity.setModifyId(ctx.getUserId());
-        entity.setModifyName(ctx.getLoginName());
+        entity.setModifyId(ctx.getUser().getId());
+        entity.setModifyName(ctx.getUser().getRealName());
         entity.setModifyTime(new Date());
         sysDataSourceService.updateByPrimaryKey(entity);
         return mm;

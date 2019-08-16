@@ -71,8 +71,8 @@ public class CompanyController {
         }
 
         entity.setCode(CodeGenerator.genCompanyCode());
-        entity.setCreaterId(ctx.getUserId());
-        entity.setCreaterName(ctx.getLoginName());
+        entity.setCreaterId(ctx.getUser().getId());
+        entity.setCreaterName(ctx.getUser().getRealName());
         entity.setCreateTime(new Date());
         sysCompanyServiceImpl.insert(entity);
         return mm;
@@ -97,8 +97,8 @@ public class CompanyController {
             }
         }
 
-        entity.setModifyId(ctx.getUserId());
-        entity.setModifyName(ctx.getLoginName());
+        entity.setModifyId(ctx.getUser().getId());
+        entity.setModifyName(ctx.getUser().getRealName());
         entity.setModifyTime(new Date());
         sysCompanyServiceImpl.updateByPrimaryKey(entity);
         return mm;

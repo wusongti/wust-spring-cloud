@@ -132,8 +132,8 @@ public class SysUserImportServiceImpl extends POIExcelResolver4commonImport impl
                 }else{
                     String passwordRC4 = org.apache.commons.codec.binary.Base64.encodeBase64String(RC4.encry_RC4_string("123456", ApplicationEnum.RC4_LOGIN_PASSWORD.getStringValue()).getBytes());
                     sysUserImport.setPassword(passwordRC4);
-                    sysUserImport.setCreaterId(ctx.getUserId());
-                    sysUserImport.setCreaterName(ctx.getLoginName());
+                    sysUserImport.setCreaterId(ctx.getUser().getId());
+                    sysUserImport.setCreaterName(ctx.getUser().getRealName());
                     sysUserImport.setCreateTime(new Date());
                     sysUsersNew.add(sysUserImport);
                 }

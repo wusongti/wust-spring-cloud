@@ -106,8 +106,8 @@ public class SysDataSourceServiceImpl extends BaseServiceImpl implements SysData
         parametersDML.put("companyId",sysCompany.getId());
         parametersDML.put("loginName",loginName);
         parametersDML.put("realName",sysCompany.getName() + "系统管理员");
-        parametersDML.put("createrId",ctx.getUserId());
-        parametersDML.put("createrName",ctx.getLoginName());
+        parametersDML.put("createrId",ctx.getUser().getId());
+        parametersDML.put("createrName",ctx.getUser().getRealName());
         parametersDML.put("platformDatabase",PLATFORM_DATABASE_NAME);
         parametersDML.put("companyCode",sysCompany.getCode());
         parametersDML.put("companyName",sysCompany.getName());

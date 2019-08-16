@@ -74,8 +74,8 @@ public class RoleController {
 
         sysRole.setCode(CodeGenerator.genRoleCode());
         sysRole.setStatus("100201");
-        sysRole.setCreaterId(ctx.getUserId());
-        sysRole.setCreaterName(ctx.getLoginName());
+        sysRole.setCreaterId(ctx.getUser().getId());
+        sysRole.setCreaterName(ctx.getUser().getRealName());
         int result =  sysRoleServiceImpl.insert(sysRole);
         if(result < 1){
             mm.setFlag(ResponseDto.INFOR_WARNING);
@@ -97,8 +97,8 @@ public class RoleController {
             return mm;
         }
 
-        sysRole.setModifyId(ctx.getUserId());
-        sysRole.setModifyName(ctx.getLoginName());
+        sysRole.setModifyId(ctx.getUser().getId());
+        sysRole.setModifyName(ctx.getUser().getRealName());
         sysRole.setModifyTime(new Date());
         int result =  sysRoleServiceImpl.updateByPrimaryKey(sysRole);
         if(result < 1){
@@ -178,8 +178,8 @@ public class RoleController {
             sysImportExport.setStartTime(new Date());
             sysImportExport.setOperationType("100601");
             sysImportExport.setStatus("100501");
-            sysImportExport.setCreaterId(ctx.getUserId());
-            sysImportExport.setCreaterName(ctx.getLoginName());
+            sysImportExport.setCreaterId(ctx.getUser().getId());
+            sysImportExport.setCreaterName(ctx.getUser().getRealName());
             sysImportExport.setCreateTime(new Date());
 
 

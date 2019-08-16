@@ -1,5 +1,7 @@
 package com.wust.springcloud.common.context;
 
+import com.wust.springcloud.common.entity.sys.user.SysUser;
+
 import java.util.Map;
 
 /**
@@ -21,45 +23,21 @@ public class DefaultBusinessContext extends BaseBusinessContext{
     }
 
 
-
-    private Long userId;
-    private String loginName;
-    private String realName;
-    private String userType;
+    private SysUser user;
     private String xAuthToken;
     /** api请求参数 */
     private Map<String, Object> signMap;
 
-    public Long getUserId() {
-        return userId;
+    public static ThreadLocal<DefaultBusinessContext> getLOCAL() {
+        return LOCAL;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public SysUser getUser() {
+        return user;
     }
 
-    public String getLoginName() {
-        return loginName;
-    }
-
-    public void setLoginName(String loginName) {
-        this.loginName = loginName;
-    }
-
-    public String getRealName() {
-        return realName;
-    }
-
-    public void setRealName(String realName) {
-        this.realName = realName;
-    }
-
-    public String getUserType() {
-        return userType;
-    }
-
-    public void setUserType(String userType) {
-        this.userType = userType;
+    public void setUser(SysUser user) {
+        this.user = user;
     }
 
     public String getxAuthToken() {
@@ -69,7 +47,6 @@ public class DefaultBusinessContext extends BaseBusinessContext{
     public void setxAuthToken(String xAuthToken) {
         this.xAuthToken = xAuthToken;
     }
-
 
     public Map<String, Object> getSignMap() {
         return signMap;
@@ -81,11 +58,8 @@ public class DefaultBusinessContext extends BaseBusinessContext{
 
     @Override
     public String toString() {
-        return "DefaultBusinessContext{" +
-                "userId='" + userId + '\'' +
-                ", loginName='" + loginName + '\'' +
-                ", realName='" + realName + '\'' +
-                ", userType='" + userType + '\'' +
+        return super.toString() + "\nDefaultBusinessContext{" +
+                ", user=" + user +
                 ", xAuthToken='" + xAuthToken + '\'' +
                 ", signMap=" + signMap +
                 '}';

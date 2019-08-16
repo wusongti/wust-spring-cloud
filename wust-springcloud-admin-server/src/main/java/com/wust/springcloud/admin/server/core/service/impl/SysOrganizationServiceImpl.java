@@ -75,8 +75,8 @@ public class SysOrganizationServiceImpl extends BaseServiceImpl implements SysOr
         List<SysOrganization> sysOrganizationLists = sysOrganizationMapper.select(sysOrganizationSearch);
         if(org.apache.commons.collections.CollectionUtils.isNotEmpty(sysOrganizationLists)){
             Map<Long,SysOrganization> result = groupById(sysOrganizationLists);
-            if(DataDictionaryEnum.USER_TYPE_PLATFORM_ADMIN.getStringValue().equals(ctx.getUserType())
-                    || DataDictionaryEnum.USER_TYPE_PLATFORM_USER.getStringValue().equals(ctx.getUserType())){
+            if(DataDictionaryEnum.USER_TYPE_PLATFORM_ADMIN.getStringValue().equals(ctx.getUser().getType())
+                    || DataDictionaryEnum.USER_TYPE_PLATFORM_USER.getStringValue().equals(ctx.getUser().getType())){
                 /**
                  * 按照pid分组组织架构
                  */
@@ -108,7 +108,7 @@ public class SysOrganizationServiceImpl extends BaseServiceImpl implements SysOr
                     rightRootJSONObject.getJSONArray("children").add(jsonObjectRightTree);
                 }
                 jsonObjectResult.put("rightTree",rightRootJSONObject.toJSONString());
-            }else if(DataDictionaryEnum.USER_TYPE_AGENT.getStringValue().equals(ctx.getUserType())){
+            }else if(DataDictionaryEnum.USER_TYPE_AGENT.getStringValue().equals(ctx.getUser().getType())){
                 /**
                  * 按照pid分组组织架构
                  */
@@ -120,7 +120,7 @@ public class SysOrganizationServiceImpl extends BaseServiceImpl implements SysOr
                  */
                 sysOrganizationSearch = new SysOrganization();
                 sysOrganizationSearch.setType(DataDictionaryEnum.ORGANIZATION_TYPE_USER.getStringValue());
-                sysOrganizationSearch.setRelationId(ctx.getUserId());
+                sysOrganizationSearch.setRelationId(ctx.getUser().getId());
                 SysOrganization sysOrganization = sysOrganizationMapper.selectOne(sysOrganizationSearch);
 
 
@@ -151,7 +151,7 @@ public class SysOrganizationServiceImpl extends BaseServiceImpl implements SysOr
                  */
                 JSONObject rightTreeJson = buildRightTree(groupByPidMap,organizationId4agent.getLong("id"));
                 jsonObjectResult.put("rightTree",rightTreeJson.toJSONString());
-            }else if(DataDictionaryEnum.USER_TYPE_PARENT_COMPANY.getStringValue().equals(ctx.getUserType())){
+            }else if(DataDictionaryEnum.USER_TYPE_PARENT_COMPANY.getStringValue().equals(ctx.getUser().getType())){
                 /**
                  * 按照pid分组组织架构
                  */
@@ -163,7 +163,7 @@ public class SysOrganizationServiceImpl extends BaseServiceImpl implements SysOr
                  */
                 sysOrganizationSearch = new SysOrganization();
                 sysOrganizationSearch.setType(DataDictionaryEnum.ORGANIZATION_TYPE_USER.getStringValue());
-                sysOrganizationSearch.setRelationId(ctx.getUserId());
+                sysOrganizationSearch.setRelationId(ctx.getUser().getId());
                 SysOrganization sysOrganization = sysOrganizationMapper.selectOne(sysOrganizationSearch);
 
 
@@ -194,7 +194,7 @@ public class SysOrganizationServiceImpl extends BaseServiceImpl implements SysOr
                  */
                 JSONObject rightTreeJson = buildRightTree(groupByPidMap,organizationId4parentCompany.getLong("id"));
                 jsonObjectResult.put("rightTree",rightTreeJson.toJSONString());
-            }else if(DataDictionaryEnum.USER_TYPE_BRANCH_COMPANY.getStringValue().equals(ctx.getUserType())){
+            }else if(DataDictionaryEnum.USER_TYPE_BRANCH_COMPANY.getStringValue().equals(ctx.getUser().getType())){
                 /**
                  * 按照pid分组组织架构
                  */
@@ -206,7 +206,7 @@ public class SysOrganizationServiceImpl extends BaseServiceImpl implements SysOr
                  */
                 sysOrganizationSearch = new SysOrganization();
                 sysOrganizationSearch.setType(DataDictionaryEnum.ORGANIZATION_TYPE_USER.getStringValue());
-                sysOrganizationSearch.setRelationId(ctx.getUserId());
+                sysOrganizationSearch.setRelationId(ctx.getUser().getId());
                 SysOrganization sysOrganization = sysOrganizationMapper.selectOne(sysOrganizationSearch);
 
 
@@ -237,7 +237,7 @@ public class SysOrganizationServiceImpl extends BaseServiceImpl implements SysOr
                  */
                 JSONObject rightTreeJson = buildRightTree(groupByPidMap,organizationId4branchCompany.getLong("id"));
                 jsonObjectResult.put("rightTree",rightTreeJson.toJSONString());
-            }else if(DataDictionaryEnum.USER_TYPE_BUSINESS.getStringValue().equals(ctx.getUserType())){
+            }else if(DataDictionaryEnum.USER_TYPE_BUSINESS.getStringValue().equals(ctx.getUser().getType())){
                 /**
                  * 按照pid分组组织架构
                  */
@@ -249,7 +249,7 @@ public class SysOrganizationServiceImpl extends BaseServiceImpl implements SysOr
                  */
                 sysOrganizationSearch = new SysOrganization();
                 sysOrganizationSearch.setType(DataDictionaryEnum.ORGANIZATION_TYPE_USER.getStringValue());
-                sysOrganizationSearch.setRelationId(ctx.getUserId());
+                sysOrganizationSearch.setRelationId(ctx.getUser().getId());
                 SysOrganization sysOrganization = sysOrganizationMapper.selectOne(sysOrganizationSearch);
 
 
@@ -367,8 +367,8 @@ public class SysOrganizationServiceImpl extends BaseServiceImpl implements SysOr
             sysRoleResource.setOrganizationId(organizationId);
             sysRoleResource.setResourceId(j.getString("resourceId"));
             sysRoleResource.setType(j.getString("type"));
-            sysRoleResource.setCreaterId(ctx.getUserId());
-            sysRoleResource.setCreaterName(ctx.getRealName());
+            sysRoleResource.setCreaterId(ctx.getUser().getId());
+            sysRoleResource.setCreaterName(ctx.getUser().getRealName());
             sysRoleResource.setCreateTime(new Date());
             list.add(sysRoleResource);
 

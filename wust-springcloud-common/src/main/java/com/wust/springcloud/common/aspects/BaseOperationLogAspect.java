@@ -11,7 +11,6 @@ import org.aspectj.lang.Signature;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
@@ -34,8 +33,8 @@ public abstract class BaseOperationLogAspect {
     public Object methodAspect(ProceedingJoinPoint jp) throws Throwable {
         Signature sig = jp.getSignature();
         if (sig instanceof MethodSignature) {
-            MethodSignature msig = (MethodSignature) sig;
-            Method currentMethod = jp.getTarget().getClass().getMethod(msig.getName(), msig.getParameterTypes());
+            MethodSignature methodSignature = (MethodSignature) sig;
+            Method currentMethod = jp.getTarget().getClass().getMethod(methodSignature.getName(), methodSignature.getParameterTypes());
 
             Object annotationObj = currentMethod.getAnnotation(OperationLogAnnotation.class);
             if(annotationObj != null) {
@@ -48,12 +47,11 @@ public abstract class BaseOperationLogAspect {
                 sysOperationLog.setModuleName(operationLogAnnotation.moduleName().getValue());
                 sysOperationLog.setBusinessName(operationLogAnnotation.businessName());
                 sysOperationLog.setOperationType(operationLogAnnotation.operationType().getValue());
-                sysOperationLog.setCreaterId(ctx.getUserId());
                 sysOperationLog.setOperationIp(getIpAddress(request));
                 sysOperationLog.setOperationData(parse2string(args));
                 sysOperationLog.setSource(getServerName());
-                sysOperationLog.setCreaterId(ctx.getUserId());
-                sysOperationLog.setCreaterName(ctx.getRealName());
+                sysOperationLog.setCreaterId(ctx.getUser().getId());
+                sysOperationLog.setCreaterName(ctx.getUser().getCreaterName());
                 sysOperationLog.setCreateTime(new Date());
                 insert(sysOperationLog);
             }
@@ -125,14 +123,14 @@ public abstract class BaseOperationLogAspect {
         try{
             Enumeration<NetworkInterface> allNetInterfaces = NetworkInterface.getNetworkInterfaces();
             while (allNetInterfaces.hasMoreElements()){
-                NetworkInterface netInterface = (NetworkInterface) allNetInterfaces.nextElement();
+                NetworkInterface netInterface = allNetInterfaces.nextElement();
                 Enumeration<InetAddress> addresses = netInterface.getInetAddresses();
                 while (addresses.hasMoreElements()){
-                    InetAddress ip = (InetAddress) addresses.nextElement();
+                    InetAddress ip = addresses.nextElement();
                     if (ip != null
                             && ip instanceof Inet4Address
                             && !ip.isLoopbackAddress() //loopback地址即本机地址，IPv4的loopback范围是127.0.0.0 ~ 127.255.255.255
-                            && ip.getHostAddress().indexOf(":")==-1){
+                            && ip.getHostAddress().indexOf(":") == -1){
                         return ip.getHostAddress();
                     }
                 }

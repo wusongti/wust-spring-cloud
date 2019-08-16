@@ -1,6 +1,6 @@
 package com.wust.springcloud.common.context;
 
-import javax.servlet.http.HttpServletRequest;
+
 import java.util.Locale;
 
 /**

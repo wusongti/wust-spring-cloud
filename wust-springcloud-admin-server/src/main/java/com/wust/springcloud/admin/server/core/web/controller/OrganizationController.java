@@ -88,8 +88,8 @@ public class OrganizationController {
             return mm;
         }
 
-        entity.setCreaterId(ctx.getUserId());
-        entity.setCreaterName(ctx.getLoginName());
+        entity.setCreaterId(ctx.getUser().getId());
+        entity.setCreaterName(ctx.getUser().getRealName());
         entity.setCreateTime(new Date());
         sysOrganizationServiceImpl.insertUseGeneratedKeys(entity);
 

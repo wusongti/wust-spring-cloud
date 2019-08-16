@@ -79,7 +79,8 @@ public class SysUserOrganizationServiceImpl extends BaseServiceImpl implements S
                         for (SysOrganization sysOrganization : sysOrganizations) {
                             SysUserOrganization sysUserOrganization = new SysUserOrganization();
                             sysUserOrganization.setUserId(userId);
-                            sysUserOrganization.setCreaterId(ctx.getUserId());
+                            sysUserOrganization.setCreaterId(ctx.getUser().getId());
+                            sysUserOrganization.setCreaterName(ctx.getUser().getRealName());
                             sysUserOrganization.setCreateTime(new Date());
                             sysUserOrganizations.add(sysUserOrganization);
 
@@ -91,7 +92,8 @@ public class SysUserOrganizationServiceImpl extends BaseServiceImpl implements S
                         for (SysOrganization sysOrganization : sysOrganizations) {
                             SysUserOrganization sysUserOrganization = new SysUserOrganization();
                             sysUserOrganization.setUserId(userId);
-                            sysUserOrganization.setCreaterId(ctx.getUserId());
+                            sysUserOrganization.setCreaterId(ctx.getUser().getId());
+                            sysUserOrganization.setCreaterName(ctx.getUser().getRealName());
                             sysUserOrganization.setCreateTime(new Date());
                             sysUserOrganizations.add(sysUserOrganization);
 

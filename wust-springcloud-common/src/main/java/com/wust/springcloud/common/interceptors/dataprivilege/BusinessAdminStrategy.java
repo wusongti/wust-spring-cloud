@@ -38,7 +38,7 @@ public class BusinessAdminStrategy implements IStrategy {
 
         StringBuffer privilegeSqlStringBuffer = new StringBuffer("SELECT privilege_tmp.* FROM (" + sql + ") privilege_tmp");
 
-        Object obj = getRedisSpringBean().getByKey(String.format(RedisKeyEnum.REDIS_TABLE_KEY_CURRENT_USER_BRANCH_COMPANY_ID.getStringValue(),ctx.getUserId()));
+        Object obj = getRedisSpringBean().getByKey(String.format(RedisKeyEnum.REDIS_TABLE_KEY_CURRENT_USER_BRANCH_COMPANY_ID.getStringValue(),ctx.getUser().getId()));
         if(obj != null){
             List<String> list = JSONArray.parseArray(obj.toString(),String.class);
             if(CollectionUtils.isNotEmpty(list)){
@@ -53,7 +53,7 @@ public class BusinessAdminStrategy implements IStrategy {
                         companyIds +=  s;
                     }
                 }
-                privilegeSqlStringBuffer.append(" WHERE company_id IN (" + companyIds + ") OR creater_id = " + ctx.getUserId());
+                privilegeSqlStringBuffer.append(" WHERE company_id IN (" + companyIds + ") OR creater_id = " + ctx.getUser().getId());
             }
         }
 

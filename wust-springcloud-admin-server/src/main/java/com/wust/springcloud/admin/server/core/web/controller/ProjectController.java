@@ -63,8 +63,8 @@ public class ProjectController {
         }
 
         entity.setCode(CodeGenerator.genProjectCode());
-        entity.setCreaterId(ctx.getUserId());
-        entity.setCreaterName(ctx.getLoginName());
+        entity.setCreaterId(ctx.getUser().getId());
+        entity.setCreaterName(ctx.getUser().getRealName());
         entity.setCreateTime(new Date());
         sysProjectServiceImpl.insert(entity);
         return mm;
@@ -88,8 +88,8 @@ public class ProjectController {
             }
         }
 
-        entity.setModifyId(ctx.getUserId());
-        entity.setModifyName(ctx.getLoginName());
+        entity.setModifyId(ctx.getUser().getId());
+        entity.setModifyName(ctx.getUser().getRealName());
         entity.setModifyTime(new Date());
         sysProjectServiceImpl.updateByPrimaryKey(entity);
         return mm;

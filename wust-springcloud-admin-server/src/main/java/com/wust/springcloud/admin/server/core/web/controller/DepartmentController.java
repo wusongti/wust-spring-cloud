@@ -60,8 +60,8 @@ public class DepartmentController {
 
 
         entity.setCode(CodeGenerator.genDetartmentCode());
-        entity.setCreaterId(ctx.getUserId());
-        entity.setCreaterName(ctx.getLoginName());
+        entity.setCreaterId(ctx.getUser().getId());
+        entity.setCreaterName(ctx.getUser().getRealName());
         entity.setCreateTime(new Date());
         sysDepartmentServiceImpl.insert(entity);
         return mm;
@@ -85,8 +85,8 @@ public class DepartmentController {
             }
         }
 
-        entity.setModifyId(ctx.getUserId());
-        entity.setModifyName(ctx.getRealName());
+        entity.setModifyId(ctx.getUser().getId());
+        entity.setModifyName(ctx.getUser().getRealName());
         entity.setModifyTime(new Date());
         sysDepartmentServiceImpl.updateByPrimaryKey(entity);
         return mm;

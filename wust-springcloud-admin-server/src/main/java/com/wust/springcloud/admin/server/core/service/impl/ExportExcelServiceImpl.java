@@ -69,8 +69,8 @@ public class ExportExcelServiceImpl extends POIExcelResolver4commonExport implem
             sysAttachment.setRelationTable("sys_import_export");
             sysAttachment.setRelationId(excelDto.getBatchNo());
             sysAttachment.setRelationField("excel");
-            sysAttachment.setCreaterId(ctx.getUserId());
-            sysAttachment.setCreaterName(ctx.getLoginName());
+            sysAttachment.setCreaterId(ctx.getUser().getId());
+            sysAttachment.setCreaterName(ctx.getUser().getRealName());
             ResponseDto uploadAttachmentMessageMap = sysAttachmentServiceImpl.uploadAttachment(tempFile,sysAttachment);
             if(ResponseDto.INFOR_SUCCESS.equals(uploadAttachmentMessageMap.getFlag())){
                 mm.setCode("100502");

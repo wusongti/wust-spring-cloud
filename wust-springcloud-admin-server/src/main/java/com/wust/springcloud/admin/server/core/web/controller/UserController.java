@@ -75,8 +75,8 @@ public class UserController {
         DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
         sysUser.setStatus("100201");
         sysUser.setCompanyId(ctx.getCompanyId());
-        sysUser.setCreaterId(ctx.getUserId());
-        sysUser.setCreaterName(ctx.getLoginName());
+        sysUser.setCreaterId(ctx.getUser().getId());
+        sysUser.setCreaterName(ctx.getUser().getRealName());
         sysUserServiceImpl.insert(sysUser);
         return mm;
     }
@@ -94,8 +94,8 @@ public class UserController {
             return mm;
         }
 
-        sysUser.setModifyId(ctx.getUserId());
-        sysUser.setModifyName(ctx.getLoginName());
+        sysUser.setModifyId(ctx.getUser().getId());
+        sysUser.setModifyName(ctx.getUser().getRealName());
         sysUser.setModifyTime(new Date());
         sysUserServiceImpl.updateByPrimaryKey(sysUser);
         return mm;
@@ -169,8 +169,8 @@ public class UserController {
             sysImportExport.setStartTime(new Date());
             sysImportExport.setOperationType("100601");
             sysImportExport.setStatus("100501");
-            sysImportExport.setCreaterId(ctx.getUserId());
-            sysImportExport.setCreaterName(ctx.getLoginName());
+            sysImportExport.setCreaterId(ctx.getUser().getId());
+            sysImportExport.setCreaterName(ctx.getUser().getRealName());
             sysImportExport.setCreateTime(new Date());
 
 

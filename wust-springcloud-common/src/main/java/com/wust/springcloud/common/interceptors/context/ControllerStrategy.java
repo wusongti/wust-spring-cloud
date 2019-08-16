@@ -51,10 +51,7 @@ public class ControllerStrategy implements IStrategy{
         String objStr = getRedisSpringBean().getByKey(key) + "";
         UserContextDto userContextDto = JSONObject.parseObject(objStr, UserContextDto.class);
         if(userContextDto != null){
-            DefaultBusinessContext.getContext().setUserId(userContextDto.getUser().getId());
-            DefaultBusinessContext.getContext().setLoginName(userContextDto.getUser().getLoginName());
-            DefaultBusinessContext.getContext().setUserType(userContextDto.getUser().getType());
-            DefaultBusinessContext.getContext().setCompanyId(userContextDto.getUser().getCompanyId());
+            DefaultBusinessContext.getContext().setUser(userContextDto.getUser());
         }
     }
 
