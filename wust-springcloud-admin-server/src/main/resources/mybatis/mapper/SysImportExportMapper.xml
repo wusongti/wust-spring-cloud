@@ -26,6 +26,7 @@
             t1.*
         FROM
         sys_import_export t1
+        WHERE 1=1
         <if test="batchNo != null and batchNo !=  ''">
             AND t1.batch_no = #{batchNo}
         </if>
