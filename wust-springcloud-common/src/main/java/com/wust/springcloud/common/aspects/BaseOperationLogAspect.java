@@ -50,8 +50,8 @@ public abstract class BaseOperationLogAspect {
                 sysOperationLog.setOperationIp(getIpAddress(request));
                 sysOperationLog.setOperationData(parse2string(args));
                 sysOperationLog.setSource(getServerName());
-                sysOperationLog.setCreaterId(ctx.getUser().getId());
-                sysOperationLog.setCreaterName(ctx.getUser().getCreaterName());
+                sysOperationLog.setCreaterId(ctx.getUser() == null ? null : ctx.getUser().getId());
+                sysOperationLog.setCreaterName(ctx.getUser() == null ? null : ctx.getUser().getCreaterName());
                 sysOperationLog.setCreateTime(new Date());
                 insert(sysOperationLog);
             }
