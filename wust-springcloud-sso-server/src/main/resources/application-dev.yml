@@ -23,9 +23,11 @@ spring:
         password: 123456
     cloud:
         config:
-            uri: http://localhost:8765/
             profile: dev
             label: release
+            discovery:
+                enabled: true
+                serviceId: config-server
 mybatis:
     configuration:
         log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

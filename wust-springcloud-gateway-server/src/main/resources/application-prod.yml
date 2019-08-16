@@ -18,9 +18,11 @@ spring:
     timeout: 0
   cloud:
     config:
-      uri: http://localhost:8765/
       profile: prod
       label: prod
+      discovery:
+        enabled: true
+        serviceId: config-server
     gateway:
       routes:
         - id: adminServer

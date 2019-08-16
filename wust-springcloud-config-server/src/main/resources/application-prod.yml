@@ -6,16 +6,7 @@ server:
   port: 8765
 spring:
   application:
-    name: api-config-server
-  redis:
-    host: 127.0.0.1
-    port: 6379
-    password:
-    pool:
-      max-active: 100
-      max-idle: 10
-      max-wait: 100000
-    timeout: 0
+    name: config-server
   cloud:
     config:
       server:
@@ -24,5 +15,3 @@ spring:
           search-paths: /**
           username: wusongti@163.com
           password:
-      profile: prod
-      label: prod
