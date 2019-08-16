@@ -10,9 +10,12 @@
         <result column="operation_type" property="operationType"/>
         <result column="operation_ip" property="operationIp"/>
         <result column="source" property="source"/>
-        <result column="company_id" property="companyId"/>
         <result property="createrId" column="creater_id"/>
+        <result property="createrName" column="creater_name"/>
         <result property="createTime" column="create_time"/>
+        <result property="modifyId" column="modify_id"/>
+        <result property="modifyName" column="modify_name"/>
+        <result property="modifyTime" column="modify_time"/>
     </resultMap>
     <resultMap id="ListResultMap" extends="BaseResultMap" type="SysOperationLogList">
     </resultMap>
