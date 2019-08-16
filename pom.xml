@@ -157,7 +157,7 @@
         <module>wust-springcloud-modules</module>
         <module>wust-springcloud-easyexcel</module>
         <module>wust-springcloud-autotask-server</module>
-        <module>wust-springcloud-solr-server</module>
+        <module>wust-springcloud-config-server</module>
     </modules>
 
    <repositories>

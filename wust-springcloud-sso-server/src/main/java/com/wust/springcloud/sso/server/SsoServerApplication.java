@@ -12,8 +12,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableEurekaClient
 @EnableTransactionManagement
 @SpringBootApplication(scanBasePackages = {"com.wust.springcloud.sso.server", "com.wust.springcloud.common"})
-public class SSOApplicationServer {
+public class SsoServerApplication {
     public static void main(String[] args) {
-        SpringApplication.run(SSOApplicationServer.class, args);
+        SpringApplication.run(SsoServerApplication.class, args);
     }
 }

@@ -15,10 +15,10 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @EnableDiscoveryClient
 @EnableAutoConfiguration
 @SpringBootApplication(scanBasePackages = {"com.wust.springcloud.gateway.api.server", "com.wust.springcloud.common"})
-public class GatewayApiApplicationServer {
+public class GatewayApiServerApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(GatewayApiApplicationServer.class, args);
+        SpringApplication.run(GatewayApiServerApplication.class, args);
     }
 
 

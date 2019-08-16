@@ -1,4 +1,5 @@
-package com.wust.springcloud.autotask.server;
+package com.wust.springcloud.admin.server;
+
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,11 +10,11 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableFeignClients
 @EnableEurekaClient
 @EnableTransactionManagement
-@SpringBootApplication(scanBasePackages = {"com.wust.springcloud.autotask.server", "com.wust.springcloud.common"})
-public class AutoTaskApplicationServer {
+@SpringBootApplication(scanBasePackages = {"com.wust.springcloud.admin.server", "com.wust.springcloud.common"})
+public class AdminServerApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(AutoTaskApplicationServer.class, args);
+        SpringApplication.run(AdminServerApplication.class, args);
     }
 
 }
