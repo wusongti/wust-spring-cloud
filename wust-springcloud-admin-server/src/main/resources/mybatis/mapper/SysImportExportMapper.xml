@@ -39,7 +39,7 @@
             AND t1.operation_type = #{operationType}
         </if>
         <if test="createrId != null and createrId != ''">
-            AND t1.creater_id = #{createrName}
+            AND t1.creater_id = #{createrId}
         </if>
         ORDER BY start_time DESC
     </select>
