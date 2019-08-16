@@ -28,7 +28,6 @@ public class XMLLookupResolver extends XMLDefaultResolver {
      * 元素名称
      */
     private static final String ELEMENT_RECORD = "record";
-    private static final String ELEMENT_ID = "id";
     private static final String ELEMENT_CODE = "code";
     private static final String ELEMENT_PARENT_CODE = "parent_code";
     private static final String ELEMENT_ROOT_CODE = "root_code";
@@ -37,11 +36,9 @@ public class XMLLookupResolver extends XMLDefaultResolver {
     private static final String ELEMENT_STATUS = "status";
     private static final String ELEMENT_VISIBLE = "visible";
     private static final String ELEMENT_DESCRIPTION = "description";
-    private static final String ELEMENT_LAN = "lan";
     private static final String ELEMENT_SORT = "sort";
 
 
-    private final Map<String, String> uniqueKeyIdChecking = new HashMap<>();
     private final Map<String, String> uniqueKeyCodeChecking = new HashMap<>();
     private final Map<String,List> map = new HashMap<>(2);
     private List<SysLookup> sysLookups;

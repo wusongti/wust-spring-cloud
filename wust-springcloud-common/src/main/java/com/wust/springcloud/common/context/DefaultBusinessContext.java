@@ -27,7 +27,6 @@ public class DefaultBusinessContext extends BaseBusinessContext{
     private String realName;
     private String userType;
     private String xAuthToken;
-    private String ip;
     /** api请求参数 */
     private Map<String, Object> signMap;
 
@@ -71,13 +70,6 @@ public class DefaultBusinessContext extends BaseBusinessContext{
         this.xAuthToken = xAuthToken;
     }
 
-    public String getIp() {
-        return ip;
-    }
-
-    public void setIp(String ip) {
-        this.ip = ip;
-    }
 
     public Map<String, Object> getSignMap() {
         return signMap;
@@ -95,7 +87,6 @@ public class DefaultBusinessContext extends BaseBusinessContext{
                 ", realName='" + realName + '\'' +
                 ", userType='" + userType + '\'' +
                 ", xAuthToken='" + xAuthToken + '\'' +
-                ", ip='" + ip + '\'' +
                 ", signMap=" + signMap +
                 '}';
     }

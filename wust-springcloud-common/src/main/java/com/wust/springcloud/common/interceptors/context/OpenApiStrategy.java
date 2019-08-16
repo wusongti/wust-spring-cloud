@@ -17,6 +17,8 @@ import java.util.Map;
 public class OpenApiStrategy implements IStrategy{
     @Override
     public void setDefaultBusinessContext(HttpServletRequest request) {
+        DefaultBusinessContext.getContext().setRequest(request);
+
         String jsonStr = MyStringUtils.null2String(request.getHeader(ApplicationEnum.API_SIGN.getStringValue()));
         Map paraMap = JSONObject.parseObject(jsonStr, Map.class);
 
