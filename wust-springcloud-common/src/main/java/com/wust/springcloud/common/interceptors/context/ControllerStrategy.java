@@ -21,7 +21,6 @@ public class ControllerStrategy implements IStrategy{
 
     @Override
     public void setDefaultBusinessContext(HttpServletRequest request) {
-        DefaultBusinessContext.getContext().setRequest(request);
 
         /**
          * 设置语言

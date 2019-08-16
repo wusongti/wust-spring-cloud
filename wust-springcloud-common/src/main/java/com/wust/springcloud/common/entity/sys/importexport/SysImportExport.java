@@ -26,7 +26,6 @@ public class SysImportExport extends BaseEntity {
     private Date startTime;
     /** 结束时间 **/
     private Date endTime;
-    private Long companyId;
 
     public String getModuleName() {
         return moduleName;
@@ -92,13 +91,6 @@ public class SysImportExport extends BaseEntity {
         this.msg = msg;
     }
 
-    public Long getCompanyId() {
-        return companyId;
-    }
-
-    public void setCompanyId(Long companyId) {
-        this.companyId = companyId;
-    }
 
     @Override
     public String toString() {
@@ -111,7 +103,6 @@ public class SysImportExport extends BaseEntity {
                 ", startTime=" + startTime +
                 ", endTime=" + endTime +
                 ", msg='" + msg + '\'' +
-                ", companyId='" + companyId + '\'' +
                 '}';
     }
 }

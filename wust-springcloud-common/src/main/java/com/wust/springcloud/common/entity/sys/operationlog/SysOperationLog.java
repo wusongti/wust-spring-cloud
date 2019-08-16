@@ -17,7 +17,6 @@ public class SysOperationLog extends BaseEntity {
     private String operationType;
     private String operationIp;
     private String source;
-    private Long companyId;
 
     public String getModuleName() {
         return moduleName;
@@ -75,14 +74,6 @@ public class SysOperationLog extends BaseEntity {
         this.source = source;
     }
 
-    public Long getCompanyId() {
-        return companyId;
-    }
-
-    public void setCompanyId(Long companyId) {
-        this.companyId = companyId;
-    }
-
     @Override
     public String toString() {
         return super.toString() + "\nSysOperationLog{" +
@@ -93,7 +84,6 @@ public class SysOperationLog extends BaseEntity {
                 ", operationType='" + operationType + '\'' +
                 ", operationIp='" + operationIp + '\'' +
                 ", source='" + source + '\'' +
-                ", companyId='" + companyId + '\'' +
                 '}';
     }
 }

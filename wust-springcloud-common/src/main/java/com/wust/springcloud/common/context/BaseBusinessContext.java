@@ -11,7 +11,6 @@ public class BaseBusinessContext implements java.io.Serializable{
     protected Long companyId;
     protected Locale locale;
     protected String dataSourceId;
-    private HttpServletRequest request;
 
     public Long getCompanyId() {
         return companyId;
@@ -35,13 +34,5 @@ public class BaseBusinessContext implements java.io.Serializable{
 
     public void setDataSourceId(String dataSourceId) {
         this.dataSourceId = dataSourceId;
-    }
-
-    public HttpServletRequest getRequest() {
-        return request;
-    }
-
-    public void setRequest(HttpServletRequest request) {
-        this.request = request;
     }
 }

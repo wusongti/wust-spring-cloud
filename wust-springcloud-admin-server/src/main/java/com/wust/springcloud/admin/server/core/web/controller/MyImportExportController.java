@@ -38,6 +38,7 @@ public class MyImportExportController {
     public ResponseDto listPage(@RequestBody SysImportExportSearch sysImportExportSearch){
         ResponseDto baseDto = new ResponseDto();
         DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
+        sysImportExportSearch.setCreaterId(ctx.getUserId());
 
         List<SysImportExportList> sysImportExportLists =  sysImportExportServiceImpl.listPage(sysImportExportSearch);
         if(CollectionUtils.isNotEmpty(sysImportExportLists)){

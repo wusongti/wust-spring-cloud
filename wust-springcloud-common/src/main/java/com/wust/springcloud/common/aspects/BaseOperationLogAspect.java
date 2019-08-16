@@ -9,6 +9,9 @@ import org.apache.commons.logging.LogFactory;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
@@ -37,6 +40,7 @@ public abstract class BaseOperationLogAspect {
             Object annotationObj = currentMethod.getAnnotation(OperationLogAnnotation.class);
             if(annotationObj != null) {
                 OperationLogAnnotation operationLogAnnotation = (OperationLogAnnotation) annotationObj;
+                HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
                 DefaultBusinessContext ctx = DefaultBusinessContext.getContext();
                 Object[] args = jp.getArgs();
 
@@ -45,10 +49,9 @@ public abstract class BaseOperationLogAspect {
                 sysOperationLog.setBusinessName(operationLogAnnotation.businessName());
                 sysOperationLog.setOperationType(operationLogAnnotation.operationType().getValue());
                 sysOperationLog.setCreaterId(ctx.getUserId());
-                sysOperationLog.setOperationIp(getIpAddress(ctx.getRequest()));
+                sysOperationLog.setOperationIp(getIpAddress(request));
                 sysOperationLog.setOperationData(parse2string(args));
                 sysOperationLog.setSource(getServerName());
-                sysOperationLog.setCompanyId(ctx.getCompanyId());
                 sysOperationLog.setCreaterId(ctx.getUserId());
                 sysOperationLog.setCreaterName(ctx.getRealName());
                 sysOperationLog.setCreateTime(new Date());

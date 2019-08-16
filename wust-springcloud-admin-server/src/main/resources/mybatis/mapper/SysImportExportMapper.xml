@@ -26,7 +26,6 @@
             t1.*
         FROM
         sys_import_export t1
-        WHERE 1 = 1
         <if test="batchNo != null and batchNo !=  ''">
             AND t1.batch_no = #{batchNo}
         </if>
@@ -39,7 +38,7 @@
         <if test="operationType != null and operationType !=  ''">
             AND t1.operation_type = #{operationType}
         </if>
-        <if test="createrName != null and createrName != ''">
+        <if test="createrId != null and createrId != ''">
             AND t1.creater_id = #{createrName}
         </if>
         ORDER BY start_time DESC

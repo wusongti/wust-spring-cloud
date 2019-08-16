@@ -1,6 +1,5 @@
 package com.wust.springcloud.admin.server.core.dao;
 
-import com.wust.springcloud.common.annotations.PrivilegeAnnotation;
 import com.wust.springcloud.common.dao.IBaseMapper;
 import com.wust.springcloud.common.entity.sys.operationlog.SysOperationLog;
 import com.wust.springcloud.common.entity.sys.operationlog.SysOperationLogList;
@@ -12,6 +11,5 @@ import java.util.List;
  * Created by WST on 2019/5/28.
  */
 public interface SysOperationLogMapper  extends IBaseMapper<SysOperationLog> {
-    @PrivilegeAnnotation()
     List<SysOperationLogList> listPage(SysOperationLogSearch search) throws DataAccessException;
 }
