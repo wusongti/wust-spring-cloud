@@ -79,6 +79,7 @@ public class ExportExcelConsumer {
             sysImportExportUpdate.setStatus(responseDto.getCode());
             sysImportExportUpdate.setEndTime(new Date());
             sysImportExportUpdate.setModifyTime(new Date());
+            sysImportExportUpdate.setMsg(responseDto.getMessage());
             sysImportExportServiceImpl.updateByPrimaryKey(sysImportExportUpdate);
         }
     }

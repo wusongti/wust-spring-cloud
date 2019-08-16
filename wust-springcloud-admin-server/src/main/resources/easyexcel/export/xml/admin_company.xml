@@ -8,23 +8,17 @@
                         t.code,
                         t.name,
                         t.leader,
-                        t.description,
-                        p.NAME AS pname
+                        t.description
                     FROM
                         sys_company t
-                    LEFT JOIN
-                        sys_company p
-                    ON t.pcode = p.CODE
                     WHERE 1=1
                     <#if name??>
                         AND t.name = '${name}'
                     </#if>
-                ORDER BY t.pcode,t.code
                 ]]>
             </sql>
             <field column="code" label="编码"></field>
             <field column="name" label="公司名"></field>
-            <field column="pname" label="父级公司"></field>
             <field column="leader" label="公司负责人"></field>
             <field column="description" label="描述"></field>
         </list>
