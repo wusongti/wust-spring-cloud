@@ -33,7 +33,7 @@ public class DynamicDataSource extends AbstractRoutingDataSource {
     }
 
     private void lookupAndCreateDataSource(String dataSourceId) {
-        if(dataSourceMap.containsKey(dataSourceId)){
+        if(!dataSourceMap.containsKey(dataSourceId)){
             SysDataSource sysDataSource =  DataDictionaryUtil.getDataSourceById(dataSourceId);
             if(sysDataSource != null){
                 createDataSource(dataSourceId,sysDataSource.getJdbcUrl(),sysDataSource.getJdbcUsername(),sysDataSource.getJdbcPassword(),sysDataSource.getJdbcDriver());
