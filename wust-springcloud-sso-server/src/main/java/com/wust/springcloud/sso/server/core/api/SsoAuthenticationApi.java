@@ -4,6 +4,8 @@ import com.wust.springcloud.common.annotations.OperationLogAnnotation;
 import com.wust.springcloud.common.enums.ApplicationEnum;
 import com.wust.springcloud.common.enums.OperationLogEnum;
 import com.wust.springcloud.common.util.cache.SpringRedisTools;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +21,8 @@ import java.util.concurrent.TimeUnit;
 @RequestMapping("/SsoAuthenticationApi")
 @RestController
 public class SsoAuthenticationApi {
+    private static Log logger = LogFactory.getLog(SsoAuthenticationApi.class);
+
     @Autowired
     private SpringRedisTools springRedisTools;
 
@@ -32,14 +36,13 @@ public class SsoAuthenticationApi {
     public boolean hasToken(@PathVariable String token) {
         String key = String.format(ApplicationEnum.WEB_LOGIN_KEY.getStringValue(),token);
         if(springRedisTools.hasKey(key)){ // 刷新缓存时间和token时间
-            System.out.println("刷新缓存=" +key);
             /**
              * 刷新redis缓存时间
              */
             springRedisTools.updateExpire(key, ApplicationEnum.X_AUTH_TOKEN_EXPIRE_TIME.getIntValue(), TimeUnit.MINUTES);
             return true;
         }
-        System.out.println("缓存失效=" +key);
+        logger.error("缓存失效=" + key);
         return false;
     }
 

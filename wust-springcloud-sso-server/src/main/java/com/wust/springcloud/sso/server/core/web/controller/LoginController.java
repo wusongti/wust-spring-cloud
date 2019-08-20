@@ -23,6 +23,8 @@ import com.wust.springcloud.sso.server.core.service.SysUserService;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
@@ -34,6 +36,8 @@ import java.util.concurrent.TimeUnit;
 @RequestMapping("/LoginController")
 @RestController
 public class LoginController {
+    private static Log logger = LogFactory.getLog(LoginController.class);
+
     @Autowired
     private SpringRedisTools springRedisTools;
 
@@ -98,6 +102,8 @@ public class LoginController {
                  */
                 String key = String.format(ApplicationEnum.WEB_LOGIN_KEY.getStringValue(),token);
                 springRedisTools.addData(key,  JSONObject.toJSONString(userContextDto), ApplicationEnum.X_AUTH_TOKEN_EXPIRE_TIME.getIntValue(), TimeUnit.MINUTES);
+
+                logger.error("登录=" + token);
 
                 /**
                  * 设置返回给前端的资源
