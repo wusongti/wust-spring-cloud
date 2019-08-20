@@ -12,6 +12,6 @@ spring:
             server:
                 git:
                     uri: https://github.com/wusongti/config.git
-                    search-paths: /**
+                    search-paths: admin-server/**,auto-task-server/**,eureka-server/**,gateway-api-server/**,gateway-server/**,sso-server/**
                     username: wusongti@163.com
                     password:
