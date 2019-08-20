@@ -19,7 +19,7 @@ spring:
   cloud:
     config:
       profile: ${spring.profiles.active}
-      label: release
+      label: ${spring.application.name}
       discovery:
         enabled: true
         serviceId: config-server
@@ -29,20 +29,20 @@ spring:
           uri: http://localhost:8764
           order: 0
           predicates:
-            - Path=/api-admin-server/**
+            - Path=/admin-server/**
           filters:
             - StripPrefix=1
         - id: ssoServer
           uri: http://localhost:8768
           order: 0
           predicates:
-            - Path=/api-sso-server/**
+            - Path=/sso-server/**
           filters:
             - StripPrefix=1
         - id: autotaskServer
           uri: http://localhost:8769
           order: 0
           predicates:
-            - Path=/api-autotask-server/**
+            - Path=/autotask-server/**
           filters:
             - StripPrefix=1

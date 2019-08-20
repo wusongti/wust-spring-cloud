@@ -6,7 +6,7 @@ server:
   port: 8764
 spring:
   application:
-    name: api-admin-server
+    name: admin-server
   redis:
     host: 127.0.0.1
     port: 6379
@@ -35,7 +35,7 @@ spring:
   cloud:
     config:
       profile: ${spring.profiles.active}
-      label: test
+      label: ${spring.application.name}
       discovery:
         enabled: true
         serviceId: config-server

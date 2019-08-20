@@ -19,7 +19,7 @@ spring:
   cloud:
     config:
       profile: ${spring.profiles.active}
-      label: release
+      label: ${spring.application.name}
       discovery:
         enabled: true
         serviceId: config-server
@@ -29,7 +29,7 @@ spring:
           uri: http://localhost:8764
           order: 0
           predicates:
-            - Path=/api-admin-server/**
+            - Path=/admin-server/**
           filters:
             - StripPrefix=1
         - id: ssoServer
