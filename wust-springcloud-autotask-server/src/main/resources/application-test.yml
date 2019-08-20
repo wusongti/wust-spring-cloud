@@ -34,7 +34,7 @@ spring:
       prefetch: 5
   cloud:
     config:
-        profile: test
+        profile: ${spring.profiles.active}
         label: test
         discovery:
           enabled: true

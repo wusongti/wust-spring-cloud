@@ -34,7 +34,7 @@ spring:
           prefetch: 5
     cloud:
         config:
-            profile: dev
+            profile: ${spring.profiles.active}
             label: release
             discovery:
                 enabled: true
