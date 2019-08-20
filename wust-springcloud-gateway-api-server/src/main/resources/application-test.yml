@@ -29,13 +29,13 @@ spring:
           uri: http://localhost:8764
           order: 0
           predicates:
-            - Path=/api-admin-server/**
+            - Path=/admin-server/**
           filters:
             - StripPrefix=1
         - id: ssoServer
           uri: http://localhost:8768
           order: 0
           predicates:
-            - Path=/api-sso-server/**
+            - Path=/sso-server/**
           filters:
             - StripPrefix=1

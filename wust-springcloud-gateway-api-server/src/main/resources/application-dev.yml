@@ -36,6 +36,6 @@ spring:
           uri: http://localhost:8768
           order: 0
           predicates:
-            - Path=/api-sso-server/**
+            - Path=/sso-server/**
           filters:
             - StripPrefix=1

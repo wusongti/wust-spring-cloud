@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
  * @description：
  * @version:
  */
-@FeignClient(value = "api-sso-server")
+@FeignClient(value = "sso-server")
 public interface SsoService {
     @GetMapping(value = "/SsoAuthenticationApi/v1/hasSign/{sign}")
     boolean hasSign(@PathVariable String sign);
