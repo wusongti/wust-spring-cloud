@@ -25,7 +25,7 @@
         <mybatis-version>2.1.0</mybatis-version>
         <mapper-version>2.1.4</mapper-version>
         <persistence-api-version>1.0.2</persistence-api-version>
-        <mysql-connector-java-version>8.0.13</mysql-connector-java-version>
+        <mysql-connector-java-version>8.0.16</mysql-connector-java-version>
         <commons-lang3-version>3.4</commons-lang3-version>
         <commons-beanutils-version>1.9.3</commons-beanutils-version>
         <nimbusds-jwt-version>4.34.2</nimbusds-jwt-version>
